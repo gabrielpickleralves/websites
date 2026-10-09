@@ -175,6 +175,7 @@ body{margin:0;background:#F3F4EF;overflow-x:hidden}
 /* ---------- abertura: cortina branca com o logotipo ---------- */
 .cortina{display:none}
 [data-anim] .cortina{display:block;position:fixed;inset:0;z-index:90;pointer-events:none}
+[data-sem-cortina] .cortina{display:none!important}   /* já vista nesta sessão */
 .cortina i{position:absolute;top:0;bottom:0;width:20.3%;background:#fff;animation:cortina-sobe .95s cubic-bezier(.7,0,.2,1) both;animation-delay:calc(var(--c)*70ms + 1.1s)}
 .cortina-logo{position:absolute;left:50%;top:50%;width:min(380px,72vw);animation:cortina-logo 1.25s ease both}
 .cortina-logo img{width:100%;height:auto}
@@ -531,8 +532,9 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
   <div class="cortina-logo"><img src="imagens/logo-marina-boreste.svg" alt="" width="470" height="180"></div>
 </div>
 <script>
-/* liga as animações antes de a página aparecer, para a cortina de abertura não piscar */
-(function(){var s=document.currentScript.parentNode;if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&innerHeight<=1800&&'IntersectionObserver' in window)s.setAttribute('data-anim','')})();
+/* liga as animações antes de a página aparecer, para a cortina de abertura não piscar;
+   a cortina aparece só na primeira página vista em cada sessão (aba) */
+(function(){var s=document.currentScript.parentNode;if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&innerHeight<=1800&&'IntersectionObserver' in window)s.setAttribute('data-anim','');try{if(sessionStorage.getItem('mb-cortina'))s.setAttribute('data-sem-cortina','');else sessionStorage.setItem('mb-cortina','1')}catch(e){}})();
 </script>
 <a class="pula" href="#conteudo">Pular para o conteúdo</a>
 
@@ -1195,7 +1197,8 @@ function iniciaSite(site){
       if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', () => { if (archivoPronta()) r(); });
       setTimeout(r, 3000);                          // se a fonte demorar, segue com a de reserva
     });
-    Promise.all([espera(1150), fonte]).then(() => { mede(); hero.setAttribute('data-in', ''); return espera(350); }).then(() => topo.setAttribute('data-in', ''));
+    const semCortina = site.hasAttribute('data-sem-cortina');
+    Promise.all([espera(semCortina ? 0 : 1150), fonte]).then(() => { mede(); hero.setAttribute('data-in', ''); return espera(semCortina ? 150 : 350); }).then(() => topo.setAttribute('data-in', ''));
   }
 
   /* ----- serviços: cartões num arco, movidos pela rolagem ----- */
