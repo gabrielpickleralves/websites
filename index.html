@@ -1,0 +1,1003 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marina Boreste | Barra do Una, São Sebastião (SP)</title>
+<meta name="description" content="Marina Boreste: guarda, manutenção, compra e venda de embarcações, com mais de 40 anos de experiência nas águas de Barra do Una, litoral norte de São Paulo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<style>
+/*CSS-INICIO*/
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:#F3F4EF;overflow-x:hidden}
+.site{
+  --tinta:#0F2A33;      /* azul-petróleo do rio à sombra da mata */
+  --tinta-2:#17404D;
+  --casco:#F3F4EF;      /* branco de casco de lancha */
+  --espuma:#DDE9EC;
+  --azul:#1B9AD6;       /* azul da marca Boreste */
+  --azul-texto:#0A6A9E; /* o mesmo azul, escurecido para texto pequeno */
+  --cinza:#4B636B;
+  --gut:clamp(16px,4vw,56px);
+  --vh:820px;           /* altura da tela; o script troca pelo valor real */
+  --ease:cubic-bezier(.2,.75,.15,1);
+  position:relative;background:var(--casco);color:var(--tinta);
+  font-family:"Archivo",Arial,sans-serif;font-size:17px;line-height:1.55;
+}
+:where(.site) img{max-width:100%;height:auto;display:block}
+:where(.site) a{color:inherit}
+:where(.site) p{margin:0 0 1em}
+:where(.site) h1,:where(.site) h2,:where(.site) h3{margin:0;font-family:"Archivo","Arial Black",Arial,sans-serif;font-stretch:125%;font-variation-settings:"wdth" 125;font-weight:500;text-transform:uppercase;letter-spacing:-.03em}
+:where(.site) h2{font-size:clamp(1.6rem,3.2vw + 1rem,5.4rem);line-height:1;overflow-wrap:break-word}
+:where(.site) h3{font-size:clamp(1.1rem,1.5vw,1.5rem);line-height:1.05;letter-spacing:-.02em}
+:where(.site) :focus-visible{outline:3px solid var(--azul);outline-offset:3px}
+:where(.site) [id]{scroll-margin-top:96px}
+.wrap{width:min(100% - 2*var(--gut),1480px);margin-inline:auto}
+.sec{padding-block:clamp(72px,10vw,150px)}
+.escuro{background:var(--tinta);color:var(--casco)}
+.clara{background:var(--espuma)}
+.lead{font-size:clamp(1.1rem,1.5vw,1.4rem);line-height:1.45}
+.pula{position:absolute;left:-999px}
+.pula:focus{left:16px;top:16px;z-index:100;background:#fff;padding:10px 16px;border-radius:999px}
+
+/* ---------- botões ---------- */
+.btn{display:inline-flex;align-items:center;gap:.5em;min-height:46px;padding:0 22px;border-radius:999px;border:1px solid transparent;font:inherit;font-size:15px;font-weight:600;text-decoration:none;cursor:pointer;transition:background .25s,color .25s}
+.btn-azul{background:var(--azul);color:var(--tinta)}
+.btn-azul:hover{background:#4db4e4}
+.btn-tinta{background:var(--tinta);color:var(--casco);border-color:rgba(243,244,239,.3)}
+.btn-tinta:hover{background:var(--tinta-2)}
+.btn-linha{background:transparent;color:inherit;border-color:currentColor}
+.btn-linha:hover{background:rgba(127,160,170,.18)}
+
+/* ---------- redes sociais ---------- */
+.redes{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.rede{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-width:48px;min-height:48px;padding:0 18px 0 14px;border:1px solid currentColor;border-radius:999px;text-decoration:none;font-size:15px;font-weight:600;transition:background .25s,color .25s,border-color .25s}
+.rede svg{width:22px;height:22px;flex:none}
+.rede-so{padding:0}
+.rede:hover{background:var(--tinta);color:var(--casco);border-color:var(--tinta)}
+.escuro .rede:hover,.menu .rede:hover{background:var(--casco);color:var(--tinta);border-color:var(--casco)}
+
+/* ---------- texto que sobe por trás de uma máscara, linha a linha ---------- */
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:.16em .05em .12em;margin:-.16em -.05em -.12em}
+.w > span{display:inline-block}
+[data-anim] .tx .w > span{transform:translateY(120%);transition:transform .9s var(--ease);transition-delay:calc(var(--l,0)*80ms + 120ms)}
+[data-anim] .tx[data-in] .w > span,[data-anim] .hero[data-in] .tx .w > span{transform:none}
+
+/* ---------- blocos que surgem com a rolagem ---------- */
+[data-anim] [data-rv]{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform 1s var(--ease);transition-delay:calc(var(--i,0)*90ms)}
+[data-anim] [data-rv][data-in],[data-anim] .hero[data-in] [data-rv]{opacity:1;transform:none}
+
+/* ---------- fotos: abrem de cima para baixo e deslizam com a rolagem ---------- */
+.px{position:relative;overflow:hidden;background:var(--espuma)}
+[data-anim] .px img{transform:translate3d(0,var(--py,0px),0) scale(1.14);will-change:transform}
+[data-anim] .px[data-rvimg]::after{content:"";position:absolute;inset:-1px;background:var(--capa,var(--casco));transform-origin:50% 100%;transition:transform 1.25s cubic-bezier(.7,0,.2,1) .1s}
+[data-anim] .px[data-rvimg][data-in]::after{transform:scaleY(0)}
+.escuro{--capa:var(--tinta)}
+.clara{--capa:var(--espuma)}
+
+/* ---------- abertura: cortina branca com o logotipo ---------- */
+.cortina{display:none}
+[data-anim] .cortina{display:block;position:fixed;inset:0;z-index:90;pointer-events:none}
+.cortina i{position:absolute;top:0;bottom:0;width:20.3%;background:#fff;animation:cortina-sobe .95s cubic-bezier(.7,0,.2,1) both;animation-delay:calc(1.1s + var(--c)*70ms)}
+.cortina-logo{position:absolute;left:50%;top:50%;width:min(270px,58vw);animation:cortina-logo 1.25s ease both}
+.cortina-logo img{width:100%;height:auto}
+.cortina-logo::after{content:"";display:block;height:3px;margin-top:16px;background:var(--azul);transform-origin:0 50%;animation:cortina-linha .85s cubic-bezier(.6,0,.2,1) .15s both}
+@keyframes cortina-sobe{to{transform:translateY(-101%)}}
+@keyframes cortina-logo{0%{opacity:0;transform:translate(-50%,-38%)}28%{opacity:1;transform:translate(-50%,-50%)}80%{opacity:1;transform:translate(-50%,-50%)}100%{opacity:0;transform:translate(-50%,-64%)}}
+@keyframes cortina-linha{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+/* ---------- topo ---------- */
+.topo{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:14px var(--gut);pointer-events:none}
+.topo > *{pointer-events:auto}
+[data-anim] .topo > *{opacity:0;transform:translateY(-18px);transition:opacity .6s ease,transform .9s var(--ease)}
+[data-anim] .topo[data-in] > *{opacity:1;transform:none}
+[data-anim] .topo[data-in] > *:last-child{transition-delay:.1s}
+.logo{display:flex;align-items:center;height:54px;padding:6px 18px;background:#fff;border-radius:999px;text-decoration:none;box-shadow:0 1px 0 rgba(15,42,51,.12)}
+.logo img{height:40px;width:auto}
+.topo-acoes{display:flex;gap:8px}
+.topo .btn-azul{border-color:rgba(15,42,51,.3)}
+@media (max-width:420px){.logo{height:46px;padding:6px 14px}.logo img{height:32px}.topo .btn{padding:0 16px;min-height:44px}}
+
+/* ---------- menu ---------- */
+dialog.menu{width:100%;max-width:none;height:100%;max-height:none;margin:0;padding:0;border:0;background:var(--tinta);color:var(--casco)}
+dialog.menu::backdrop{background:var(--tinta)}
+.menu-dentro{min-height:100%;display:grid;grid-template-rows:auto 1fr auto;padding:14px var(--gut) 32px}
+.menu-topo{display:flex;justify-content:flex-end}
+.menu nav{align-self:center;padding-block:32px}
+.menu nav a{display:block;width:fit-content;overflow:hidden;font-family:"Archivo","Arial Black",Arial,sans-serif;font-stretch:125%;font-variation-settings:"wdth" 125;font-weight:500;text-transform:uppercase;letter-spacing:-.03em;font-size:clamp(1.7rem,5.2vw,4.4rem);line-height:1.14;text-decoration:none}
+.menu nav a span{display:inline-block;transition:color .2s}
+.menu nav a:hover span{color:var(--azul)}
+@media (prefers-reduced-motion:no-preference){
+  dialog.menu[open] nav a span{animation:menu-sobe .8s var(--ease) both;animation-delay:calc(var(--i)*55ms + 80ms)}
+  dialog.menu[open]{animation:menu-abre .45s cubic-bezier(.7,0,.2,1) both}
+}
+@keyframes menu-sobe{from{transform:translateY(110%)}to{transform:none}}
+@keyframes menu-abre{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+.menu-pe{display:flex;flex-wrap:wrap;align-items:center;gap:12px 32px;font-size:15px;color:#B9CDD3}
+.menu-pe a{color:var(--casco)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:var(--vh);display:flex;align-items:flex-end;background:#0A1D24;color:var(--casco);overflow:hidden}
+.hero-midia{position:absolute;inset:0;will-change:transform}
+.hero-midia img,.hero-midia video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 46%}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(10,29,36,.5) 0%,rgba(10,29,36,.12) 30%,rgba(10,29,36,.3) 62%,rgba(10,29,36,.82) 100%)}
+.hero-txt{position:relative;z-index:1;width:100%;padding:120px var(--gut) clamp(10px,2vw,28px);will-change:transform}
+.hero h1{font-size:12.4vw;line-height:.84;letter-spacing:-.035em}
+.hero h1 .linha{display:block}
+.hero h1 .w > span{white-space:nowrap}
+[data-anim] .hero h1 .w > span{transition-duration:1.15s}
+.hero-meio{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:clamp(14px,2vw,28px)}
+.hero-sub{max-width:21em;margin:0;font-size:clamp(1rem,1.25vw,1.2rem);line-height:1.35;font-weight:500;text-shadow:0 1px 18px rgba(10,29,36,.8)}
+.rola{display:inline-flex;align-items:center;gap:12px;font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap}
+.rola span{position:relative;width:1px;height:46px;background:rgba(243,244,239,.35);overflow:hidden}
+.rola span::after{content:"";position:absolute;left:0;top:0;width:100%;height:40%;background:var(--casco);animation:rola 1.9s cubic-bezier(.6,0,.3,1) infinite}
+@keyframes rola{from{transform:translateY(-100%)}to{transform:translateY(260%)}}
+@media (max-width:520px){.rola{display:none}}
+
+/* ---------- faixa de informações ---------- */
+.faixa{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid rgba(15,42,51,.16)}
+.faixa > div{padding:26px 24px 26px 0;font-size:15px;line-height:1.45}
+.faixa > div + div{padding-left:24px;border-left:1px solid rgba(15,42,51,.16)}
+.faixa strong{display:block;margin-bottom:4px;font-size:13px;font-weight:600;color:var(--cinza)}
+.faixa a{color:var(--tinta);text-decoration-color:rgba(15,42,51,.35);text-underline-offset:3px}
+@media (max-width:860px){
+  .faixa{grid-template-columns:1fr 1fr}
+  .faixa > div{padding:20px 16px 20px 0}
+  .faixa > div:nth-child(odd){padding-left:0;border-left:0}
+  .faixa > div:nth-child(n+3){border-top:1px solid rgba(15,42,51,.16)}
+}
+
+/* ---------- abertura: o texto acende conforme a rolagem ---------- */
+.abertura{padding-block:clamp(72px,9vw,140px) clamp(30px,5vw,70px)}
+.abertura-grid{display:grid;gap:clamp(32px,5vw,90px);align-items:center}
+.abertura h2{font-size:clamp(1.7rem,3.5vw,3.8rem)}
+.fill{max-width:28em;margin:clamp(22px,2.6vw,36px) 0 0;font-size:clamp(1.15rem,1.9vw,1.75rem);line-height:1.36;font-weight:500}
+[data-anim] .fill .pw{opacity:.18}
+.abertura figure{margin:0}
+.abertura figure img{width:100%;aspect-ratio:14/15;object-fit:cover}
+:where(.site) figcaption{margin-top:10px;font-size:14px;color:var(--cinza)}
+@media (min-width:900px){.abertura-grid{grid-template-columns:minmax(0,1.3fr) minmax(0,.8fr)}}
+.ondas{display:block;width:100%;height:auto;margin-top:clamp(36px,6vw,80px);color:var(--azul)}
+@media (prefers-reduced-motion:no-preference){.ondas path{animation:onda 7s linear infinite}.ondas path:nth-child(2){animation-duration:9s}.ondas path:nth-child(3){animation-duration:11s}}
+@keyframes onda{to{stroke-dashoffset:-91}}
+
+/* ---------- serviços: sem animação, é uma fileira com rolagem lateral ---------- */
+.servicos{position:relative}
+.servicos-cab{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;padding-top:clamp(30px,5vw,70px)}
+.servicos-cab p{max-width:30em;margin:14px 0 0;color:var(--cinza)}
+.setas{display:flex;gap:8px}
+.seta{width:52px;height:52px;border-radius:50%;border:1px solid var(--tinta);background:transparent;color:var(--tinta);cursor:pointer;display:grid;place-items:center;transition:background .25s,color .25s}
+.seta:hover{background:var(--tinta);color:var(--casco)}
+.seta svg{width:18px;height:18px}
+.arco{display:flex;gap:clamp(18px,2.6vw,36px);margin:0;padding:36px var(--gut) 56px;list-style:none;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none}
+.arco::-webkit-scrollbar{display:none}
+.cartao{position:relative;flex:0 0 var(--cw,clamp(240px,24vw,350px));aspect-ratio:1/1.35;scroll-snap-align:center;background:var(--tinta-2);color:var(--casco);overflow:hidden}
+.cartao img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;user-select:none;transition:transform 1.2s var(--ease)}
+.cartao:hover img{transform:scale(1.05)}
+.cartao::after{content:"";position:absolute;inset:45% 0 0 0;background:linear-gradient(180deg,transparent,rgba(15,42,51,.9));pointer-events:none}
+.cartao h3{position:absolute;left:22px;right:22px;bottom:22px;z-index:1;font-size:clamp(1.2rem,1.8vw,1.8rem)}
+.mais{position:absolute;top:16px;right:16px;z-index:3;width:44px;height:44px;border-radius:50%;border:0;background:var(--tinta);color:var(--casco);cursor:pointer;display:grid;place-items:center;box-shadow:0 0 0 5px rgba(15,42,51,.28);transition:background .25s,color .25s}
+.mais svg{width:16px;height:16px;transition:transform .35s var(--ease)}
+.mais[aria-expanded="true"]{background:var(--azul);color:var(--tinta)}
+.mais[aria-expanded="true"] svg{transform:rotate(45deg)}
+.detalhe{position:absolute;inset:0;z-index:2;padding:72px 22px 22px;background:var(--tinta);overflow-y:auto;font-size:15px;line-height:1.45;clip-path:circle(0 at calc(100% - 38px) 38px);visibility:hidden;transition:clip-path .6s cubic-bezier(.6,0,.2,1),visibility .6s}
+.detalhe h4{margin:0 0 12px;font-family:"Archivo","Arial Black",Arial,sans-serif;font-stretch:125%;font-variation-settings:"wdth" 125;font-weight:500;font-size:1.15rem;text-transform:uppercase;letter-spacing:-.02em;color:var(--azul)}
+.detalhe p{margin:0 0 .7em}
+.cartao[data-aberto] .detalhe{clip-path:circle(150% at calc(100% - 38px) 38px);visibility:visible}
+.arco-prog{display:none}
+
+/* serviços com animação: a seção prende na tela e os cartões percorrem um arco conforme a rolagem */
+[data-pin] .arco-pista{height:calc(var(--vh)*3.4)}
+[data-pin] .arco-palco{position:sticky;top:0;height:var(--vh);overflow:hidden;display:flex;flex-direction:column}
+[data-pin] .servicos-cab{padding-top:88px}
+[data-pin] .setas{display:none}
+[data-pin] .arco{display:block;position:relative;flex:1;padding:0;overflow:visible}
+[data-pin] .cartao{position:absolute;left:50%;top:20px;width:var(--cw);margin-left:calc(var(--cw)/-2);will-change:transform}
+[data-pin] .cartao[data-aberto]{z-index:5}
+[data-anim] [data-pin] .cartao{opacity:0;transition:opacity .8s ease calc(var(--k,0)*70ms + 100ms)}
+[data-anim] [data-pin] .arco-palco[data-in] .cartao{opacity:1}
+[data-pin] .arco-prog{display:grid;gap:9px;min-width:min(250px,56vw);font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--cinza)}
+.arco-num{font-size:15px;color:var(--tinta)}
+.arco-prog i{position:relative;display:block;height:2px;background:rgba(15,42,51,.16);overflow:hidden}
+@media (max-width:700px){[data-pin] .servicos-cab{gap:14px}.arco-prog span:last-child{display:none}}
+.arco-prog i::after{content:"";position:absolute;inset:0;background:var(--azul-texto);transform-origin:0 50%;transform:scaleX(var(--p,0))}
+
+/* ---------- infraestrutura: lâminas que empilham ---------- */
+.infra-cab{display:grid;gap:20px;margin-bottom:clamp(36px,5vw,72px)}
+.infra-cab p{max-width:34em;margin:0;color:#B9CDD3}
+.lams{display:grid;gap:18px}
+.lam{display:grid;background:var(--tinta-2);color:var(--casco);overflow:hidden;transform-origin:50% 0;will-change:transform}
+.lam-img{position:relative;aspect-ratio:4/3;overflow:hidden}
+.lam-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
+.lam:hover .lam-img img{transform:scale(1.04)}
+.lam-txt{padding:clamp(22px,3.2vw,52px);align-self:center}
+.lam-txt h3{margin-bottom:16px;font-size:clamp(1.35rem,2.4vw,2.3rem)}
+.lam-txt p{color:#D6E2E5;max-width:34em}
+.lam-txt p:last-child{margin-bottom:0}
+@media (min-width:860px){
+  .lam{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);min-height:430px}
+  .lam-img{aspect-ratio:auto;min-height:430px}
+}
+[data-stack] .lam{position:sticky;top:calc(88px + var(--n,0)*12px)}
+[data-anim] .lam{opacity:0;transition:opacity .9s ease}
+[data-anim] .lam[data-in]{opacity:1}
+
+/* ---------- foto larga do píer ---------- */
+.banda{height:clamp(260px,44vw,640px);background:var(--tinta)}
+.banda img{width:100%;height:100%;object-fit:cover}
+
+/* ---------- números ---------- */
+.numeros{display:grid;grid-template-columns:repeat(4,1fr);margin-top:clamp(40px,6vw,80px)}
+.numeros > div{padding:26px 20px 34px 0;border-top:1px solid rgba(15,42,51,.22)}
+.numeros b{display:block;font-family:"Archivo","Arial Black",Arial,sans-serif;font-stretch:125%;font-variation-settings:"wdth" 125;font-weight:500;font-size:clamp(2.1rem,4.6vw,4.4rem);line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.numeros b small{font-size:.42em;letter-spacing:-.01em;margin-left:.15em}
+.numeros div > span{display:block;max-width:15em;margin-top:10px;font-size:15px;line-height:1.4;color:var(--cinza)}
+@media (max-width:860px){.numeros{grid-template-columns:1fr 1fr}}
+
+/* ---------- história ---------- */
+.historia{display:grid;gap:clamp(32px,5vw,90px);margin-top:clamp(40px,6vw,90px)}
+.historia figure{margin:0}
+.historia figure img{width:100%;aspect-ratio:1;object-fit:cover}
+.historia-txt p{max-width:38em}
+.missao{margin:0 0 clamp(28px,4vw,48px);padding:0 0 0 22px;border-left:4px solid var(--azul);font-size:clamp(1.15rem,1.7vw,1.5rem);line-height:1.4;font-weight:500}
+.missao cite{display:block;margin-bottom:8px;font-style:normal;font-size:14px;font-weight:600;color:var(--azul-texto)}
+@media (min-width:900px){
+  .historia{grid-template-columns:minmax(0,.85fr) minmax(0,1fr);align-items:start}
+  .historia figure{position:sticky;top:110px}
+}
+
+/* ---------- Pousada Una ---------- */
+.pousada{display:grid;gap:clamp(36px,6vw,100px);align-items:center}
+.pousada-fotos{position:relative;padding-bottom:17%}
+.pousada-f1{width:88%}
+.pousada-f1 img{width:100%;aspect-ratio:22/13;object-fit:cover}
+.pousada-f2{position:absolute;right:0;bottom:0;width:46%;border:8px solid var(--espuma)}
+.pousada-f2 img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.pousada-txt .lead{margin:22px 0 18px;font-weight:500}
+.pousada-txt p{max-width:36em}
+.pousada-txt .canais{margin:26px 0}
+@media (min-width:900px){.pousada{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}}
+
+/* ---------- lista de canais ---------- */
+.canais{margin:0;padding:0;list-style:none}
+.canais li{display:grid;grid-template-columns:6.5em minmax(0,1fr);gap:12px;padding:16px 0;border-top:1px solid rgba(15,42,51,.22);overflow-wrap:anywhere}
+.canais li:last-child{border-bottom:1px solid rgba(15,42,51,.22)}
+.canais .rot{font-size:14px;color:var(--cinza)}
+.canais a{color:var(--tinta);font-weight:500;text-underline-offset:3px;text-decoration-color:rgba(15,42,51,.35)}
+.canais a:hover{color:var(--azul-texto)}
+
+/* ---------- faixa que corre ---------- */
+.fita{overflow:hidden;padding-block:clamp(20px,2.6vw,36px);background:var(--tinta);color:var(--casco);white-space:nowrap;border-bottom:1px solid rgba(243,244,239,.16)}
+.fita-in{display:inline-flex;align-items:center;gap:clamp(22px,3vw,48px);padding-right:clamp(22px,3vw,48px);font-family:"Archivo","Arial Black",Arial,sans-serif;font-stretch:125%;font-variation-settings:"wdth" 125;font-weight:500;text-transform:uppercase;letter-spacing:-.03em;font-size:clamp(1.6rem,4.2vw,4rem);line-height:1.1;will-change:transform}
+.fita-in i{width:.3em;height:.3em;border-radius:50%;background:var(--azul);flex:none}
+@media (prefers-reduced-motion:no-preference){.fita-in{animation:fita 42s linear infinite}}
+[data-anim] .fita-in{animation:none}
+@keyframes fita{to{transform:translateX(-50%)}}
+
+/* ---------- localização ---------- */
+.local{display:grid;gap:clamp(32px,5vw,80px);margin-top:clamp(32px,5vw,64px)}
+.local p{color:#D6E2E5;max-width:34em}
+.local p a{color:var(--casco);text-underline-offset:3px}
+.local h3{margin:28px 0 10px;font-size:1.05rem;color:var(--azul)}
+.rotas{margin:0;padding:0;list-style:none}
+.rotas li{padding:10px 0;border-top:1px solid rgba(243,244,239,.2)}
+.rotas li:last-child{border-bottom:1px solid rgba(243,244,239,.2)}
+.coord{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;font-variant-numeric:tabular-nums}
+.coord span{display:block}
+.mapa{display:grid;gap:16px;align-content:start}
+.mapa iframe{width:100%;aspect-ratio:4/3.2;border:0;background:var(--tinta-2);filter:saturate(.85)}
+.mapa-foto{background:var(--tinta-2)}
+.mapa-foto img{width:100%;aspect-ratio:1;object-fit:cover}
+.mapa-links{display:flex;flex-wrap:wrap;gap:10px}
+.dica{margin-top:22px;font-size:15px;color:#B9CDD3}
+@media (min-width:900px){.local{grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr);align-items:start}.mapa{position:sticky;top:96px}.mapa iframe{aspect-ratio:4/3.6}.mapa-foto{max-width:520px}}
+
+/* ---------- contato ---------- */
+.contato h2{font-size:clamp(2.3rem,9.4vw,10rem);line-height:.9}
+.contato-grid{display:grid;gap:clamp(32px,5vw,90px);margin-top:clamp(36px,5vw,72px)}
+.contato .redes{margin-top:26px}
+:where(.site) form{display:grid;gap:18px}
+:where(.site) label{display:grid;gap:6px;font-size:14px;font-weight:600}
+:where(.site) input,:where(.site) select,:where(.site) textarea{width:100%;padding:13px 14px;border:1px solid rgba(15,42,51,.4);border-radius:0;background:#fff;color:var(--tinta);font:inherit;font-size:16px;transition:border-color .2s,box-shadow .2s}
+:where(.site) input:focus,:where(.site) select:focus,:where(.site) textarea:focus{border-color:var(--azul-texto);box-shadow:0 0 0 3px rgba(27,154,214,.25);outline:0}
+:where(.site) textarea{min-height:140px;resize:vertical}
+.form-acoes{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.form-nota{margin:0;font-size:14px;color:var(--cinza)}
+@media (min-width:900px){.contato-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}}
+
+/* ---------- rodapé ---------- */
+.rodape-sec{padding-block:clamp(48px,6vw,90px) 28px;font-size:15px}
+.rodape{display:grid;gap:36px}
+.rodape .logo{width:fit-content}
+.rodape p{color:#B9CDD3;max-width:30em}
+.rodape h3{margin-bottom:12px;font-size:.95rem;color:var(--azul);letter-spacing:-.01em}
+.rodape ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.rodape li a,.rodape address a{color:var(--casco);text-decoration:none}
+.rodape li a:hover,.rodape address a:hover{text-decoration:underline;text-underline-offset:3px}
+.rodape address{font-style:normal;color:#D6E2E5;line-height:1.6}
+.rodape .redes{margin-top:16px}
+.rodape-fim{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;margin-top:48px;padding-top:20px;border-top:1px solid rgba(243,244,239,.2);color:#8FAAB2;font-size:14px}
+@media (min-width:900px){.rodape{grid-template-columns:1.5fr .8fr 1.2fr 1.2fr}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.site *{transition:none!important}}
+/*CSS-FIM*/
+</style>
+</head>
+<body>
+<!--SITE-INICIO-->
+<div class="site" data-site>
+<div class="cortina" aria-hidden="true">
+  <i style="left:0;--c:0"></i><i style="left:20%;--c:1"></i><i style="left:40%;--c:2"></i><i style="left:60%;--c:3"></i><i style="left:80%;--c:4"></i>
+  <div class="cortina-logo"><img src="imagens/logo-marina-boreste.png" alt="" width="470" height="182"></div>
+</div>
+<script>
+/* liga as animações antes de a página aparecer, para a cortina de abertura não piscar */
+(function(){var s=document.currentScript.parentNode;if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&innerHeight<=1800&&'IntersectionObserver' in window)s.setAttribute('data-anim','')})();
+</script>
+<a class="pula" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="topo">
+  <a class="logo" href="#inicio" aria-label="Marina Boreste, início">
+    <img src="imagens/logo-marina-boreste.png" alt="Marina Boreste" width="235" height="91">
+  </a>
+  <div class="topo-acoes">
+    <a class="btn btn-azul" href="https://wa.me/5512997292082" target="_blank" rel="noopener">WhatsApp</a>
+    <button class="btn btn-tinta" id="abre-menu" type="button" aria-haspopup="dialog">Menu</button>
+  </div>
+</header>
+
+<dialog class="menu" id="menu" aria-label="Menu">
+  <div class="menu-dentro">
+    <div class="menu-topo"><button class="btn btn-linha" id="fecha-menu" type="button">Fechar</button></div>
+    <nav>
+      <a href="#servicos" style="--i:0"><span>Serviços</span></a>
+      <a href="#infraestrutura" style="--i:1"><span>Infraestrutura</span></a>
+      <a href="#historia" style="--i:2"><span>Nossa história</span></a>
+      <a href="#pousada" style="--i:3"><span>Pousada Una</span></a>
+      <a href="#localizacao" style="--i:4"><span>Localização</span></a>
+      <a href="#contato" style="--i:5"><span>Vamos conversar?</span></a>
+    </nav>
+    <div class="menu-pe">
+      <div class="redes">
+        <a class="rede" href="https://www.instagram.com/marinaboreste/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg>@marinaboreste</a>
+        <a class="rede rede-so" href="https://wa.me/5512997292082" target="_blank" rel="noopener" aria-label="WhatsApp da Marina Boreste"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.6 20.4l1.3-4.4a8.4 8.4 0 1 1 3.2 3.1z"/><path d="M9.2 8.3c-.3 2.8 2.9 6.4 6.3 6.5l1-1.6-2-1.1-.9.9c-.9-.4-1.8-1.3-2.3-2.4l.9-.9-1.1-2z"/></svg></a>
+      </div>
+      <span>Segunda a domingo, das 8h às 17h</span>
+      <a href="tel:+551238671550">(12) 3867-1550</a>
+      <a href="mailto:atendimento@boreste.com.br">atendimento@boreste.com.br</a>
+    </div>
+  </div>
+</dialog>
+
+<main id="conteudo">
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="inicio">
+  <div class="hero-midia">
+    <img src="video/marina-boreste-barcos-capa.jpg" alt="" width="720" height="1280">
+    <video src="video/marina-boreste-barcos.mp4" poster="video/marina-boreste-barcos-capa.jpg" autoplay muted loop playsinline preload="auto" aria-label="Lanchas no Rio Una vistas de cima, em frente à Marina Boreste"></video>
+  </div>
+  <div class="hero-txt">
+    <div class="hero-meio">
+      <p class="hero-sub" data-rv style="--i:5">Sua embarcação com amantes da navegação. Barra do Una, litoral norte de São Paulo.</p>
+      <a class="rola" href="#sobre" data-rv style="--i:7">Role para conhecer <span aria-hidden="true"></span></a>
+    </div>
+    <h1 class="tx" id="titulo"><span class="linha"><span class="w"><span>Navegue</span></span></span><span class="linha"><span class="w"><span>tranquilo</span></span></span></h1>
+  </div>
+</section>
+
+<!-- ================= FAIXA ================= -->
+<div class="wrap">
+  <div class="faixa">
+    <div data-rv style="--i:0"><strong>Endereço</strong><a href="https://www.google.com/maps/search/?api=1&amp;query=Marina%20Boreste%2C%20Barra%20do%20Una%2C%20S%C3%A3o%20Sebasti%C3%A3o%20-%20SP&amp;query_place_id=ChIJS2xwpZCIzZQRFnlkunPgOQ8" target="_blank" rel="noopener">Rua Petrópolis, 215<br>Barra do Una, São Sebastião (SP)</a></div>
+    <div data-rv style="--i:1"><strong>Horário</strong>Segunda a domingo<br>das 8h às 17h</div>
+    <div data-rv style="--i:2"><strong>Telefone e WhatsApp</strong><a href="tel:+551238671550">(12) 3867-1550</a><br><a href="https://wa.me/5512997292082" target="_blank" rel="noopener">(12) 99729-2082</a></div>
+    <div data-rv style="--i:3"><strong>Rádio</strong>VHF canal 74<br>da primeira saída ao último retorno</div>
+  </div>
+</div>
+
+<!-- ================= ABERTURA ================= -->
+<section class="abertura" id="sobre">
+  <div class="wrap abertura-grid">
+    <div>
+      <h2 class="tx"><span class="w"><span>Mais</span></span> <span class="w"><span>de</span></span> <span class="w"><span>40</span></span> <span class="w"><span>anos</span></span> <span class="w"><span>nas</span></span> <span class="w"><span>águas</span></span> <span class="w"><span>de</span></span> <span class="w"><span>Barra</span></span> <span class="w"><span>do</span></span> <span class="w"><span>Una</span></span></h2>
+      <p class="fill" data-fill><span class="pw">Com</span> <span class="pw">a</span> <span class="pw">Marina</span> <span class="pw">Boreste</span> <span class="pw">você</span> <span class="pw">navega</span> <span class="pw">tranquilo</span> <span class="pw">em</span> <span class="pw">uma</span> <span class="pw">das</span> <span class="pw">mais</span> <span class="pw">belas</span> <span class="pw">regiões</span> <span class="pw">do</span> <span class="pw">litoral</span> <span class="pw">paulista.</span> <span class="pw">Conte</span> <span class="pw">com</span> <span class="pw">a</span> <span class="pw">estrutura</span> <span class="pw">e</span> <span class="pw">o</span> <span class="pw">apoio</span> <span class="pw">de</span> <span class="pw">quem</span> <span class="pw">tem</span> <span class="pw">mais</span> <span class="pw">de</span> <span class="pw">40</span> <span class="pw">anos</span> <span class="pw">de</span> <span class="pw">experiência</span> <span class="pw">nas</span> <span class="pw">águas</span> <span class="pw">de</span> <span class="pw">Barra</span> <span class="pw">do</span> <span class="pw">Una.</span></p>
+    </div>
+    <figure>
+      <div class="px" data-rvimg><img src="imagens/barra-do-una.jpg" alt="Vista aérea de Barra do Una: o Rio Una chegando ao mar, com a praia e a Mata Atlântica" loading="lazy" width="840" height="900"></div>
+      <figcaption>Barra do Una, onde o Rio Una encontra o mar.</figcaption>
+    </figure>
+  </div>
+  <svg class="ondas" viewBox="0 0 1600 150" fill="none" aria-hidden="true" preserveAspectRatio="none">
+    <g stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="0.1 9">
+      <path d="M-20 40 C 120 -10, 260 -10, 400 40 S 680 90, 820 40 S 1100 -10, 1240 40 S 1500 90, 1640 40"/>
+      <path d="M-20 80 C 120 30, 260 30, 400 80 S 680 130, 820 80 S 1100 30, 1240 80 S 1500 130, 1640 80"/>
+      <path d="M-20 120 C 120 70, 260 70, 400 120 S 680 170, 820 120 S 1100 70, 1240 120 S 1500 170, 1640 120"/>
+    </g>
+  </svg>
+</section>
+
+<!-- ================= SERVIÇOS ================= -->
+<section class="servicos" id="servicos">
+ <div class="arco-pista">
+  <div class="arco-palco">
+    <div class="wrap servicos-cab">
+      <div>
+        <h2 class="tx"><span class="w"><span>Serviços</span></span></h2>
+        <p data-rv>Tudo o que a sua embarcação precisa em terra e no mar. Toque no + de cada cartão para ler os detalhes.</p>
+      </div>
+      <div class="setas">
+        <button class="seta" type="button" data-dir="-1" aria-label="Serviço anterior"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 3 5 9l6 6"/></svg></button>
+        <button class="seta" type="button" data-dir="1" aria-label="Próximo serviço"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m7 3 6 6-6 6"/></svg></button>
+      </div>
+      <div class="arco-prog" aria-hidden="true"><span class="arco-num">1 / 9</span><i></i><span>Role para passar pelos serviços</span></div>
+    </div>
+
+    <ul class="arco" id="arco" tabindex="0" aria-label="Serviços da Marina Boreste">
+      <li class="cartao" style="--k:0">
+        <img src="imagens/garageamento.jpg" alt="Lancha em carreta sob a cobertura da garagem náutica" loading="lazy" style="object-position:42% 50%">
+        <h3>Garageamento</h3>
+        <button class="mais" type="button" aria-expanded="false" aria-label="Detalhes de Garageamento"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 1v14M1 8h14"/></svg></button>
+        <div class="detalhe"><h4>Garageamento</h4>
+          <p>As embarcações são manobradas em suas carretas e guardadas nos galpões em vaga seca, coberta, com piso impermeável.</p></div>
+      </li>
+      <li class="cartao" style="--k:1">
+        <img src="imagens/rampagem.jpg" alt="Lancha em carreta descendo a rampa para o Rio Una" loading="lazy" style="object-position:62% 50%">
+        <h3>Rampagem</h3>
+        <button class="mais" type="button" aria-expanded="false" aria-label="Detalhes de Rampagem"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 1v14M1 8h14"/></svg></button>
+        <div class="detalhe"><h4>Rampagem</h4>
+          <p>A colocação ou retirada da embarcação da água é feita a pedido do proprietário, ou de pessoa por ele autorizada.</p>
+          <p>As solicitações podem ser feitas diretamente na recepção da Marina Boreste, por telefone, e-mail e também na “Área do Cliente” do site.</p>
+          <p>Sempre é respeitada a ordem de chegada dos pedidos.</p>
+          <p>Este serviço também está disponível para clientes da Marina.</p></div>
+      </li>
+      <li class="cartao" style="--k:2">
+        <img src="imagens/lavagem.jpg" alt="Funcionário da Marina Boreste lavando uma lancha" loading="lazy" style="object-position:45% 50%">
+        <h3>Lavagem</h3>
+        <button class="mais" type="button" aria-expanded="false" aria-label="Detalhes de Lavagem"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 1v14M1 8h14"/></svg></button>
+        <div class="detalhe"><h4>Lavagem</h4>
+          <p>Sempre que necessário, as embarcações são lavadas por profissionais especializados e treinados.</p>
+          <p>Neste processo são utilizados produtos biodegradáveis em quantidades adequadas, conforme as orientações do “Projeto Marinas”.</p></div>
+      </li>
+      <li class="cartao" style="--k:3">
+        <img src="imagens/acionamento.jpg" alt="Profissional com protetor auricular conferindo uma lancha no seco" loading="lazy" style="object-position:12% 50%">
+        <h3>Acionamento</h3>
+        <button class="mais" type="button" aria-expanded="false" aria-label="Detalhes de Acionamento"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 1v14M1 8h14"/></svg></button>
+        <div class="detalhe"><h4>Acionamento</h4>
+          <p>Uma vez por semana as embarcações são acionadas no seco por um profissional especialmente treinado para esta função.</p>
+          <p>O intuito é checar não só o funcionamento do motor, mas também diversos outros itens importantes para uma navegação segura.</p>
+          <p>O cliente fica sabendo com antecedência caso alguma anomalia seja identificada.</p></div>
+      </li>
+      <li class="cartao" style="--k:4">
+        <img src="imagens/apoio-de-radio.jpg" alt="Rádio VHF da recepção sintonizado no canal 74" loading="lazy" style="object-position:30% 50%">
+        <h3>Apoio de rádio</h3>
+        <button class="mais" type="button" aria-expanded="false" aria-label="Detalhes de Apoio de rádio"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 1v14M1 8h14"/></svg></button>
+        <div class="detalhe"><h4>Apoio de rádio</h4>
+          <p>Para maior segurança dos clientes, a Marina Boreste mantém escuta via rádio VHF, canal 74, e também telefones, desde o momento da saída do primeiro navegante para o mar até o retorno do último.</p></div>
+      </li>
+      <li class="cartao" style="--k:5">
+        <img src="imagens/resgate.jpg" alt="Bote inflável em carreta no pátio da marina" loading="lazy" style="object-position:40% 50%">
+        <h3>Resgate</h3>
+        <button class="mais" type="button" aria-expanded="false" aria-label="Detalhes de Resgate"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 1v14M1 8h14"/></svg></button>
+        <div class="detalhe"><h4>Resgate</h4>
+          <p>Em caso de pane no mar, o serviço de resgate poderá ser solicitado sem custos adicionais.</p>
+          <p>Este serviço é prestado por embarcação especialmente preparada, sujeito a regras de horário, área de cobertura, condições de mar e maré, conforme descrito no Regulamento Interno da Marina Boreste.</p></div>
+      </li>
+      <li class="cartao" style="--k:6">
+        <img src="imagens/bebidas-e-gelo.jpg" alt="Geladeira de bebidas e freezer de gelo" loading="lazy" style="object-position:68% 50%">
+        <h3>Bebidas e gelo</h3>
+        <button class="mais" type="button" aria-expanded="false" aria-label="Detalhes de Bebidas e gelo"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 1v14M1 8h14"/></svg></button>
+        <div class="detalhe"><h4>Bebidas e gelo</h4>
+          <p>Gelo e bebidas, para levar a bordo ou consumir no bar da Marina Boreste, também podem ser adquiridos.</p></div>
+      </li>
+      <li class="cartao" style="--k:7">
+        <img src="imagens/abastecimento.jpg" alt="Funcionário da marina ao lado de uma lancha em carreta" loading="lazy" style="object-position:45% 50%">
+        <h3>Abastecimento</h3>
+        <button class="mais" type="button" aria-expanded="false" aria-label="Detalhes de Abastecimento"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 1v14M1 8h14"/></svg></button>
+        <div class="detalhe"><h4>Abastecimento</h4>
+          <p>No canal de Barra do Una, a aproximadamente 300 m da Marina Boreste, no sentido de quem navega para o mar, existe um píer de abastecimento aberto ao público, onde se pode adquirir diesel ou gasolina.</p>
+          <p>Caso o cliente prefira trazer o seu próprio combustível, a Marina Boreste disponibiliza bomba especial para transferência de líquidos, para que abasteça seu barco com total segurança.</p></div>
+      </li>
+      <li class="cartao" style="--k:8">
+        <img src="imagens/seguranca.jpg" alt="Câmeras de monitoramento na cobertura do galpão" loading="lazy" style="object-position:50% 50%">
+        <h3>Segurança</h3>
+        <button class="mais" type="button" aria-expanded="false" aria-label="Detalhes de Segurança"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 1v14M1 8h14"/></svg></button>
+        <div class="detalhe"><h4>Segurança</h4>
+          <p>Além de monitoramento 24 horas por sistema de câmeras, vigia noturno e cão de guarda, a Marina Boreste mantém apólice de seguro com cobertura completa para todas as embarcações, enquanto estiverem sob sua responsabilidade.</p></div>
+      </li>
+    </ul>
+  </div>
+ </div>
+</section>
+
+<!-- ================= INFRAESTRUTURA ================= -->
+<section class="sec escuro" id="infraestrutura">
+  <div class="wrap">
+    <div class="infra-cab">
+      <h2 class="tx"><span class="w"><span>Infraestrutura</span></span></h2>
+      <p class="lead" data-rv>Galpões, píer, rampa, oficina e uma área de lazer à beira do Rio Una, dentro dos padrões do “Projeto Marinas” e das regulamentações da CETESB.</p>
+    </div>
+
+    <div class="lams">
+      <article class="lam" style="--n:0">
+        <div class="lam-img"><img src="imagens/garageamento.jpg" alt="Lancha em carreta sob o galpão da garagem náutica" loading="lazy"></div>
+        <div class="lam-txt"><h3>Garagem náutica</h3>
+          <p>Com 3.000 m² de área, os galpões da Marina Boreste foram projetados visando a máxima proteção das embarcações.</p>
+          <p>Pisos impermeáveis, canaletas e caixas separadoras de água e óleo devidamente instaladas mantêm a Marina Boreste dentro dos padrões do “Projeto Marinas” e em conformidade com as regulamentações da CETESB.</p>
+          <p>Guarda embarcações de até 8 toneladas, entre jets, infláveis e lanchas, sem a necessidade de empilhamento.</p></div>
+      </article>
+      <article class="lam" style="--n:1">
+        <div class="lam-img"><img src="imagens/pier.jpg" alt="Lanchas atracadas no píer flutuante, com a Mata Atlântica ao fundo" loading="lazy"></div>
+        <div class="lam-txt"><h3>Amplo píer</h3>
+          <p>Amplo píer de atracação, com área exclusiva para embarque e desembarque, situado nas águas abrigadas e praticamente doces do Rio Una.</p>
+          <p>Capacidade para atender aos clientes que, com o intuito de agilizar a saída no dia seguinte, prefiram o pernoite da embarcação na água com total segurança.</p></div>
+      </article>
+      <article class="lam" style="--n:2">
+        <div class="lam-img"><img src="imagens/rampagem.jpg" alt="Lancha em carreta na rampa de acesso ao Rio Una" loading="lazy"></div>
+        <div class="lam-txt"><h3>Rampa</h3>
+          <p>A colocação e a retirada das embarcações são feitas pela rampa de acesso.</p>
+          <p>Dois sistemas distintos estão disponíveis para garantir maior segurança e risco zero de interrupção nas operações.</p>
+          <p>A Marina Boreste dispõe de tratores que podem trabalhar simultaneamente, agilizando a operação.</p></div>
+      </article>
+      <article class="lam" style="--n:3">
+        <div class="lam-img"><img src="imagens/recepcao.jpg" alt="Recepção da Marina Boreste, com balcão de atendimento e mapa da região" loading="lazy"></div>
+        <div class="lam-txt"><h3>Recepção e conveniência</h3>
+          <p>A entrada da Marina conta com um balcão de atendimento com rádio, TV e acesso ao EasyMarine, por onde acompanhamos todos os processos em tempo real.</p>
+          <p>Além da área de atendimento, é possível conferir o mapa da região, verificar as condições de navegação atualizadas semanalmente e adquirir bebidas geladas e gelo para o seu passeio.</p></div>
+      </article>
+      <article class="lam" style="--n:4">
+        <div class="lam-img"><img src="imagens/lazer.jpg" alt="Deck de acesso ao Rio Una, com a garagem náutica ao fundo" loading="lazy"></div>
+        <div class="lam-txt"><h3>Lazer e conforto</h3>
+          <p>Uma agradável área junto às margens do Rio Una, reservada para o conforto e o lazer dos navegantes e de sua família.</p>
+          <p>Sentado no bar à beira da piscina, é possível relaxar curtindo a linda vista do rio e da Mata Atlântica, sem deixar de navegar pela internet com o Wi-Fi disponível.</p></div>
+      </article>
+      <article class="lam" style="--n:5">
+        <div class="lam-img"><img src="imagens/oficina.jpg" alt="Painel de ferramentas da oficina" loading="lazy"></div>
+        <div class="lam-txt"><h3>Oficina e maquinário</h3>
+          <p>Espaço destinado a reparos de embarcações, equipado com diversas ferramentas: talha, compressor, carregador de baterias, bomba de combustível, macacos hidráulicos, lavadora de alta pressão etc.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOTO DO PÍER ================= -->
+<div class="px banda" data-rvimg><img src="imagens/pier-garagem-nautica.jpg" alt="Lanchas atracadas em frente à garagem náutica da Marina Boreste, no Rio Una" loading="lazy" width="1920" height="960"></div>
+
+<!-- ================= HISTÓRIA + NÚMEROS ================= -->
+<section class="sec" id="historia">
+  <div class="wrap">
+    <h2 class="tx"><span class="w"><span>Nossa</span></span> <span class="w"><span>história</span></span></h2>
+
+    <div class="numeros">
+      <div data-rv style="--i:0"><b><span data-conta="40">40</span><small>+ anos</small></b><span>de experiência nas águas de Barra do Una</span></div>
+      <div data-rv style="--i:1"><b><span data-conta="3000">3.000</span><small>m²</small></b><span>de galpões na garagem náutica</span></div>
+      <div data-rv style="--i:2"><b><span data-conta="8">8</span><small>t</small></b><span>por embarcação, sem empilhamento</span></div>
+      <div data-rv style="--i:3"><b><span data-conta="24">24</span><small>h</small></b><span>de monitoramento por câmeras</span></div>
+    </div>
+
+    <div class="historia">
+      <figure>
+        <div class="px" data-rvimg><img src="imagens/marina-vista-aerea.jpg" alt="Vista aérea da Marina Boreste, entre o Rio Una e o mar" loading="lazy"></div>
+        <figcaption>A Marina Boreste vista de cima, entre o Rio Una e o mar.</figcaption>
+      </figure>
+      <div class="historia-txt">
+        <blockquote class="missao" data-rv>
+          <cite>Missão</cite>
+          Proporcionar infraestrutura e serviços ideais para a guarda, manutenção, compra e venda de embarcações, sempre em harmonia com o meio ambiente, para que os clientes possam desfrutar da natureza e dos prazeres da atividade náutica.
+        </blockquote>
+        <p data-rv>Não havia telefone celular nem GPS, não havia previsão do tempo e às vezes nem estradas. Mas mesmo assim, em meados da década de 70, Amandio Alves Pinto, um apaixonado pelo mar, saía com o seu barco navegando pela barra do Rio Una, mar afora, atraído pelas belezas do litoral norte de São Paulo.</p>
+        <p data-rv>Foi por esta paixão e pelo seu espírito visionário que, ainda nesta época, ele começou a desenvolver em sua propriedade, na beira do Rio Una, as primeiras atividades náuticas da Marina Boreste, sendo ponto de apoio para amigos e outros navegantes.</p>
+        <p data-rv>Com o tempo, a necessidade de facilitar o acesso a outros amantes do mar se tornava mais latente, e a Marina Boreste, acompanhando esta tendência, se organizava e se estruturava para atender os seus clientes cada vez melhor.</p>
+        <p data-rv>Hoje, administrada pela família, a Marina Boreste continua investindo constantemente em melhorias, está consolidada no mercado, e a satisfação dos seus clientes é a comprovação da qualidade de seus serviços.</p>
+        <p data-rv>E é neste clima de pioneirismo, amizade, honestidade e respeito à natureza que a Marina Boreste assume o compromisso de manter a sua embarcação sempre em boas mãos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= POUSADA UNA ================= -->
+<section class="sec clara" id="pousada">
+  <div class="wrap pousada">
+    <div class="pousada-fotos">
+      <div class="px pousada-f1" data-rvimg><img src="imagens/pousada-una-aerea.jpg" alt="Vista aérea da Pousada Una, com piscina e deck à beira do Rio Una; ao fundo, as lanchas da Marina Boreste" loading="lazy" width="1320" height="780"></div>
+      <div class="px pousada-f2" data-rvimg><img src="imagens/pousada-una-piscina.jpg" alt="Piscina da Pousada Una, cercada por palmeiras e primaveras em flor" loading="lazy" width="1260" height="840"></div>
+    </div>
+    <div class="pousada-txt">
+      <h2 class="tx"><span class="w"><span>Pousada</span></span> <span class="w"><span>Una</span></span></h2>
+      <p class="lead" data-rv>Parceira da marina e parte do mesmo empreendimento, a Pousada Una fica a 50 metros daqui, na mesma rua.</p>
+      <p data-rv>Pousada e restaurante à beira do Rio Una, com acomodações confortáveis, piscina, deck voltado para o rio, jardim arborizado e píer para embarcações.</p>
+      <p data-rv>Clientes da Marina Boreste têm benefícios exclusivos na hospedagem e acesso ao restaurante da pousada, uma boa pedida para o almoço depois do passeio de barco.</p>
+      <ul class="canais" data-rv>
+        <li><span class="rot">Endereço</span><a href="https://www.google.com/maps/search/?api=1&amp;query=Pousada%20Una%2C%20Rua%20Petr%C3%B3polis%2C%2080%2C%20Barra%20do%20Una%2C%20S%C3%A3o%20Sebasti%C3%A3o%20-%20SP&amp;query_place_id=ChIJ14_vbpqIzZQRNGed2SGEBd8" target="_blank" rel="noopener">Rua Petrópolis, 80, Barra do Una, São Sebastião (SP), CEP 11624-179</a></li>
+        <li><span class="rot">Reservas</span><a href="tel:+551238671515">(12) 3867-1515</a></li>
+        <li><span class="rot">Site</span><a href="https://pousadauna.com.br/" target="_blank" rel="noopener">pousadauna.com.br</a></li>
+      </ul>
+      <div class="redes" data-rv>
+        <a class="rede" href="https://www.instagram.com/pousadauna/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg>@pousadauna</a>
+        <a class="rede rede-so" href="https://www.facebook.com/pousadauna/" target="_blank" rel="noopener" aria-label="Facebook da Pousada Una"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.2 8.4V6.9c0-.8.5-1.2 1.3-1.2h1.6V3h-2.5c-2.4 0-3.6 1.5-3.6 3.7v1.7H8.7v3h2.3V21h3.2v-9.6h2.5l.4-3z"/></svg></a>
+        <a class="rede rede-so" href="https://pousadauna.com.br/whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp da Pousada Una"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.6 20.4l1.3-4.4a8.4 8.4 0 1 1 3.2 3.1z"/><path d="M9.2 8.3c-.3 2.8 2.9 6.4 6.3 6.5l1-1.6-2-1.1-.9.9c-.9-.4-1.8-1.3-2.3-2.4l.9-.9-1.1-2z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAIXA QUE CORRE ================= -->
+<div class="fita" aria-hidden="true">
+  <div class="fita-in">
+    <span>Rio Una</span><i></i><span>Barra do Una</span><i></i><span>Bertioga</span><i></i><span>Ilhabela</span><i></i><span>Litoral norte de São Paulo</span><i></i>
+    <span>Rio Una</span><i></i><span>Barra do Una</span><i></i><span>Bertioga</span><i></i><span>Ilhabela</span><i></i><span>Litoral norte de São Paulo</span><i></i>
+  </div>
+</div>
+
+<!-- ================= LOCALIZAÇÃO ================= -->
+<section class="sec escuro" id="localizacao">
+  <div class="wrap">
+    <h2 class="tx"><span class="w"><span>Localização</span></span></h2>
+    <div class="local">
+      <div>
+        <p class="lead" data-rv>Localizada em Barra do Una, no litoral norte do estado de São Paulo, estamos entre o Rio Una e o mar.</p>
+        <p data-rv>A Marina Boreste proporciona acesso facilitado às diversas ilhas da região entre Bertioga e Ilhabela.</p>
+
+        <h3 data-rv>Vindo de São Paulo e região</h3>
+        <ul class="rotas">
+          <li data-rv style="--i:0">Rodovia dos Imigrantes</li>
+          <li data-rv style="--i:1">Mogi-Bertioga</li>
+          <li data-rv style="--i:2">Rodovia dos Tamoios</li>
+        </ul>
+        <p class="dica" data-rv>Dica: conheça a Rota 55 do litoral paulista e seus encantos.</p>
+
+        <h3 data-rv>Vindo do mar</h3>
+        <div class="coord" data-rv>
+          <div><span>23°45'29.0"S 45°45'40.2"W</span><span id="coord">-23.758062, -45.761177</span></div>
+          <button class="btn btn-linha" type="button" id="copia">Copiar coordenadas</button>
+        </div>
+
+        <h3 data-rv>Nosso endereço</h3>
+        <p data-rv><a href="https://www.google.com/maps/search/?api=1&amp;query=Marina%20Boreste%2C%20Barra%20do%20Una%2C%20S%C3%A3o%20Sebasti%C3%A3o%20-%20SP&amp;query_place_id=ChIJS2xwpZCIzZQRFnlkunPgOQ8" target="_blank" rel="noopener">Rua Petrópolis, 215, Barra do Una<br>São Sebastião (SP), CEP 11624-179</a></p>
+        <div class="px mapa-foto" data-rvimg><img src="imagens/mapa-barra-do-una.jpg" alt="Vista aérea de Barra do Una com a Marina Boreste e a Pousada Una marcadas" loading="lazy"></div>
+      </div>
+
+      <div class="mapa" data-rv>
+        <!--MAPA-INICIO--><iframe title="Marina Boreste no Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Marina%20Boreste%2C%20Barra%20do%20Una%2C%20S%C3%A3o%20Sebasti%C3%A3o%20-%20SP&amp;z=16&amp;output=embed"></iframe><!--MAPA-FIM-->
+        <div class="mapa-links">
+          <a class="btn btn-azul" href="https://www.google.com/maps/search/?api=1&amp;query=Marina%20Boreste%2C%20Barra%20do%20Una%2C%20S%C3%A3o%20Sebasti%C3%A3o%20-%20SP&amp;query_place_id=ChIJS2xwpZCIzZQRFnlkunPgOQ8" target="_blank" rel="noopener">Abrir no Google Maps</a>
+          <a class="btn btn-linha" href="https://www.google.com/maps/dir/?api=1&amp;destination=Marina%20Boreste%2C%20Barra%20do%20Una%2C%20S%C3%A3o%20Sebasti%C3%A3o%20-%20SP&amp;destination_place_id=ChIJS2xwpZCIzZQRFnlkunPgOQ8" target="_blank" rel="noopener">Traçar rota</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTATO ================= -->
+<section class="sec contato" id="contato">
+  <div class="wrap">
+    <h2 class="tx"><span class="w"><span>Vamos</span></span> <span class="w"><span>conversar?</span></span></h2>
+    <div class="contato-grid">
+      <div>
+        <ul class="canais">
+          <li data-rv style="--i:0"><span class="rot">WhatsApp</span><a href="https://wa.me/5512997292082" target="_blank" rel="noopener">(12) 99729-2082</a></li>
+          <li data-rv style="--i:1"><span class="rot">Telefone/fax</span><a href="tel:+551238671550">(12) 3867-1550</a></li>
+          <li data-rv style="--i:2"><span class="rot">E-mail</span><span><a href="mailto:atendimento@boreste.com.br">atendimento@boreste.com.br</a><br><a href="mailto:boreste@boreste.com.br">boreste@boreste.com.br</a></span></li>
+          <li data-rv style="--i:3"><span class="rot">Endereço</span><a href="https://www.google.com/maps/search/?api=1&amp;query=Marina%20Boreste%2C%20Barra%20do%20Una%2C%20S%C3%A3o%20Sebasti%C3%A3o%20-%20SP&amp;query_place_id=ChIJS2xwpZCIzZQRFnlkunPgOQ8" target="_blank" rel="noopener">Rua Petrópolis, 215, Barra do Una, São Sebastião (SP)</a></li>
+          <li data-rv style="--i:4"><span class="rot">Horário</span><span>Segunda a domingo, das 8h às 17h</span></li>
+          <li data-rv style="--i:5"><span class="rot">Rádio</span><span>VHF canal 74</span></li>
+        </ul>
+        <div class="redes" data-rv>
+          <a class="rede" href="https://www.instagram.com/marinaboreste/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg>@marinaboreste</a>
+          <a class="rede" href="https://wa.me/5512997292082" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.6 20.4l1.3-4.4a8.4 8.4 0 1 1 3.2 3.1z"/><path d="M9.2 8.3c-.3 2.8 2.9 6.4 6.3 6.5l1-1.6-2-1.1-.9.9c-.9-.4-1.8-1.3-2.3-2.4l.9-.9-1.1-2z"/></svg>WhatsApp</a>
+          <a class="rede" href="https://www.instagram.com/pousadauna/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg>@pousadauna</a>
+        </div>
+      </div>
+
+      <form id="form-contato" data-rv>
+        <label>Seu nome<input name="nome" type="text" autocomplete="name" required></label>
+        <label>Seu e-mail<input name="email" type="email" autocomplete="email" required></label>
+        <label>Assunto
+          <select name="assunto" required>
+            <option value="">Selecione o assunto</option>
+            <option>Valores e serviços</option>
+            <option>Compra de embarcação</option>
+            <option>Sugestões e reclamações</option>
+            <option>Benefício Pousada do Una (hospedagem e restaurante)</option>
+            <option>Outros assuntos</option>
+          </select>
+        </label>
+        <label>Mensagem<textarea name="mensagem" required></textarea></label>
+        <div class="form-acoes">
+          <button class="btn btn-azul" type="submit" value="whatsapp">Enviar pelo WhatsApp</button>
+          <button class="btn btn-linha" type="submit" value="email">Enviar por e-mail</button>
+        </div>
+        <p class="form-nota">A mensagem abre pronta no seu WhatsApp ou no seu programa de e-mail; é só confirmar o envio.</p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ================= RODAPÉ ================= -->
+<footer class="escuro rodape-sec">
+  <div class="wrap">
+    <div class="rodape">
+      <div>
+        <a class="logo" href="#inicio" aria-label="Marina Boreste, voltar ao início"><img src="imagens/logo-marina-boreste.png" alt="Marina Boreste" width="235" height="91" loading="lazy"></a>
+        <p style="margin-top:20px">Infraestrutura e serviços para a guarda, manutenção, compra e venda de embarcações, sempre em harmonia com o meio ambiente.</p>
+      </div>
+      <div>
+        <h3>A marina</h3>
+        <ul>
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#infraestrutura">Infraestrutura</a></li>
+          <li><a href="#historia">Nossa história</a></li>
+          <li><a href="#localizacao">Localização</a></li>
+          <li><a href="#contato">Vamos conversar?</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Marina Boreste</h3>
+        <address>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Marina%20Boreste%2C%20Barra%20do%20Una%2C%20S%C3%A3o%20Sebasti%C3%A3o%20-%20SP&amp;query_place_id=ChIJS2xwpZCIzZQRFnlkunPgOQ8" target="_blank" rel="noopener">Rua Petrópolis, 215, Barra do Una<br>
+          São Sebastião (SP), CEP 11624-179</a><br>
+          <a href="tel:+551238671550">(12) 3867-1550</a><br>
+          <a href="mailto:boreste@boreste.com.br">boreste@boreste.com.br</a>
+        </address>
+        <div class="redes">
+          <a class="rede rede-so" href="https://www.instagram.com/marinaboreste/" target="_blank" rel="noopener" aria-label="Instagram da Marina Boreste, @marinaboreste"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg></a>
+          <a class="rede rede-so" href="https://wa.me/5512997292082" target="_blank" rel="noopener" aria-label="WhatsApp da Marina Boreste"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.6 20.4l1.3-4.4a8.4 8.4 0 1 1 3.2 3.1z"/><path d="M9.2 8.3c-.3 2.8 2.9 6.4 6.3 6.5l1-1.6-2-1.1-.9.9c-.9-.4-1.8-1.3-2.3-2.4l.9-.9-1.1-2z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h3>Pousada Una</h3>
+        <address>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Pousada%20Una%2C%20Rua%20Petr%C3%B3polis%2C%2080%2C%20Barra%20do%20Una%2C%20S%C3%A3o%20Sebasti%C3%A3o%20-%20SP&amp;query_place_id=ChIJ14_vbpqIzZQRNGed2SGEBd8" target="_blank" rel="noopener">Rua Petrópolis, 80, Barra do Una<br>
+          São Sebastião (SP)</a><br>
+          <a href="tel:+551238671515">(12) 3867-1515</a><br>
+          <a href="https://pousadauna.com.br/" target="_blank" rel="noopener">pousadauna.com.br</a>
+        </address>
+        <div class="redes">
+          <a class="rede rede-so" href="https://www.instagram.com/pousadauna/" target="_blank" rel="noopener" aria-label="Instagram da Pousada Una, @pousadauna"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg></a>
+          <a class="rede rede-so" href="https://www.facebook.com/pousadauna/" target="_blank" rel="noopener" aria-label="Facebook da Pousada Una"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.2 8.4V6.9c0-.8.5-1.2 1.3-1.2h1.6V3h-2.5c-2.4 0-3.6 1.5-3.6 3.7v1.7H8.7v3h2.3V21h3.2v-9.6h2.5l.4-3z"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="rodape-fim">
+      <span>© 2026 Marina Boreste. Todos os direitos reservados.</span>
+      <span>Segunda a domingo, das 8h às 17h</span>
+    </div>
+  </div>
+</footer>
+</div>
+<!--SITE-FIM-->
+
+<script>
+/*JS-INICIO*/
+function iniciaSite(site){
+  const $ = (s, r) => (r || site).querySelector(s);
+  const $$ = (s, r) => Array.from((r || site).querySelectorAll(s));
+  const lim = (v, a, b) => Math.max(a, Math.min(b, v));
+  const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const plano = innerHeight > 1800;                 // quadro com a página inteira à mostra, sem rolagem
+  const anima = !reduz && !plano && 'IntersectionObserver' in window;
+  let VW = innerWidth, VH = innerHeight;
+  if (!plano) site.style.setProperty('--vh', VH + 'px');
+  if (anima) site.setAttribute('data-anim', ''); else site.removeAttribute('data-anim');
+
+  /* ----- menu ----- */
+  const menu = $('#menu');
+  $('#abre-menu').addEventListener('click', () => { if (menu.showModal) menu.showModal(); else menu.setAttribute('open', ''); });
+  const fechaMenu = () => { if (menu.close) menu.close(); else menu.removeAttribute('open'); };
+  $('#fecha-menu').addEventListener('click', fechaMenu);
+  $$('nav a', menu).forEach(a => a.addEventListener('click', fechaMenu));
+
+  /* ----- título do hero ocupa a largura inteira ----- */
+  const titulo = $('#titulo');
+  function ajustaTitulo(){
+    const linhas = $$('.w > span', titulo);
+    titulo.style.fontSize = '100px';
+    const maior = Math.max.apply(null, linhas.map(l => l.getBoundingClientRect().width));
+    const largura = titulo.clientWidth;
+    if (!maior || !largura) return;
+    titulo.style.fontSize = Math.min(100 * largura / maior * .985, (plano ? 820 : VH) * .31) + 'px';
+  }
+
+  /* ----- cada palavra recebe o número da sua linha, para as linhas subirem em sequência ----- */
+  function agrupaLinhas(){
+    $$('.tx').forEach(tx => {
+      let topo = null, l = -1;
+      $$('.w', tx).forEach(w => { const t = w.offsetTop; if (topo === null || Math.abs(t - topo) > 4){ topo = t; l++; } w.style.setProperty('--l', l); });
+    });
+  }
+
+  /* ----- vídeo do topo ----- */
+  const video = $('.hero video');
+  if (video){
+    video.muted = true; video.defaultMuted = true; video.loop = true; video.playsInline = true;
+    if (reduz) video.pause(); else { const p = video.play(); if (p && p.catch) p.catch(() => {}); }
+  }
+
+  /* ----- números que contam ----- */
+  function conta(el){
+    const fim = Number(el.getAttribute('data-conta')), t0 = performance.now(), dur = 1500;
+    (function passo(t){
+      const k = lim((t - t0) / dur, 0, 1), v = Math.round(fim * (1 - Math.pow(1 - k, 3)));
+      el.textContent = v.toLocaleString('pt-BR');
+      if (k < 1) requestAnimationFrame(passo);
+    })(t0);
+  }
+
+  /* ----- o que entra na tela ganha [data-in] e a animação do CSS acontece ----- */
+  let io = null;
+  function observa(){
+    if (!io) return;
+    $$('.tx,[data-rv],.px,[data-conta],.arco-palco,.lam').forEach(el => {
+      if (el.__visto || el.hasAttribute('data-in') || el.closest('.hero')) return;
+      el.__visto = 1; io.observe(el);
+    });
+  }
+  if (anima){
+    io = new IntersectionObserver(lista => lista.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.setAttribute('data-in', ''); io.unobserve(e.target);
+      if (e.target.hasAttribute('data-conta')) conta(e.target);
+    }), {rootMargin: '0px 0px -9% 0px', threshold: .1});
+    observa();
+    if ('MutationObserver' in window){ let espera = 0; new MutationObserver(() => { clearTimeout(espera); espera = setTimeout(observa, 120); }).observe(site, {childList: true, subtree: true}); }
+    /* abertura: cortina com o logotipo, depois o título sobe e o topo aparece */
+    setTimeout(() => $('.hero').setAttribute('data-in', ''), 1150);
+    setTimeout(() => $('.topo').setAttribute('data-in', ''), 1500);
+  }
+
+  /* ----- serviços: cartões num arco, movidos pela rolagem ----- */
+  const secServ = $('.servicos'), pista = $('.arco-pista'), palco = $('.arco-palco'), cab = $('.servicos-cab'), arco = $('.arco');
+  const cartoes = $$('.cartao', arco), prog = $('.arco-prog'), progNum = $('.arco-num');
+  let pin = false, cw = 300, R = 2400, tmax = .3, sig = .2, ativo = -1;
+  function medeArco(){
+    const pode = anima && VH >= 560;
+    if (pode !== pin){
+      pin = pode;
+      if (pin) secServ.setAttribute('data-pin', ''); else { secServ.removeAttribute('data-pin'); pista.style.height = ''; cartoes.forEach(c => { c.style.transform = ''; }); }
+    }
+    if (!pin) return;
+    const W = palco.clientWidth, area = VH - cab.offsetHeight;
+    cw = lim((area - 64) / 1.35, 170, lim(W < 700 ? W * .66 : W * .24, 230, 350));
+    palco.style.setProperty('--cw', cw.toFixed(1) + 'px');
+    R = Math.max(W * 2.05, cw * 2.9);
+    tmax = Math.asin(Math.min(.95, (W / 2 + cw * .75 + 40) / R));
+    sig = (cw * 1.14) / (2 * R * tmax);
+    pista.style.height = Math.round(VH * (1 + (cartoes.length - 1) * .3)) + 'px';
+  }
+  function desenhaArco(sy){
+    const r = pista.getBoundingClientRect(), topo = r.top + scrollY - sy;       // posição com a rolagem suavizada
+    if (topo > VH * 1.2 || topo + r.height < -VH * .2) return;
+    const n = cartoes.length, p = lim(-topo / (r.height - VH), 0, 1), antes = lim(topo / (VH * .9), 0, 1);
+    const tt = .5 + p * (n - 1) * sig - antes * sig * 1.5;
+    cartoes.forEach((c, i) => {
+      const t = lim(tt - i * sig, 0, 1), th = tmax * (1 - 2 * t);
+      const x = R * Math.sin(th), y = R * (1 - Math.cos(th)), esc = 1 - Math.min(1, Math.abs(th) / tmax) * .08;
+      c.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) rotate(' + (th * 57.2958).toFixed(2) + 'deg) scale(' + esc.toFixed(3) + ')';
+    });
+    prog.style.setProperty('--p', p.toFixed(4));
+    const i = lim(Math.round((tt - .5) / sig), 0, n - 1);
+    if (i !== ativo){ ativo = i; progNum.textContent = (i + 1) + ' / ' + n; }
+  }
+  $$('.seta').forEach(b => b.addEventListener('click', () => arco.scrollBy({left: Number(b.getAttribute('data-dir')) * (cartoes[0].offsetWidth + 30), behavior: reduz ? 'auto' : 'smooth'})));
+  cartoes.forEach(c => {
+    const b = $('.mais', c);
+    b.addEventListener('click', () => {
+      const abrir = !c.hasAttribute('data-aberto');
+      cartoes.forEach(o => { o.removeAttribute('data-aberto'); $('.mais', o).setAttribute('aria-expanded', 'false'); });
+      if (abrir){ c.setAttribute('data-aberto', ''); b.setAttribute('aria-expanded', 'true'); }
+    });
+  });
+
+  /* ----- infraestrutura: lâminas empilham; a de baixo encolhe e escurece quando é coberta ----- */
+  const caixaLams = $('.lams'), lams = $$('.lam');
+  let pilha = false;
+  function medePilha(){
+    const cabe = anima && lams.every((l, i) => l.offsetHeight <= VH - 88 - i * 12 - 20);
+    if (cabe === pilha) return;
+    pilha = cabe;
+    if (pilha) caixaLams.setAttribute('data-stack', ''); else { caixaLams.removeAttribute('data-stack'); lams.forEach(l => { l.style.transform = ''; l.style.filter = ''; }); }
+  }
+  function desenhaPilha(){
+    if (!pilha) return;
+    const caixa = caixaLams.getBoundingClientRect();
+    if (caixa.top > VH || caixa.bottom < 0) return;
+    const r = lams.map(l => l.getBoundingClientRect());
+    lams.forEach((l, i) => {
+      if (i === lams.length - 1) return;
+      const q = lim((r[i].bottom - r[i + 1].top) / r[i].height, 0, 1);
+      l.style.transform = q ? 'scale(' + (1 - q * .05).toFixed(4) + ')' : '';
+      l.style.filter = q ? 'brightness(' + (1 - q * .4).toFixed(3) + ')' : '';
+    });
+  }
+
+  /* ----- rolagem: tudo o que acompanha a página é desenhado aqui, com um leve atraso suave ----- */
+  const hero = $('.hero'), midia = $('.hero-midia'), heroTxt = $('.hero-txt');
+  const fill = $('[data-fill]'), palavras = fill ? $$('.pw', fill) : [];
+  const fita = $('.fita-in');
+  let sy = scrollY, fx = 0, fdir = 1, ultimo = 0;
+  function quadro(t){
+    const dt = Math.min(50, t - (ultimo || t)); ultimo = t;
+    const alvo = scrollY, ant = sy;
+    sy += (alvo - sy) * Math.min(1, dt / 16.7 * .14);
+    if (Math.abs(alvo - sy) < .1) sy = alvo;
+    const vel = sy - ant, folga = alvo - sy;                   // folga = quanto a rolagem suave está atrás da real
+
+    /* topo: o vídeo aprofunda e o título sobe um pouco */
+    const hh = hero.offsetHeight;
+    if (sy < hh){
+      const k = sy / hh;
+      midia.style.transform = 'translate3d(0,' + (k * hh * .22).toFixed(1) + 'px,0) scale(' + (1 + k * .1).toFixed(4) + ')';
+      heroTxt.style.transform = 'translate3d(0,' + (-k * 70).toFixed(1) + 'px,0)';
+    }
+
+    /* abertura: as palavras acendem uma a uma */
+    if (fill){
+      const r = fill.getBoundingClientRect(), topo = r.top + folga;
+      if (topo < VH && topo + r.height > -VH * .5){
+        const k = lim((VH * .86 - topo) / (r.height + VH * .38), 0, 1), n = palavras.length;
+        palavras.forEach((w, i) => { w.style.opacity = (.18 + .82 * lim((k * (n + 4) - i) / 4, 0, 1)).toFixed(3); });
+      }
+    }
+
+    if (pin) desenhaArco(sy);
+    desenhaPilha();
+
+    /* fotos deslizam dentro da moldura */
+    $$('.px').forEach(m => {
+      const r = m.getBoundingClientRect(), topo = r.top + folga;
+      if (topo > VH || topo + r.height < 0) return;
+      const k = (topo + r.height / 2 - VH / 2) / VH;
+      m.style.setProperty('--py', (-k * r.height * .09).toFixed(1) + 'px');
+    });
+
+    /* faixa: corre sozinha e acelera no sentido da rolagem */
+    if (fita){
+      if (Math.abs(vel) > .4) fdir = vel > 0 ? 1 : -1;
+      const meio = fita.scrollWidth / 2;
+      fx = (fx + fdir * (dt * .05 + Math.min(60, Math.abs(vel)) * .55)) % meio;
+      if (fx < 0) fx += meio;
+      fita.style.transform = 'translate3d(' + (-fx).toFixed(1) + 'px,0,0)';
+    }
+    requestAnimationFrame(quadro);
+  }
+
+  /* ----- medidas ----- */
+  function mede(){
+    ajustaTitulo(); agrupaLinhas(); medeArco(); medePilha();
+  }
+  mede();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(mede);
+  addEventListener('load', mede);
+  addEventListener('resize', () => {
+    const mudouLargura = innerWidth !== VW;
+    if (mudouLargura || Math.abs(innerHeight - VH) > 140){ VH = innerHeight; if (!plano) site.style.setProperty('--vh', VH + 'px'); }
+    VW = innerWidth; mede();
+  });
+  if (anima) requestAnimationFrame(quadro);
+
+  /* ----- copiar coordenadas ----- */
+  const copia = $('#copia');
+  copia.addEventListener('click', () => {
+    const texto = $('#coord').textContent;
+    const ok = () => { copia.textContent = 'Coordenadas copiadas'; }, falha = () => { copia.textContent = 'Selecione e copie o texto ao lado'; };
+    try { navigator.clipboard.writeText(texto).then(ok, falha); } catch (e) { falha(); }
+  });
+
+  /* ----- formulário: monta a mensagem e abre o WhatsApp ou o e-mail ----- */
+  const form = $('#form-contato');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const d = new FormData(form);
+    const texto = 'Olá! Meu nome é ' + d.get('nome') + ' (' + d.get('email') + ').\nAssunto: ' + d.get('assunto') + '\n\n' + d.get('mensagem');
+    if (e.submitter && e.submitter.value === 'email') location.href = 'mailto:atendimento@boreste.com.br?subject=' + encodeURIComponent('Site: ' + d.get('assunto')) + '&body=' + encodeURIComponent(texto);
+    else window.open('https://wa.me/5512997292082?text=' + encodeURIComponent(texto), '_blank', 'noopener');
+  });
+}
+/*JS-FIM*/
+iniciaSite(document.querySelector('[data-site]'));
+</script>
+</body>
+</html>
