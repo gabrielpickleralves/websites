@@ -474,19 +474,22 @@ dialog.menu::backdrop{background:var(--tinta)}
 @media (min-width:600px) and (max-width:899px){.rodape{grid-template-columns:1fr 1fr}}
 @media (min-width:900px){.rodape{grid-template-columns:1.5fr .8fr 1.2fr 1.2fr}}
 
-/* ---------- atalhos fixos: WhatsApp e voltar ao topo ---------- */
-.atalhos{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:40;display:flex;flex-direction:column;align-items:flex-end;gap:12px;pointer-events:none}
-.atalhos > *{pointer-events:auto}
-.fab{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-width:56px;height:56px;padding:0 20px 0 16px;border-radius:999px;border:0;background:var(--azul);color:var(--tinta);font:inherit;font-size:15px;font-weight:600;text-decoration:none;box-shadow:0 8px 24px -6px rgba(15,42,51,.45),0 0 0 1px rgba(15,42,51,.15);cursor:pointer;transition:background-color .25s,transform .25s var(--ease),opacity .3s,visibility .3s;-webkit-tap-highlight-color:transparent}
-.fab:hover{background:#4db4e4}
-.fab:active{transform:scale(.95)}
-.fab svg{width:26px;height:26px;flex:none}
-.fab-topo{width:48px;min-width:48px;height:48px;padding:0;background:var(--tinta);color:var(--casco);box-shadow:0 8px 20px -6px rgba(15,42,51,.5),0 0 0 1px rgba(243,244,239,.25)}
+/* ---------- voltar ao topo: botão fixo só nas telas largas, dentro da margem lateral ----------
+   Abaixo de 1400 px a margem é estreita demais e o botão cobriria texto e fotos; ali o
+   logotipo do topo e o link do rodapé fazem esse papel. O WhatsApp fixo é o do topo. */
+.atalhos{display:none}
+@media (min-width:1400px){
+  .atalhos{display:block;position:fixed;right:6px;bottom:max(16px,env(safe-area-inset-bottom));z-index:40;width:44px}
+}
+.fab-topo{display:grid;place-items:center;width:44px;height:44px;margin:0;padding:0;border:0;border-radius:50%;background:var(--tinta);color:var(--casco);font:inherit;cursor:pointer;box-shadow:0 8px 20px -6px rgba(15,42,51,.5),0 0 0 1px rgba(243,244,239,.25);transition:background-color .25s,transform .25s var(--ease),opacity .3s,visibility .3s;-webkit-tap-highlight-color:transparent}
 .fab-topo:hover{background:var(--tinta-2)}
+.fab-topo:active{transform:scale(.95)}
 .fab-topo svg{width:20px;height:20px}
 .atalhos [data-oculto]{opacity:0;visibility:hidden;transform:translateY(12px)}
 .atalhos{--foco:var(--tinta)}
-@media (max-width:640px){.fab-wpp{width:56px;padding:0}.fab-wpp .fab-txt{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}}
+.rodape-topo{display:inline-flex;align-items:center;gap:6px;min-height:24px;color:var(--casco);font-weight:600;text-decoration:none}
+.rodape-topo:hover{color:var(--azul-claro);text-decoration:underline}
+.rodape-topo svg{width:14px;height:14px}
 
 /* ---------- foto ampliada ---------- */
 dialog.foto-zoom{width:100%;max-width:none;height:100%;max-height:none;margin:0;padding:0;border:0;background:#0A1D24;color:var(--casco);overscroll-behavior:contain}
@@ -504,7 +507,7 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
 @keyframes zoom-abre{from{opacity:0}to{opacity:1}}
 
 @media (prefers-reduced-motion:reduce){.site *,.site *::before,.site *::after{transition:none!important;animation-duration:.001ms!important;animation-iteration-count:1!important}}
-@media (forced-colors:active){.btn,.rede,.seta,.mais,.fab,.pausa{border:1px solid ButtonText}.ext::after{background:LinkText}.topo-barra{background:Canvas}}
+@media (forced-colors:active){.btn,.rede,.seta,.mais,.fab-topo,.pausa{border:1px solid ButtonText}.ext::after{background:LinkText}.topo-barra{background:Canvas}}
 /*CSS-FIM*/
 </style>
 </head>
@@ -995,13 +998,13 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
     <div class="rodape-fim">
       <span>© 2026 Marina Boreste. Todos os direitos reservados.</span>
       <span>Segunda a domingo, das 8h às 17h</span>
+      <a class="rodape-topo" href="#inicio">Voltar ao topo <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 16V4M4.5 9.5 10 4l5.5 5.5"/></svg></a>
     </div>
   </div>
 </footer>
 
 <aside class="atalhos" aria-label="Atalhos">
-  <button class="fab fab-topo" type="button" id="volta-topo" data-oculto aria-label="Voltar ao topo"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 16V4M4.5 9.5 10 4l5.5 5.5"/></svg></button>
-  <a class="fab fab-wpp" href="https://wa.me/5512997292082" target="_blank" rel="noopener" data-oculto><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.6 20.4l1.3-4.4a8.4 8.4 0 1 1 3.2 3.1z"/><path d="M9.2 8.3c-.3 2.8 2.9 6.4 6.3 6.5l1-1.6-2-1.1-.9.9c-.9-.4-1.8-1.3-2.3-2.4l.9-.9-1.1-2z"/></svg><span class="fab-txt">WhatsApp</span><span class="sr"> da Marina Boreste (abre em nova aba)</span></a>
+  <button class="fab-topo" type="button" id="volta-topo" data-oculto aria-label="Voltar ao topo"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 16V4M4.5 9.5 10 4l5.5 5.5"/></svg></button>
 </aside>
 </div>
 <!--SITE-FIM-->
@@ -1400,12 +1403,18 @@ function iniciaSite(site){
 
   /* ----- estado ligado à posição da página: barra do topo, atalhos, seção atual ----- */
   const voltaTopo = $('#volta-topo');
+  /* blocos que ocupam a largura toda: o botão fixo some enquanto um deles passa por baixo dele */
+  const largos = $$('.hero, .servicos, .banda, .fita-caixa');
+  function margemLivre(){
+    const zona = {top: innerHeight - 90, bottom: innerHeight};
+    return !largos.some(el => { const r = el.getBoundingClientRect(); return r.top < zona.bottom && r.bottom > zona.top; });
+  }
   let solido = null, comAtalhos = null, pedido = 0;
   function aoRolar(){
     pedido = 0;
     const s = scrollY > Math.max(40, hero.offsetHeight - alturaTopo() - 20);
     if (s !== solido){ solido = s; topo.toggleAttribute('data-solido', s); }
-    const a = scrollY > VH * .9;
+    const a = scrollY > VH * .9 && margemLivre();
     if (a !== comAtalhos){
       comAtalhos = a;
       if (!a && site.querySelector('.atalhos :focus')) $('.topo .logo').focus({preventScroll: true});
