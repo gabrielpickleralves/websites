@@ -1316,7 +1316,11 @@ function iniciaSite(site){
   /* o mapa é de outro domínio: quando o foco entra nele, a moldura mostra o contorno */
   const mapaFrame = $('.mapa iframe'), moldura = $('.mapa-moldura');
   if (mapaFrame && moldura){
-    addEventListener('blur', () => setTimeout(() => moldura.toggleAttribute('data-foco', document.activeElement === mapaFrame), 0));
+    addEventListener('blur', () => setTimeout(() => {
+      const dentro = document.activeElement === mapaFrame;
+      moldura.toggleAttribute('data-foco', dentro);
+      if (dentro && peloTeclado()) garanteVisivel(mapaFrame);   // o navegador não rola até um iframe de outro domínio
+    }, 0));
     addEventListener('focus', () => moldura.removeAttribute('data-foco'));
     site.addEventListener('focusin', () => moldura.removeAttribute('data-foco'));
   }
