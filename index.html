@@ -200,7 +200,7 @@ body{margin:0;background:#F3F4EF;overflow-x:hidden}
 }
 
 /* ---------- menu ---------- */
-dialog.menu{width:100%;max-width:none;height:100%;max-height:none;margin:0;padding:0;border:0;background:var(--tinta);color:var(--casco);overscroll-behavior:contain}
+dialog.menu{width:100%;max-width:none;height:100%;max-height:none;margin:0;padding:0;border:0;background:var(--tinta);color:var(--casco);overscroll-behavior:contain;pointer-events:auto}  /* o topo é pointer-events:none; o menu dentro dele precisa receber toques */
 dialog.menu::backdrop{background:var(--tinta)}
 .menu-dentro{min-height:100%;display:grid;grid-template-rows:auto 1fr auto;padding:14px var(--gut) 32px}
 .menu-topo{display:flex;justify-content:space-between;align-items:center;gap:16px}
@@ -235,6 +235,7 @@ dialog.menu::backdrop{background:var(--tinta)}
 .hero h1 .linha{display:block}
 .hero h1 .w > span{white-space:nowrap}
 [data-anim] .hero h1 .w > span{transition-duration:1.15s}
+[data-anim] .hero:not([data-in]) .hero-txt{visibility:hidden}   /* só aparece com a Archivo já carregada: o título não muda de tamanho à vista */
 .hero-meio{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:clamp(14px,2vw,28px)}
 .hero-sub{max-width:21em;margin:0;font-size:clamp(1rem,1.25vw,1.2rem);line-height:1.35;font-weight:500;text-shadow:0 1px 18px rgba(10,29,36,.8)}
 .hero-lado{display:flex;align-items:center;gap:clamp(12px,2vw,28px);flex:none}
@@ -472,6 +473,7 @@ dialog.menu::backdrop{background:var(--tinta)}
 .rodape address{font-style:normal;color:#D6E2E5;line-height:1.5}
 .rodape .redes{margin-top:16px}
 .rodape-fim{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;margin-top:48px;padding-top:20px;border-top:1px solid rgba(243,244,239,.2);color:#8FAAB2;font-size:14px}
+@media (min-width:600px) and (max-width:899px){.rodape{grid-template-columns:1fr 1fr}}
 @media (min-width:900px){.rodape{grid-template-columns:1.5fr .8fr 1.2fr 1.2fr}}
 
 /* ---------- atalhos fixos: WhatsApp e voltar ao topo ---------- */
@@ -489,7 +491,7 @@ dialog.menu::backdrop{background:var(--tinta)}
 @media (max-width:640px){.fab-wpp{width:56px;padding:0}.fab-wpp .fab-txt{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}}
 
 /* ---------- foto ampliada ---------- */
-dialog.foto-zoom{width:100%;max-width:none;height:100%;max-height:none;margin:0;padding:0;border:0;background:rgba(10,29,36,.96);color:var(--casco);overscroll-behavior:contain}
+dialog.foto-zoom{width:100%;max-width:none;height:100%;max-height:none;margin:0;padding:0;border:0;background:#0A1D24;color:var(--casco);overscroll-behavior:contain}
 dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
 .zoom-dentro{display:grid;grid-template-rows:auto 1fr auto;height:100%;padding:12px var(--gut) 18px}
 .zoom-topo{display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:14px;font-weight:600;color:#B9CDD3;font-variant-numeric:tabular-nums}
@@ -1173,8 +1175,14 @@ function iniciaSite(site){
     observa();
     if ('MutationObserver' in window){ let espera = 0; new MutationObserver(() => { clearTimeout(espera); espera = setTimeout(observa, 120); }).observe(site, {childList: true, subtree: true}); }
     /* abertura: cortina com o logotipo, depois o título sobe e o topo aparece */
-    setTimeout(() => hero.setAttribute('data-in', ''), 1150);
-    setTimeout(() => topo.setAttribute('data-in', ''), 1500);
+    const espera = ms => new Promise(r => setTimeout(r, ms));
+    const archivoPronta = () => { let ok = false; if (document.fonts && document.fonts.forEach) document.fonts.forEach(f => { if (/Archivo/.test(f.family) && f.status === 'loaded') ok = true; }); return ok; };
+    const fonte = new Promise(r => {
+      if (!document.fonts || archivoPronta()) return r();
+      if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', () => { if (archivoPronta()) r(); });
+      setTimeout(r, 3000);                          // se a fonte demorar, segue com a de reserva
+    });
+    Promise.all([espera(1150), fonte]).then(() => { mede(); hero.setAttribute('data-in', ''); return espera(350); }).then(() => topo.setAttribute('data-in', ''));
   }
 
   /* ----- serviços: cartões num arco, movidos pela rolagem ----- */
@@ -1420,7 +1428,11 @@ function iniciaSite(site){
     quadro.forca = true; aoRolar();
   }
   mede();
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(mede);
+  /* a Archivo carrega sem bloquear a página: mede de novo quando ela chega */
+  if (document.fonts){
+    if (document.fonts.ready) document.fonts.ready.then(mede);
+    if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', mede);
+  }
   addEventListener('load', mede);
   addEventListener('resize', () => {
     const mudouLargura = innerWidth !== VW;
