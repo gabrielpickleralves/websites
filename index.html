@@ -16,7 +16,8 @@
      URL base: https://gabrielpickleralves.github.io/websites/
      Ela se repete em 6 lugares deste bloco: canonical, og:url, og:image e,
      no JSON-LD, "url", "image" e "logo". Para trocar de domínio, substitua a
-     URL nesses 6 lugares (buscar e substituir resolve).
+     URL nesses 6 lugares (buscar e substituir resolve) e também nos 3 de
+     biografia.html (canonical, og:url e og:image).
      Buscadores e redes sociais não executam JavaScript, então ela precisa estar
      escrita por extenso em cada um; por isso ficam todos juntos aqui.
      ======================================================================= -->
@@ -75,6 +76,7 @@
 <link rel="preload" as="image" type="image/avif" href="video/marina-boreste-barcos-capa-720.avif" imagesrcset="video/marina-boreste-barcos-capa-480.avif 480w, video/marina-boreste-barcos-capa-720.avif 720w" imagesizes="100vw" fetchpriority="high">
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap"></noscript>
+<!-- O <style> e o <script> desta página são iguais aos de biografia.html: ao mudar um, mude o outro. -->
 <style>
 /*CSS-INICIO*/
 *,*::before,*::after{box-sizing:border-box}
@@ -392,6 +394,10 @@ dialog.menu::backdrop{background:var(--tinta)}
 @media (max-width:860px){.numeros{grid-template-columns:1fr 1fr}}
 
 /* ---------- história ---------- */
+/* página interna (biografia): o título da página é um h1 com o tamanho dos títulos de seção, e
+   a primeira seção desce para não ficar sob o topo fixo, que nela já começa com a barra clara */
+.pagina-titulo{font-size:clamp(1.45rem,3.2vw + .9rem,5.4rem);line-height:1;overflow-wrap:break-word}
+.pagina-interna > .sec:first-child{padding-top:calc(var(--topo-h) + clamp(40px,6vw,96px))}
 .historia{display:grid;gap:clamp(32px,5vw,90px);margin-top:clamp(40px,6vw,90px)}
 .historia figure{margin:0}
 .historia figure .px{aspect-ratio:1}
@@ -523,7 +529,7 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
 .zoom-palco figure{margin:0;display:grid;justify-items:center;gap:12px;max-height:100%}
 .zoom-palco img{display:block;width:auto;height:auto;max-width:min(100%,var(--nw,1200px));max-height:calc(100dvh - 190px);object-fit:contain;background:var(--tinta)}
 .zoom-palco figcaption{max-width:60ch;margin:0;text-align:center;font-size:15px;color:#D6E2E5}
-.zoom-nav{display:flex;justify-content:center;gap:12px}
+.zoom-nav{display:flex;justify-content:center;gap:12px}.zoom-nav[hidden]{display:none}
 .zoom-nav .seta{border-color:var(--casco);color:var(--casco)}
 .zoom-nav .seta:hover{background:var(--casco);color:var(--tinta)}
 @media (prefers-reduced-motion:no-preference){dialog.foto-zoom[open]{animation:zoom-abre .3s ease both}}
@@ -571,7 +577,7 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
         <ul>
           <li><a href="#servicos" style="--i:0"><span>Serviços</span></a></li>
           <li><a href="#infraestrutura" style="--i:1"><span>Infraestrutura</span></a></li>
-          <li><a href="#historia" style="--i:2"><span>Nossa história</span></a></li>
+          <li><a href="biografia.html" style="--i:2"><span>Biografia</span></a></li>
           <li><a href="#pousada" style="--i:3"><span>Pousada Una</span></a></li>
           <li><a href="#localizacao" style="--i:4"><span>Localização</span></a></li>
           <li><a href="#contato" style="--i:5"><span>Vamos conversar?</span></a></li>
@@ -789,41 +795,6 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
 <!-- ================= FOTO DO PÍER ================= -->
 <div class="px banda" data-rvimg><button class="zoom" type="button" aria-label="Ampliar foto: lanchas atracadas em frente à garagem náutica"><picture><source type="image/avif" srcset="imagens/pier-garagem-nautica-640.avif 640w, imagens/pier-garagem-nautica-960.avif 960w, imagens/pier-garagem-nautica-1280.avif 1280w, imagens/pier-garagem-nautica-1920.avif 1920w" sizes="100vw"><source type="image/webp" srcset="imagens/pier-garagem-nautica-640.webp 640w, imagens/pier-garagem-nautica-960.webp 960w, imagens/pier-garagem-nautica-1280.webp 1280w, imagens/pier-garagem-nautica-1920.webp 1920w" sizes="100vw"><img src="imagens/pier-garagem-nautica.jpg" alt="Lanchas atracadas em frente à garagem náutica da Marina Boreste, no Rio Una" width="1920" height="960" loading="lazy" decoding="async"></picture></button></div>
 
-<!-- ================= HISTÓRIA + NÚMEROS ================= -->
-<section class="sec" id="historia" aria-labelledby="t-historia">
-  <div class="wrap">
-    <h2 class="tx" id="t-historia" tabindex="-1"><span class="w"><span>Nossa</span></span> <span class="w"><span>história</span></span></h2>
-
-    <ul class="numeros">
-      <li data-rv style="--i:0"><b><span data-conta="40">40</span><small>+ anos</small></b><span>de experiência nas águas de Barra do Una</span></li>
-      <li data-rv style="--i:1"><b><span data-conta="3000">3.000</span><small>m²</small></b><span>de galpões na garagem náutica</span></li>
-      <li data-rv style="--i:2"><b><span data-conta="10">10</span><small>t</small></b><span>por embarcação, sem empilhamento</span></li>
-      <li data-rv style="--i:3"><b><span data-conta="24">24</span><small>h</small></b><span>de monitoramento por câmeras</span></li>
-    </ul>
-
-    <div class="historia">
-      <figure>
-        <div class="px" data-rvimg><button class="zoom" type="button" aria-label="Ampliar foto: vista aérea da Marina Boreste"><picture><source type="image/avif" srcset="imagens/marina-vista-aerea-400.avif 400w, imagens/marina-vista-aerea-800.avif 800w" sizes="(min-width: 900px) min(44vw, 640px), calc(100vw - 32px)"><source type="image/webp" srcset="imagens/marina-vista-aerea-400.webp 400w, imagens/marina-vista-aerea-800.webp 800w" sizes="(min-width: 900px) min(44vw, 640px), calc(100vw - 32px)"><img src="imagens/marina-vista-aerea.jpg" alt="Vista aérea da Marina Boreste, entre o Rio Una e o mar" width="800" height="800" loading="lazy" decoding="async"></picture></button></div>
-        <figcaption>A Marina Boreste vista de cima, entre o Rio Una e o mar.</figcaption>
-      </figure>
-      <div class="historia-txt">
-        <div data-rv>
-          <img class="assinatura" src="imagens/logo-marina-boreste.svg" alt="Marina Boreste" width="470" height="180" loading="lazy" decoding="async">
-          <blockquote class="missao">
-            <span class="missao-rot">Missão</span>
-            <p>Proporcionar infraestrutura e serviços ideais para a guarda, manutenção, compra e venda de embarcações, sempre em harmonia com o meio ambiente, para que os clientes possam desfrutar da natureza e dos prazeres da atividade náutica.</p>
-          </blockquote>
-        </div>
-        <p data-rv>Não havia telefone celular nem GPS, não havia previsão do tempo e às vezes nem estradas. Mas mesmo assim, em meados da década de 70, Amandio Alves Pinto, um apaixonado pelo mar, saía com o seu barco navegando pela barra do Rio Una, mar afora, atraído pelas belezas do litoral norte de São Paulo.</p>
-        <p data-rv>Foi por esta paixão e pelo seu espírito visionário que, ainda nesta época, ele começou a desenvolver em sua propriedade, na beira do Rio Una, as primeiras atividades náuticas da Marina Boreste, sendo ponto de apoio para amigos e outros navegantes.</p>
-        <p data-rv>Com o tempo, a necessidade de facilitar o acesso a outros amantes do mar se tornava mais latente, e a Marina Boreste, acompanhando esta tendência, se organizava e se estruturava para atender os seus clientes cada vez melhor.</p>
-        <p data-rv>Hoje, administrada pela família, a Marina Boreste continua investindo constantemente em melhorias, está consolidada no mercado, e a satisfação dos seus clientes é a comprovação da qualidade de seus serviços.</p>
-        <p data-rv>E é neste clima de pioneirismo, amizade, honestidade e respeito à natureza que a Marina Boreste assume o compromisso de manter a sua embarcação sempre em boas mãos.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ================= POUSADA UNA ================= -->
 <section class="sec clara" id="pousada" aria-labelledby="t-pousada">
   <div class="wrap pousada">
@@ -964,7 +935,7 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
 <dialog class="foto-zoom" id="foto-zoom" aria-labelledby="zoom-titulo">
   <div class="zoom-dentro">
     <div class="zoom-topo">
-      <p id="zoom-titulo" style="margin:0">Foto <span data-zoom-n>1</span> de <span data-zoom-total>12</span></p>
+      <p id="zoom-titulo" style="margin:0">Foto <span data-zoom-n>1</span> de <span data-zoom-total>11</span></p>
       <button class="btn btn-linha" type="button" data-zoom-fecha>Fechar</button>
     </div>
     <div class="zoom-palco"><figure><img src="imagens/barra-do-una.jpg" alt="" width="840" height="900" loading="lazy" data-zoom-img><figcaption data-zoom-legenda></figcaption></figure></div>
@@ -989,7 +960,7 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
         <ul>
           <li><a href="#servicos">Serviços</a></li>
           <li><a href="#infraestrutura">Infraestrutura</a></li>
-          <li><a href="#historia">Nossa história</a></li>
+          <li><a href="biografia.html">Biografia</a></li>
           <li><a href="#localizacao">Localização</a></li>
           <li><a href="#contato">Vamos conversar?</a></li>
         </ul>
@@ -1125,10 +1096,10 @@ function iniciaSite(site){
   fechaBtn.addEventListener('click', fechaMenu);
 
   /* ----- links internos: rolam até a seção e levam o foco ao título dela ----- */
-  function vaiPara(alvo, suave, semHistorico){
+  function vaiPara(alvo, suave, semHistorico, folga){
     const foco = alvo.matches('main,h1,h2,[tabindex="-1"]') ? alvo : (alvo.querySelector('h1,h2') || alvo);
     if (!foco.hasAttribute('tabindex') && !foco.matches(FOCAVEIS)) foco.setAttribute('tabindex', '-1');
-    const y = alvo.id === 'inicio' ? 0 : alvo.getBoundingClientRect().top + scrollY - alturaTopo() - 12;
+    const y = alvo.id === 'inicio' ? 0 : alvo.getBoundingClientRect().top + scrollY - (folga || alturaTopo() + 12);
     rolaPara(Math.max(0, y), suave);
     foco.focus({preventScroll: true});
     if (!semHistorico && history.pushState) history.pushState(null, '', '#' + alvo.id);
@@ -1365,6 +1336,7 @@ function iniciaSite(site){
   const fotos = $$('button.zoom');
   let zi = 0, zOrigem = null;
   zTot.textContent = fotos.length;
+  if (fotos.length < 2) $('.zoom-nav', zoom).hidden = true;   // uma foto só: sem setas de anterior e próxima
   prendeFoco(zoom);
   function mostraFoto(i, avisa){
     zi = (i + fotos.length) % fotos.length;
@@ -1494,9 +1466,24 @@ function iniciaSite(site){
   }
   addEventListener('load', () => {
     mede();
-    /* chegando de outra página com #seção no endereço: as medidas mudam a altura da página, então rola de novo até a seção */
+    /* chegando de outra página com #seção no endereço: o navegador desliza até a seção sozinho, mas as medidas acima
+       mudam a altura da página no caminho. Quando a rolagem para, acerta a posição (abaixo do topo já compacto);
+       se depois disso só a rolagem mudar, e não a página, é a pessoa rolando, e a correção para.
+       Voltar e recarregar mantêm a posição que o navegador guardou. */
     const alvo = location.hash.length > 1 && document.getElementById(decodeURIComponent(location.hash.slice(1)));
-    if (alvo && alvo !== hero) setTimeout(() => vaiPara(alvo, false, true), 60);
+    const nav = performance.getEntriesByType ? performance.getEntriesByType('navigation')[0] : null;
+    if (!alvo || alvo === hero || (nav && nav.type !== 'navigate')) return;
+    const folga = parseFloat(getComputedStyle(raiz).scrollPaddingTop) || 0;
+    let espera = 0, solto = false, feito = null;
+    const acerta = () => { clearTimeout(espera); if (!solto) espera = setTimeout(() => {
+      const naPagina = Math.round(alvo.getBoundingClientRect().top + scrollY);
+      if (feito !== null && Math.abs(naPagina - feito) < 2) return solta();
+      feito = naPagina; vaiPara(alvo, true, true, folga);
+    }, 100); };
+    const solta = () => { solto = true; clearTimeout(espera); removeEventListener('scroll', acerta); };
+    ['wheel', 'touchstart', 'pointerdown', 'keydown'].forEach(t => addEventListener(t, solta, {once: true, passive: true}));
+    addEventListener('scroll', acerta, {passive: true});
+    acerta(); setTimeout(solta, 2500);
   });
   addEventListener('resize', () => {
     const mudouLargura = innerWidth !== VW;
