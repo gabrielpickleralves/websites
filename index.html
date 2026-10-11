@@ -346,8 +346,18 @@ dialog.menu::backdrop{background:var(--tinta)}
 [data-pin] .arco-prog{display:grid;gap:9px;min-width:min(250px,56vw);font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--cinza)}
 .arco-num{font-size:15px;color:var(--tinta)}
 .arco-prog i{position:relative;display:block;height:2px;background:rgba(15,42,51,.16);overflow:hidden}
-@media (max-width:700px){[data-pin] .servicos-cab{gap:14px}.arco-prog span:last-child{display:none}}
+@media (max-width:700px){[data-pin] .servicos-cab{gap:14px}[data-pin] .arco-dica{display:none}}
 .arco-prog i::after{content:"";position:absolute;inset:0;background:var(--azul-texto);transform-origin:0 50%;transform:scaleX(var(--p,0))}
+.arco-dica-desliza{display:none}
+
+/* serviços no celular e em telas de toque: faixa que se desliza com o dedo, parando em cada cartão;
+   a rolagem da página não fica presa e um pedaço do próximo cartão aparece na borda */
+[data-faixa] .arco{scroll-snap-type:x mandatory;scroll-padding-inline:var(--gut);overscroll-behavior-x:contain;padding-block:24px 40px}
+[data-faixa] .cartao{flex:0 0 min(78vw,350px);scroll-snap-align:start;scroll-snap-stop:always}
+[data-faixa] .arco-prog{display:grid;gap:9px;min-width:min(250px,56vw);font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--cinza)}
+[data-faixa] .arco-dica-rola{display:none}
+[data-faixa] .arco-dica-desliza{display:block}
+@media (hover:none) and (pointer:coarse){[data-faixa] .setas{display:none}}
 
 /* ---------- infraestrutura: lâminas que empilham ---------- */
 .infra-cab{display:grid;gap:20px;margin-bottom:clamp(36px,5vw,72px)}
@@ -646,7 +656,7 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
         <button class="seta" type="button" data-dir="-1" aria-label="Serviço anterior" aria-controls="arco"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 3 5 9l6 6"/></svg></button>
         <button class="seta" type="button" data-dir="1" aria-label="Próximo serviço" aria-controls="arco"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m7 3 6 6-6 6"/></svg></button>
       </div>
-      <div class="arco-prog" aria-hidden="true"><span class="arco-num">1 / 9</span><i></i><span>Role para passar pelos serviços</span></div>
+      <div class="arco-prog" aria-hidden="true"><span class="arco-num">1 / 9</span><i></i><span class="arco-dica arco-dica-rola">Role para passar pelos serviços</span><span class="arco-dica arco-dica-desliza">Deslize para o lado para ver os serviços</span></div>
     </div>
 
     <ul class="arco" id="arco" tabindex="0" aria-label="Serviços da Marina Boreste">
@@ -1115,13 +1125,13 @@ function iniciaSite(site){
   fechaBtn.addEventListener('click', fechaMenu);
 
   /* ----- links internos: rolam até a seção e levam o foco ao título dela ----- */
-  function vaiPara(alvo, suave){
+  function vaiPara(alvo, suave, semHistorico){
     const foco = alvo.matches('main,h1,h2,[tabindex="-1"]') ? alvo : (alvo.querySelector('h1,h2') || alvo);
     if (!foco.hasAttribute('tabindex') && !foco.matches(FOCAVEIS)) foco.setAttribute('tabindex', '-1');
     const y = alvo.id === 'inicio' ? 0 : alvo.getBoundingClientRect().top + scrollY - alturaTopo() - 12;
     rolaPara(Math.max(0, y), suave);
     foco.focus({preventScroll: true});
-    if (history.pushState) history.pushState(null, '', '#' + alvo.id);
+    if (!semHistorico && history.pushState) history.pushState(null, '', '#' + alvo.id);
   }
   site.addEventListener('click', e => {
     const a = e.target.closest('a[href^="#"]');
@@ -1134,17 +1144,19 @@ function iniciaSite(site){
   });
 
   /* ----- menu indica a seção atual ----- */
-  const secoes = linksMenu.map(a => document.getElementById(a.hash.slice(1))).filter(Boolean);
+  const nestaPagina = a => a.getAttribute('href').charAt(0) === '#' && document.getElementById(a.hash.slice(1));
+  const linksSecao = linksMenu.filter(nestaPagina), secoes = linksSecao.map(a => document.getElementById(a.hash.slice(1)));
   function marcaSecao(){
     const meio = VH * .45; let atual = null;
     secoes.forEach(s => { const r = s.getBoundingClientRect(); if (r.top <= meio && r.bottom > meio) atual = s; });
-    linksMenu.forEach(a => { if (atual && a.hash === '#' + atual.id) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current'); });
+    linksSecao.forEach(a => { if (atual && a.hash === '#' + atual.id) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current'); });
   }
 
   /* ----- título do hero: metade da largura inteira, com piso de 46px no celular ----- */
   const titulo = $('#titulo');
-  titulo.setAttribute('tabindex', '-1');
+  if (titulo) titulo.setAttribute('tabindex', '-1');
   function ajustaTitulo(){
+    if (!titulo) return;
     const linhas = $$('.w > span', titulo);
     titulo.style.fontSize = '100px';
     const maior = Math.max.apply(null, linhas.map(l => l.getBoundingClientRect().width));
@@ -1198,21 +1210,26 @@ function iniciaSite(site){
       setTimeout(r, 3000);                          // se a fonte demorar, segue com a de reserva
     });
     const semCortina = site.hasAttribute('data-sem-cortina');
-    Promise.all([espera(semCortina ? 0 : 1150), fonte]).then(() => { mede(); hero.setAttribute('data-in', ''); return espera(semCortina ? 150 : 350); }).then(() => topo.setAttribute('data-in', ''));
+    Promise.all([espera(semCortina ? 0 : 1150), fonte]).then(() => { mede(); if (hero) hero.setAttribute('data-in', ''); return espera(semCortina ? 150 : 350); }).then(() => topo.setAttribute('data-in', ''));
   }
 
   /* ----- serviços: cartões num arco, movidos pela rolagem ----- */
   const secServ = $('.servicos'), pista = $('.arco-pista'), palco = $('.arco-palco'), cab = $('.servicos-cab'), arco = $('.arco');
-  const cartoes = $$('.cartao', arco), prog = $('.arco-prog'), progNum = $('.arco-num'), setas = $$('.seta', cab);
+  const cartoes = arco ? $$('.cartao', arco) : [], prog = $('.arco-prog'), progNum = $('.arco-num'), setas = cab ? $$('.seta', cab) : [];
   let pin = false, cw = 300, R = 2400, tmax = .3, sig = .2, ativo = -1;
+  /* celular e telas de toque: os cartões ficam numa faixa que se desliza com o dedo, sem prender a rolagem da página */
+  const mqFaixa = matchMedia('(hover: none) and (pointer: coarse), (max-width: 700px)');
   function medeArco(){
-    const pode = anima && VH >= 560;
+    if (!arco) return;
+    const faixa = mqFaixa.matches;
+    secServ.toggleAttribute('data-faixa', faixa);
+    const pode = anima && VH >= 560 && !faixa;
     if (pode !== pin){
       pin = pode;
       if (pin){ secServ.setAttribute('data-pin', ''); arco.removeAttribute('tabindex'); }
       else { secServ.removeAttribute('data-pin'); arco.setAttribute('tabindex', '0'); pista.style.height = ''; cartoes.forEach(c => { c.style.transform = ''; }); }
     }
-    if (!pin){ atualizaSetas(); return; }
+    if (!pin){ atualizaSetas(); ativo = -1; atualizaFaixa(); return; }
     const W = palco.clientWidth, area = VH - cab.offsetHeight;
     cw = lim((area - 64) / 1.35, 170, lim(W < 700 ? W * .66 : W * .24, 230, 350));
     palco.style.setProperty('--cw', cw.toFixed(1) + 'px');
@@ -1243,14 +1260,26 @@ function iniciaSite(site){
     rolaPara(r.top + scrollY + (i / (n - 1)) * (r.height - VH), false);
     sy = scrollY; desenhaArco(sy);
   }
+  /* faixa: o contador e a barra acompanham a rolagem lateral */
+  function atualizaFaixa(){
+    if (pin || !secServ.hasAttribute('data-faixa')) return;
+    const n = cartoes.length, max = arco.scrollWidth - arco.clientWidth, x = arco.scrollLeft;
+    const passo = n > 1 ? cartoes[1].offsetLeft - cartoes[0].offsetLeft : 1;
+    const i = x >= max - 2 ? n - 1 : lim(Math.round(x / passo), 0, n - 1);   // no fim, o último cartão não chega à borda esquerda
+    prog.style.setProperty('--p', (max > 0 ? x / max : 0).toFixed(4));
+    if (i !== ativo){ ativo = i; progNum.textContent = (i + 1) + ' / ' + n; }
+  }
+  if (arco){
   arco.addEventListener('focusin', e => { const c = e.target.closest('.cartao'); if (c && pin && peloTeclado()) centraCartao(c); });
+  if (mqFaixa.addEventListener) mqFaixa.addEventListener('change', () => mede());
+  }
   function atualizaSetas(){
-    if (pin) return;
+    if (pin || !arco) return;
     const fim = arco.scrollWidth - arco.clientWidth - 2;
     setas[0].setAttribute('aria-disabled', arco.scrollLeft <= 2 ? 'true' : 'false');
     setas[1].setAttribute('aria-disabled', arco.scrollLeft >= fim ? 'true' : 'false');
   }
-  arco.addEventListener('scroll', () => requestAnimationFrame(atualizaSetas), {passive: true});
+  if (arco) arco.addEventListener('scroll', () => requestAnimationFrame(() => { atualizaSetas(); atualizaFaixa(); }), {passive: true});
   setas.forEach(b => b.addEventListener('click', () => {
     if (b.getAttribute('aria-disabled') === 'true') return;
     arco.scrollBy({left: Number(b.getAttribute('data-dir')) * (cartoes[0].offsetWidth + 30), behavior: reduz ? 'auto' : 'smooth'});
@@ -1264,7 +1293,7 @@ function iniciaSite(site){
       if (abrir){ c.setAttribute('data-aberto', ''); b.setAttribute('aria-expanded', 'true'); }
     });
   });
-  arco.addEventListener('keydown', e => {
+  if (arco) arco.addEventListener('keydown', e => {
     if (e.key !== 'Escape') return;
     const c = e.target.closest('.cartao[data-aberto]');
     if (c){ fechaCartao(c); $('.mais', c).focus(); e.preventDefault(); }
@@ -1274,6 +1303,7 @@ function iniciaSite(site){
   const caixaLams = $('.lams'), lams = $$('.lam');
   let pilha = false;
   function medePilha(){
+    if (!caixaLams) return;
     const h = alturaTopo();
     const cabe = anima && lams.every((l, i) => l.offsetHeight <= VH - h - 4 - i * 12 - 20);
     if (cabe === pilha) return;
@@ -1293,7 +1323,7 @@ function iniciaSite(site){
     });
   }
   /* teclado: a lâmina focada volta para o lugar dela na pilha, sem ficar coberta pela seguinte */
-  caixaLams.addEventListener('focusin', e => {
+  if (caixaLams) caixaLams.addEventListener('focusin', e => {
     const l = e.target.closest('.lam'); if (!l || !pilha || !peloTeclado()) return;
     const i = lams.indexOf(l), base = caixaLams.getBoundingClientRect().top + scrollY;
     let y = base; for (let j = 0; j < i; j++) y += lams[j].offsetHeight + 18;
@@ -1326,7 +1356,9 @@ function iniciaSite(site){
   }
 
   /* ----- fotos que ampliam ----- */
-  const zoom = $('#foto-zoom'), zImg = $('[data-zoom-img]', zoom), zLeg = $('[data-zoom-legenda]', zoom);
+  const zoom = $('#foto-zoom');
+  if (zoom){
+  const zImg = $('[data-zoom-img]', zoom), zLeg = $('[data-zoom-legenda]', zoom);
   const zN = $('[data-zoom-n]', zoom), zTot = $('[data-zoom-total]', zoom), zAviso = document.createElement('p');
   zAviso.className = 'sr'; zAviso.setAttribute('aria-live', 'polite'); zoom.appendChild(zAviso);
   zLeg.setAttribute('aria-hidden', 'true');
@@ -1367,6 +1399,7 @@ function iniciaSite(site){
     if (x0 === null) return; const dx = e.clientX - x0; x0 = null;
     if (Math.abs(dx) > 50) mostraFoto(zi + (dx < 0 ? 1 : -1), true);
   });
+  }
 
   /* ----- rolagem: tudo o que acompanha a página é desenhado aqui, com um leve atraso suave ----- */
   const midia = $('.hero-midia'), heroTxt = $('.hero-txt');
@@ -1385,7 +1418,7 @@ function iniciaSite(site){
 
     if (!parado){
       /* topo: o vídeo aprofunda e o título sobe um pouco */
-      const hh = hero.offsetHeight;
+      const hh = hero ? hero.offsetHeight : 0;
       if (sy < hh){
         const k = sy / hh;
         midia.style.transform = 'translate3d(0,' + (k * hh * .22).toFixed(1) + 'px,0) scale(' + (1 + k * .1).toFixed(4) + ')';
@@ -1434,7 +1467,7 @@ function iniciaSite(site){
   let solido = null, comAtalhos = null, pedido = 0;
   function aoRolar(){
     pedido = 0;
-    const s = scrollY > Math.max(40, hero.offsetHeight - alturaTopo() - 20);
+    const s = !hero || scrollY > Math.max(40, hero.offsetHeight - alturaTopo() - 20);   // sem o vídeo do início, a barra fica sempre clara
     if (s !== solido){ solido = s; topo.toggleAttribute('data-solido', s); }
     const a = scrollY > VH * .9 && margemLivre();
     if (a !== comAtalhos){
@@ -1459,7 +1492,12 @@ function iniciaSite(site){
     if (document.fonts.ready) document.fonts.ready.then(mede);
     if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', mede);
   }
-  addEventListener('load', mede);
+  addEventListener('load', () => {
+    mede();
+    /* chegando de outra página com #seção no endereço: as medidas mudam a altura da página, então rola de novo até a seção */
+    const alvo = location.hash.length > 1 && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (alvo && alvo !== hero) setTimeout(() => vaiPara(alvo, false, true), 60);
+  });
   addEventListener('resize', () => {
     const mudouLargura = innerWidth !== VW;
     if (mudouLargura || Math.abs(innerHeight - VH) > 140){ VH = innerHeight; if (!plano) site.style.setProperty('--vh', VH + 'px'); }
@@ -1470,7 +1508,7 @@ function iniciaSite(site){
   /* ----- copiar coordenadas ----- */
   const copia = $('#copia'), copiaStatus = $('#copia-status');
   let copiaT = 0;
-  copia.addEventListener('click', () => {
+  if (copia) copia.addEventListener('click', () => {
     const coord = $('#coord'), texto = coord.textContent;
     const fim = ok => {
       copia.textContent = ok ? 'Coordenadas copiadas' : 'Selecione e copie o texto ao lado';
@@ -1492,6 +1530,7 @@ function iniciaSite(site){
     mensagem: v => v.trim() ? '' : 'Escreva a sua mensagem.'
   };
   const tocado = {};
+  if (!form) return;
   function valida(nome){
     const campo = form.elements[nome], erro = $('#e-' + nome), msg = regras[nome](campo.value);
     if (msg){
