@@ -30,7 +30,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap"></noscript>
-<!-- O <style> e o <script> desta página são iguais aos de index.html: ao mudar um, mude o outro. -->
+<!-- Topo, Menu, rodapé, estilo e script vêm de index.html: mude lá e rode _ferramentas/paginas.py -->
 <style>
 /*CSS-INICIO*/
 *,*::before,*::after{box-sizing:border-box}
@@ -162,6 +162,13 @@ body{margin:0;background:#F3F4EF;overflow-x:hidden}
 .topo .btn-azul{border-color:rgba(15,42,51,.3)}
 .topo:not([data-solido]) .btn-tinta{background:rgba(15,42,51,.55);backdrop-filter:blur(6px)}
 .topo-wpp .wpp-txt{display:inline}
+/* páginas à vista no topo, no estilo dos botões; onde não cabem (celular e tablet), ficam só no Menu, em destaque */
+.topo-links{display:none;gap:8px}
+@media (min-width:1000px){.topo-links{display:flex}}
+.topo-links .btn{color:var(--tinta);border-color:rgba(15,42,51,.3)}
+.topo-links .btn[aria-current]{color:var(--azul-texto);border-color:var(--azul-texto)}
+.topo:not([data-solido]) .topo-links .btn{color:var(--casco);border-color:rgba(243,244,239,.45);background:rgba(15,42,51,.5);backdrop-filter:blur(6px)}
+.topo:not([data-solido]) .topo-links .btn:hover{background:rgba(15,42,51,.6)}
 @media (max-width:520px){
   .topo-wpp{width:48px;padding:0}
   .topo-wpp .wpp-txt{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
@@ -182,6 +189,14 @@ dialog.menu::backdrop{background:var(--tinta)}
 .menu nav a[aria-current] span{color:var(--azul-claro)}
 .menu nav a[aria-current] span::before{content:"";display:inline-block;width:.32em;height:.32em;margin:0 .3em .14em 0;border-radius:50%;background:var(--azul);vertical-align:middle}
 .menu nav a:focus-visible{outline-offset:2px}
+/* páginas em destaque no alto do Menu, como botões */
+.menu nav .menu-destaques{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:clamp(22px,3.4vw,40px)}
+.menu nav .menu-destaques a{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border:1px solid var(--azul-claro);border-radius:999px;color:var(--azul-claro);font-family:inherit;font-stretch:100%;font-variation-settings:normal;font-weight:600;font-size:clamp(16px,.6vw + 13px,19px);letter-spacing:0;text-transform:none;line-height:1.2}
+.menu nav .menu-destaques a:hover{background:rgba(127,203,238,.14)}
+.menu nav .menu-destaques a:hover span{color:inherit}
+.menu nav .menu-destaques a[aria-current]{background:var(--azul);border-color:var(--azul);color:var(--tinta)}
+.menu nav .menu-destaques a[aria-current] span{color:inherit}
+.menu nav .menu-destaques a[aria-current] span::before{background:var(--tinta)}
 @media (prefers-reduced-motion:no-preference){
   dialog.menu[open] nav a span{animation:menu-sobe .8s var(--ease) both;animation-delay:calc(var(--i)*55ms + 80ms)}
   dialog.menu[open]{animation:menu-abre .45s cubic-bezier(.7,0,.2,1) both}
@@ -364,6 +379,34 @@ dialog.menu::backdrop{background:var(--tinta)}
    a primeira seção desce para não ficar sob o topo fixo, que nela já começa com a barra clara */
 .pagina-titulo{font-size:clamp(1.45rem,3.2vw + .9rem,5.4rem);line-height:1;overflow-wrap:break-word}
 .pagina-interna > .sec:first-child{padding-top:calc(var(--topo-h) + clamp(40px,6vw,96px))}
+/* compra e venda de barcos: abertura, cartões montados a partir de dados/barcos.js e convite para anunciar */
+.vendas-abertura{padding-bottom:0}
+.vendas-intro{max-width:34em;margin:clamp(18px,2.4vw,30px) 0 0;font-size:clamp(1.05rem,.5vw + .95rem,1.3rem);color:var(--cinza)}
+.vendas-lista{padding-top:clamp(56px,7vw,110px)}
+.barcos{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:clamp(18px,2.4vw,32px);margin:clamp(28px,4vw,48px) 0 0;padding:0;list-style:none}
+.barco{display:flex;flex-direction:column;background:#fff;border:1px solid rgba(15,42,51,.12)}
+.barco-foto{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--espuma)}
+.barco-foto img{width:100%;height:100%;object-fit:cover}
+.barco[data-vendido] .barco-foto img{filter:grayscale(.75)}
+.barco-sem-foto{display:grid;place-items:center}
+.barco-foto.barco-sem-foto img{width:46%;height:auto;opacity:.4}
+.barco-etiqueta{position:absolute;top:14px;left:14px;padding:5px 12px;border-radius:999px;background:var(--tinta);color:var(--casco);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.barco-corpo{display:flex;flex-direction:column;gap:14px;flex:1;padding:clamp(18px,2vw,26px)}
+.barco-dados{display:flex;flex-wrap:wrap;gap:6px 20px;margin:0;font-size:15px}
+.barco-dados div{display:flex;gap:6px}
+.barco-dados dt{color:var(--cinza)}
+.barco-dados dd{margin:0;font-weight:600}
+.barco-desc{margin:0;color:var(--cinza)}
+.barco-preco{margin:auto 0 0;padding-top:6px;font-size:clamp(1.2rem,1vw + .9rem,1.5rem);font-weight:700}
+.barco .btn{width:100%;padding:10px 18px;text-align:center;text-wrap:balance}
+.barcos-vazio{display:grid;justify-items:start;gap:20px;max-width:40em;margin-top:clamp(24px,3vw,40px);padding:clamp(22px,3vw,36px);border:1px solid rgba(15,42,51,.12);background:#fff}
+.barcos-vazio[hidden]{display:none}
+.barcos-vazio p{margin:0;font-size:clamp(1.05rem,.4vw + .95rem,1.2rem)}
+.vender{background:var(--tinta-2)}   /* um tom acima do rodapé, para os dois blocos escuros não se fundirem */
+.vender-dentro{display:grid;gap:clamp(22px,3vw,40px)}
+.vender-texto{display:grid;justify-items:start;gap:24px;max-width:34em}
+.vender-texto p{margin:0;font-size:clamp(1.05rem,.5vw + .95rem,1.3rem);color:#C9D9DE}
+@media (min-width:900px){.vender-dentro{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:end}}
 .historia{display:grid;gap:clamp(32px,5vw,90px);margin-top:clamp(40px,6vw,90px)}
 .historia figure{margin:0}
 .historia figure .px{aspect-ratio:1}
@@ -528,6 +571,10 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
       <img class="logo-claro" src="imagens/logo-marina-boreste.svg" alt="" width="470" height="180">
     </a>
     <div class="topo-acoes">
+      <nav class="topo-links" aria-label="Páginas do site">
+        <a class="btn btn-linha" href="biografia.html" aria-current="page">Biografia</a>
+        <a class="btn btn-linha" href="compra-e-venda.html">Compra e venda de barcos</a>
+      </nav>
       <a class="btn btn-azul topo-wpp" href="https://wa.me/5512997292082" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.6 20.4l1.3-4.4a8.4 8.4 0 1 1 3.2 3.1z"/><path d="M9.2 8.3c-.3 2.8 2.9 6.4 6.3 6.5l1-1.6-2-1.1-.9.9c-.9-.4-1.8-1.3-2.3-2.4l.9-.9-1.1-2z"/></svg><span class="wpp-txt">WhatsApp</span><span class="sr"> da Marina Boreste (abre em nova aba)</span></a>
       <button class="btn btn-tinta" id="abre-menu" type="button" aria-haspopup="dialog" aria-expanded="false">Menu</button>
     </div>
@@ -539,14 +586,17 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
         <a class="logo" href="index.html" aria-label="Marina Boreste, voltar ao início" data-fecha-menu><img src="imagens/logo-marina-boreste-negativo.svg" alt="" width="470" height="180"></a>
         <button class="btn btn-linha" id="fecha-menu" type="button">Fechar</button>
       </div>
-      <nav aria-label="Seções da página">
+      <nav aria-label="Páginas e seções do site">
+        <ul class="menu-destaques">
+          <li><a href="biografia.html" aria-current="page" style="--i:0"><span>Biografia</span></a></li>
+          <li><a href="compra-e-venda.html" style="--i:1"><span>Compra e venda de barcos</span></a></li>
+        </ul>
         <ul>
-          <li><a href="index.html#servicos" style="--i:0"><span>Serviços</span></a></li>
-          <li><a href="index.html#infraestrutura" style="--i:1"><span>Infraestrutura</span></a></li>
-          <li><a href="biografia.html" aria-current="page" style="--i:2"><span>Biografia</span></a></li>
-          <li><a href="index.html#pousada" style="--i:3"><span>Pousada Una</span></a></li>
-          <li><a href="index.html#localizacao" style="--i:4"><span>Localização</span></a></li>
-          <li><a href="index.html#contato" style="--i:5"><span>Vamos conversar?</span></a></li>
+          <li><a href="index.html#servicos" style="--i:2"><span>Serviços</span></a></li>
+          <li><a href="index.html#infraestrutura" style="--i:3"><span>Infraestrutura</span></a></li>
+          <li><a href="index.html#pousada" style="--i:4"><span>Pousada Una</span></a></li>
+          <li><a href="index.html#localizacao" style="--i:5"><span>Localização</span></a></li>
+          <li><a href="index.html#contato" style="--i:6"><span>Vamos conversar?</span></a></li>
         </ul>
       </nav>
       <div class="menu-pe">
@@ -562,6 +612,7 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
   </dialog>
 </header>
 
+<!--PAGINA-INICIO-->
 <main id="conteudo" class="pagina-interna" tabindex="-1">
 
 <!-- ================= NOSSA HISTÓRIA: NÚMEROS, MISSÃO E BIOGRAFIA ================= -->
@@ -614,6 +665,7 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
   </div>
 </dialog>
 </main>
+<!--PAGINA-FIM-->
 
 <!-- ================= RODAPÉ ================= -->
 <footer class="escuro rodape-sec">
@@ -674,6 +726,10 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
 </aside>
 </div>
 <!--SITE-FIM-->
+
+<!--SCRIPTS-PAGINA-INICIO-->
+
+<!--SCRIPTS-PAGINA-FIM-->
 
 <script>
 /*JS-INICIO*/
