@@ -361,6 +361,18 @@ dialog.menu::backdrop{background:var(--tinta)}
 [data-faixa] .arco-dica-desliza{display:block}
 @media (hover:none) and (pointer:coarse){[data-faixa] .setas{display:none}}
 
+/* timão de madeira decorativo: aparece no pé da seção, logo abaixo dos cartões e atrás deles, sem receber cliques;
+   o centro fica um pouco abaixo da borda (aparecem 39% da imagem). Gira junto com o progresso dos serviços
+   (um raio, 45°, por cartão), em volta do centro da imagem. No desktop o script mede o tamanho pelo pé dos cartões */
+.arco-palco{position:relative;isolation:isolate;--timao:min(56vw,640px)}
+.timao-caixa{position:absolute;left:0;right:0;bottom:0;z-index:-1;height:calc(var(--timao) * .39);overflow:hidden;pointer-events:none}
+.timao-caixa .timao{position:absolute;top:0;left:50%;width:var(--timao);max-width:none;height:var(--timao);margin-left:calc(var(--timao) / -2);will-change:transform}
+[data-pin] .arco-palco{--timao:min(60vw,calc(var(--vh) * .9))}
+[data-faixa] .arco-palco{--timao:min(92vw,420px)}
+[data-faixa] .arco{padding-bottom:calc(var(--timao) * .3)}
+[data-anim] .timao-caixa{opacity:0;transition:opacity 1.2s ease .3s}
+[data-anim] .arco-palco[data-in] .timao-caixa{opacity:1}
+
 /* ---------- infraestrutura: lâminas que empilham ---------- */
 .infra-cab{display:grid;gap:20px;margin-bottom:clamp(36px,5vw,72px)}
 .infra-cab p{max-width:34em;margin:0;color:#B9CDD3}
@@ -653,6 +665,11 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
 <section class="servicos" id="servicos" aria-labelledby="t-servicos">
  <div class="arco-pista">
   <div class="arco-palco">
+    <!-- timão de madeira decorativo: aparece no pé da seção, logo abaixo dos cartões e atrás deles,
+         e gira um raio (45°) por serviço -->
+    <div class="timao-caixa" aria-hidden="true">
+      <picture><source type="image/avif" srcset="imagens/timao-de-madeira-500.avif 500w, imagens/timao-de-madeira-800.avif 800w, imagens/timao-de-madeira-1200.avif 1200w, imagens/timao-de-madeira-1600.avif 1600w" sizes="(max-width: 700px) 92vw, 62vw"><source type="image/webp" srcset="imagens/timao-de-madeira-500.webp 500w, imagens/timao-de-madeira-800.webp 800w, imagens/timao-de-madeira-1200.webp 1200w, imagens/timao-de-madeira-1600.webp 1600w" sizes="(max-width: 700px) 92vw, 62vw"><img class="timao" src="imagens/timao-de-madeira-800.webp" alt="" width="1600" height="1600" loading="lazy" decoding="async"></picture>
+    </div>
     <div class="wrap servicos-cab">
       <div>
         <h2 class="tx" id="t-servicos" tabindex="-1"><span class="w"><span>Serviços</span></span></h2>
@@ -1188,6 +1205,13 @@ function iniciaSite(site){
   const secServ = $('.servicos'), pista = $('.arco-pista'), palco = $('.arco-palco'), cab = $('.servicos-cab'), arco = $('.arco');
   const cartoes = arco ? $$('.cartao', arco) : [], prog = $('.arco-prog'), progNum = $('.arco-num'), setas = cab ? $$('.seta', cab) : [];
   let pin = false, cw = 300, R = 2400, tmax = .3, sig = .2, ativo = -1;
+  /* timão: gira um raio (45°) a cada cartão, preso à mesma posição que move os cartões; com movimento reduzido, fica parado.
+     No arco do desktop ele segue a rolagem já suavizada; na faixa, alcança a posição em uns 0,2 s, para não saltar
+     onde duas paradas ficam a poucos pixels uma da outra (o último cartão, em tablets) */
+  const timao = $('.timao');
+  let giro = 0, giroAlvo = 0;
+  function desenhaGiro(g){ giro = g; timao.style.transform = 'rotate(' + g.toFixed(2) + 'deg)'; }
+  function giraTimao(k, ja){ if (!timao || reduz) return; giroAlvo = k * 45; if (ja || !anima) desenhaGiro(giroAlvo); }
   /* celular e telas de toque: os cartões ficam numa faixa que se desliza com o dedo, sem prender a rolagem da página */
   const mqFaixa = matchMedia('(hover: none) and (pointer: coarse), (max-width: 700px)');
   function medeArco(){
@@ -1200,7 +1224,7 @@ function iniciaSite(site){
       if (pin){ secServ.setAttribute('data-pin', ''); arco.removeAttribute('tabindex'); }
       else { secServ.removeAttribute('data-pin'); arco.setAttribute('tabindex', '0'); pista.style.height = ''; cartoes.forEach(c => { c.style.transform = ''; }); }
     }
-    if (!pin){ atualizaSetas(); ativo = -1; atualizaFaixa(); return; }
+    if (!pin){ palco.style.removeProperty('--timao'); atualizaSetas(); ativo = -1; atualizaFaixa(); return; }
     const W = palco.clientWidth, area = VH - cab.offsetHeight;
     cw = lim((area - 64) / 1.35, 170, lim(W < 700 ? W * .66 : W * .24, 230, 350));
     palco.style.setProperty('--cw', cw.toFixed(1) + 'px');
@@ -1208,6 +1232,10 @@ function iniciaSite(site){
     tmax = Math.asin(Math.min(.95, (W / 2 + cw * .75 + 40) / R));
     sig = (cw * 1.14) / (2 * R * tmax);
     pista.style.height = Math.round(VH * (1 + (cartoes.length - 1) * .3)) + 'px';
+    /* timão: a ponta da manopla de cima entra um pouco atrás do pé do cartão do meio; ela fica a 36,2% do
+       lado da imagem acima da borda de baixo. Em telas baixas o timão encolhe, mas continua à vista */
+    const pe = cab.offsetHeight + 20 + cw * 1.35 * .88;
+    palco.style.setProperty('--timao', Math.min(W * .66, Math.max(VH * .16, VH - pe) / .362).toFixed(1) + 'px');
   }
   function desenhaArco(sy){
     const r = pista.getBoundingClientRect(), topo = r.top + scrollY - sy;       // posição com a rolagem suavizada
@@ -1220,6 +1248,7 @@ function iniciaSite(site){
       c.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) rotate(' + (th * 57.2958).toFixed(2) + 'deg) scale(' + esc.toFixed(3) + ')';
     });
     prog.style.setProperty('--p', p.toFixed(4));
+    giraTimao((tt - .5) / sig, true);
     const i = lim(Math.round((tt - .5) / sig), 0, n - 1);
     if (i !== ativo){ ativo = i; progNum.textContent = (i + 1) + ' / ' + n; }
   }
@@ -1231,11 +1260,21 @@ function iniciaSite(site){
     rolaPara(r.top + scrollY + (i / (n - 1)) * (r.height - VH), false);
     sy = scrollY; desenhaArco(sy);
   }
-  /* faixa: o contador e a barra acompanham a rolagem lateral */
+  /* posição na fileira, em cartões: cada parada (0, 1 passo, 2 passos…) vale um cartão, e o fim da rolagem
+     vale o último, que não chega à borda esquerda */
+  function cartaoNaFileira(x, max, passo, n){
+    if (max <= 0 || passo <= 0) return 0;
+    let j = Math.min(n - 1, Math.floor(max / passo));
+    if (j > 0 && j < n - 1 && j * passo > max - 1) j--;
+    return x <= j * passo ? x / passo : j + (x - j * passo) / (max - j * passo) * (n - 1 - j);
+  }
+  /* faixa: o contador, a barra e o timão acompanham a rolagem lateral */
   function atualizaFaixa(){
-    if (pin || !secServ.hasAttribute('data-faixa')) return;
+    if (pin || !arco) return;
     const n = cartoes.length, max = arco.scrollWidth - arco.clientWidth, x = arco.scrollLeft;
     const passo = n > 1 ? cartoes[1].offsetLeft - cartoes[0].offsetLeft : 1;
+    giraTimao(cartaoNaFileira(x, max, passo, n));
+    if (!secServ.hasAttribute('data-faixa')) return;
     const i = x >= max - 2 ? n - 1 : lim(Math.round(x / passo), 0, n - 1);   // no fim, o último cartão não chega à borda esquerda
     prog.style.setProperty('--p', (max > 0 ? x / max : 0).toFixed(4));
     if (i !== ativo){ ativo = i; progNum.textContent = (i + 1) + ' / ' + n; }
@@ -1424,6 +1463,12 @@ function iniciaSite(site){
       fx = (fx + fdir * (dt * .05 + Math.min(60, Math.abs(vel)) * .55)) % meioFita;
       if (fx < 0) fx += meioFita;
       fita.style.transform = 'translate3d(' + (-fx).toFixed(1) + 'px,0,0)';
+    }
+
+    /* timão na faixa: alcança a posição dos cartões e para */
+    if (timao && giro !== giroAlvo){
+      const g = giro + (giroAlvo - giro) * Math.min(1, dt / 16.7 * .3);
+      desenhaGiro(Math.abs(giroAlvo - g) < .05 ? giroAlvo : g);
     }
     requestAnimationFrame(quadro);
   }
