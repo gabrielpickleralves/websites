@@ -1,4 +1,4 @@
-/* Barcos à venda, mostrados na página compra-e-venda.html.
+/* Embarcações à venda, mostradas na página compra-e-venda.html.
    Cada barco é um bloco { ... } dentro da lista lá embaixo, separado do próximo por vírgula.
    Os cartões aparecem na página na mesma ordem desta lista.
 

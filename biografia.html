@@ -379,7 +379,12 @@ dialog.menu::backdrop{background:var(--tinta)}
    a primeira seção desce para não ficar sob o topo fixo, que nela já começa com a barra clara */
 .pagina-titulo{font-size:clamp(1.45rem,3.2vw + .9rem,5.4rem);line-height:1;overflow-wrap:break-word}
 .pagina-interna > .sec:first-child{padding-top:calc(var(--topo-h) + clamp(40px,6vw,96px))}
-/* compra e venda de barcos: abertura, cartões montados a partir de dados/barcos.js e convite para anunciar */
+/* botão "Voltar ao início" das páginas internas (biografia e embarcações à venda) */
+.voltar-inicio{margin-bottom:clamp(22px,3vw,40px);color:var(--tinta);border-color:rgba(15,42,51,.3)}
+.voltar-inicio svg{width:18px;height:18px}
+.voltar-fim{margin:clamp(40px,5vw,72px) 0 0}
+.voltar-fim .voltar-inicio{margin-bottom:0}
+/* embarcações à venda: abertura e cartões montados a partir de dados/barcos.js */
 .vendas-abertura{padding-bottom:0}
 .vendas-intro{max-width:34em;margin:clamp(18px,2.4vw,30px) 0 0;font-size:clamp(1.05rem,.5vw + .95rem,1.3rem);color:var(--cinza)}
 .vendas-lista{padding-top:clamp(56px,7vw,110px)}
@@ -402,11 +407,6 @@ dialog.menu::backdrop{background:var(--tinta)}
 .barcos-vazio{display:grid;justify-items:start;gap:20px;max-width:40em;margin-top:clamp(24px,3vw,40px);padding:clamp(22px,3vw,36px);border:1px solid rgba(15,42,51,.12);background:#fff}
 .barcos-vazio[hidden]{display:none}
 .barcos-vazio p{margin:0;font-size:clamp(1.05rem,.4vw + .95rem,1.2rem)}
-.vender{background:var(--tinta-2)}   /* um tom acima do rodapé, para os dois blocos escuros não se fundirem */
-.vender-dentro{display:grid;gap:clamp(22px,3vw,40px)}
-.vender-texto{display:grid;justify-items:start;gap:24px;max-width:34em}
-.vender-texto p{margin:0;font-size:clamp(1.05rem,.5vw + .95rem,1.3rem);color:#C9D9DE}
-@media (min-width:900px){.vender-dentro{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:end}}
 .historia{display:grid;gap:clamp(32px,5vw,90px);margin-top:clamp(40px,6vw,90px)}
 .historia figure{margin:0}
 .historia figure .px{aspect-ratio:1}
@@ -573,7 +573,7 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
     <div class="topo-acoes">
       <nav class="topo-links" aria-label="Páginas do site">
         <a class="btn btn-linha" href="biografia.html" aria-current="page">Biografia</a>
-        <a class="btn btn-linha" href="compra-e-venda.html">Compra e venda de barcos</a>
+        <a class="btn btn-linha" href="compra-e-venda.html">Embarcações à venda</a>
       </nav>
       <a class="btn btn-azul topo-wpp" href="https://wa.me/5512997292082" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.6 20.4l1.3-4.4a8.4 8.4 0 1 1 3.2 3.1z"/><path d="M9.2 8.3c-.3 2.8 2.9 6.4 6.3 6.5l1-1.6-2-1.1-.9.9c-.9-.4-1.8-1.3-2.3-2.4l.9-.9-1.1-2z"/></svg><span class="wpp-txt">WhatsApp</span><span class="sr"> da Marina Boreste (abre em nova aba)</span></a>
       <button class="btn btn-tinta" id="abre-menu" type="button" aria-haspopup="dialog" aria-expanded="false">Menu</button>
@@ -589,7 +589,7 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
       <nav aria-label="Páginas e seções do site">
         <ul class="menu-destaques">
           <li><a href="biografia.html" aria-current="page" style="--i:0"><span>Biografia</span></a></li>
-          <li><a href="compra-e-venda.html" style="--i:1"><span>Compra e venda de barcos</span></a></li>
+          <li><a href="compra-e-venda.html" style="--i:1"><span>Embarcações à venda</span></a></li>
         </ul>
         <ul>
           <li><a href="index.html#servicos" style="--i:2"><span>Serviços</span></a></li>
@@ -618,6 +618,7 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
 <!-- ================= NOSSA HISTÓRIA: NÚMEROS, MISSÃO E BIOGRAFIA ================= -->
 <section class="sec" id="historia" aria-labelledby="t-historia">
   <div class="wrap">
+    <a class="btn btn-linha voltar-inicio" href="index.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 10H4M9.5 4.5 4 10l5.5 5.5"/></svg>Voltar ao início</a>
     <h1 class="tx pagina-titulo" id="t-historia" tabindex="-1"><span class="w"><span>Nossa</span></span> <span class="w"><span>história</span></span></h1>
 
     <ul class="numeros">
@@ -647,6 +648,7 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
         <p data-rv>E é neste clima de pioneirismo, amizade, honestidade e respeito à natureza que a Marina Boreste assume o compromisso de manter a sua embarcação sempre em boas mãos.</p>
       </div>
     </div>
+    <p class="voltar-fim"><a class="btn btn-linha voltar-inicio" href="index.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 10H4M9.5 4.5 4 10l5.5 5.5"/></svg>Voltar ao início</a></p>
   </div>
 </section>
 

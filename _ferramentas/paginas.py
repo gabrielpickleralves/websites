@@ -24,8 +24,8 @@ PAGINAS = {
         'descricao': 'Missão: Proporcionar infraestrutura e serviços ideais para a guarda, manutenção, compra e venda de embarcações, sempre em harmonia com o meio ambiente, para que os clientes possam desfrutar da natureza e dos prazeres da atividade náutica.',
     },
     'compra-e-venda.html': {
-        'titulo': 'Compra e venda de barcos | Marina Boreste',
-        'descricao': 'A Marina Boreste intermedia a compra e a venda de embarcações. Os preços são negociáveis, e todo o atendimento é feito pelo WhatsApp.',
+        'titulo': 'Embarcações à venda | Marina Boreste',
+        'descricao': 'Conheça as embarcações à venda na Marina Boreste. Os preços são negociáveis, e todo o atendimento é feito pelo WhatsApp.',
     },
 }
 SECOES_DO_INICIO = 'servicos|infraestrutura|pousada|localizacao|contato'
