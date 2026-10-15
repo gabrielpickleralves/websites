@@ -90,6 +90,12 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   texto).
 - **Prints da referência:** o escritório vai enviar.
 
+**15/10/2026, prints da referência**
+
+- **Prints guardados** em `referencias/prints-fernanda-marques/`, por decisão do escritório,
+  sabendo que o repositório é público.
+- Eles continuam fora do site publicado (ver Pendências).
+
 ## Decisões rejeitadas
 
 **15/10/2026**
@@ -134,13 +140,17 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   - **Logo:** 1,85% de diferença na área, só em pixels soltos nas curvas e diagonais. Pesa 20,7 KB
     (4,6 KB comprimido).
   - **Monograma:** 0,23% de diferença, nenhum pixel acima de 50% de diferença. Pesa 0,5 KB.
+- **Prints da referência:** recebidos em 74 arquivos, com 8 páginas inteiras e telas separadas,
+  só desktop.
+  - Análise com medidas em `referencias/analise-da-referencia.md`.
+  - `specs/design.md` passou para a versão 3, com a composição de cada página, aguardando aprovação.
 
 ## Problemas encontrados
 
 **15/10/2026**
 
-- **Print da referência:** a pasta `referencias/` não existia. O link já foi registrado, mas o print
-  completo do site de referência ainda falta.
+- **Print da referência:** a pasta `referencias/` não existia. Resolvido: o escritório enviou os
+  prints, que estão em `referencias/prints-fernanda-marques/`.
 - **Rede bloqueada:** a rede do ambiente na nuvem bloqueia `fernandamarques.com.br`. O site de
   referência não pôde ser aberto nem fotografado daqui. Continuou bloqueado mesmo depois de o
   escritório pedir de novo para usar o site. Talvez a liberação só valha numa sessão nova.
@@ -186,8 +196,6 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 ## Pendências
 
 - **Materiais do escritório:**
-  - prints do site de referência, que o escritório vai enviar (página inicial inteira, uma página
-    de projeto e "Quem somos", no desktop e no celular);
   - número do WhatsApp;
   - endereço do Instagram;
   - bairro;
@@ -206,9 +214,7 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 
 ## Próximos passos
 
-1. Receber os prints da referência e ajustar escala, espaçamentos e composição em
-   `specs/design.md`.
-2. Aprovar as propostas pendentes em `specs/site.md` e `specs/design.md`.
-3. Receber o zip dos projetos e as informações que faltam.
-4. Só então começar a programar, mesmo que parte do conteúdo ainda chegue depois e fique como
+1. Aprovar `specs/design.md` (versão 3) e as propostas pendentes de `specs/site.md`.
+2. Receber o zip dos projetos e as informações que faltam.
+3. Só então começar a programar, mesmo que parte do conteúdo ainda chegue depois e fique como
    `[PREENCHER]`.

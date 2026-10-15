@@ -156,8 +156,10 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
   - texto;
   - galeria;
   - crédito do fotógrafo;
-  - navegação para o projeto anterior e o próximo;
+  - "Outros projetos" (dois cards);
   - chamada para o WhatsApp.
+
+  A composição detalhada está em `specs/design.md`, seção 11.
 - **Contato:**
   - botão para o WhatsApp;
   - bairro e cidade;
@@ -193,7 +195,8 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 ## 12. Informações que ainda precisam ser definidas
 
 - [x] Link do site de referência (`referencias/site-de-referencia.md`)
-- [ ] Print completo do site de referência em `referencias/`
+- [x] Prints do site de referência (`referencias/prints-fernanda-marques/`) e análise
+      (`referencias/analise-da-referencia.md`)
 - [x] Idioma, tradução, páginas, público-alvo, canal de contato, stack, serviços, quantidade e
       material dos projetos, endereço no site, CAU, extras
 - [x] Logo e monograma em PNG 4K (`identidade/logo/`)
