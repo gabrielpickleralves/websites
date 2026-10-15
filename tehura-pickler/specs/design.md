@@ -50,6 +50,13 @@ vem de resultados de busca e de uma descrição feita antes. Precisa ser confirm
 
 [A DEFINIR] Já se sabe que o site deve ser premium e ter identidade própria do TEHURA PICKLER.
 
+- **Logo:** o escritório já tem logo, mas só em imagem (PNG ou JPG). Ele não é redesenhado.
+  - [PROPOSTA] Redesenho fiel em vetor (SVG), sem mudar o desenho.
+- **Contato:** o WhatsApp é o único canal. A chamada para o WhatsApp precisa ser o botão mais
+  visível do site, sem competir com as fotos.
+- **Idiomas:** o site é bilíngue (português e inglês). A troca de idioma fica sempre visível no
+  cabeçalho.
+
 ## 2. Paleta principal e secundária
 
 [A DEFINIR]
@@ -61,8 +68,9 @@ WCAG 2.2 (ver `specs/site.md`, item 15).
 
 ## 4. Tipografia
 
-[A DEFINIR] Depende da identidade existente e da preferência do escritório. No máximo duas
-famílias (ver `specs/site.md`, item 16).
+- Usar as fontes da identidade visual do escritório. No máximo duas famílias (ver
+  `specs/site.md`, item 16).
+- [A DEFINIR] Nomes das fontes, arquivos e licença para uso na web.
 
 ## 5. Escala tipográfica
 
@@ -90,16 +98,16 @@ famílias (ver `specs/site.md`, item 16).
 
 ## 11. Tratamento dos projetos
 
-[A DEFINIR]
-
-- imagens;
-- plantas;
-- croquis;
-- fichas técnicas.
+- **O que entra:** fotos profissionais e ficha técnica, com crédito do fotógrafo.
+- **O que não entra:** plantas, croquis e nome dos clientes.
+- [A DEFINIR] Tratamento visual das fotos e da ficha técnica.
 
 ## 12. Retratos da arquiteta e da equipe
 
-[A DEFINIR] Enquadramento, fundo, cor ou preto e branco, e consistência entre as pessoas.
+- **Tehura Pickler:** é a única pessoa com retrato.
+  - [A DEFINIR] Enquadramento, fundo e uso em cor ou em preto e branco.
+- **Equipe:** só nome e cargo, sem fotos. A apresentação precisa ser elegante só com tipografia,
+  sem espaços vazios no lugar de fotos.
 
 ## 13. Movimento e animações
 

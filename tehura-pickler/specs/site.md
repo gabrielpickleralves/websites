@@ -2,11 +2,12 @@
 
 Fonte de verdade sobre o que será construído.
 
-- **Versão:** 0 (rascunho), 15/10/2026. Ainda não aprovada.
+- **Versão:** 1, 15/10/2026. Inclui as respostas da primeira rodada de perguntas. Ainda não
+  aprovada por inteiro.
 - **Legenda:**
   - **[A DEFINIR]**: depende de resposta ou material do escritório.
   - **[PROPOSTA]**: sugestão do Claude; só vale depois de aprovada.
-  - Sem marcação: já informado pelo escritório.
+  - Sem marcação: informado ou aprovado pelo escritório.
 
 ---
 
@@ -14,19 +15,17 @@ Fonte de verdade sobre o que será construído.
 
 - Apresentar o escritório TEHURA PICKLER, a arquiteta Tehura Pickler, a equipe, a forma de
   trabalhar, os serviços e os projetos realizados.
-- Gerar contatos de novos clientes.
+- Gerar contatos de novos clientes pelo WhatsApp.
 - Transmitir um posicionamento premium.
-- [A DEFINIR] Confirmar se gerar contatos é o objetivo principal, que decide as prioridades quando
-  os objetivos competirem por espaço.
 
 ## 2. Público-alvo
 
-[A DEFINIR] Perfil dos clientes que o escritório quer atrair:
-
-- tipo de cliente (pessoa física, empresa, incorporadora);
-- tipo de projeto (casa, apartamento, loja, escritório);
-- faixa de investimento;
-- região.
+- **Residencial alto padrão:** famílias construindo casa ou fazendo o projeto completo de um
+  apartamento.
+- **Interiores e reformas:** quem comprou um imóvel e quer reformar ou projetar os interiores.
+- **Comercial e corporativo:** empresas com lojas, escritórios, consultórios e restaurantes.
+- **Incorporadoras:** empreendimentos imobiliários, áreas comuns e apartamentos decorados.
+- **Região de atuação:** [A DEFINIR]
 
 ## 3. Escritório e proposta de valor
 
@@ -35,61 +34,63 @@ Fonte de verdade sobre o que será construído.
 - **Proposta de valor:** [A DEFINIR] O que diferencia o escritório, nas palavras do próprio
   escritório.
 - **História e ano de fundação:** [A DEFINIR]
-- **Cidade, endereço e região de atuação:** [A DEFINIR] Inclui decidir se o endereço completo
-  aparece no site.
-- **Registro profissional (CAU):** [A DEFINIR] Só é publicado se o número for informado.
-- **Prêmios, publicações, mostras e depoimentos:** [A DEFINIR] Só entra o que existir e puder ser
-  publicado.
+- **Localização no site:** só bairro e cidade, sem número e sem mapa. O endereço exato é passado
+  pelo WhatsApp.
+  - [A DEFINIR] Qual é o bairro e qual é a cidade.
+- **Registro profissional:** o número do CAU aparece no site.
+  - [A DEFINIR] O número, e se é da Tehura, do escritório ou dos dois.
+- **Prêmios e mostras:** existem e entram no site.
+  - [A DEFINIR] Lista, com nome, ano e projeto premiado ou exposto.
+- **Publicações e depoimentos:** não há por enquanto e ficam fora do lançamento.
 
 ## 4. Arquiteta e equipe
 
-- **Tehura Pickler:** arquiteta que lidera o escritório. Formação, trajetória, biografia e
-  retrato: [A DEFINIR]
-- **Equipe:** [A DEFINIR] Para cada pessoa:
-  - nome;
-  - cargo;
-  - formação;
-  - minibiografia;
-  - retrato;
-  - autorização de uso da imagem.
-- **Forma de apresentação:** [A DEFINIR] Retratos individuais, foto coletiva ou os dois.
+- **Tehura Pickler:** arquiteta que lidera o escritório. Aparece com retrato e biografia.
+  - [A DEFINIR] Formação, trajetória, biografia e arquivo do retrato.
+- **Equipe:** aparece só com nome e cargo, sem fotos e sem biografias.
+  - [A DEFINIR] Nomes e cargos.
 
 ## 5. Serviços e áreas de atuação
 
-- **Serviços oferecidos:** [A DEFINIR]
-- **Áreas de atuação:** [A DEFINIR] Por exemplo: residencial, comercial, corporativo, interiores.
-- **Forma de trabalhar:** [A DEFINIR] Etapas do processo, do primeiro contato à entrega ou ao
-  acompanhamento da obra.
+- **Serviços:**
+  - projeto de arquitetura;
+  - design de interiores;
+  - reformas;
+  - acompanhamento de obra.
+- **Áreas de atuação:** residencial, interiores e reformas, comercial e corporativo,
+  incorporadoras (as mesmas do público-alvo).
+- **Forma de trabalhar:** [A DEFINIR] Etapas do processo, do primeiro contato à entrega da obra.
 
 ## 6. Projetos exibidos
 
-- **Quantidade no lançamento:** [A DEFINIR]
+- **Quantidade no lançamento:** de 6 a 10 projetos.
 - **Lista de projetos:** [A DEFINIR]
-- **[PROPOSTA] Campos de cada projeto:**
-  - nome;
+- **Material publicado:**
+  - fotos profissionais, com autorização de uso e crédito do fotógrafo;
+  - ficha técnica.
+- **O que não aparece:**
+  - plantas e croquis;
+  - nome dos clientes.
+- **[PROPOSTA] Campos da ficha técnica:**
+  - nome do projeto;
   - categoria;
   - cidade/UF;
   - ano;
   - área (m²);
   - situação (concluído ou em andamento);
-  - texto de apresentação;
-  - fotos;
-  - crédito do fotógrafo;
-  - plantas e croquis (opcional);
-  - ficha técnica (opcional).
-- **Autorização:** antes de publicar um projeto, o escritório confirma que o cliente e o fotógrafo
-  autorizam o uso. Nome do cliente só aparece com autorização expressa.
+  - fotógrafo.
+- **Autorização:** antes de publicar um projeto, o escritório confirma que o fotógrafo autoriza o
+  uso das fotos.
 
 ## 7. Idiomas
 
-[A DEFINIR] Só português, ou português e inglês. Se houver inglês, falta definir quem traduz e
-revisa.
+- Português e inglês.
+- **Tradução:** o Claude traduz a partir dos textos aprovados em português. O escritório revisa o
+  inglês antes de publicar.
 
 ## 8. Quantidade de páginas
 
-[A DEFINIR] Página única ou site com várias páginas.
-
-[PROPOSTA] Site com várias páginas:
+Site com várias páginas, nas duas línguas:
 
 1. Início
 2. Escritório (Tehura Pickler e equipe)
@@ -99,108 +100,109 @@ revisa.
 6. Contato
 7. Página de erro 404
 
-São 7 modelos de página, mais uma página para cada projeto publicado.
+São 7 modelos de página, mais uma página para cada projeto, em português e em inglês.
 
 ## 9. Seções necessárias
 
-[PROPOSTA] Depende da decisão do item 8.
+[PROPOSTA]
 
 - **Em todas as páginas:**
-  - cabeçalho com nome/logo e menu;
-  - rodapé com contatos, redes e endereço;
-  - acesso rápido ao contato.
+  - cabeçalho com logo, menu e troca de idioma;
+  - rodapé com WhatsApp, redes, bairro/cidade e número do CAU;
+  - botão flutuante de WhatsApp.
 - **Início:**
   - abertura com foto de projeto em tela cheia;
   - apresentação curta do escritório;
   - projetos em destaque;
   - resumo de como trabalhamos;
   - chamada para conhecer a arquiteta e a equipe;
-  - chamada para contato.
+  - chamada para o WhatsApp.
 - **Escritório:**
   - apresentação do escritório;
   - Tehura Pickler (retrato e biografia);
-  - equipe;
-  - prêmios e publicações, se houver.
+  - equipe (nomes e cargos);
+  - prêmios e mostras.
 - **Como trabalhamos:**
   - abordagem;
   - etapas do processo;
   - serviços e áreas de atuação;
-  - chamada para contato.
+  - chamada para o WhatsApp.
 - **Projetos:**
   - filtro por categoria;
-  - grade de projetos com foto, nome, cidade e ano.
+  - grade com foto, nome, cidade e ano de cada projeto.
 - **Projeto:**
   - foto de abertura;
   - ficha técnica;
   - texto;
   - galeria;
-  - plantas e croquis, se houver;
-  - créditos;
+  - crédito do fotógrafo;
   - navegação para o projeto anterior e o próximo;
-  - chamada para contato.
+  - chamada para o WhatsApp.
 - **Contato:**
-  - formas de contato;
-  - formulário;
-  - endereço e mapa, se houver endereço público;
-  - horário de atendimento.
+  - botão para o WhatsApp;
+  - bairro e cidade;
+  - horário de atendimento;
+  - redes sociais.
 
 ## 10. Funcionalidades
 
-[PROPOSTA]
-
-- Menu responsivo, com painel em tela cheia no celular.
-- Filtro de projetos por categoria, sem recarregar a página.
-- Galeria de fotos com ampliação em tela cheia, controlável por teclado e por toque.
-- Formulário de contato. [A DEFINIR] Para onde as mensagens vão (ver item 13).
-- Botão flutuante de contato (WhatsApp). [A DEFINIR]
-- Troca de idioma, se o site for bilíngue.
-- Metadados para buscadores e para compartilhamento (título, descrição, Open Graph e dados
-  estruturados).
+- **Troca de idioma** entre português e inglês, mantendo a página em que a pessoa está.
+- **Contato só pelo WhatsApp:** os botões abrem a conversa com uma mensagem pronta, no idioma da
+  página.
+- **[PROPOSTA]**
+  - Menu responsivo, com painel em tela cheia no celular.
+  - Botão flutuante de WhatsApp.
+  - Filtro de projetos por categoria, sem recarregar a página.
+  - Galeria de fotos com ampliação em tela cheia, controlável por teclado e por toque.
+  - Metadados para buscadores e compartilhamento: título, descrição, Open Graph, dados
+    estruturados e `hreflang` entre as duas línguas.
 
 ## 11. Chamadas para ação
 
-- **Principal:** [A DEFINIR] Canal e texto. Exemplo: "Agende uma conversa", levando ao WhatsApp
-  ou ao formulário.
+- **Principal:** conversa pelo WhatsApp.
+  - [A DEFINIR] Texto do botão, por exemplo "Agende uma conversa" ou "Fale com o escritório".
+  - [A DEFINIR] Mensagem pronta que abre no WhatsApp.
 - **[PROPOSTA] Secundárias:**
   - "Ver projetos";
-  - "Conheça o escritório";
-  - chamada para contato no fim de cada página de projeto e de serviços.
+  - "Conheça o escritório".
 
 ## 12. Informações que ainda precisam ser definidas
 
-- [x] Link do site de referência em `referencias/site-de-referencia.md`
+- [x] Link do site de referência (`referencias/site-de-referencia.md`)
 - [ ] Print completo do site de referência em `referencias/`
-- [ ] Idioma
-- [ ] Página única ou várias páginas
-- [ ] Público-alvo
-- [ ] Confirmação do objetivo principal
-- [ ] Chamada para ação principal e canal de contato
-- [ ] Stack técnica e hospedagem
-- [ ] Domínio próprio
-- [ ] Tipografia e identidade existentes (logo, cores, fontes)
-- [ ] História do escritório, serviços, processo, cidade, região, endereço e contatos
-- [ ] Registro no CAU
-- [ ] Redes sociais
-- [ ] Arquiteta: formação, biografia e retrato
-- [ ] Equipe: nomes, cargos, biografias, retratos e autorizações
-- [ ] Projetos: lista, textos, fotos, créditos, plantas e autorizações
-- [ ] Prêmios, publicações e depoimentos
-- [ ] Serviço de envio do formulário
+- [x] Idioma, tradução, páginas, público-alvo, canal de contato, stack, serviços, quantidade e
+      material dos projetos, endereço no site, CAU, extras
+- [ ] Logo: arquivo na maior resolução disponível (o escritório tem só em imagem)
+- [ ] Fontes da identidade: nomes, arquivos e licença para uso na web
+- [ ] Domínio que será registrado
+- [ ] Número do WhatsApp, horário de atendimento e redes sociais
+- [ ] Texto do botão e mensagem pronta do WhatsApp
+- [ ] Bairro, cidade e região de atuação
+- [ ] Número do CAU
+- [ ] História, ano de fundação e proposta de valor
+- [ ] Etapas do processo de trabalho
+- [ ] Tehura: formação, biografia e retrato
+- [ ] Equipe: nomes e cargos
+- [ ] Projetos (6 a 10): nome, categoria, cidade, ano, área, texto, fotos e fotógrafo
+- [ ] Prêmios e mostras: lista
 
 ## 13. Stack técnica
 
-[PROPOSTA] Aguardando aprovação.
-
 - **Base:** HTML, CSS e JavaScript puros, sem framework e sem etapa de build. É a mesma base do
   site da Marina Boreste, neste mesmo repositório.
-- **Hospedagem:** GitHub Pages do repositório `gabrielpickleralves/websites`, pasta
-  `tehura-pickler/`. Endereço: `https://gabrielpickleralves.github.io/websites/tehura-pickler/`.
-  - [A DEFINIR] Domínio próprio.
+- **Hospedagem durante o desenvolvimento:** GitHub Pages do repositório
+  `gabrielpickleralves/websites`, pasta `tehura-pickler/`. Endereço:
+  `https://gabrielpickleralves.github.io/websites/tehura-pickler/`.
+- **Domínio definitivo:** será registrado. [A DEFINIR] Qual é. Ver o problema registrado em
+  `memoria.md`: o GitHub Pages liga um domínio ao repositório inteiro, e a raiz deste é a Marina.
+- **[PROPOSTA] Idiomas:** português na raiz da pasta do site e inglês em `en/`, com os mesmos
+  nomes de página.
+- **[PROPOSTA] Links:** todos os links internos relativos, para o site funcionar tanto no endereço
+  do GitHub quanto no domínio próprio.
 - **Imagens:** AVIF e WebP, com JPEG de reserva, em vários tamanhos (`srcset`).
-- **Fontes:** servidas pelo próprio site, em WOFF2. [A DEFINIR] Escolha das famílias.
-- **Formulário:** [A DEFINIR] Um site estático não envia e-mail sozinho. As opções são:
-  - um serviço externo (por exemplo, Formspree ou Web3Forms);
-  - um formulário que abre uma mensagem pronta no WhatsApp ou no e-mail.
+- **Fontes:** as da identidade do escritório, servidas pelo próprio site em WOFF2.
+  - [A DEFINIR] Confirmar que a licença permite o uso na web.
+- **Sem formulário:** o contato é só pelo WhatsApp.
 - **Publicação:** `CLAUDE.md`, `specs/`, `memoria.md` e `referencias/` não podem ir para o site
   público (ver pendências em `memoria.md`).
 
@@ -214,6 +216,7 @@ São 7 modelos de página, mais uma página para cada projeto publicado.
 - Alvos de toque com pelo menos 44 × 44 px.
 - Enquadramento das fotos ajustado para o celular quando o recorte do desktop não funcionar.
 - Texto corrido com 60 a 75 caracteres por linha no desktop.
+- Textos em inglês costumam ter outro tamanho: conferir cada página nas duas línguas.
 
 ## 15. Acessibilidade
 
@@ -221,12 +224,11 @@ São 7 modelos de página, mais uma página para cada projeto publicado.
 
 - **Contraste:** pelo menos 4,5:1 no texto e 3:1 em texto grande e elementos gráficos.
 - **Teclado:** navegação completa, foco visível e link "Pular para o conteúdo".
-- **Imagens:** texto alternativo descritivo em toda foto de projeto. Fotos decorativas ficam com
-  texto alternativo vazio.
+- **Imagens:** texto alternativo descritivo em toda foto de projeto, nas duas línguas. Fotos
+  decorativas ficam com texto alternativo vazio.
 - **Estrutura:** um `h1` por página, hierarquia de títulos correta e regiões (landmarks).
 - **Movimento:** respeitar a preferência por menos movimento (`prefers-reduced-motion`).
-- **Idioma:** atributo `lang` correto em cada página.
-- **Formulário:** rótulos visíveis e mensagens de erro claras.
+- **Idioma:** atributo `lang` certo em cada página (`pt-BR` e `en`).
 - **Galeria:** Esc fecha, as setas navegam e o foco fica dentro dela enquanto está aberta.
 
 ## 16. Desempenho
@@ -245,20 +247,27 @@ São 7 modelos de página, mais uma página para cada projeto publicado.
 
 ## 17. Escopo
 
-**[PROPOSTA] Dentro do escopo:**
+**Dentro do escopo:**
 
-- Desenho e programação das páginas do item 8, nas versões desktop e celular.
+- Desenho e programação das páginas do item 8, em português e inglês, nas versões desktop e
+  celular.
+- Tradução para o inglês, revisada pelo escritório.
 - Otimização das fotos fornecidas.
 - Redação e revisão de textos a partir de informações reais fornecidas pelo escritório. Todo texto
   é aprovado antes de publicar.
 - SEO básico e metadados de compartilhamento.
 - Publicação no GitHub Pages.
+- **[PROPOSTA]** Redesenho fiel do logo existente em vetor (SVG), sem mudar o desenho, para ele
+  ficar nítido em qualquer tela.
 
 **Fora do escopo:**
 
+- Formulário de contato, e-mail como canal de contato e agendamento online.
+- Plantas e croquis dos projetos.
+- Publicações na imprensa e depoimentos de clientes (podem entrar depois).
+- Retratos da equipe.
 - Produção de fotografias e retratos.
+- Criação de um logotipo novo.
 - Blog, área do cliente, loja virtual e painel de edição de conteúdo (CMS).
-- Registro de domínio e e-mail profissional. O site pode ser apontado para um domínio depois.
+- Registro do domínio e e-mail profissional. O site pode ser apontado para o domínio depois.
 - Anúncios pagos e gestão de redes sociais.
-- [A DEFINIR] Criação de logotipo, se o escritório ainda não tiver um.
-- [A DEFINIR] Tradução profissional, se o site for bilíngue.
