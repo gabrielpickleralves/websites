@@ -63,6 +63,33 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 - **Fundo principal:** bege `#EBE8E1`, a cor da identidade.
 - **Logo e monograma:** fazer versões SVG idênticas aos PNG.
 
+**15/10/2026, segunda rodada (contato, escritório e visual)**
+
+- **Botão principal:** "Conte sobre seu projeto".
+- **Mensagem pronta do WhatsApp:** "Olá! Vim pelo site e gostaria de conversar sobre um projeto."
+- **Redes:** só o Instagram.
+- **Região de atuação:** todo o Brasil e o exterior.
+- **CAU:** aparece o registro do escritório (pessoa jurídica).
+- **Horário:** de segunda a sexta, das 9h às 18h.
+- **Processo:** cinco etapas.
+  1. Conversa inicial
+  2. Estudo preliminar
+  3. Anteprojeto
+  4. Projeto executivo
+  5. Acompanhamento de obra
+- **Projetos:** filtro por área.
+  - As categorias são Residencial, Interiores, Comercial e Incorporação.
+  - Categoria sem projeto não aparece.
+- **Visual:**
+  - monograma TP no cabeçalho;
+  - foto em tela cheia com o logo branco na abertura;
+  - grade de duas colunas grandes;
+  - movimento sutil.
+- **Retrato da Tehura:** em cor.
+- **Envio de material:** zip na conversa, com uma pasta por projeto (fotos e ficha técnica em
+  texto).
+- **Prints da referência:** o escritório vai enviar.
+
 ## Decisões rejeitadas
 
 **15/10/2026**
@@ -76,6 +103,10 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 - **"Arquitetura residencial e de interiores"** (frase da amostra da fonte): ampliada para
   "Arquitetura e interiores", para abranger todos os públicos.
 - **Fundo branco, fundo carvão e seções alternando bege e carvão:** fica o bege.
+- **Botão flutuante de WhatsApp:** o contato fica só nos botões das páginas e no rodapé.
+- **Logo completo no cabeçalho:** fica o monograma TP.
+- **Grade editorial alternada e grade de três colunas:** ficam duas colunas grandes.
+- **Retrato em preto e branco:** fica em cor.
 
 ## Alterações realizadas
 
@@ -90,6 +121,14 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   a amostra, para `identidade/fonte/`.
 - `specs/design.md` (versão 1) preenchido com a paleta, a tipografia e as regras do logo.
 - `specs/site.md` passou para a versão 2.
+- Depois da segunda rodada, `specs/site.md` passou para a versão 3 e `specs/design.md` para a
+  versão 2.
+- **SVG do logo:** o ajuste mostrou que o logo foi composto com a própria fonte Tehura.
+  - "TEHURA" está em Bold; "PICKLER" e "ARQUITETURA" estão em Regular, com espaçamento entre
+    letras.
+  - A diferença para o PNG ficou entre 1% e 4% da área, só na suavização das bordas, e por igual em
+    todas as letras.
+  - O script do ajuste ficou fora do repositório.
 
 ## Problemas encontrados
 
@@ -134,23 +173,26 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 ## Pendências
 
 - **Materiais do escritório:**
-  - prints do site de referência enviados como arquivo (página inicial inteira, uma página de
-    projeto e "Quem somos", no desktop e no celular), já que o domínio continua bloqueado;
-  - WhatsApp, horário de atendimento e redes sociais;
-  - texto do botão de contato e mensagem pronta do WhatsApp;
-  - bairro e região de atuação;
-  - número do CAU;
+  - prints do site de referência, que o escritório vai enviar (página inicial inteira, uma página
+    de projeto e "Quem somos", no desktop e no celular);
+  - número do WhatsApp;
+  - endereço do Instagram;
+  - bairro;
+  - número do CAU do escritório;
   - história, ano de fundação e proposta de valor;
-  - etapas do processo de trabalho;
-  - formação, biografia e retrato da Tehura;
+  - formação, biografia e retrato em cor da Tehura;
   - nomes e cargos da equipe;
-  - de 6 a 10 projetos, com nome, categoria, cidade, ano, área, texto, fotos e fotógrafo;
-  - lista de prêmios e mostras.
+  - de 6 a 10 projetos, num zip com uma pasta por projeto (nome, categoria, cidade, ano, área,
+    texto, fotos e fotógrafo);
+  - lista de prêmios e mostras;
+  - revisão do inglês do botão e da mensagem do WhatsApp.
 - **Domínio:** quando ele for registrado, decidir entre um repositório próprio e outra hospedagem.
 - **Antes da primeira publicação:** impedir que `CLAUDE.md`, `specs/`, `memoria.md`,
   `referencias/` e os originais de `identidade/` sejam publicados. Só os arquivos otimizados (SVG e
   WOFF2) vão para o site.
-- **Trabalho do Claude:** fazer o SVG do logo e do monograma e compará-los com os PNG.
+- **Trabalho do Claude:**
+  - gerar o arquivo SVG do logo (ajuste já feito) e fazer o do monograma;
+  - comparar os dois com os PNG.
 
 ## Próximos passos
 

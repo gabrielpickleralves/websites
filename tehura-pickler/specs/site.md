@@ -2,8 +2,8 @@
 
 Fonte de verdade sobre o que será construído.
 
-- **Versão:** 2, 15/10/2026. Inclui as respostas das perguntas e a identidade visual. Ainda não
-  aprovada por inteiro.
+- **Versão:** 3, 15/10/2026. Inclui as respostas de todas as rodadas de perguntas e a identidade
+  visual. Ainda não aprovada por inteiro.
 - **Legenda:**
   - **[A DEFINIR]**: depende de resposta ou material do escritório.
   - **[PROPOSTA]**: sugestão do Claude; só vale depois de aprovada.
@@ -25,7 +25,7 @@ Fonte de verdade sobre o que será construído.
 - **Interiores e reformas:** quem comprou um imóvel e quer reformar ou projetar os interiores.
 - **Comercial e corporativo:** empresas com lojas, escritórios, consultórios e restaurantes.
 - **Incorporadoras:** empreendimentos imobiliários, áreas comuns e apartamentos decorados.
-- **Região de atuação:** [A DEFINIR]
+- **Região de atuação:** todo o Brasil e o exterior, inclusive com projetos a distância.
 
 ## 3. Escritório e proposta de valor
 
@@ -39,8 +39,11 @@ Fonte de verdade sobre o que será construído.
   pelo WhatsApp.
   - **Cidade:** Mogi das Cruzes (SP).
   - [A DEFINIR] Bairro.
-- **Registro profissional:** o número do CAU aparece no site.
-  - [A DEFINIR] O número, e se é da Tehura, do escritório ou dos dois.
+- **Registro profissional:** o site mostra o registro do escritório (pessoa jurídica) no CAU.
+  - [A DEFINIR] O número.
+- **Horário de atendimento:** de segunda a sexta, das 9h às 18h.
+- **Redes sociais:** só o Instagram.
+  - [A DEFINIR] O endereço do perfil.
 - **Prêmios e mostras:** existem e entram no site.
   - [A DEFINIR] Lista, com nome, ano e projeto premiado ou exposto.
 - **Publicações e depoimentos:** não há por enquanto e ficam fora do lançamento.
@@ -61,12 +64,27 @@ Fonte de verdade sobre o que será construído.
   - acompanhamento de obra.
 - **Áreas de atuação:** residencial, interiores e reformas, comercial e corporativo,
   incorporadoras (as mesmas do público-alvo).
-- **Forma de trabalhar:** [A DEFINIR] Etapas do processo, do primeiro contato à entrega da obra.
+- **Forma de trabalhar:** cinco etapas:
+  1. Conversa inicial
+  2. Estudo preliminar
+  3. Anteprojeto
+  4. Projeto executivo
+  5. Acompanhamento de obra
+
+  O texto de cada etapa é redigido pelo Claude e aprovado pelo escritório.
 
 ## 6. Projetos exibidos
 
 - **Quantidade no lançamento:** de 6 a 10 projetos.
-- **Lista de projetos:** [A DEFINIR]
+- **Lista de projetos:** [A DEFINIR] Chega por zip na conversa, com uma pasta por projeto (fotos e
+  um arquivo de texto com a ficha técnica).
+- **Organização:** filtro por área, com as categorias:
+  - Residencial;
+  - Interiores;
+  - Comercial;
+  - Incorporação.
+
+  Categoria sem projeto não aparece no filtro.
 - **Material publicado:**
   - fotos profissionais, com autorização de uso e crédito do fotógrafo;
   - ficha técnica.
@@ -109,11 +127,10 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 [PROPOSTA]
 
 - **Em todas as páginas:**
-  - cabeçalho com logo, menu e troca de idioma;
-  - rodapé com WhatsApp, redes, bairro/cidade e número do CAU;
-  - botão flutuante de WhatsApp.
+  - cabeçalho fixo com o monograma TP, o menu e a troca de idioma;
+  - rodapé com WhatsApp, Instagram, horário, bairro/cidade e CAU do escritório.
 - **Início:**
-  - abertura com foto de projeto em tela cheia;
+  - abertura com foto de projeto em tela cheia e o logo completo em branco (aprovada);
   - apresentação curta do escritório;
   - projetos em destaque;
   - resumo de como trabalhamos;
@@ -130,8 +147,9 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
   - serviços e áreas de atuação;
   - chamada para o WhatsApp.
 - **Projetos:**
-  - filtro por categoria;
-  - grade com foto, nome, cidade e ano de cada projeto.
+  - filtro por área;
+  - grade de duas colunas grandes no desktop (uma no celular), com foto, nome, cidade e ano de cada
+    projeto.
 - **Projeto:**
   - foto de abertura;
   - ficha técnica;
@@ -144,17 +162,17 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
   - botão para o WhatsApp;
   - bairro e cidade;
   - horário de atendimento;
-  - redes sociais.
+  - Instagram.
 
 ## 10. Funcionalidades
 
 - **Troca de idioma** entre português e inglês, mantendo a página em que a pessoa está.
 - **Contato só pelo WhatsApp:** os botões abrem a conversa com uma mensagem pronta, no idioma da
   página.
+- **Sem botão flutuante de WhatsApp:** o contato fica nos botões dentro das páginas e no rodapé.
+- **Filtro de projetos por área**, sem recarregar a página.
 - **[PROPOSTA]**
   - Menu responsivo, com painel em tela cheia no celular.
-  - Botão flutuante de WhatsApp.
-  - Filtro de projetos por categoria, sem recarregar a página.
   - Galeria de fotos com ampliação em tela cheia, controlável por teclado e por toque.
   - Metadados para buscadores e compartilhamento: título, descrição, Open Graph, dados
     estruturados e `hreflang` entre as duas línguas.
@@ -162,8 +180,12 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 ## 11. Chamadas para ação
 
 - **Principal:** conversa pelo WhatsApp.
-  - [A DEFINIR] Texto do botão, por exemplo "Agende uma conversa" ou "Fale com o escritório".
-  - [A DEFINIR] Mensagem pronta que abre no WhatsApp.
+  - **Texto do botão:** "Conte sobre seu projeto".
+  - **Mensagem pronta:** "Olá! Vim pelo site e gostaria de conversar sobre um projeto."
+  - **[PROPOSTA] Em inglês** (a revisar pelo escritório):
+    - botão: "Tell us about your project";
+    - mensagem: "Hello! I found you through your website and would like to talk about a
+      project."
 - **[PROPOSTA] Secundárias:**
   - "Ver projetos";
   - "Conheça o escritório".
@@ -179,12 +201,13 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 - [x] Cidade (Mogi das Cruzes, SP) e frase ("Arquitetura e interiores")
 - [ ] Versão SVG do logo e do monograma (aprovada, a fazer)
 - [ ] Domínio que será registrado
-- [ ] Número do WhatsApp, horário de atendimento e redes sociais
-- [ ] Texto do botão e mensagem pronta do WhatsApp
-- [ ] Bairro e região de atuação
-- [ ] Número do CAU
+- [x] Horário, rede social (Instagram), região de atuação, tipo de registro no CAU, etapas do
+      processo, texto do botão e mensagem pronta do WhatsApp, categorias de projeto
+- [ ] Número do WhatsApp
+- [ ] Endereço do Instagram
+- [ ] Bairro
+- [ ] Número do CAU do escritório
 - [ ] História, ano de fundação e proposta de valor
-- [ ] Etapas do processo de trabalho
 - [ ] Tehura: formação, biografia e retrato
 - [ ] Equipe: nomes e cargos
 - [ ] Projetos (6 a 10): nome, categoria, cidade, ano, área, texto, fotos e fotógrafo

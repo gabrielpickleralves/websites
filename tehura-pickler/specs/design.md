@@ -2,8 +2,8 @@
 
 Fonte de verdade visual do projeto.
 
-- **Versão:** 1, 15/10/2026. Inclui a identidade visual enviada pelo escritório. Ainda não
-  aprovada por inteiro.
+- **Versão:** 2, 15/10/2026. Inclui a identidade visual e as escolhas visuais do escritório
+  (cabeçalho, abertura, grade, movimento e retrato). Ainda não aprovada por inteiro.
 - **Situação:** paleta, tipografia e logo vêm da identidade do escritório (`identidade/`).
   Espaçamentos, ritmo e composição das páginas ainda dependem do print do site de referência
   (ver seção 0).
@@ -46,7 +46,7 @@ vem de resultados de busca e de uma descrição feita antes. Precisa ser confirm
   - submenus de projetos;
   - grade de categorias;
   - rodapé com contato e redes;
-  - botão flutuante de WhatsApp.
+  - botão flutuante de WhatsApp (não será usado no site da Tehura).
 
 ## 1. Direção visual
 
@@ -60,6 +60,8 @@ vem de resultados de busca e de uma descrição feita antes. Precisa ser confirm
   - cantos retos;
   - muito espaço em branco;
   - nenhum ícone decorativo.
+- **Contato:** o WhatsApp é o único canal, e não há botão flutuante. O botão "Conte sobre seu
+  projeto" precisa ser o mais visível de cada página, sem competir com as fotos.
 
 ### Logo e monograma
 
@@ -83,14 +85,17 @@ vem de resultados de busca e de uma descrição feita antes. Precisa ser confirm
 - Aprovada uma versão vetorial (SVG) idêntica do logo e do monograma. Antes de usar, ela é
   comparada ponto a ponto com o PNG.
 
-**[PROPOSTA] Onde cada um aparece:**
+**Onde cada um aparece:**
 
 - **Monograma TP:**
-  - no cabeçalho;
-  - como ícone do navegador (favicon) e de atalho no celular.
+  - no cabeçalho fixo;
+  - [PROPOSTA] como ícone do navegador (favicon) e de atalho no celular.
 - **Logo completo:**
-  - grande na abertura da página inicial;
-  - no rodapé.
+  - em branco, sobre a foto em tela cheia da abertura da página inicial;
+  - [PROPOSTA] no rodapé.
+
+**[PROPOSTA] Tamanhos e área livre:**
+
 - **Tamanho mínimo do logo:** 120 px de largura.
 - **Área livre ao redor do logo:** igual à altura de uma linha do "TEHURA".
 
@@ -212,14 +217,11 @@ da referência.
 
 [PROPOSTA]
 
-- **Principal (WhatsApp):** contorno carvão de 1 px, texto em Regular, altura mínima de 48 px e
-  preenchimento invertido ao passar o mouse.
+- **Principal ("Conte sobre seu projeto", abre o WhatsApp):** contorno carvão de 1 px, texto em
+  Regular, altura mínima de 48 px e preenchimento invertido ao passar o mouse.
 - **Secundário** ("Ver projetos"): só texto, com uma linha fina embaixo que cresce ao passar o
   mouse.
-- **Botão flutuante de WhatsApp:**
-  - quadrado carvão, com o ícone do WhatsApp em bege e o texto "WhatsApp" para leitores de tela;
-  - fica no canto inferior direito;
-  - nunca cobre conteúdo nem outros botões.
+- **Sem botão flutuante de WhatsApp** (decisão do escritório).
 
 ## 9. Cards
 
@@ -264,16 +266,15 @@ da referência.
 
 ## 12. Retratos da arquiteta e da equipe
 
-- **Tehura Pickler:** é a única pessoa com retrato.
+- **Tehura Pickler:** é a única pessoa com retrato, e ele aparece **em cor**.
   - [PROPOSTA] Retrato vertical 4:5, luz natural, fundo neutro próximo ao bege.
-  - [A DEFINIR] Retrato em cor ou em preto e branco (depende da foto).
 - **Equipe:** só nome e cargo, sem fotos.
   - [PROPOSTA] Lista tipográfica em colunas, com nome em Regular, cargo em cinza quente e linhas
     areia entre as pessoas, sem espaços vazios no lugar de fotos.
 
 ## 13. Movimento e animações
 
-[PROPOSTA]
+Nível de movimento: **sutil** (decisão do escritório). Detalhes abaixo em [PROPOSTA].
 
 - **Entrada das seções:** aparecem com um leve deslocamento de 16 px e esmaecimento, em 0,6 s.
 - **Ao passar o mouse:** transições de 0,3 s.
@@ -287,7 +288,14 @@ da referência.
 
 ## 14. Desktop e celular
 
-[PROPOSTA]
+**Decisões do escritório:**
+
+- **Cabeçalho:** monograma TP.
+- **Abertura da página inicial:** foto em tela cheia (altura total da tela), com o logo completo em
+  branco.
+- **Grade de projetos:** duas colunas grandes no desktop e uma no celular.
+
+**[PROPOSTA]**
 
 - **Cabeçalho no desktop:**
   - monograma TP à esquerda;
@@ -297,9 +305,6 @@ da referência.
   - monograma TP à esquerda;
   - botão "Menu" à direita, que abre um painel bege em tela cheia com os links em tamanho grande e
     a troca de idioma.
-- **Abertura da página inicial:** foto em tela cheia (altura total da tela), com o logo completo em
-  branco.
-- **Grade de projetos:** 2 ou 3 colunas no desktop e 1 coluna no celular.
 - **Textos longos em maiúsculas:** no celular, conferir que nenhuma palavra longa estoura a largura
   (por exemplo, "ARQUITETURA" em títulos grandes).
 
