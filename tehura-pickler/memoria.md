@@ -134,6 +134,19 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   - mensagem do WhatsApp: "Hello! I'm reaching out through the website about a project." (texto
     do escritório).
 
+**15/10/2026, site de teste**
+
+- **Site de teste pedido pelo escritório**, para ir acrescentando o conteúdo depois.
+- **Montagem por script** (aprovada): `_ferramentas/gerar.py` gera as páginas a partir de
+  `_ferramentas/conteudo.py`.
+- **Publicação do teste** (aprovada): no GitHub Pages, branch `gh-pages`, pasta `tehura-pickler/`,
+  só com os arquivos do site e marcado para o Google não indexar.
+- **Idioma:** o escritório pediu um seletor no canto superior usando o Google Tradutor.
+  - Fui avisado de que o pedido contradizia decisões aprovadas.
+  - O tradutor de sites do Google está fechado para sites comerciais desde 2019 e, segundo fontes
+    de terceiros, saiu de suporte em 01/10/2026.
+  - O escritório escolheu **manter o PT | EN feito pelo Claude** (decisão original).
+
 **15/10/2026, conteúdo recebido**
 
 - **Instagram:** @tehurapicklerarquiteta (`https://www.instagram.com/tehurapicklerarquiteta/`).
@@ -167,6 +180,9 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 - **Faixas com 70% da altura no celular:** ficam 85% em todas as larguras.
 - **Mensagem em inglês "Hello! I found you through your website…":** trocada pelo texto do
   escritório.
+- **Tradução pelo Google Tradutor, tradutor automático pago (GTranslate) e site só em português:**
+  fica o PT | EN feito pelo Claude.
+- **Páginas escritas à mão:** fica a montagem por script.
 
 ## Alterações realizadas
 
@@ -203,6 +219,25 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   - Ele foi feito fora do repositório só para a aprovação. Não é o código do site.
   - Também está em `esbocos/` a comparação de tons de fundo.
 - `specs/design.md` passou para a versão 4, aprovada.
+- **Site de teste programado:**
+  - **Páginas:** 20 no total, sendo 10 em português e 10 em inglês (`en/`): Início, Escritório,
+    Como trabalhamos, Projetos, 4 projetos de exemplo, Contato e 404.
+  - **Arquivos:**
+    - `estilo.css` e `site.js`;
+    - fontes em WOFF2, de 6,5 KB cada;
+    - logo em SVG;
+    - favicon e imagem de compartilhamento.
+  - **Comportamento:**
+    - cabeçalho transparente sobre a abertura, que vira bege ao rolar;
+    - menu do celular em tela cheia;
+    - filtro por área, com link direto (por exemplo, `projetos.html#comercial`);
+    - galeria ampliada com setas, Esc e deslizar do dedo;
+    - entrada suave das seções, desligada para quem prefere menos movimento.
+  - **Conferências:**
+    - nenhuma rolagem lateral nem erro no console em 360, 390, 768, 1024, 1280, 1440 e 1920 px;
+    - nenhuma violação de acessibilidade no axe-core (WCAG 2.2 A/AA e boas práticas), no
+      celular e no desktop;
+    - nenhum sinal fora da fonte.
 
 ## Problemas encontrados
 
@@ -231,6 +266,17 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   formas. Medir as bordas pelo primeiro pixel com alfa > 0 aumentava as formas em cerca de 2 px.
 - **Arco do SVG:** um semicírculo escrito como um único arco fica ambíguo quando o arredondamento
   deixa a corda menor que o diâmetro. Nesse caso o SVG desenha o arco menor, e a curva se desloca.
+
+- **Testes do site:**
+  - **Nome repetido:** a abertura da página inicial e a seção da Tehura tinham o mesmo nome para
+    leitores de tela ("TEHURA PICKLER" e "Tehura Pickler").
+  - **Menu do celular:** os botões PT e EN herdavam o estilo grande dos links.
+  - **Galeria no celular:** a etiqueta "Foto de projeto" vazava nas fotos pequenas.
+  - **Contagem do filtro:** dizia "1 projetos".
+
+  Os quatro foram corrigidos.
+- **Logo do rodapé:** carrega só quando a pessoa rola até ele (`loading="lazy"`). Em capturas de
+  página inteira ele pode não aparecer, mas não é defeito.
 
 ## Soluções aplicadas
 
@@ -264,6 +310,15 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   - de 6 a 10 projetos, num zip com uma pasta por projeto (nome, categoria, cidade, ano, área,
     texto, fotos e fotógrafo);
   - lista de prêmios e mostras.
+- **Aprovações de texto:**
+  - os 5 textos das etapas, rascunhos do Claude marcados com sublinhado pontilhado no teste;
+  - o inglês das páginas (menus, rótulos e etapas), traduzido pelo Claude, aguardando revisão do
+    escritório.
+- **Foto da página Contato:** a definir.
+- **Projetos de exemplo:** os 4 do site de teste serão trocados pelos reais quando o zip chegar.
+- **Antes do lançamento:**
+  - mudar `SITE['teste']` para `False`;
+  - remover os projetos de exemplo e completar todos os `[PREENCHER]`.
 - **Domínio:** quando ele for registrado, decidir entre um repositório próprio e outra hospedagem.
 - **Antes da primeira publicação:** impedir que `CLAUDE.md`, `specs/`, `memoria.md`,
   `referencias/`, `esbocos/` e os originais de `identidade/` sejam publicados. Só os arquivos otimizados (SVG e
@@ -271,6 +326,8 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 
 ## Próximos passos
 
-1. **Programar o site.** A documentação está aprovada, e a programação pode começar quando o
-   escritório pedir. O conteúdo que ainda não chegou fica como `[PREENCHER]`.
-2. Receber o zip dos projetos e as informações que faltam e substituir os `[PREENCHER]`.
+1. O escritório revisa o site de teste e aprova os rascunhos e o inglês.
+2. Receber o zip dos projetos e as informações que faltam e substituir os `[PREENCHER]` em
+   `_ferramentas/conteudo.py`.
+3. Otimizar as fotos reais (AVIF, WebP e JPEG em vários tamanhos) quando chegarem.
+4. Lançamento: `SITE['teste'] = False`, nova rodada de testes e publicação.

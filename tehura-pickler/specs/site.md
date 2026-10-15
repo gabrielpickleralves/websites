@@ -237,6 +237,18 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 - **Logo:** os SVG de `identidade/svg/`, feitos a partir dos PNG 4K de `identidade/logo/` e
   conferidos com eles.
 - **Sem formulário:** o contato é só pelo WhatsApp.
+- **Montagem** (aprovada em 15/10/2026): `_ferramentas/gerar.py` escreve as páginas `.html` a partir
+  de `_ferramentas/conteudo.py`, como o script da Marina.
+  - O site publicado continua sendo só HTML, CSS e JS.
+  - `_ferramentas/recursos.py` prepara as fontes em WOFF2, os ícones e a imagem de
+    compartilhamento.
+- **Site de teste:** enquanto `SITE['teste']` for `True`:
+  - as páginas pedem ao Google para não indexar;
+  - os `[PREENCHER]` aparecem destacados.
+
+  Com `False`, o gerador se recusa a montar o site se ainda houver `[PREENCHER]`.
+- **Publicação:** só os arquivos listados em `_ferramentas/arquivos-publicos.txt` vão para
+  `tehura-pickler/` no branch `gh-pages`.
 - **Publicação:** `CLAUDE.md`, `specs/`, `memoria.md` e `referencias/` não podem ir para o site
   público (ver pendências em `memoria.md`).
 

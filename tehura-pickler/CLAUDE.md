@@ -35,5 +35,16 @@ sem autorização.
 
 ## Fase atual
 
-Documentação concluída: @specs/site.md e @specs/design.md estão aprovados (versão 4 de cada). A
-programação pode começar quando eu pedir. O conteúdo que ainda falta fica como `[PREENCHER]`.
+Site de teste no ar, com o conteúdo que falta marcado como `[PREENCHER]`. @specs/site.md e
+@specs/design.md estão aprovados (versão 4 de cada).
+
+## Como mexer no site
+
+1. **Textos, projetos e dados:** edite `_ferramentas/conteudo.py`. Não edite os `.html`: eles são
+   gerados.
+2. **Estilo e comportamento:** edite `estilo.css` e `site.js` direto.
+3. **Gerar as páginas:** rode `python3 _ferramentas/gerar.py` dentro de `tehura-pickler/`. O script
+   avisa sobre sinais que a fonte não tem e lista os `[PREENCHER]` que faltam.
+4. **Identidade:** se mudar, rode `python3 _ferramentas/recursos.py`.
+5. **Publicar:** no branch `gh-pages`, publique só os arquivos de `_ferramentas/arquivos-publicos.txt`.
+   Nunca publique os documentos, as referências ou os originais da identidade.
