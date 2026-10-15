@@ -52,6 +52,17 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 - **Extras:** existem prêmios ou mostras para incluir. Não há publicações nem depoimentos por
   enquanto.
 
+**15/10/2026, identidade visual**
+
+- **Arquivos recebidos:** logo, monograma e fonte, guardados em `identidade/`.
+- **Tipografia:** só a fonte Tehura, tudo em maiúsculas, inclusive nos textos longos.
+- **Licença da fonte:** a Tehura é do escritório e pode ser publicada no site.
+- **Sinais ausentes na fonte:** contornar nos textos (por exemplo, "m2" e "—" no lugar de "·").
+- **Cidade:** Mogi das Cruzes (SP).
+- **Frase do escritório:** "Arquitetura e interiores".
+- **Fundo principal:** bege `#EBE8E1`, a cor da identidade.
+- **Logo e monograma:** fazer versões SVG idênticas aos PNG.
+
 ## Decisões rejeitadas
 
 **15/10/2026**
@@ -60,6 +71,11 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 - **Plataforma editável** (WordPress, Wix, Webflow): trocada por código próprio.
 - **Formulário, e-mail e agendamento online como canais de contato:** fica só o WhatsApp.
 - **Endereço completo com mapa:** fica só bairro e cidade.
+- **Segunda fonte para os textos longos** (sem serifa ou serifada) e pedido de minúsculas ao
+  designer: fica só a Tehura, em maiúsculas.
+- **"Arquitetura residencial e de interiores"** (frase da amostra da fonte): ampliada para
+  "Arquitetura e interiores", para abranger todos os públicos.
+- **Fundo branco, fundo carvão e seções alternando bege e carvão:** fica o bege.
 
 ## Alterações realizadas
 
@@ -70,6 +86,10 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 - Criados `CLAUDE.md`, `specs/site.md`, `specs/design.md`, esta memória e
   `referencias/site-de-referencia.md` (link e páginas conhecidas do site de referência).
 - Atualizados `specs/site.md` (versão 1) e `specs/design.md` com as respostas da primeira rodada.
+- Recebido o pacote de identidade. Logo e monograma foram para `identidade/logo/`; a fonte Tehura e
+  a amostra, para `identidade/fonte/`.
+- `specs/design.md` (versão 1) preenchido com a paleta, a tipografia e as regras do logo.
+- `specs/site.md` passou para a versão 2.
 
 ## Problemas encontrados
 
@@ -78,7 +98,12 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 - **Print da referência:** a pasta `referencias/` não existia. O link já foi registrado, mas o print
   completo do site de referência ainda falta.
 - **Rede bloqueada:** a rede do ambiente na nuvem bloqueia `fernandamarques.com.br`. O site de
-  referência não pôde ser aberto nem fotografado daqui.
+  referência não pôde ser aberto nem fotografado daqui. Continuou bloqueado mesmo depois de o
+  escritório pedir de novo para usar o site. Talvez a liberação só valha numa sessão nova.
+- **Fonte só em maiúsculas:** a Tehura não tem minúsculas, e as letras minúsculas são desenhadas como
+  maiúsculas.
+- **Sinais ausentes na fonte:** `²` `%` `·` `#` `*` `$` `_` `|` `[ ]` `< >`, aspas curvas, `…`,
+  `º` `ª` `ü` `è` `ñ`.
 - **Sem informação pública:** não há nada sobre Tehura Pickler ou o escritório nos resultados de
   busca. Todo o conteúdo depende do material enviado pelo escritório.
 - **Risco de publicação:** o GitHub Pages deste repositório publica a branch `gh-pages` com Jekyll,
@@ -99,17 +124,21 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   escritório.
 - **[PROPOSTA]** Todos os links internos serão relativos, para o site funcionar no endereço do
   GitHub e depois no domínio próprio sem mudanças.
+- **Maiúsculas:** os textos são escritos em caixa normal no HTML, e a fonte mostra tudo em
+  maiúsculas. Assim leitores de tela, buscadores e copiar e colar recebem o texto normal.
+- **Sinais ausentes:** evitados na redação. Se algum aparecer, entra uma fonte de reserva só nele.
+- **Contraste:** cores medidas na identidade.
+  - Carvão sobre bege: 13,8:1.
+  - Texto secundário proposto (`#66635C`): 4,9:1, acima do mínimo de 4,5:1.
 
 ## Pendências
 
 - **Materiais do escritório:**
-  - print completo do site de referência em `referencias/`, ou liberação do domínio na rede do
-    ambiente;
-  - logo na maior resolução disponível;
-  - fontes da identidade (nomes, arquivos e licença para a web);
+  - prints do site de referência enviados como arquivo (página inicial inteira, uma página de
+    projeto e "Quem somos", no desktop e no celular), já que o domínio continua bloqueado;
   - WhatsApp, horário de atendimento e redes sociais;
   - texto do botão de contato e mensagem pronta do WhatsApp;
-  - bairro, cidade e região de atuação;
+  - bairro e região de atuação;
   - número do CAU;
   - história, ano de fundação e proposta de valor;
   - etapas do processo de trabalho;
@@ -118,13 +147,16 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   - de 6 a 10 projetos, com nome, categoria, cidade, ano, área, texto, fotos e fotógrafo;
   - lista de prêmios e mostras.
 - **Domínio:** quando ele for registrado, decidir entre um repositório próprio e outra hospedagem.
-- **Antes da primeira publicação:** impedir que `CLAUDE.md`, `specs/`, `memoria.md` e
-  `referencias/` sejam publicados.
+- **Antes da primeira publicação:** impedir que `CLAUDE.md`, `specs/`, `memoria.md`,
+  `referencias/` e os originais de `identidade/` sejam publicados. Só os arquivos otimizados (SVG e
+  WOFF2) vão para o site.
+- **Trabalho do Claude:** fazer o SVG do logo e do monograma e compará-los com os PNG.
 
 ## Próximos passos
 
-1. Receber o print da referência e as fontes e analisá-los.
-2. Preencher `specs/design.md` e apresentá-lo para aprovação.
-3. Aprovar as propostas pendentes em `specs/site.md`.
+1. Fazer o SVG do logo e do monograma.
+2. Receber os prints da referência e ajustar escala, espaçamentos e composição em
+   `specs/design.md`.
+3. Aprovar as propostas pendentes em `specs/site.md` e `specs/design.md`.
 4. Só então começar a programar, mesmo que parte do conteúdo ainda chegue depois e fique como
    `[PREENCHER]`.

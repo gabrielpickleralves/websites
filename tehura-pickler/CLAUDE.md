@@ -13,6 +13,7 @@ sem autorização.
 - O que construir: @specs/site.md
 - Como deve parecer: @specs/design.md
 - Decisões, problemas e pendências: @memoria.md
+- Identidade visual do escritório: `identidade/` (logo, monograma e fonte Tehura; não alterar)
 - Materiais de referência: `referencias/` (print completo e link do site de referência)
 
 ## Regras

@@ -2,7 +2,7 @@
 
 Fonte de verdade sobre o que será construído.
 
-- **Versão:** 1, 15/10/2026. Inclui as respostas da primeira rodada de perguntas. Ainda não
+- **Versão:** 2, 15/10/2026. Inclui as respostas das perguntas e a identidade visual. Ainda não
   aprovada por inteiro.
 - **Legenda:**
   - **[A DEFINIR]**: depende de resposta ou material do escritório.
@@ -29,14 +29,16 @@ Fonte de verdade sobre o que será construído.
 
 ## 3. Escritório e proposta de valor
 
-- **Nome:** TEHURA PICKLER.
+- **Nome:** TEHURA PICKLER. No logo aparece como "TEHURA PICKLER ARQUITETURA".
 - **Natureza:** escritório de arquitetura liderado pela arquiteta Tehura Pickler.
+- **Frase do escritório:** "Arquitetura e interiores".
 - **Proposta de valor:** [A DEFINIR] O que diferencia o escritório, nas palavras do próprio
   escritório.
 - **História e ano de fundação:** [A DEFINIR]
 - **Localização no site:** só bairro e cidade, sem número e sem mapa. O endereço exato é passado
   pelo WhatsApp.
-  - [A DEFINIR] Qual é o bairro e qual é a cidade.
+  - **Cidade:** Mogi das Cruzes (SP).
+  - [A DEFINIR] Bairro.
 - **Registro profissional:** o número do CAU aparece no site.
   - [A DEFINIR] O número, e se é da Tehura, do escritório ou dos dois.
 - **Prêmios e mostras:** existem e entram no site.
@@ -172,12 +174,14 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 - [ ] Print completo do site de referência em `referencias/`
 - [x] Idioma, tradução, páginas, público-alvo, canal de contato, stack, serviços, quantidade e
       material dos projetos, endereço no site, CAU, extras
-- [ ] Logo: arquivo na maior resolução disponível (o escritório tem só em imagem)
-- [ ] Fontes da identidade: nomes, arquivos e licença para uso na web
+- [x] Logo e monograma em PNG 4K (`identidade/logo/`)
+- [x] Fonte Tehura, com publicação autorizada (`identidade/fonte/`)
+- [x] Cidade (Mogi das Cruzes, SP) e frase ("Arquitetura e interiores")
+- [ ] Versão SVG do logo e do monograma (aprovada, a fazer)
 - [ ] Domínio que será registrado
 - [ ] Número do WhatsApp, horário de atendimento e redes sociais
 - [ ] Texto do botão e mensagem pronta do WhatsApp
-- [ ] Bairro, cidade e região de atuação
+- [ ] Bairro e região de atuação
 - [ ] Número do CAU
 - [ ] História, ano de fundação e proposta de valor
 - [ ] Etapas do processo de trabalho
@@ -200,8 +204,9 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 - **[PROPOSTA] Links:** todos os links internos relativos, para o site funcionar tanto no endereço
   do GitHub quanto no domínio próprio.
 - **Imagens:** AVIF e WebP, com JPEG de reserva, em vários tamanhos (`srcset`).
-- **Fontes:** as da identidade do escritório, servidas pelo próprio site em WOFF2.
-  - [A DEFINIR] Confirmar que a licença permite o uso na web.
+- **Fonte:** só a Tehura, a fonte própria do escritório, com publicação autorizada. Os arquivos TTF
+  de `identidade/fonte/` são convertidos para WOFF2 e servidos pelo próprio site.
+- **Logo:** versão SVG fiel, feita a partir dos PNG 4K de `identidade/logo/`.
 - **Sem formulário:** o contato é só pelo WhatsApp.
 - **Publicação:** `CLAUDE.md`, `specs/`, `memoria.md` e `referencias/` não podem ir para o site
   público (ver pendências em `memoria.md`).
@@ -229,6 +234,9 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 - **Estrutura:** um `h1` por página, hierarquia de títulos correta e regiões (landmarks).
 - **Movimento:** respeitar a preferência por menos movimento (`prefers-reduced-motion`).
 - **Idioma:** atributo `lang` certo em cada página (`pt-BR` e `en`).
+- **Maiúsculas:** o site usa só a fonte Tehura, que mostra tudo em maiúsculas. Para não prejudicar
+  leitores de tela nem buscadores, o texto é escrito em caixa normal no HTML, e quem faz as
+  maiúsculas é a fonte (ver `specs/design.md`, seção 4).
 - **Galeria:** Esc fecha, as setas navegam e o foco fica dentro dela enquanto está aberta.
 
 ## 16. Desempenho
@@ -243,7 +251,7 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
   celular.
 - **Foto de abertura** com cerca de 200 KB no celular. As demais fotos carregam sob demanda.
 - **JavaScript** só onde há interação, sem bibliotecas pesadas.
-- **Fontes:** no máximo duas famílias, só com os caracteres latinos e com `font-display: swap`.
+- **Fontes:** uma família (Tehura) em três pesos, em WOFF2, com `font-display: swap`.
 
 ## 17. Escopo
 
@@ -257,8 +265,7 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
   é aprovado antes de publicar.
 - SEO básico e metadados de compartilhamento.
 - Publicação no GitHub Pages.
-- **[PROPOSTA]** Redesenho fiel do logo existente em vetor (SVG), sem mudar o desenho, para ele
-  ficar nítido em qualquer tela.
+- Versão vetorial (SVG) fiel do logo e do monograma, sem mudar o desenho.
 
 **Fora do escopo:**
 
