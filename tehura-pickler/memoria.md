@@ -96,6 +96,27 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   sabendo que o repositório é público.
 - Eles continuam fora do site publicado (ver Pendências).
 
+**15/10/2026, aprovação do design**
+
+- **`specs/design.md` aprovado** (versão 4), depois do esboço da página inicial em `esbocos/`.
+  Todas as propostas da versão 3 passaram a valer.
+- **Escolhas na aprovação:**
+  - projetos em destaque em faixas de ponta a ponta;
+  - ficha técnica em coluna lateral fixa na página de projeto;
+  - títulos em Regular.
+- **Ajustes pedidos pelo escritório:**
+  - **Fundo do site:** `#F2F0EB`, mais claro. Isso **substitui** a decisão anterior de fundo
+    `#EBE8E1`, com confirmação do escritório. O `#EBE8E1` continua como o bege das peças da
+    identidade.
+  - **Ordem da página inicial:**
+    1. Abertura
+    2. Faixas de projetos
+    3. Apresentação
+    4. Tehura
+    5. Como trabalhamos
+    6. Chamada final
+  - **Faixas de projeto:** 85% da altura da tela em todas as larguras, inclusive no celular.
+
 ## Decisões rejeitadas
 
 **15/10/2026**
@@ -113,6 +134,11 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 - **Logo completo no cabeçalho:** fica o monograma TP.
 - **Grade editorial alternada e grade de três colunas:** ficam duas colunas grandes.
 - **Retrato em preto e branco:** fica em cor.
+- **Projetos em grade de duas colunas na página inicial:** ficam as faixas.
+- **Ficha técnica no topo da página de projeto:** fica a coluna lateral fixa.
+- **Títulos em Bold:** ficam em Regular.
+- **Fundo `#EBE8E1` no site:** trocado por `#F2F0EB`. A cor continua nas peças da identidade.
+- **Faixas com 70% da altura no celular:** ficam 85% em todas as larguras.
 
 ## Alterações realizadas
 
@@ -144,6 +170,11 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   só desktop.
   - Análise com medidas em `referencias/analise-da-referencia.md`.
   - `specs/design.md` passou para a versão 3, com a composição de cada página, aguardando aprovação.
+- **Esboço da página inicial:** imagens em `esbocos/` (desktop e celular), com logo, fonte e cores
+  reais e fotos e textos provisórios.
+  - Ele foi feito fora do repositório só para a aprovação. Não é o código do site.
+  - Também está em `esbocos/` a comparação de tons de fundo.
+- `specs/design.md` passou para a versão 4, aprovada.
 
 ## Problemas encontrados
 
@@ -156,8 +187,9 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   escritório pedir de novo para usar o site. Talvez a liberação só valha numa sessão nova.
 - **Fonte só em maiúsculas:** a Tehura não tem minúsculas, e as letras minúsculas são desenhadas como
   maiúsculas.
-- **Sinais ausentes na fonte:** `²` `%` `·` `#` `*` `$` `_` `|` `[ ]` `< >`, aspas curvas, `…`,
-  `º` `ª` `ü` `è` `ñ`.
+- **Sinais ausentes na fonte:** `²` `%` `·` `#` `©` `*` `$` `_` `|` `[ ]` `< >`, aspas curvas,
+  `…`, `º` `ª` `ü` `è` `ñ`. O `©` e o `#` apareceram como quadradinhos no esboço e na comparação de
+  tons, e foram contornados.
 - **Sem informação pública:** não há nada sobre Tehura Pickler ou o escritório nos resultados de
   busca. Todo o conteúdo depende do material enviado pelo escritório.
 - **Risco de publicação:** o GitHub Pages deste repositório publica a branch `gh-pages` com Jekyll,
@@ -209,12 +241,12 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   - revisão do inglês do botão e da mensagem do WhatsApp.
 - **Domínio:** quando ele for registrado, decidir entre um repositório próprio e outra hospedagem.
 - **Antes da primeira publicação:** impedir que `CLAUDE.md`, `specs/`, `memoria.md`,
-  `referencias/` e os originais de `identidade/` sejam publicados. Só os arquivos otimizados (SVG e
+  `referencias/`, `esbocos/` e os originais de `identidade/` sejam publicados. Só os arquivos otimizados (SVG e
   WOFF2) vão para o site.
 
 ## Próximos passos
 
-1. Aprovar `specs/design.md` (versão 3) e as propostas pendentes de `specs/site.md`.
+1. Aprovar as propostas pendentes de `specs/site.md`.
 2. Receber o zip dos projetos e as informações que faltam.
 3. Só então começar a programar, mesmo que parte do conteúdo ainda chegue depois e fique como
    `[PREENCHER]`.

@@ -2,10 +2,13 @@
 
 Fonte de verdade visual do projeto.
 
-- **Versão:** 3, 15/10/2026. Inclui a identidade visual, as escolhas visuais do escritório e a
-  análise dos prints do site de referência. **Aguardando aprovação.**
+- **Versão:** 4, 15/10/2026. **Aprovada pelo escritório**, depois de ver o esboço da página
+  inicial (`esbocos/`), com três ajustes:
+  - fundo mais claro (`#F2F0EB`);
+  - projetos logo depois da abertura;
+  - faixas de projeto com 85% da altura da tela também no celular.
+- **Situação das propostas:** tudo o que era proposta na versão 3 foi aprovado.
 - **Legenda:**
-  - **[PROPOSTA]**: sugestão do Claude; só vale depois de aprovada.
   - **[A DEFINIR]**: depende de material ou resposta do escritório.
   - Sem marcação: identidade do escritório ou decisão aprovada.
 
@@ -59,7 +62,7 @@ TEHURA PICKLER.
 - **Origem:** a identidade do escritório.
   - A fonte Tehura é geométrica, só em maiúsculas, com o "A" sem travessão (Λ).
   - O monograma TP é feito de traços finos e retos com um único arco.
-- **[PROPOSTA] Linguagem gráfica:**
+- **Linguagem gráfica:**
   - linhas finas de 1 px como único ornamento, ecoando os traços do monograma;
   - cantos retos;
   - muito espaço em branco;
@@ -106,12 +109,12 @@ TEHURA PICKLER.
 
 - **Monograma TP:**
   - no cabeçalho fixo;
-  - [PROPOSTA] como ícone do navegador (favicon) e de atalho no celular.
+  - como ícone do navegador (favicon) e de atalho no celular.
 - **Logo completo:**
   - em branco, sobre a foto em tela cheia da abertura da página inicial;
-  - [PROPOSTA] no rodapé.
+  - no rodapé.
 
-**[PROPOSTA] Tamanhos e área livre:**
+**Tamanhos e área livre:**
 
 - **Tamanho mínimo do logo:** 120 px de largura.
 - **Área livre ao redor do logo:** igual à altura de uma linha do "TEHURA".
@@ -120,9 +123,9 @@ TEHURA PICKLER.
 
 **"Arquitetura e interiores"**.
 
-- [PROPOSTA] Ela **não** vai logo abaixo do logo, porque o logo já termina em "ARQUITETURA" e as
+- Ela **não** vai logo abaixo do logo, porque o logo já termina em "ARQUITETURA" e as
   duas palavras ficariam repetidas.
-- [PROPOSTA] Lugares onde aparece:
+- Lugares onde aparece:
   - título da apresentação na página inicial;
   - título da aba do navegador;
   - descrição para buscadores.
@@ -131,34 +134,35 @@ TEHURA PICKLER.
 
 | Papel | Nome | Cor | Origem |
 |---|---|---|---|
-| Fundo principal | Bege | `#EBE8E1` | identidade |
+| Fundo do site | Bege claro | `#F2F0EB` | escolhido pelo escritório, mais claro que o bege da identidade |
+| Peças da identidade (como o PNG do logo com fundo bege) | Bege da identidade | `#EBE8E1` | identidade |
 | Texto, logo e traços | Carvão | `#1E1D19` | identidade |
 | Sobre fotos e sobre carvão | Branco | `#FFFFFF` | identidade |
-| [PROPOSTA] Texto secundário | Cinza quente | `#66635C` | derivado do carvão |
-| [PROPOSTA] Linhas e divisórias | Areia | `#C9C5BD` | derivado do bege |
+| Texto secundário | Cinza quente | `#66635C` | derivado do carvão |
+| Linhas e divisórias | Areia | `#C9C5BD` | derivado do bege |
 
 **Contraste (exigência mínima de 4,5:1 para texto):**
 
 | Combinação | Contraste | Uso |
 |---|---|---|
-| Carvão sobre bege | 13,8:1 | texto |
-| Cinza quente sobre bege | 4,9:1 | texto secundário |
+| Carvão sobre o fundo | 14,8:1 | texto |
+| Cinza quente sobre o fundo | 5,3:1 | texto secundário |
 | Branco sobre carvão | 16,9:1 | texto |
-| Areia sobre bege | 1,4:1 | **nunca texto**: só divisórias decorativas |
+| Areia sobre o fundo | 1,5:1 | **nunca texto**: só divisórias decorativas |
 
 ## 3. Cores de fundo, texto, botões e detalhes
 
-- **Fundo:** bege em todas as páginas, inclusive no cabeçalho e no rodapé.
+- **Fundo:** bege claro `#F2F0EB` em todas as páginas, inclusive no cabeçalho e no rodapé.
 - **Texto principal:** carvão.
 - **Texto secundário** (cidade e ano, cargos, rótulos da ficha técnica): cinza quente.
-- **[PROPOSTA] Botões:** contorno carvão de 1 px, texto carvão e fundo transparente. Ao passar o
+- **Botões:** contorno carvão de 1 px, texto carvão e fundo transparente. Ao passar o
   mouse ou focar, o fundo fica carvão e o texto bege.
-- **[PROPOSTA] Links no texto:** carvão, com sublinhado fino.
-- **[PROPOSTA] Foco do teclado:** contorno carvão de 2 px, afastado 3 px do elemento.
-- **[PROPOSTA] Divisórias:** linha areia de 1 px.
-- **[PROPOSTA] Texto sobre foto** (abertura e faixas de projeto): branco, com um véu escuro suave
+- **Links no texto:** carvão, com sublinhado fino.
+- **Foco do teclado:** contorno carvão de 2 px, afastado 3 px do elemento.
+- **Divisórias:** linha areia de 1 px.
+- **Texto sobre foto** (abertura e faixas de projeto): branco, com um véu escuro suave
   na parte de baixo da foto (degradê de transparente a 45% de carvão) para manter o contraste.
-- **[PROPOSTA] Galeria ampliada:** fundo carvão, para a foto se destacar. É a única área escura do
+- **Galeria ampliada:** fundo carvão, para a foto se destacar. É a única área escura do
   site.
 
 ## 4. Tipografia
@@ -177,17 +181,18 @@ Arquivos em `identidade/fonte/`. A publicação no site está autorizada.
 
 **Sinais que a fonte não tem: contornar nos textos.**
 
-- **Sinais ausentes:** `²` `%` `·` `#` `*` `$` `_` `|` `[ ]` `< >`, aspas curvas `“ ” ‘ ’`, `…`,
-  `º` e `ª`, além de `ü`, `è` e `ñ`.
+- **Sinais ausentes:** `²` `%` `·` `#` `©` `*` `$` `_` `|` `[ ]` `< >`, aspas curvas `“ ” ‘ ’`,
+  `…`, `º` e `ª`, além de `ü`, `è` e `ñ`.
 - **Como contornar:**
   - escrever "420 m2" em vez de "420 m²";
   - usar o travessão "—" como separador, no lugar de "·";
   - usar aspas retas;
-  - escrever "por cento" ou evitar números em porcentagem.
-- **[PROPOSTA] Reserva:** se um desses sinais aparecer, o navegador usa só nele uma fonte geométrica
+  - escrever "por cento" ou evitar números em porcentagem;
+  - no rodapé, escrever "2026 TEHURA PICKLER — Todos os direitos reservados", sem "©".
+- **Reserva:** se um desses sinais aparecer, o navegador usa só nele uma fonte geométrica
   do sistema, listada depois da Tehura.
 
-**[PROPOSTA] Pesos:**
+**Pesos:**
 
 - **Regular:**
   - títulos de página e de seção (como na referência, os títulos ficam leves e o peso vem do
@@ -197,7 +202,7 @@ Arquivos em `identidade/fonte/`. A publicação no site está autorizada.
 - **Light:** só em tamanhos grandes, a partir de 24 px (nomes sobre as fotos). Em tamanho pequeno o
   traço fino perde leitura.
 
-**[PROPOSTA] Para compensar a leitura em maiúsculas:**
+**Para compensar a leitura em maiúsculas:**
 
 - parágrafos curtos, de até quatro ou cinco linhas;
 - espaço entre letras levemente aberto;
@@ -208,7 +213,7 @@ Arquivos em `identidade/fonte/`. A publicação no site está autorizada.
 
 ## 5. Escala tipográfica
 
-[PROPOSTA] Tamanhos fluidos, que crescem do celular ao desktop, calibrados com a referência (ver a
+Tamanhos fluidos, que crescem do celular ao desktop, calibrados com a referência (ver a
 análise, seção 3).
 
 | Papel | Celular → desktop | Peso | Entrelinha | Espaço entre letras |
@@ -222,8 +227,6 @@ análise, seção 3).
 | Texto pequeno (direitos autorais) | 13 px | Regular | 1,5 | 0,1 em |
 
 ## 6. Espaçamentos
-
-[PROPOSTA]
 
 - **Escala base de 8 px:** 4, 8, 16, 24, 32, 48, 64, 96, 128 e 160 px.
 - **Coluna de conteúdo:** até 1280 px, centralizada (a referência usa 1260 px).
@@ -241,8 +244,6 @@ análise, seção 3).
 
 ## 7. Bordas e raios
 
-[PROPOSTA]
-
 - Cantos sempre retos (raio 0), em fotos, botões e cards. A referência usa cantos levemente
   arredondados nos botões; a Tehura não.
 - Linhas de 1 px.
@@ -251,27 +252,27 @@ análise, seção 3).
 ## 8. Botões
 
 - **Principal ("Conte sobre seu projeto", abre o WhatsApp):**
-  - [PROPOSTA] contorno carvão de 1 px, texto em Regular, altura mínima de 48 px e preenchimento
+  - contorno carvão de 1 px, texto em Regular, altura mínima de 48 px e preenchimento
     invertido ao passar o mouse;
   - sobre foto, a versão é branca (contorno e texto brancos).
-- **[PROPOSTA] Secundário** ("Ver projetos", "Conheça o escritório"): só texto, com uma linha fina
+- **Secundário** ("Ver projetos", "Conheça o escritório"): só texto, com uma linha fina
   embaixo que cresce ao passar o mouse.
 - **Sem botão flutuante de WhatsApp** (decisão do escritório).
 
 ## 9. Cards
 
 - **Grade de projetos:** duas colunas (decisão do escritório).
-- **[PROPOSTA] Card de projeto:**
+- **Card de projeto:**
   - foto em 3:2, sem borda e sem sombra, na mesma proporção em toda a grade;
   - embaixo, a 12 px da foto: nome do projeto em Bold à esquerda e "Cidade — ano" em cinza quente
     à direita, na mesma linha;
   - no celular, a cidade e o ano vão para a linha de baixo.
-- **[PROPOSTA] Ao passar o mouse:** a foto escurece levemente e aumenta 3%, devagar.
-- **[PROPOSTA] Card inteiro clicável**, com foco visível pelo teclado.
+- **Ao passar o mouse:** a foto escurece levemente e aumenta 3%, devagar.
+- **Card inteiro clicável**, com foco visível pelo teclado.
 
 ## 10. Fotografias de arquitetura
 
-[PROPOSTA] A confirmar quando as fotos chegarem.
+A confirmar quando as fotos chegarem.
 
 - Fotos profissionais com luz natural, cores fiéis e sem filtros.
 - Linhas verticais retas (perspectiva corrigida, como é padrão em fotografia de arquitetura).
@@ -285,7 +286,7 @@ análise, seção 3).
 
 - **O que entra:** fotos profissionais e ficha técnica, com crédito do fotógrafo.
 - **O que não entra:** plantas, croquis e nome dos clientes.
-- **[PROPOSTA] Página de projeto:**
+- **Página de projeto:**
   1. **Abertura:** foto em tela cheia, com o nome do projeto e "Cidade — ano" embaixo à esquerda,
      em branco.
   2. **Duas colunas** (direção da referência):
@@ -302,22 +303,22 @@ análise, seção 3).
        intercaladas com pares de fotos 4:5 lado a lado.
   3. **"Outros projetos":** dois cards.
   4. **Chamada final:** "Conte sobre seu projeto".
-- **[PROPOSTA] No celular:** a ficha técnica vem logo depois da abertura, antes do texto e das
+- **No celular:** a ficha técnica vem logo depois da abertura, antes do texto e das
   fotos, e não fica fixa.
 
 ## 12. Retratos da arquiteta e da equipe
 
 - **Tehura Pickler:** é a única pessoa com retrato, e ele aparece **em cor**.
-  - [PROPOSTA] Retrato vertical, luz natural, fundo neutro próximo ao bege.
-  - [PROPOSTA] Na página Escritório, ocupa a metade direita e vai até a borda da tela (direção da
+  - Retrato vertical, luz natural, fundo neutro próximo ao bege.
+  - Na página Escritório, ocupa a metade direita e vai até a borda da tela (direção da
     referência).
 - **Equipe:** só nome e cargo, sem fotos.
-  - [PROPOSTA] Lista tipográfica em duas ou três colunas, com nome em Regular, cargo em cinza
+  - Lista tipográfica em duas ou três colunas, com nome em Regular, cargo em cinza
     quente e linhas areia entre as pessoas, sem espaços vazios no lugar de fotos.
 
 ## 13. Movimento e animações
 
-Nível de movimento: **sutil** (decisão do escritório). Detalhes abaixo em [PROPOSTA].
+Nível de movimento: **sutil** (decisão do escritório).
 
 - **Entrada das seções:** aparecem com um leve deslocamento de 16 px e esmaecimento, em 0,6 s.
 - **Ao passar o mouse:** transições de 0,3 s.
@@ -339,7 +340,7 @@ Nível de movimento: **sutil** (decisão do escritório). Detalhes abaixo em [PR
   branco.
 - **Grade de projetos:** duas colunas grandes no desktop e uma no celular.
 
-**[PROPOSTA] Cabeçalho:**
+**Cabeçalho:**
 
 - **Na página inicial:** começa transparente sobre a foto, com monograma e menu em branco. Ao rolar,
   vira uma barra bege fixa, com monograma e menu em carvão e uma linha areia embaixo.
@@ -353,31 +354,35 @@ Nível de movimento: **sutil** (decisão do escritório). Detalhes abaixo em [PR
 - **Celular:** monograma à esquerda e botão "Menu" à direita. O botão abre um painel bege em tela
   cheia, com os links em tamanho grande, o botão do WhatsApp e a troca de idioma.
 
-**[PROPOSTA] Larguras conferidas:** 360, 390, 768, 1024, 1280, 1440 e 1920 px. No celular, conferir
+**Larguras conferidas:** 360, 390, 768, 1024, 1280, 1440 e 1920 px. No celular, conferir
 que nenhuma palavra longa em maiúsculas estoura a largura (por exemplo, "ARQUITETURA" e
 "INCORPORAÇÃO" em títulos grandes).
 
 ## 15. Composição das páginas
 
-[PROPOSTA] Adaptada da referência (ver a análise, seção 2) à identidade e às decisões da Tehura.
+Adaptada da referência (ver a análise, seção 2) à identidade e às decisões da Tehura.
 
 **Início:**
 
+A ordem foi escolhida pelo escritório.
+
 1. **Abertura:** foto de projeto em tela cheia, com o logo completo em branco embaixo à esquerda,
    na linha de alinhamento.
-2. **Apresentação:**
+2. **Projetos em faixas:** de três a quatro projetos em destaque, cada um numa faixa de foto de
+   ponta a ponta, com 85% da altura da tela em todas as larguras, inclusive no celular.
+   - Nome e "Cidade — ano" ficam embaixo à esquerda, em branco.
+   - A faixa inteira leva ao projeto.
+   - No fim, o link "Ver todos os projetos".
+   - Na referência, as faixas são de categorias. Aqui são projetos, o que funciona melhor com 6 a
+     10 projetos.
+3. **Apresentação:**
    - título "Arquitetura e interiores";
    - dois ou três parágrafos curtos;
    - link "Conheça o escritório".
-3. **Projetos em faixas:** de três a quatro projetos em destaque, cada um numa faixa de foto de
-   ponta a ponta (85% da altura da tela). Nome e "Cidade — ano" embaixo à esquerda, em branco. A
-   faixa inteira leva ao projeto. No fim, o link "Ver todos os projetos".
-   - Na referência, as faixas são de categorias. Aqui são projetos, o que funciona melhor com 6 a
-     10 projetos.
-4. **Como trabalhamos:** as cinco etapas numeradas de 01 a 05, numa linha (no celular, em lista),
-   separadas por linhas finas, com link para a página.
-5. **Tehura Pickler:** composição dividida ao meio, com texto curto à esquerda e retrato em cor à
+4. **Tehura Pickler:** composição dividida ao meio, com texto curto à esquerda e retrato em cor à
    direita até a borda.
+5. **Como trabalhamos:** as cinco etapas numeradas de 01 a 05, numa linha (no celular, em lista),
+   separadas por linhas finas, com link para a página.
 6. **Chamada final:** frase curta e o botão "Conte sobre seu projeto".
 
 **Escritório:**
@@ -421,7 +426,8 @@ que nenhuma palavra longa em maiúsculas estoura a largura (por exemplo, "ARQUIT
   - logo completo em carvão;
   - WhatsApp, horário e bairro/cidade;
   - Instagram e CAU;
-- embaixo, linha fina e "© ano TEHURA PICKLER".
+- embaixo, linha fina e "2026 TEHURA PICKLER — Todos os direitos reservados" (a fonte não tem
+  "©").
 
 **Erro 404:** monograma, frase curta e link para o início.
 
@@ -433,7 +439,7 @@ que nenhuma palavra longa em maiúsculas estoura a largura (por exemplo, "ARQUIT
 - Texto escrito em maiúsculas no HTML: a fonte já faz isso.
 - Light em tamanhos pequenos.
 - Texto corrido pequeno ou de baixo contraste (ponto fraco da referência).
-- **[PROPOSTA]**
+- **Itens de estilo:**
   - fotos de banco de imagens;
   - carrossel, inclusive o de equipe;
   - mosaico de alturas variadas;

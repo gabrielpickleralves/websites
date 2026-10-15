@@ -35,5 +35,5 @@ sem autorização.
 
 ## Fase atual
 
-Documentação. Não comece a programar o site enquanto @specs/site.md e @specs/design.md não
-estiverem aprovados.
+Documentação. @specs/design.md está aprovado (versão 4). Não comece a programar o site enquanto as
+propostas de @specs/site.md não estiverem aprovadas.

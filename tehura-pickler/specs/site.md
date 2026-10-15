@@ -129,13 +129,13 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 - **Em todas as páginas:**
   - cabeçalho fixo com o monograma TP, o menu e a troca de idioma;
   - rodapé com WhatsApp, Instagram, horário, bairro/cidade e CAU do escritório.
-- **Início:**
-  - abertura com foto de projeto em tela cheia e o logo completo em branco (aprovada);
-  - apresentação curta do escritório;
-  - projetos em destaque;
-  - resumo de como trabalhamos;
-  - chamada para conhecer a arquiteta e a equipe;
-  - chamada para o WhatsApp.
+- **Início** (ordem aprovada, detalhes em `specs/design.md`, seção 15):
+  1. abertura com foto de projeto em tela cheia e o logo completo em branco;
+  2. projetos em destaque, em faixas de foto de ponta a ponta;
+  3. apresentação curta do escritório;
+  4. Tehura Pickler;
+  5. resumo de como trabalhamos;
+  6. chamada para o WhatsApp.
 - **Escritório:**
   - apresentação do escritório;
   - Tehura Pickler (retrato e biografia);
