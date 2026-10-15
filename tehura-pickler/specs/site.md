@@ -2,11 +2,12 @@
 
 Fonte de verdade sobre o que será construído.
 
-- **Versão:** 3, 15/10/2026. Inclui as respostas de todas as rodadas de perguntas e a identidade
-  visual. Ainda não aprovada por inteiro.
+- **Versão:** 4, 15/10/2026. **Aprovada pelo escritório.**
+  - As propostas de seções, ficha técnica e chamadas secundárias foram aprovadas junto com o
+    `specs/design.md`.
+  - As regras técnicas (itens 10 e 13 a 16) e o inglês das chamadas foram aprovados em seguida.
 - **Legenda:**
   - **[A DEFINIR]**: depende de resposta ou material do escritório.
-  - **[PROPOSTA]**: sugestão do Claude; só vale depois de aprovada.
   - Sem marcação: informado ou aprovado pelo escritório.
 
 ---
@@ -91,7 +92,7 @@ Fonte de verdade sobre o que será construído.
 - **O que não aparece:**
   - plantas e croquis;
   - nome dos clientes.
-- **[PROPOSTA] Campos da ficha técnica:**
+- **Campos da ficha técnica:**
   - nome do projeto;
   - categoria;
   - cidade/UF;
@@ -123,8 +124,6 @@ Site com várias páginas, nas duas línguas:
 São 7 modelos de página, mais uma página para cada projeto, em português e em inglês.
 
 ## 9. Seções necessárias
-
-[PROPOSTA]
 
 - **Em todas as páginas:**
   - cabeçalho fixo com o monograma TP, o menu e a troca de idioma;
@@ -173,22 +172,20 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
   página.
 - **Sem botão flutuante de WhatsApp:** o contato fica nos botões dentro das páginas e no rodapé.
 - **Filtro de projetos por área**, sem recarregar a página.
-- **[PROPOSTA]**
-  - Menu responsivo, com painel em tela cheia no celular.
-  - Galeria de fotos com ampliação em tela cheia, controlável por teclado e por toque.
-  - Metadados para buscadores e compartilhamento: título, descrição, Open Graph, dados
-    estruturados e `hreflang` entre as duas línguas.
+- **Menu responsivo**, com painel em tela cheia no celular.
+- **Galeria de fotos** com ampliação em tela cheia, controlável por teclado e por toque.
+- **Metadados** para buscadores e compartilhamento: título, descrição, Open Graph, dados
+  estruturados e `hreflang` entre as duas línguas.
 
 ## 11. Chamadas para ação
 
 - **Principal:** conversa pelo WhatsApp.
   - **Texto do botão:** "Conte sobre seu projeto".
   - **Mensagem pronta:** "Olá! Vim pelo site e gostaria de conversar sobre um projeto."
-  - **[PROPOSTA] Em inglês** (a revisar pelo escritório):
+  - **Em inglês:**
     - botão: "Tell us about your project";
-    - mensagem: "Hello! I found you through your website and would like to talk about a
-      project."
-- **[PROPOSTA] Secundárias:**
+    - mensagem: "Hello! I'm reaching out through the website about a project."
+- **Secundárias:**
   - "Ver projetos";
   - "Conheça o escritório".
 
@@ -225,9 +222,9 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
   `https://gabrielpickleralves.github.io/websites/tehura-pickler/`.
 - **Domínio definitivo:** será registrado. [A DEFINIR] Qual é. Ver o problema registrado em
   `memoria.md`: o GitHub Pages liga um domínio ao repositório inteiro, e a raiz deste é a Marina.
-- **[PROPOSTA] Idiomas:** português na raiz da pasta do site e inglês em `en/`, com os mesmos
+- **Idiomas:** português na raiz da pasta do site e inglês em `en/`, com os mesmos
   nomes de página.
-- **[PROPOSTA] Links:** todos os links internos relativos, para o site funcionar tanto no endereço
+- **Links:** todos os links internos relativos, para o site funcionar tanto no endereço
   do GitHub quanto no domínio próprio.
 - **Imagens:** AVIF e WebP, com JPEG de reserva, em vários tamanhos (`srcset`).
 - **Fonte:** só a Tehura, a fonte própria do escritório, com publicação autorizada. Os arquivos TTF
@@ -240,8 +237,6 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 
 ## 14. Responsividade
 
-[PROPOSTA]
-
 - Construção a partir do celular (mobile-first).
 - Conferir em 360, 390, 768, 1024, 1280, 1440 e 1920 px de largura.
 - Nenhuma largura com rolagem horizontal.
@@ -252,7 +247,7 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 
 ## 15. Acessibilidade
 
-[PROPOSTA] Nível AA das WCAG 2.2.
+Nível AA das WCAG 2.2.
 
 - **Contraste:** pelo menos 4,5:1 no texto e 3:1 em texto grande e elementos gráficos.
 - **Teclado:** navegação completa, foco visível e link "Pular para o conteúdo".
@@ -267,8 +262,6 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 - **Galeria:** Esc fecha, as setas navegam e o foco fica dentro dela enquanto está aberta.
 
 ## 16. Desempenho
-
-[PROPOSTA]
 
 - **Core Web Vitals** na faixa "bom" no celular:
   - LCP até 2,5 s;

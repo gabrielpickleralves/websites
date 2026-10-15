@@ -117,6 +117,23 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
     6. Chamada final
   - **Faixas de projeto:** 85% da altura da tela em todas as larguras, inclusive no celular.
 
+**15/10/2026, aprovação do site.md**
+
+- **`specs/site.md` aprovado** (versão 4).
+- **Regras técnicas aprovadas:**
+  - responsividade de 360 a 1920 px;
+  - nível AA das WCAG 2.2;
+  - nota 90 ou mais no Lighthouse;
+  - inglês em `en/`;
+  - links relativos;
+  - menu em tela cheia no celular;
+  - galeria ampliada;
+  - metadados.
+- **Inglês das chamadas:**
+  - botão: "Tell us about your project";
+  - mensagem do WhatsApp: "Hello! I'm reaching out through the website about a project." (texto
+    do escritório).
+
 ## Decisões rejeitadas
 
 **15/10/2026**
@@ -139,6 +156,8 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 - **Títulos em Bold:** ficam em Regular.
 - **Fundo `#EBE8E1` no site:** trocado por `#F2F0EB`. A cor continua nas peças da identidade.
 - **Faixas com 70% da altura no celular:** ficam 85% em todas as larguras.
+- **Mensagem em inglês "Hello! I found you through your website…":** trocada pelo texto do
+  escritório.
 
 ## Alterações realizadas
 
@@ -213,8 +232,8 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   print.
 - O link do site de referência foi registrado em `referencias/site-de-referencia.md`, a pedido do
   escritório.
-- **[PROPOSTA]** Todos os links internos serão relativos, para o site funcionar no endereço do
-  GitHub e depois no domínio próprio sem mudanças.
+- **Links relativos** (aprovado): todos os links internos são relativos, para o site funcionar no
+  endereço do GitHub e depois no domínio próprio sem mudanças.
 - **Maiúsculas:** os textos são escritos em caixa normal no HTML, e a fonte mostra tudo em
   maiúsculas. Assim leitores de tela, buscadores e copiar e colar recebem o texto normal.
 - **Sinais ausentes:** evitados na redação. Se algum aparecer, entra uma fonte de reserva só nele.
@@ -237,8 +256,7 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   - nomes e cargos da equipe;
   - de 6 a 10 projetos, num zip com uma pasta por projeto (nome, categoria, cidade, ano, área,
     texto, fotos e fotógrafo);
-  - lista de prêmios e mostras;
-  - revisão do inglês do botão e da mensagem do WhatsApp.
+  - lista de prêmios e mostras.
 - **Domínio:** quando ele for registrado, decidir entre um repositório próprio e outra hospedagem.
 - **Antes da primeira publicação:** impedir que `CLAUDE.md`, `specs/`, `memoria.md`,
   `referencias/`, `esbocos/` e os originais de `identidade/` sejam publicados. Só os arquivos otimizados (SVG e
@@ -246,7 +264,6 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 
 ## Próximos passos
 
-1. Aprovar as propostas pendentes de `specs/site.md`.
-2. Receber o zip dos projetos e as informações que faltam.
-3. Só então começar a programar, mesmo que parte do conteúdo ainda chegue depois e fique como
-   `[PREENCHER]`.
+1. **Programar o site.** A documentação está aprovada, e a programação pode começar quando o
+   escritório pedir. O conteúdo que ainda não chegou fica como `[PREENCHER]`.
+2. Receber o zip dos projetos e as informações que faltam e substituir os `[PREENCHER]`.

@@ -35,5 +35,5 @@ sem autorização.
 
 ## Fase atual
 
-Documentação. @specs/design.md está aprovado (versão 4). Não comece a programar o site enquanto as
-propostas de @specs/site.md não estiverem aprovadas.
+Documentação concluída: @specs/site.md e @specs/design.md estão aprovados (versão 4 de cada). A
+programação pode começar quando eu pedir. O conteúdo que ainda falta fica como `[PREENCHER]`.
