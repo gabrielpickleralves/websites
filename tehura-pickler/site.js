@@ -78,6 +78,10 @@
     var contador = ampliada.querySelector('[data-ampliada-contador]');
     var modelo = JSON.parse(ampliada.dataset.rotulos).de;
     var atual = 0;
+    // com uma foto só, as setas não fazem sentido
+    if (itens.length < 2) {
+      ampliada.querySelectorAll('[data-ampliada-anterior], [data-ampliada-proxima]').forEach(function (b) { b.hidden = true; });
+    }
     var mostra = function (i) {
       atual = (i + itens.length) % itens.length;
       var copia = itens[atual].querySelector('.foto').cloneNode(true);

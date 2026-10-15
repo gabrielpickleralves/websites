@@ -475,7 +475,7 @@ def projeto(p, lg):
             valor_html = x(valor, lg)
         ficha.append(f'<div><dt>{x(rotulo, lg)}</dt><dd>{valor_html}</dd></div>')
     # galeria: fotos 3:2 na largura da coluna intercaladas com pares 4:5 (design.md, seção 11)
-    n_fotos = max(len(p.get('fotos') or []), 5)
+    n_fotos = len(p.get('fotos') or []) or 5               # sem fotos ainda: 5 marcadores
     ritmo = ['3x2', '4x5', '4x5', '3x2', '3x2']
     itens = []
     for i in range(n_fotos):

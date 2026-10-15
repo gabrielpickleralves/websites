@@ -339,6 +339,7 @@ main:focus { outline: none; }
   display: flex; align-items: center; justify-content: center;
 }
 .ampliada__seta:hover { border-color: var(--branco); }
+.ampliada__seta[hidden] { display: none; }
 .ampliada__seta--anterior { left: calc(var(--margem) / 2); }
 .ampliada__seta--proxima { right: calc(var(--margem) / 2); }
 .seta { width: 12px; height: 12px; border-left: 1px solid currentColor; border-bottom: 1px solid currentColor; }
