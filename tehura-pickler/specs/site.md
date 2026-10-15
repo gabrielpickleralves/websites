@@ -199,7 +199,7 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 - [x] Logo e monograma em PNG 4K (`identidade/logo/`)
 - [x] Fonte Tehura, com publicação autorizada (`identidade/fonte/`)
 - [x] Cidade (Mogi das Cruzes, SP) e frase ("Arquitetura e interiores")
-- [ ] Versão SVG do logo e do monograma (aprovada, a fazer)
+- [x] Versão SVG do logo e do monograma (`identidade/svg/`)
 - [ ] Domínio que será registrado
 - [x] Horário, rede social (Instagram), região de atuação, tipo de registro no CAU, etapas do
       processo, texto do botão e mensagem pronta do WhatsApp, categorias de projeto
@@ -229,7 +229,8 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 - **Imagens:** AVIF e WebP, com JPEG de reserva, em vários tamanhos (`srcset`).
 - **Fonte:** só a Tehura, a fonte própria do escritório, com publicação autorizada. Os arquivos TTF
   de `identidade/fonte/` são convertidos para WOFF2 e servidos pelo próprio site.
-- **Logo:** versão SVG fiel, feita a partir dos PNG 4K de `identidade/logo/`.
+- **Logo:** os SVG de `identidade/svg/`, feitos a partir dos PNG 4K de `identidade/logo/` e
+  conferidos com eles.
 - **Sem formulário:** o contato é só pelo WhatsApp.
 - **Publicação:** `CLAUDE.md`, `specs/`, `memoria.md` e `referencias/` não podem ir para o site
   público (ver pendências em `memoria.md`).

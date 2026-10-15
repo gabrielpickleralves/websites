@@ -129,6 +129,11 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   - A diferença para o PNG ficou entre 1% e 4% da área, só na suavização das bordas, e por igual em
     todas as letras.
   - O script do ajuste ficou fora do repositório.
+- **SVG prontos** em `identidade/svg/`: logo e monograma, em carvão e em branco.
+  - Cada arquivo foi renderizado e comparado com o PNG correspondente.
+  - **Logo:** 1,85% de diferença na área, só em pixels soltos nas curvas e diagonais. Pesa 20,7 KB
+    (4,6 KB comprimido).
+  - **Monograma:** 0,23% de diferença, nenhum pixel acima de 50% de diferença. Pesa 0,5 KB.
 
 ## Problemas encontrados
 
@@ -152,6 +157,11 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   raiz deste repositório é o site da Marina Boreste. Para o domínio do TEHURA PICKLER apontar para
   este site, o projeto precisará de um repositório próprio ou de outra hospedagem estática.
 
+- **Halo nos PNG:** os PNG da identidade têm um halo quase invisível (alfa 1/255) em volta das
+  formas. Medir as bordas pelo primeiro pixel com alfa > 0 aumentava as formas em cerca de 2 px.
+- **Arco do SVG:** um semicírculo escrito como um único arco fica ambíguo quando o arredondamento
+  deixa a corda menor que o diâmetro. Nesse caso o SVG desenha o arco menor, e a curva se desloca.
+
 ## Soluções aplicadas
 
 **15/10/2026**
@@ -166,6 +176,9 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 - **Maiúsculas:** os textos são escritos em caixa normal no HTML, e a fonte mostra tudo em
   maiúsculas. Assim leitores de tela, buscadores e copiar e colar recebem o texto normal.
 - **Sinais ausentes:** evitados na redação. Se algum aparecer, entra uma fonte de reserva só nele.
+- **Bordas:** medidas pelo pixel parcial colado no primeiro pixel cheio. A caixa de cada SVG sai da
+  geometria, não do PNG.
+- **Arcos:** cada semicírculo do monograma é desenhado como dois quartos de círculo.
 - **Contraste:** cores medidas na identidade.
   - Carvão sobre bege: 13,8:1.
   - Texto secundário proposto (`#66635C`): 4,9:1, acima do mínimo de 4,5:1.
@@ -190,15 +203,12 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 - **Antes da primeira publicação:** impedir que `CLAUDE.md`, `specs/`, `memoria.md`,
   `referencias/` e os originais de `identidade/` sejam publicados. Só os arquivos otimizados (SVG e
   WOFF2) vão para o site.
-- **Trabalho do Claude:**
-  - gerar o arquivo SVG do logo (ajuste já feito) e fazer o do monograma;
-  - comparar os dois com os PNG.
 
 ## Próximos passos
 
-1. Fazer o SVG do logo e do monograma.
-2. Receber os prints da referência e ajustar escala, espaçamentos e composição em
+1. Receber os prints da referência e ajustar escala, espaçamentos e composição em
    `specs/design.md`.
-3. Aprovar as propostas pendentes em `specs/site.md` e `specs/design.md`.
+2. Aprovar as propostas pendentes em `specs/site.md` e `specs/design.md`.
+3. Receber o zip dos projetos e as informações que faltam.
 4. Só então começar a programar, mesmo que parte do conteúdo ainda chegue depois e fique como
    `[PREENCHER]`.

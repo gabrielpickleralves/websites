@@ -82,8 +82,22 @@ vem de resultados de busca e de uma descrição feita antes. Precisa ser confirm
 - Sobre fotos e sobre carvão: versão branca.
 - O desenho nunca é alterado: nada de mudar a cor fora dessas versões, distorcer, contornar ou
   aplicar sombra.
-- Aprovada uma versão vetorial (SVG) idêntica do logo e do monograma. Antes de usar, ela é
-  comparada ponto a ponto com o PNG.
+- No site, use sempre os **SVG de `identidade/svg/`**:
+  - `logo-tehura-pickler.svg` e `logo-tehura-pickler-branco.svg`;
+  - `monograma-tp.svg` e `monograma-tp-branco.svg`.
+
+  Eles foram conferidos com os PNG: diferença de 1,85% da área no logo e de 0,23% no monograma,
+  só na suavização das bordas.
+- **Composição do logo:** a própria fonte Tehura.
+  - "TEHURA" em Bold.
+  - "PICKLER" e "ARQUITETURA" em Regular, com espaçamento entre letras, justificados na mesma
+    largura.
+- **Monograma TP:** formas geométricas exatas:
+  - barra e haste do T;
+  - haste do P;
+  - bojo do P, um semicírculo com duas retas.
+
+  Todas têm traço de cerca de 4,4% da altura do monograma.
 
 **Onde cada um aparece:**
 
