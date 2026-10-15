@@ -42,9 +42,10 @@ Fonte de verdade sobre o que será construído.
   - [A DEFINIR] Bairro.
 - **Registro profissional:** o site mostra o registro do escritório (pessoa jurídica) no CAU.
   - [A DEFINIR] O número.
+- **WhatsApp:** +55 11 98939-6948.
 - **Horário de atendimento:** de segunda a sexta, das 9h às 18h.
-- **Redes sociais:** só o Instagram.
-  - [A DEFINIR] O endereço do perfil.
+- **Redes sociais:** só o Instagram, **@tehurapicklerarquiteta**
+  (`https://www.instagram.com/tehurapicklerarquiteta/`).
 - **Prêmios e mostras:** existem e entram no site.
   - [A DEFINIR] Lista, com nome, ano e projeto premiado ou exposto.
 - **Publicações e depoimentos:** não há por enquanto e ficam fora do lançamento.
@@ -170,6 +171,10 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 - **Troca de idioma** entre português e inglês, mantendo a página em que a pessoa está.
 - **Contato só pelo WhatsApp:** os botões abrem a conversa com uma mensagem pronta, no idioma da
   página.
+  - **Formato do link:** `https://wa.me/5511989396948?text=` seguido da mensagem codificada para
+    URL (formato oficial do WhatsApp).
+  - **No texto do site, o número aparece como** "+55 11 98939-6948". Todos esses sinais existem na
+    fonte Tehura.
 - **Sem botão flutuante de WhatsApp:** o contato fica nos botões dentro das páginas e no rodapé.
 - **Filtro de projetos por área**, sem recarregar a página.
 - **Menu responsivo**, com painel em tela cheia no celular.
@@ -203,8 +208,8 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 - [ ] Domínio que será registrado
 - [x] Horário, rede social (Instagram), região de atuação, tipo de registro no CAU, etapas do
       processo, texto do botão e mensagem pronta do WhatsApp, categorias de projeto
-- [ ] Número do WhatsApp
-- [ ] Endereço do Instagram
+- [x] WhatsApp: +55 11 98939-6948
+- [x] Instagram: @tehurapicklerarquiteta
 - [ ] Bairro
 - [ ] Número do CAU do escritório
 - [ ] História, ano de fundação e proposta de valor

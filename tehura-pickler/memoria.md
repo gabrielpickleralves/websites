@@ -134,6 +134,15 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   - mensagem do WhatsApp: "Hello! I'm reaching out through the website about a project." (texto
     do escritório).
 
+**15/10/2026, conteúdo recebido**
+
+- **Instagram:** @tehurapicklerarquiteta (`https://www.instagram.com/tehurapicklerarquiteta/`).
+- **WhatsApp:** +55 11 98939-6948.
+  - O escritório mandou o link `api.whatsapp.com/send?1=pt_BR&phone=5511989396948`.
+  - O `1=pt_BR` provavelmente era `l=pt_BR`, um parâmetro de idioma.
+  - O site usa `https://wa.me/5511989396948?text=…`, o formato oficial curto, que leva a mensagem
+    pronta.
+
 ## Decisões rejeitadas
 
 **15/10/2026**
@@ -247,8 +256,6 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 ## Pendências
 
 - **Materiais do escritório:**
-  - número do WhatsApp;
-  - endereço do Instagram;
   - bairro;
   - número do CAU do escritório;
   - história, ano de fundação e proposta de valor;
