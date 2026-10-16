@@ -70,8 +70,11 @@ TEHURA PICKLER.
   - cantos retos;
   - muito espaço em branco;
   - nenhum ícone decorativo.
-- **Contato:** o WhatsApp é o único canal, e não há botão flutuante. O botão "Conte sobre seu
-  projeto" precisa ser o mais visível de cada página, sem competir com as fotos.
+- **Contato:** o WhatsApp é o único canal, e não há botão flutuante.
+  - O botão "Conte sobre seu projeto" fica na página Contato e no menu do celular.
+  - O rodapé tem o link do WhatsApp.
+  - Desde 16/10/2026, a pedido do escritório, a chamada final das outras páginas tem só a frase,
+    sem botão.
 
 ### Logo e monograma
 
@@ -305,7 +308,7 @@ A confirmar quando as fotos chegarem.
      - **à direita**, o texto curto do projeto e a galeria: fotos 3:2 na largura da coluna,
        intercaladas com pares de fotos 4:5 lado a lado.
   3. **"Outros projetos":** dois cards.
-  4. **Chamada final:** "Conte sobre seu projeto".
+  4. **Chamada final:** só a frase, sem botão.
 - **No celular:** a ficha técnica vem logo depois da abertura, antes do texto e das
   fotos, e não fica fixa.
 
@@ -393,7 +396,7 @@ A ordem foi escolhida pelo escritório.
    - link "Conheça o escritório".
 4. **Tehura Pickler:** composição dividida ao meio, com texto curto e o link "Leia a biografia" à
    esquerda e retrato em cor à direita até a borda.
-5. **Chamada final:** frase curta e o botão "Conte sobre seu projeto".
+5. **Chamada final:** frase curta, sem botão.
 
 **Escritório:**
 

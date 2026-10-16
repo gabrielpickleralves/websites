@@ -202,10 +202,9 @@ def rodape(lg, aqui):
 
 
 def chamada(lg):
+    """fecho das páginas: só a frase final (sem botão nem frase de atuação, pedido do escritório em 16/10/2026)"""
     return f'''<section class="coluna secao chamada" aria-labelledby="t-chamada">
 <h2 class="titulo-secao" id="t-chamada">{x(C.TEXTOS["chamada_final"], lg)}</h2>
-<p class="chamada__texto">{x(S["atuacao"], lg)}</p>
-{botao_whatsapp(lg)}
 </section>'''
 
 

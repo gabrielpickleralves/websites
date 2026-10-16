@@ -145,7 +145,7 @@ Menu: Escritório, Biografia, Projetos, Contato.
   2. projetos em destaque, em faixas de foto de ponta a ponta;
   3. apresentação curta do escritório;
   4. Tehura Pickler, com link para a Biografia;
-  5. chamada para o WhatsApp.
+  5. chamada final (só a frase).
 - **Escritório:**
   - apresentação do escritório, com foto do escritório;
   - serviços e áreas de atuação;
@@ -156,7 +156,7 @@ Menu: Escritório, Biografia, Projetos, Contato.
   - retrato da Tehura e texto com os subtítulos Formação, Início da carreira, Marcos e prêmios e
     Visão sobre arquitetura;
   - linha do tempo com os marcos e os principais prêmios;
-  - chamada para o WhatsApp.
+  - chamada final (só a frase).
 - **Projetos:**
   - filtro por área;
   - grade de duas colunas grandes no desktop (uma no celular), com foto, nome, cidade e ano de cada
@@ -168,7 +168,7 @@ Menu: Escritório, Biografia, Projetos, Contato.
   - galeria;
   - crédito do fotógrafo;
   - "Outros projetos" (dois cards);
-  - chamada para o WhatsApp.
+  - chamada final (só a frase).
 
   A composição detalhada está em `specs/design.md`, seção 11.
 - **Contato:**
@@ -201,6 +201,14 @@ Menu: Escritório, Biografia, Projetos, Contato.
   - **Em inglês:**
     - botão: "Tell us about your project";
     - mensagem: "Hello! I'm reaching out through the website about a project."
+- **Onde o botão aparece:**
+  - na página Contato;
+  - no menu do celular.
+
+  O rodapé tem o link do WhatsApp com o número.
+- **Chamada final das páginas:** desde 16/10/2026, a pedido do escritório, tem só a frase. Ficaram
+  de fora o botão e a frase "Atendemos em todo o Brasil e no exterior". Essa frase continua só na
+  descrição da página inicial para buscadores.
 - **Secundárias:**
   - "Ver projetos";
   - "Conheça o escritório".

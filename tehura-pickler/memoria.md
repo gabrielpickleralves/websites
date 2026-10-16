@@ -181,6 +181,17 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
 - **Sitemap:** `sitemap.xml`, gerado automaticamente.
 - **Formato dos marcadores:** `[PREENCHER: o que falta]`.
 
+**16/10/2026, chamada final sem botão**
+
+- **O que saiu:** a pedido do escritório, saíram de todas as páginas a frase "Atendemos em todo o
+  Brasil e no exterior" e o botão "Conte sobre seu projeto" da chamada final.
+- **O que ficou:** só a frase da chamada final.
+- **Onde o WhatsApp continua:**
+  - página Contato (botão);
+  - menu do celular (botão);
+  - rodapé (link).
+- **Aviso registrado:** isso substituiu a decisão de ter o botão como o mais visível de cada página.
+
 ## Decisões rejeitadas
 
 **15/10/2026**
@@ -211,6 +222,7 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
 - **Página Como trabalhamos e as 5 etapas** (aprovadas em 15/10/2026): removidas em 16/10/2026 a
   pedido do escritório.
 - **Botão com o texto "← Início":** fica só a seta.
+- **Chamada final com frase de atuação e botão do WhatsApp:** fica só a frase.
 
 ## Alterações realizadas
 
