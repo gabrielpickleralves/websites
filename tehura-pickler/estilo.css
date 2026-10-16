@@ -262,7 +262,7 @@ main:focus { outline: none; }
 .linha-do-tempo__ano { font-size: var(--t-secao); font-weight: 300; line-height: 1.25; letter-spacing: .04em; }
 @media (min-width: 768px) { .linha-do-tempo li { grid-template-columns: 160px 1fr; gap: 32px; align-items: baseline; } }
 
-.chamada__texto { margin: 0 0 32px; color: var(--cinza); }
+.chamada .titulo-secao { margin-bottom: 0; }
 
 /* ------------------------------------------------------------------ páginas internas */
 
