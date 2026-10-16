@@ -55,6 +55,7 @@ UI = {
     'fechar': t('Fechar', 'Close'),
     'pular': t('Pular para o conteúdo', 'Skip to content'),
     'inicio': t('Início', 'Home'),
+    'voltar': t('Voltar ao início', 'Back to home'),
     'escritorio': t('Escritório', 'Studio'),
     'como_trabalhamos': t('Como trabalhamos', 'How we work'),
     'projetos': t('Projetos', 'Projects'),

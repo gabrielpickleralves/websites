@@ -137,13 +137,24 @@ def idiomas(chave, lg, aqui):
     return f'<ul class="idiomas" aria-label="{simples(UI["idioma"], lg)}">\n' + '\n'.join(itens) + '\n</ul>'
 
 
+SETA_VOLTAR = ('<svg class="voltar__seta" viewBox="0 0 22 12" aria-hidden="true" focusable="false">'
+               '<path d="M21.5 6H1M6.5.5 1 6l5.5 5.5" fill="none" stroke="currentColor" stroke-width="1"/></svg>')
+
+
+def voltar_inicio(lg, aqui):
+    """botão "← Início" no canto superior esquerdo; aparece em todas as páginas menos a inicial"""
+    return (f'<a class="voltar" href="{rel(aqui, arquivo("index.html", lg))}" aria-label="{simples(UI["voltar"], lg)}">'
+            f'{SETA_VOLTAR}<span class="voltar__texto">{x(UI["inicio"], lg)}</span></a>')
+
+
 def cabecalho(chave, secao, lg, aqui, sobre_foto):
     inicio = rel(aqui, arquivo('index.html', lg))
     classe = 'topo topo--sobre-foto' if sobre_foto else 'topo'
+    voltar = '' if chave == 'index.html' else voltar_inicio(lg, aqui)
     return f'''<a class="pular" href="#conteudo">{x(UI["pular"], lg)}</a>
 <header class="{classe}" data-topo>
 <div class="coluna topo__barra">
-<a class="topo__marca" href="{inicio}" aria-label="TEHURA PICKLER, {simples(UI["inicio"], lg).lower()}">{monograma("topo__monograma")}</a>
+<div class="topo__esquerda">{voltar}<a class="topo__marca" href="{inicio}" aria-label="TEHURA PICKLER, {simples(UI["inicio"], lg).lower()}">{monograma("topo__monograma")}</a></div>
 <nav class="topo__nav" aria-label="{simples(UI["menu"], lg)}">
 <ul class="topo__links">
 {itens_menu(chave, secao, lg, aqui)}
