@@ -6,7 +6,8 @@ arquivo e rode, na pasta tehura-pickler/:
     python3 _ferramentas/gerar.py
 
 Regras (ver CLAUDE.md e specs/):
-  - Nada de inventar informação. O que ainda não chegou fica como PREENCHER('o que falta').
+  - Nada de inventar informação. O que ainda não chegou fica como PREENCHER('o que falta'),
+    que aparece no site de teste como [PREENCHER: o que falta].
   - Textos em caixa normal: a fonte Tehura mostra tudo em maiúsculas.
   - Não use os sinais que a fonte não tem: ² % · # © * $ _ | [ ] < > “ ” ‘ ’ … º ª ü è ñ
     (escreva "m2", use "—" como separador e aspas retas). O gerar.py confere e avisa.
@@ -55,16 +56,15 @@ UI = {
     'fechar': t('Fechar', 'Close'),
     'pular': t('Pular para o conteúdo', 'Skip to content'),
     'inicio': t('Início', 'Home'),
-    'voltar': t('Voltar ao início', 'Back to home'),
     'escritorio': t('Escritório', 'Studio'),
-    'como_trabalhamos': t('Como trabalhamos', 'How we work'),
+    'biografia': t('Biografia', 'Biography'),
     'projetos': t('Projetos', 'Projects'),
     'contato': t('Contato', 'Contact'),
     'idioma': t('Idioma', 'Language'),
     'cta': t('Conte sobre seu projeto', 'Tell us about your project'),
     'ver_projetos': t('Ver todos os projetos', 'See all projects'),
     'conheca_escritorio': t('Conheça o escritório', 'About the studio'),
-    'veja_etapas': t('Veja cada etapa', 'See each stage'),
+    'leia_biografia': t('Leia a biografia', 'Read her biography'),
     'todos': t('Todos', 'All'),
     'filtrar': t('Filtrar projetos por área', 'Filter projects by area'),
     'outros_projetos': t('Outros projetos', 'Other projects'),
@@ -81,7 +81,8 @@ UI = {
     'proxima': t('Próxima foto', 'Next photo'),
     'foto_de': t('Foto {n} de {total}', 'Photo {n} of {total}'),
     'foto_marcador': t('Foto de projeto', 'Project photo'),
-    'retrato_marcador': t('Retrato da Tehura (em cor)', 'Portrait of Tehura (in colour)'),
+    'retrato_marcador': t(PREENCHER('foto da Tehura'), PREENCHER('photo of Tehura')),
+    'foto_escritorio_marcador': t(PREENCHER('foto do escritório'), PREENCHER('photo of the studio')),
     'whatsapp': t('WhatsApp', 'WhatsApp'),
     'instagram': t('Instagram', 'Instagram'),
     'horario': t('Horário', 'Hours'),
@@ -119,33 +120,6 @@ AREAS = [
     t('Incorporadoras', 'Real estate developers'),
 ]
 
-# as cinco etapas aprovadas; os textos de cada uma são rascunhos do Claude, aguardando aprovação
-ETAPAS = [
-    (t('Conversa inicial', 'Initial conversation'),
-     t(RASCUNHO('Entendemos o que o projeto precisa resolver: como você quer viver ou trabalhar no espaço, '
-                'o imóvel, os prazos e o investimento.'),
-       RASCUNHO('We learn what the project needs to solve: how you want to live or work in the space, '
-                'the property, the schedule and the budget.'))),
-    (t('Estudo preliminar', 'Preliminary study'),
-     t(RASCUNHO('As primeiras ideias de distribuição dos espaços e de volumetria, apresentadas em desenhos '
-                'e imagens para discutirmos juntos.'),
-       RASCUNHO('The first ideas for the layout and the volumes, presented in drawings and images so we '
-                'can discuss them together.'))),
-    (t('Anteprojeto', 'Schematic design'),
-     t(RASCUNHO('O estudo aprovado ganha precisão: plantas, cortes, materiais e as primeiras definições '
-                'técnicas.'),
-       RASCUNHO('The approved study gains precision: plans, sections, materials and the first technical '
-                'decisions.'))),
-    (t('Projeto executivo', 'Construction documents'),
-     t(RASCUNHO('O conjunto completo de desenhos e especificações para orçar e construir, compatibilizado '
-                'com os projetos complementares.'),
-       RASCUNHO('The complete set of drawings and specifications to price and build the work, coordinated '
-                'with the engineering projects.'))),
-    (t('Acompanhamento de obra', 'Construction follow-up'),
-     t(RASCUNHO('Visitas à obra para que o que foi projetado seja executado como planejado.'),
-       RASCUNHO('Site visits so that what was designed is built as planned.'))),
-]
-
 # ------------------------------------------------------------------ textos das páginas
 
 TEXTOS = {
@@ -155,19 +129,45 @@ TEXTOS = {
                        PREENCHER('short text about Tehura: education, career and approach')),
     'chamada_final': t(PREENCHER('frase da chamada final'), PREENCHER('closing call to action')),
     'escritorio_titulo': t('O escritório', 'The studio'),
-    'escritorio_texto': t([PREENCHER('história do escritório, ano de fundação e o que o diferencia'),
-                           PREENCHER('biografia da Tehura: formação e trajetória')],
-                          [PREENCHER("the studio's story, year founded and what sets it apart"),
-                           PREENCHER("Tehura's biography: education and career")]),
+    'escritorio_texto': t([PREENCHER('história do escritório, ano de fundação e o que o diferencia')],
+                          [PREENCHER("the studio's story, year founded and what sets it apart")]),
     'equipe_titulo': t('Equipe', 'Team'),
     'premios_titulo': t('Prêmios e mostras', 'Awards and exhibitions'),
-    'como_intro': t(PREENCHER('introdução curta à forma de trabalhar do escritório'),
-                    PREENCHER("short introduction to the studio's way of working")),
-    'etapas_titulo': t('Etapas', 'Stages'),
     'servicos_titulo': t('Serviços', 'Services'),
     'areas_titulo': t('Áreas de atuação', 'Areas of work'),
     'projetos_subtitulo': t(PREENCHER('subtítulo de uma linha'), PREENCHER('one-line subtitle')),
     'contato_texto': t(PREENCHER('frase curta de contato'), PREENCHER('short contact sentence')),
+}
+
+# ------------------------------------------------------------------ biografia da Tehura
+# Trajetória pessoal da arquiteta (a página Escritório fala do escritório). Nada aqui pode ser inventado.
+
+BIOGRAFIA = {
+    'sobretitulo': t('Biografia', 'Biography'),
+    'titulo': 'Tehura Pickler',
+    'descricao': t('Biografia da arquiteta Tehura Pickler: formação, início da carreira, marcos, prêmios e '
+                   'visão sobre arquitetura.',
+                   'Biography of architect Tehura Pickler: education, early career, milestones, awards and '
+                   'her approach to architecture.'),
+    # subtítulo e parágrafos de cada parte
+    'secoes': [
+        (t('Formação', 'Education'),
+         t([PREENCHER('formação')], [PREENCHER('education')])),
+        (t('Início da carreira', 'Early career'),
+         t([PREENCHER('início da carreira')], [PREENCHER('early career')])),
+        (t('Marcos e prêmios', 'Milestones and awards'),
+         t([PREENCHER('marcos e prêmios da carreira')], [PREENCHER('career milestones and awards')])),
+        (t('Visão sobre arquitetura', 'On architecture'),
+         t([PREENCHER('visão da Tehura sobre arquitetura')], [PREENCHER("Tehura's view on architecture")])),
+    ],
+    'linha_do_tempo_titulo': t('Linha do tempo', 'Timeline'),
+    # ano e marco, do mais antigo ao mais recente; os principais prêmios também entram aqui
+    'marcos': [
+        (PREENCHER('ano'), t(PREENCHER('marco'), PREENCHER('milestone'))),
+        (PREENCHER('ano'), t(PREENCHER('marco'), PREENCHER('milestone'))),
+        (PREENCHER('ano'), t(PREENCHER('marco'), PREENCHER('milestone'))),
+        (PREENCHER('ano'), t(PREENCHER('prêmio principal'), PREENCHER('main award'))),
+    ],
 }
 
 # nome e cargo; só depois de o escritório mandar
@@ -177,7 +177,7 @@ EQUIPE = [
     (PREENCHER('nome'), t(PREENCHER('cargo'), PREENCHER('role'))),
 ]
 
-# ano, prêmio ou mostra, projeto
+# ano, prêmio ou mostra, projeto (lista completa, na página Escritório)
 PREMIOS = [
     (PREENCHER('ano'), t(PREENCHER('prêmio ou mostra'), PREENCHER('award or exhibition')),
      t(PREENCHER('projeto'), PREENCHER('project'))),

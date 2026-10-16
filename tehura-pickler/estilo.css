@@ -115,25 +115,15 @@ main:focus { outline: none; }
 .topo__marca { display: block; padding: 8px 0; }
 .topo__esquerda { display: flex; align-items: center; }
 
-/* botão "← Início": canto superior esquerdo de todas as páginas menos a inicial; usa a cor do cabeçalho
-   (carvão no fundo claro, branco sobre foto), então fica legível em qualquer estado */
+/* botão "←" de voltar ao início: canto superior esquerdo de todas as páginas menos a inicial; só a seta
+   (o nome "Voltar ao início" vem do aria-label). Usa a cor do cabeçalho: carvão no fundo claro, branco sobre foto */
 .voltar {
-  display: inline-flex; align-items: center; gap: 12px; min-width: 44px; min-height: 44px;
+  display: inline-flex; align-items: center; min-width: 44px; min-height: 44px;
   margin-right: 20px; padding-right: 20px; border-right: 1px solid color-mix(in srgb, currentColor 30%, transparent);
-  text-decoration: none; font-size: var(--t-rotulo); line-height: 1.4; letter-spacing: .14em;
 }
 .voltar__seta { width: 22px; height: 12px; flex: none; overflow: visible; transition: transform .3s ease; }
-.voltar__texto {
-  padding-bottom: 2px;
-  background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat;
-  transition: background-size .3s ease;
-}
 .voltar:hover .voltar__seta { transform: translateX(-4px); }
-.voltar:hover .voltar__texto { background-size: 100% 1px; }
-@media (max-width: 767px) {
-  .voltar { gap: 0; margin-right: 12px; padding-right: 12px; }
-  .voltar__texto { display: none; }                      /* no celular, só a seta; o nome vem do aria-label */
-}
+@media (max-width: 767px) { .voltar { margin-right: 12px; padding-right: 12px; } }
 .topo__monograma { height: 34px; width: auto; transition: height .3s ease; }
 @media (min-width: 1024px) {
   .topo__monograma { height: 44px; }
@@ -255,17 +245,22 @@ main:focus { outline: none; }
 .dividida--topo .dividida__texto { padding-top: 64px; }
 .dividida--topo .titulo-pagina { margin-bottom: 32px; }
 
-.etapas-resumo { list-style: none; margin-bottom: 48px; border-top: 1px solid var(--areia); }
-.etapas-resumo li {
-  display: grid; grid-template-columns: 64px 1fr; align-items: baseline;
-  padding: 16px 0; border-bottom: 1px solid var(--areia);
-}
-.etapa__numero { font-size: 1.75rem; font-weight: 300; line-height: 1; letter-spacing: .04em; }
+/* biografia: no celular a foto vem em cima; no desktop ela fica parada ao lado enquanto o texto rola */
+@media (max-width: 1023px) { .dividida--foto-primeiro .dividida__foto { order: -1; } }
 @media (min-width: 1024px) {
-  .etapas-resumo { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; border-top: 0; }
-  .etapas-resumo li { display: block; padding: 20px 0 0; border-bottom: 0; border-top: 1px solid var(--areia); }
-  .etapas-resumo .etapa__numero { display: block; font-size: var(--t-foto); margin-bottom: 16px; }
+  .dividida--foto-fixa .dividida__foto {
+    position: sticky; top: var(--topo-rolado); align-self: start;
+    height: calc(100svh - var(--topo-rolado)); min-height: 560px;
+  }
 }
+.bio__sobretitulo { margin: 0 0 12px; }
+.bio__subtitulo { margin: 48px 0 16px; }
+
+.linha-do-tempo { list-style: none; border-top: 1px solid var(--areia); }
+.linha-do-tempo li { display: grid; gap: 4px; padding: 20px 0; border-bottom: 1px solid var(--areia); }
+.linha-do-tempo p { margin: 0; }
+.linha-do-tempo__ano { font-size: var(--t-secao); font-weight: 300; line-height: 1.25; letter-spacing: .04em; }
+@media (min-width: 768px) { .linha-do-tempo li { grid-template-columns: 160px 1fr; gap: 32px; align-items: baseline; } }
 
 .chamada__texto { margin: 0 0 32px; color: var(--cinza); }
 
@@ -274,16 +269,6 @@ main:focus { outline: none; }
 .pagina-interna main { padding-top: var(--topo); }
 .topo-pagina { padding-block: 64px; }
 .topo-pagina__texto { margin: 24px 0 0; }
-
-.etapas { list-style: none; border-top: 1px solid var(--areia); }
-.etapa { display: grid; grid-template-columns: 64px 1fr; gap: 8px 16px; padding: 32px 0; border-bottom: 1px solid var(--areia); }
-.etapa__nome { align-self: baseline; }
-.etapa p { grid-column: 2; margin: 0; }
-@media (min-width: 1024px) {
-  .etapa { grid-template-columns: 120px 4fr 7fr; gap: 32px; }
-  .etapa .etapa__numero { font-size: var(--t-foto); }
-  .etapa p { grid-column: 3; }
-}
 
 .duas-listas { display: grid; gap: 64px; }
 @media (min-width: 768px) { .duas-listas { grid-template-columns: 1fr 1fr; } }

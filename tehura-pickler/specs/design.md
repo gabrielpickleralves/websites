@@ -2,7 +2,10 @@
 
 Fonte de verdade visual do projeto.
 
-- **Versão:** 4, 15/10/2026. **Aprovada pelo escritório**, depois de ver o esboço da página
+- **Versão:** 5, 16/10/2026. Na versão 5, a pedido do escritório:
+  - entrou o botão de voltar ao início, a página Biografia e a nova composição do Escritório;
+  - saiu Como trabalhamos.
+- **Versão 4,** 15/10/2026: **aprovada pelo escritório**, depois de ver o esboço da página
   inicial (`esbocos/`), com três ajustes:
   - fundo mais claro (`#F2F0EB`);
   - projetos logo depois da abertura;
@@ -310,8 +313,10 @@ A confirmar quando as fotos chegarem.
 
 - **Tehura Pickler:** é a única pessoa com retrato, e ele aparece **em cor**.
   - Retrato vertical, luz natural, fundo neutro próximo ao bege.
-  - Na página Escritório, ocupa a metade direita e vai até a borda da tela (direção da
-    referência).
+  - Na página Biografia, ocupa a metade direita e vai até a borda da tela.
+    - No desktop, fica parada ao lado enquanto o texto rola.
+    - No celular, vem em cima, antes do texto.
+  - Na página Escritório, no mesmo lugar, entra uma foto do escritório. [A DEFINIR] Qual foto.
 - **Equipe:** só nome e cargo, sem fotos.
   - Lista tipográfica em duas ou três colunas, com nome em Regular, cargo em cinza
     quente e linhas areia entre as pessoas, sem espaços vazios no lugar de fotos.
@@ -347,11 +352,18 @@ Nível de movimento: **sutil** (decisão do escritório).
 - **Nas páginas internas:** já começa bege.
 - **Altura:** 96 px no topo e 64 px depois de rolar (a referência usa 119 e 59 px). No celular,
   64 px.
+- **Botão de voltar ao início** (pedido do escritório em 16/10/2026):
+  - **Onde aparece:** em todas as páginas menos a inicial, no canto superior esquerdo, à esquerda
+    do monograma, separado dele por uma linha fina.
+  - **Como é:** só a seta fina "←", desenhada em SVG (a fonte não tem a seta), sem texto.
+  - **Cor e hover:** usa a cor do cabeçalho; ao passar o mouse, a seta anda 4 px para a esquerda.
+  - **Área de toque:** 44 × 44 px.
+  - **Acessibilidade:** link relativo para o início, com `aria-label` "Voltar ao início".
 - **Desktop:**
-  - monograma à esquerda, alinhado à coluna de conteúdo;
-  - menu à direita: Escritório, Como trabalhamos, Projetos, Contato e PT | EN;
+  - botão de voltar e monograma à esquerda, alinhados à coluna de conteúdo;
+  - menu à direita: Escritório, Biografia, Projetos, Contato e PT | EN;
   - item atual sublinhado.
-- **Celular:** monograma à esquerda e botão "Menu" à direita. O botão abre um painel bege em tela
+- **Celular:** botão de voltar e monograma à esquerda e botão "Menu" à direita. O botão abre um painel bege em tela
   cheia, com os links em tamanho grande, o botão do WhatsApp e a troca de idioma.
 
 **Larguras conferidas:** 360, 390, 768, 1024, 1280, 1440 e 1920 px. No celular, conferir
@@ -379,28 +391,29 @@ A ordem foi escolhida pelo escritório.
    - título "Arquitetura e interiores";
    - dois ou três parágrafos curtos;
    - link "Conheça o escritório".
-4. **Tehura Pickler:** composição dividida ao meio, com texto curto à esquerda e retrato em cor à
-   direita até a borda.
-5. **Como trabalhamos:** as cinco etapas numeradas de 01 a 05, numa linha (no celular, em lista),
-   separadas por linhas finas, com link para a página.
-6. **Chamada final:** frase curta e o botão "Conte sobre seu projeto".
+4. **Tehura Pickler:** composição dividida ao meio, com texto curto e o link "Leia a biografia" à
+   esquerda e retrato em cor à direita até a borda.
+5. **Chamada final:** frase curta e o botão "Conte sobre seu projeto".
 
 **Escritório:**
 
-1. Composição dividida ao meio: título e texto sobre o escritório e a Tehura à esquerda, retrato em
-   cor à direita até a borda.
-2. **Equipe:** lista tipográfica de nomes e cargos.
-3. **Prêmios e mostras:** lista com ano, nome do prêmio ou mostra e projeto, separada por linhas
-   areia. Sem selos sobre fotos.
-4. CAU do escritório e chamada final.
+1. Composição dividida ao meio: título e texto sobre o escritório à esquerda, foto do escritório à
+   direita até a borda.
+2. **Serviços e áreas de atuação** em duas colunas, em listas com linhas finas.
+3. **Equipe:** lista tipográfica de nomes e cargos.
+4. **Prêmios e mostras:** lista completa, com ano, nome do prêmio ou mostra e projeto, separada por
+   linhas areia. Sem selos sobre fotos.
+5. CAU do escritório e chamada final.
 
-**Como trabalhamos:**
+**Biografia:**
 
-1. Título e introdução curta.
-2. As cinco etapas em linhas numeradas, com título e um parágrafo cada.
-3. Serviços em duas colunas: projeto de arquitetura, design de interiores, reformas e
-   acompanhamento de obra.
-4. Áreas de atuação e chamada final.
+1. Composição dividida ao meio: "Biografia" em rótulo pequeno, título "Tehura Pickler" e texto com
+   os subtítulos Formação, Início da carreira, Marcos e prêmios e Visão sobre arquitetura, à
+   esquerda.
+2. Retrato em cor à direita, parado ao lado do texto no desktop e em cima no celular.
+3. **Linha do tempo:** ano em Light à esquerda e marco à direita, em linhas finas. No celular, um
+   embaixo do outro. Inclui os principais prêmios.
+4. Chamada final.
 
 **Projetos:**
 

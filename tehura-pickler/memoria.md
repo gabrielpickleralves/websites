@@ -156,6 +156,31 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   - O site usa `https://wa.me/5511989396948?text=…`, o formato oficial curto, que leva a mensagem
     pronta.
 
+**16/10/2026, três alterações pedidas pelo escritório**
+
+Elas substituíram decisões aprovadas, com confirmação do escritório antes de começar.
+
+- **Página Biografia:**
+  - trajetória pessoal da Tehura, com formação, início da carreira, marcos e prêmios, visão sobre
+    arquitetura e linha do tempo;
+  - retrato grande ao lado do texto, e em cima no celular;
+  - no menu, logo depois de Escritório (o "Sobre" do pedido).
+- **Escritório:**
+  - fala só do escritório;
+  - o retrato da Tehura foi para a Biografia, e entrou `[PREENCHER: foto do escritório]`.
+- **Prêmios:** nos dois lugares. A lista completa fica no Escritório, e os principais entram na
+  linha do tempo da Biografia.
+- **"Como trabalhamos" removido do site:**
+  - a página, o item do menu e a seção da página inicial;
+  - as 5 etapas e os textos delas (que eram rascunhos).
+  - Serviços e Áreas de atuação foram para o Escritório.
+- **Botão de voltar ao início:**
+  - canto superior esquerdo de todas as páginas menos a inicial, à esquerda do monograma;
+  - **só a seta "←"**, sem o texto "Início" (ajuste do escritório depois de ver os prints);
+  - componente único (`voltar_inicio` em `gerar.py`).
+- **Sitemap:** `sitemap.xml`, gerado automaticamente.
+- **Formato dos marcadores:** `[PREENCHER: o que falta]`.
+
 ## Decisões rejeitadas
 
 **15/10/2026**
@@ -183,6 +208,9 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 - **Tradução pelo Google Tradutor, tradutor automático pago (GTranslate) e site só em português:**
   fica o PT | EN feito pelo Claude.
 - **Páginas escritas à mão:** fica a montagem por script.
+- **Página Como trabalhamos e as 5 etapas** (aprovadas em 15/10/2026): removidas em 16/10/2026 a
+  pedido do escritório.
+- **Botão com o texto "← Início":** fica só a seta.
 
 ## Alterações realizadas
 
@@ -238,6 +266,15 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
     - nenhuma violação de acessibilidade no axe-core (WCAG 2.2 A/AA e boas práticas), no
       celular e no desktop;
     - nenhum sinal fora da fonte.
+- **16/10/2026, as três alterações:**
+  - entrou `biografia.html` (PT e EN);
+  - saiu `como-trabalhamos.html` (PT e EN);
+  - o gerador agora apaga sozinho as páginas que deixam de existir;
+  - entrou `sitemap.xml`;
+  - saíram do CSS os estilos das etapas (`.etapas-resumo`, `.etapa*`, `.etapas`);
+  - `.duas-listas` ficou, porque Serviços e Áreas agora a usam no Escritório;
+  - `.rascunho` ficou sem uso no momento, mas pertence ao mecanismo de rascunho do gerador, que
+    continua ativo.
 
 ## Problemas encontrados
 
@@ -310,10 +347,11 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
   - de 6 a 10 projetos, num zip com uma pasta por projeto (nome, categoria, cidade, ano, área,
     texto, fotos e fotógrafo);
   - lista de prêmios e mostras.
-- **Aprovações de texto:**
-  - os 5 textos das etapas, rascunhos do Claude marcados com sublinhado pontilhado no teste;
-  - o inglês das páginas (menus, rótulos e etapas), traduzido pelo Claude, aguardando revisão do
-    escritório.
+- **Biografia:** formação, início da carreira, marcos e prêmios, visão sobre arquitetura, marcos da
+  linha do tempo e retrato.
+- **Foto do escritório:** para a página Escritório.
+- **Aprovação de texto:** o inglês das páginas (menus e rótulos), traduzido pelo Claude, aguardando
+  revisão do escritório.
 - **Foto da página Contato:** a definir.
 - **Projetos de exemplo:** os 4 do site de teste serão trocados pelos reais quando o zip chegar.
 - **Antes do lançamento:**
@@ -326,7 +364,7 @@ Histórico vivo das decisões e aprendizados. Registre só o que ajuda a continu
 
 ## Próximos passos
 
-1. O escritório revisa o site de teste e aprova os rascunhos e o inglês.
+1. O escritório revisa o site de teste e aprova o inglês.
 2. Receber o zip dos projetos e as informações que faltam e substituir os `[PREENCHER]` em
    `_ferramentas/conteudo.py`.
 3. Otimizar as fotos reais (AVIF, WebP e JPEG em vários tamanhos) quando chegarem.

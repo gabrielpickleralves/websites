@@ -2,7 +2,11 @@
 
 Fonte de verdade sobre o que será construído.
 
-- **Versão:** 4, 15/10/2026. **Aprovada pelo escritório.**
+- **Versão:** 5, 16/10/2026. **Aprovada pelo escritório.** Na versão 5, a pedido do escritório:
+  - entrou a página Biografia;
+  - saiu a página Como trabalhamos (serviços e áreas foram para o Escritório);
+  - entrou o botão de voltar ao início;
+  - entrou o sitemap.
   - As propostas de seções, ficha técnica e chamadas secundárias foram aprovadas junto com o
     `specs/design.md`.
   - As regras técnicas (itens 10 e 13 a 16) e o inglês das chamadas foram aprovados em seguida.
@@ -52,8 +56,17 @@ Fonte de verdade sobre o que será construído.
 
 ## 4. Arquiteta e equipe
 
-- **Tehura Pickler:** arquiteta que lidera o escritório. Aparece com retrato e biografia.
-  - [A DEFINIR] Formação, trajetória, biografia e arquivo do retrato.
+- **Tehura Pickler:** arquiteta que lidera o escritório. Tem página própria, a Biografia, com a
+  trajetória pessoal:
+  - formação;
+  - início da carreira;
+  - marcos e prêmios;
+  - visão sobre arquitetura;
+  - linha do tempo;
+  - retrato.
+
+  A página Escritório fala do escritório.
+  - [A DEFINIR] Todo o conteúdo da Biografia e o arquivo do retrato.
 - **Equipe:** aparece só com nome e cargo, sem fotos e sem biografias.
   - [A DEFINIR] Nomes e cargos.
 
@@ -66,14 +79,9 @@ Fonte de verdade sobre o que será construído.
   - acompanhamento de obra.
 - **Áreas de atuação:** residencial, interiores e reformas, comercial e corporativo,
   incorporadoras (as mesmas do público-alvo).
-- **Forma de trabalhar:** cinco etapas:
-  1. Conversa inicial
-  2. Estudo preliminar
-  3. Anteprojeto
-  4. Projeto executivo
-  5. Acompanhamento de obra
-
-  O texto de cada etapa é redigido pelo Claude e aprovado pelo escritório.
+- **Onde aparecem:** serviços e áreas de atuação ficam na página Escritório.
+- **Forma de trabalhar:** as cinco etapas do processo não aparecem mais no site. A página que as
+  mostrava foi removida em 16/10/2026, a pedido do escritório (ver `memoria.md`).
 
 ## 6. Projetos exibidos
 
@@ -115,36 +123,39 @@ Fonte de verdade sobre o que será construído.
 Site com várias páginas, nas duas línguas:
 
 1. Início
-2. Escritório (Tehura Pickler e equipe)
-3. Como trabalhamos (processo e serviços)
+2. Escritório (escritório, serviços, áreas, equipe e prêmios)
+3. Biografia (trajetória pessoal da Tehura Pickler)
 4. Projetos (lista com filtro por categoria)
 5. Projeto (uma página por projeto, todas no mesmo modelo)
 6. Contato
 7. Página de erro 404
 
 São 7 modelos de página, mais uma página para cada projeto, em português e em inglês.
+Menu: Escritório, Biografia, Projetos, Contato.
 
 ## 9. Seções necessárias
 
 - **Em todas as páginas:**
   - cabeçalho fixo com o monograma TP, o menu e a troca de idioma;
+  - em todas menos a inicial, um botão de voltar ao início (seta "←") no canto superior esquerdo,
+    à esquerda do monograma;
   - rodapé com WhatsApp, Instagram, horário, bairro/cidade e CAU do escritório.
 - **Início** (ordem aprovada, detalhes em `specs/design.md`, seção 15):
   1. abertura com foto de projeto em tela cheia e o logo completo em branco;
   2. projetos em destaque, em faixas de foto de ponta a ponta;
   3. apresentação curta do escritório;
-  4. Tehura Pickler;
-  5. resumo de como trabalhamos;
-  6. chamada para o WhatsApp.
+  4. Tehura Pickler, com link para a Biografia;
+  5. chamada para o WhatsApp.
 - **Escritório:**
-  - apresentação do escritório;
-  - Tehura Pickler (retrato e biografia);
-  - equipe (nomes e cargos);
-  - prêmios e mostras.
-- **Como trabalhamos:**
-  - abordagem;
-  - etapas do processo;
+  - apresentação do escritório, com foto do escritório;
   - serviços e áreas de atuação;
+  - equipe (nomes e cargos);
+  - prêmios e mostras (lista completa);
+  - CAU.
+- **Biografia:**
+  - retrato da Tehura e texto com os subtítulos Formação, Início da carreira, Marcos e prêmios e
+    Visão sobre arquitetura;
+  - linha do tempo com os marcos e os principais prêmios;
   - chamada para o WhatsApp.
 - **Projetos:**
   - filtro por área;
@@ -213,7 +224,9 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 - [ ] Bairro
 - [ ] Número do CAU do escritório
 - [ ] História, ano de fundação e proposta de valor
-- [ ] Tehura: formação, biografia e retrato
+- [ ] Biografia da Tehura: formação, início da carreira, marcos e prêmios, visão sobre arquitetura,
+      linha do tempo e retrato
+- [ ] Foto do escritório (página Escritório)
 - [ ] Equipe: nomes e cargos
 - [ ] Projetos (6 a 10): nome, categoria, cidade, ano, área, texto, fotos e fotógrafo
 - [ ] Prêmios e mostras: lista
@@ -237,6 +250,8 @@ São 7 modelos de página, mais uma página para cada projeto, em português e e
 - **Logo:** os SVG de `identidade/svg/`, feitos a partir dos PNG 4K de `identidade/logo/` e
   conferidos com eles.
 - **Sem formulário:** o contato é só pelo WhatsApp.
+- **Sitemap:** `sitemap.xml`, gerado pelo `gerar.py` com todas as páginas (menos a 404), em
+  português e em inglês, ligadas por `hreflang`.
 - **Montagem** (aprovada em 15/10/2026): `_ferramentas/gerar.py` escreve as páginas `.html` a partir
   de `_ferramentas/conteudo.py`, como o script da Marina.
   - O site publicado continua sendo só HTML, CSS e JS.

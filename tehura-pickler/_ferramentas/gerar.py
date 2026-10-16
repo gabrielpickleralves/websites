@@ -13,7 +13,7 @@ Ao final, o script:
   - grava em _ferramentas/arquivos-publicos.txt a lista do que vai para o site publicado.
 (A pasta _ferramentas começa com "_" e por isso não é publicada pelo GitHub Pages.)
 """
-import html, json, os, re, sys
+import datetime, html, json, os, re, sys
 from html.parser import HTMLParser
 from urllib.parse import quote
 
@@ -47,8 +47,8 @@ def x(valor, lg='pt'):
     if isinstance(valor, PREENCHER):
         pendencias['preencher'].add(str(valor) if lg == 'pt' else '')
         if not S['teste']:
-            sys.exit(f'Falta conteúdo: [PREENCHER] {valor}. Complete conteudo.py antes de publicar.')
-        return f'<span class="preencher">[PREENCHER] {html.escape(valor)}</span>'
+            sys.exit(f'Falta conteúdo: [PREENCHER: {valor}]. Complete conteudo.py antes de publicar.')
+        return f'<span class="preencher">[PREENCHER: {html.escape(valor)}]</span>'
     if isinstance(valor, RASCUNHO):
         pendencias['rascunho'].add(str(valor)[:60] if lg == 'pt' else '')
         if S['teste']:
@@ -60,7 +60,7 @@ def simples(valor, lg='pt'):
     """texto sem marcação (para title, alt e meta)"""
     valor = tr(valor, lg)
     if isinstance(valor, PREENCHER):
-        return f'[PREENCHER] {valor}' if S['teste'] else ''
+        return f'[PREENCHER: {valor}]' if S['teste'] else ''
     return '' if valor is None else str(valor)
 
 
@@ -114,8 +114,8 @@ def monograma(classe):
             f'<path fill="currentColor" d="{MONO_D}"/></svg>')
 
 
-MENU = ('escritorio.html', 'como-trabalhamos.html', 'projetos.html', 'contato.html')
-MENU_ROTULO = {'escritorio.html': 'escritorio', 'como-trabalhamos.html': 'como_trabalhamos',
+MENU = ('escritorio.html', 'biografia.html', 'projetos.html', 'contato.html')
+MENU_ROTULO = {'escritorio.html': 'escritorio', 'biografia.html': 'biografia',
                'projetos.html': 'projetos', 'contato.html': 'contato'}
 
 
@@ -142,9 +142,9 @@ SETA_VOLTAR = ('<svg class="voltar__seta" viewBox="0 0 22 12" aria-hidden="true"
 
 
 def voltar_inicio(lg, aqui):
-    """botão "← Início" no canto superior esquerdo; aparece em todas as páginas menos a inicial"""
-    return (f'<a class="voltar" href="{rel(aqui, arquivo("index.html", lg))}" aria-label="{simples(UI["voltar"], lg)}">'
-            f'{SETA_VOLTAR}<span class="voltar__texto">{x(UI["inicio"], lg)}</span></a>')
+    """botão "←" de voltar ao início, no canto superior esquerdo de todas as páginas menos a inicial"""
+    return (f'<a class="voltar" href="{rel(aqui, arquivo("index.html", lg))}" '
+            f'aria-label="{simples(UI["voltar_inicio"], lg)}">{SETA_VOLTAR}</a>')
 
 
 def cabecalho(chave, secao, lg, aqui, sobre_foto):
@@ -295,10 +295,10 @@ def foto(p, indice, proporcao, lg, aqui, classe='', lazy=True):
             f'aria-label="{rotulo}"><span class="foto__rotulo" aria-hidden="true">{rotulo}</span></div>')
 
 
-def retrato(lg, classe=''):
-    rotulo = simples(UI['retrato_marcador'], lg)
-    return (f'<div class="foto foto--marcador foto--retrato {classe}" role="img" aria-label="{rotulo}">'
-            f'<span class="foto__rotulo" aria-hidden="true">{rotulo}</span></div>')
+def marcador(chave, lg, classe=''):
+    """lugar de uma foto que ainda não chegou (retrato da Tehura, foto do escritório)"""
+    return (f'<div class="foto foto--marcador foto--retrato {classe}" role="img" aria-label="{simples(UI[chave], lg)}">'
+            f'<span class="foto__rotulo" aria-hidden="true">{x(UI[chave], lg)}</span></div>')
 
 
 def card(p, lg, aqui, nivel=2):
@@ -320,8 +320,6 @@ def inicio(lg):
 {foto(p, 0, "cheia", lg, aqui, "veu")}
 <div class="coluna faixa__texto"><h3 class="nome-sobre-foto">{x(p["nome"], lg)}</h3><p class="rotulo">{local(p, lg)}</p></div>
 </a>''' for p in destaques)
-    etapas = '\n'.join(f'<li><span class="etapa__numero" aria-hidden="true">{i:02d}</span>{x(nome, lg)}</li>'
-                       for i, (nome, _) in enumerate(C.ETAPAS, 1))
     corpo = f'''<section class="abertura">
 {foto(destaques[0], 0, "cheia", lg, aqui, "veu", lazy=False)}
 <div class="coluna abertura__texto">
@@ -347,17 +345,9 @@ def inicio(lg):
 <div class="dividida__texto" data-revelar>
 <h2 class="titulo-secao" id="t-tehura">Tehura Pickler</h2>
 <p>{x(C.TEXTOS["tehura_resumo"], lg)}</p>
-<a class="link" href="{rel(aqui, arquivo("escritorio.html", lg))}">{x(UI["conheca_escritorio"], lg)}</a>
+<a class="link" href="{rel(aqui, arquivo("biografia.html", lg))}">{x(UI["leia_biografia"], lg)}</a>
 </div>
-{retrato(lg, "dividida__foto")}
-</section>
-
-<section class="coluna secao" aria-labelledby="t-etapas" data-revelar>
-<h2 class="titulo-secao" id="t-etapas">{x(UI["como_trabalhamos"], lg)}</h2>
-<ol class="etapas-resumo rotulo">
-{etapas}
-</ol>
-<a class="link" href="{rel(aqui, arquivo("como-trabalhamos.html", lg))}">{x(UI["veja_etapas"], lg)}</a>
+{marcador("retrato_marcador", lg, "dividida__foto")}
 </section>
 
 {chamada(lg)}'''
@@ -372,12 +362,29 @@ def escritorio(lg):
                        for nome, cargo in C.EQUIPE)
     premios = '\n'.join(f'<li><span class="cinza">{x(ano, lg)}</span><span>{x(nome, lg)}</span><span class="cinza">{x(proj, lg)}</span></li>'
                         for ano, nome, proj in C.PREMIOS)
+    servicos = '\n'.join(f'<li>{x(s, lg)}</li>' for s in C.SERVICOS)
+    areas = '\n'.join(f'<li>{x(a, lg)}</li>' for a in C.AREAS)
     corpo = f'''<section class="dividida dividida--topo" aria-labelledby="t-escritorio">
 <div class="dividida__texto">
 <h1 class="titulo-pagina" id="t-escritorio">{x(C.TEXTOS["escritorio_titulo"], lg)}</h1>
 {paragrafos(C.TEXTOS["escritorio_texto"], lg)}
 </div>
-{retrato(lg, "dividida__foto")}
+{marcador("foto_escritorio_marcador", lg, "dividida__foto")}
+</section>
+
+<section class="coluna secao duas-listas" data-revelar>
+<div>
+<h2 class="titulo-secao">{x(C.TEXTOS["servicos_titulo"], lg)}</h2>
+<ul class="lista-linhas rotulo">
+{servicos}
+</ul>
+</div>
+<div>
+<h2 class="titulo-secao">{x(C.TEXTOS["areas_titulo"], lg)}</h2>
+<ul class="lista-linhas rotulo">
+{areas}
+</ul>
+</div>
 </section>
 
 <section class="coluna secao" aria-labelledby="t-equipe" data-revelar>
@@ -399,43 +406,30 @@ def escritorio(lg):
     return pagina('escritorio.html', lg, tr(UI['escritorio'], lg), None, corpo, classe='pagina-interna')
 
 
-def como_trabalhamos(lg):
-    etapas = '\n'.join(f'''<li class="etapa" data-revelar>
-<span class="etapa__numero" aria-hidden="true">{i:02d}</span>
-<h3 class="etapa__nome rotulo">{x(nome, lg)}</h3>
-<p>{x(texto, lg)}</p>
-</li>''' for i, (nome, texto) in enumerate(C.ETAPAS, 1))
-    servicos = '\n'.join(f'<li>{x(s, lg)}</li>' for s in C.SERVICOS)
-    areas = '\n'.join(f'<li>{x(a, lg)}</li>' for a in C.AREAS)
-    corpo = f'''<div class="coluna topo-pagina">
-<h1 class="titulo-pagina">{x(UI["como_trabalhamos"], lg)}</h1>
-<p class="topo-pagina__texto">{x(C.TEXTOS["como_intro"], lg)}</p>
+def biografia(lg):
+    B = C.BIOGRAFIA
+    secoes = '\n'.join(f'''<h2 class="titulo-secao bio__subtitulo">{x(sub, lg)}</h2>
+{paragrafos(texto, lg)}''' for sub, texto in B['secoes'])
+    marcos = '\n'.join(f'<li><span class="linha-do-tempo__ano">{x(ano, lg)}</span><p>{x(marco, lg)}</p></li>'
+                       for ano, marco in B['marcos'])
+    corpo = f'''<section class="dividida dividida--topo dividida--foto-primeiro dividida--foto-fixa" aria-labelledby="t-biografia">
+<div class="dividida__texto bio">
+<p class="rotulo cinza bio__sobretitulo">{x(B["sobretitulo"], lg)}</p>
+<h1 class="titulo-pagina" id="t-biografia">{x(B["titulo"], lg)}</h1>
+{secoes}
 </div>
+{marcador("retrato_marcador", lg, "dividida__foto")}
+</section>
 
-<section class="coluna secao secao--sem-topo" aria-labelledby="t-etapas">
-<h2 class="visualmente-oculto" id="t-etapas">{x(C.TEXTOS["etapas_titulo"], lg)}</h2>
-<ol class="etapas">
-{etapas}
+<section class="coluna secao" aria-labelledby="t-linha-do-tempo" data-revelar>
+<h2 class="titulo-secao" id="t-linha-do-tempo">{x(B["linha_do_tempo_titulo"], lg)}</h2>
+<ol class="linha-do-tempo">
+{marcos}
 </ol>
 </section>
 
-<section class="coluna secao duas-listas" data-revelar>
-<div>
-<h2 class="titulo-secao">{x(C.TEXTOS["servicos_titulo"], lg)}</h2>
-<ul class="lista-linhas rotulo">
-{servicos}
-</ul>
-</div>
-<div>
-<h2 class="titulo-secao">{x(C.TEXTOS["areas_titulo"], lg)}</h2>
-<ul class="lista-linhas rotulo">
-{areas}
-</ul>
-</div>
-</section>
-
 {chamada(lg)}'''
-    return pagina('como-trabalhamos.html', lg, tr(UI['como_trabalhamos'], lg), None, corpo, classe='pagina-interna')
+    return pagina('biografia.html', lg, tr(UI['biografia'], lg), tr(B['descricao'], lg), corpo, classe='pagina-interna')
 
 
 def projetos(lg):
@@ -623,6 +617,25 @@ def confere_sinais(gerados, cmap):
     return problemas
 
 
+# ------------------------------------------------------------------ sitemap
+
+
+def sitemap(gerados):
+    """todas as páginas (menos a 404), com a versão na outra língua ligada por hreflang"""
+    hoje = datetime.date.today().isoformat()
+    urls = []
+    for caminho in sorted(gerados):
+        if caminho.endswith('404.html'):
+            continue
+        chave = caminho[3:] if caminho.startswith('en/') else caminho
+        alternativas = ''.join(f'\n    <xhtml:link rel="alternate" hreflang="{HTML_LANG[o]}" href="{absoluto(arquivo(chave, o))}"/>'
+                               for o in LINGUAS)
+        urls.append(f'  <url>\n    <loc>{absoluto(caminho)}</loc>\n    <lastmod>{hoje}</lastmod>{alternativas}\n  </url>')
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
+            + '\n'.join(urls) + '\n</urlset>\n')
+
+
 # ------------------------------------------------------------------ execução
 
 def main():
@@ -630,20 +643,22 @@ def main():
     for lg in LINGUAS:
         gerados[arquivo('index.html', lg)] = inicio(lg)
         gerados[arquivo('escritorio.html', lg)] = escritorio(lg)
-        gerados[arquivo('como-trabalhamos.html', lg)] = como_trabalhamos(lg)
+        gerados[arquivo('biografia.html', lg)] = biografia(lg)
         gerados[arquivo('projetos.html', lg)] = projetos(lg)
         gerados[arquivo('contato.html', lg)] = contato(lg)
         gerados[arquivo('404.html', lg)] = nao_encontrada(lg)
         for p in C.PROJETOS:
             gerados[arquivo(f'projetos/{p["slug"]}.html', lg)] = projeto(p, lg)
 
-    # remove páginas de projeto que saíram do conteúdo
-    for lg in LINGUAS:
-        pasta = os.path.join(RAIZ, arquivo('projetos', lg))
-        if os.path.isdir(pasta):
-            for nome in os.listdir(pasta):
-                if nome.endswith('.html') and arquivo(f'projetos/{nome}', lg) not in gerados:
-                    os.remove(os.path.join(pasta, nome))
+    # apaga páginas geradas antes que saíram do site (páginas removidas e projetos retirados)
+    for pasta in ('', 'projetos', 'en', 'en/projetos'):
+        caminho = os.path.join(RAIZ, pasta)
+        if os.path.isdir(caminho):
+            for nome in os.listdir(caminho):
+                relativo = f'{pasta}/{nome}' if pasta else nome
+                if nome.endswith('.html') and relativo not in gerados:
+                    os.remove(os.path.join(caminho, nome))
+                    print('Página removida:', relativo)
 
     for caminho, conteudo_html in gerados.items():
         destino = os.path.join(RAIZ, caminho)
@@ -670,7 +685,9 @@ def main():
         print('  -', p)
     print(f'Rascunhos aguardando aprovação: {len([r for r in pendencias["rascunho"] if r])}')
 
-    publicos = sorted(gerados) + ['estilo.css', 'site.js', 'favicon.ico', 'favicon.svg', 'apple-touch-icon.png']
+    with open(os.path.join(RAIZ, 'sitemap.xml'), 'w', encoding='utf-8') as f:
+        f.write(sitemap(gerados))
+    publicos = sorted(gerados) + ['sitemap.xml', 'estilo.css', 'site.js', 'favicon.ico', 'favicon.svg', 'apple-touch-icon.png']
     for pasta in ('fontes', 'imagens'):
         for base, _, nomes in os.walk(os.path.join(RAIZ, pasta)):
             publicos += [os.path.relpath(os.path.join(base, n), RAIZ).replace(os.sep, '/') for n in sorted(nomes)]
