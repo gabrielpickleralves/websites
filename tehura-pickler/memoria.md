@@ -301,6 +301,26 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
   - `.duas-listas` ficou, porque Serviços e Áreas agora a usam no Escritório;
   - `.rascunho` ficou sem uso no momento, mas pertence ao mecanismo de rascunho do gerador, que
     continua ativo.
+- **20/10/2026, melhorias no protótipo** (um commit por mudança):
+  - **Entrada das seções:** o que está na tela ou acima dela ao abrir a página, ao pular para uma
+    âncora ou ao mudar o tamanho da janela aparece na hora, sem animação. Se o script der erro ou a
+    página for impressa, tudo aparece.
+  - **Jost nos parágrafos:** `fontes/jost-regular.woff2` (9,4 KB, licença OFL em
+    `fontes/OFL-Jost.txt`), com espaçamento de 0,01 em e entrelinha de 1,7. O gerador confere os
+    sinais de cada fonte separadamente.
+  - **"Fale conosco" / "Get in touch"** no cabeçalho do desktop (a partir de 1024 px), ao lado de
+    PT | EN, abrindo o WhatsApp.
+  - **Rodapé:** "© 2026 TEHURA PICKLER — Todos os direitos reservados" (e "All rights reserved").
+  - **Espaço entre seções:** um só espaço entre seções seguidas, no site todo. Antes de "Outros
+    projetos" e da chamada final, caiu de 256 para 128 px no desktop e de 128 para 64 px no
+    celular.
+  - **Galeria do projeto:** 3x2, 4x5 + 4x5, 3x2, 4x5 + 4x5.
+  - **Indicador de rolar** na abertura da página inicial, que leva aos projetos e fica parado para
+    quem prefere menos movimento.
+  - **Legenda dos cards:** nome e cidade/ano passam para linhas separadas quando não cabem lado a
+    lado.
+  - **Conferências:** nenhuma rolagem lateral, erro no console ou seção invisível nas 20 páginas,
+    de 360 a 1920 px; menu do celular funcionando; axe-core sem violações.
 
 ## Problemas encontrados
 
@@ -340,6 +360,15 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
   Os quatro foram corrigidos.
 - **Logo do rodapé:** carrega só quando a pessoa rola até ele (`loading="lazy"`). Em capturas de
   página inteira ele pode não aparecer, mas não é defeito.
+
+**20/10/2026**
+
+- **Seções invisíveis:** com a entrada suave, o que ficava acima da tela depois de um pulo para
+  âncora, ou numa faixa estreita no pé da tela, podia continuar invisível. Resolvido trocando o
+  `IntersectionObserver` por uma conferência da posição ao rolar, ao carregar e ao mudar a âncora.
+- **Google Fonts bloqueado:** a rede do ambiente não abre o Google Fonts. A Jost veio do pacote
+  `@fontsource/jost` 5.3.0 (npm), que redistribui as fontes do Google Fonts.
+- **Sinal `©`:** a Tehura não tem o `©`. No rodapé ele sai na Jost, e o gerador avisa.
 
 ## Soluções aplicadas
 
