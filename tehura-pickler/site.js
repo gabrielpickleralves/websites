@@ -14,7 +14,7 @@
       return abertura ? abertura.offsetHeight - topo.offsetHeight : 8;
     };
     var atualizaTopo = function () {
-      topo.classList.toggle('topo--rolado', window.scrollY > limite());
+      topo.classList.toggle('topo--rolado', window.scrollY >= limite() && window.scrollY > 0);
     };
     atualizaTopo();
     window.addEventListener('scroll', atualizaTopo, { passive: true });

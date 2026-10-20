@@ -232,6 +232,22 @@ main:focus { outline: none; }
 .abertura__texto p { margin: 8px 0 0; }
 .abertura__logo { width: clamp(220px, 28vw, 400px); }
 .abertura__logo img { width: 100%; }
+
+/* indicador de rolar na abertura da página inicial: seta fina que desce devagar; parada para quem
+   prefere menos movimento (regra geral no fim do arquivo). É um link para os projetos. */
+.pagina-inicio .abertura__texto { flex-direction: row; justify-content: space-between; align-items: flex-end; gap: 24px; }
+.rolar {
+  display: flex; align-items: flex-end; justify-content: center; flex: none;
+  width: 44px; height: 72px; color: var(--branco);
+}
+.rolar__seta { width: 12px; height: 48px; overflow: visible; animation: rolar-desce 2.4s ease-in-out infinite; }
+.rolar:hover .rolar__seta { animation-play-state: paused; }
+.rolar:focus-visible { outline-color: var(--branco); }
+#destaques { scroll-margin-top: -24px; }    /* ao chegar pela seta, a faixa encosta no cabeçalho, sem tira da abertura */
+@keyframes rolar-desce {
+  0%, 100% { transform: translateY(0); opacity: .9; }
+  50% { transform: translateY(6px); opacity: .55; }
+}
 .abertura--projeto { height: calc(100vh - var(--topo)); height: calc(100svh - var(--topo)); min-height: 420px; }
 
 .faixa {

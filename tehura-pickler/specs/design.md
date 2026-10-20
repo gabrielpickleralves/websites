@@ -412,6 +412,11 @@ A ordem foi escolhida pelo escritório.
 
 1. **Abertura:** foto de projeto em tela cheia, com o logo completo em branco embaixo à esquerda,
    na linha de alinhamento.
+   - **Indicador de rolar** (20/10/2026): seta fina branca embaixo à direita, alinhada à coluna.
+     - É um link para as faixas de projetos, com área de toque de 44 × 72 px e o rótulo "Rolar até
+       os projetos".
+     - Desce e sobe devagar e fica parada para quem prefere menos movimento.
+     - Ao chegar, a faixa encosta no cabeçalho.
 2. **Projetos em faixas:** de três a quatro projetos em destaque, cada um numa faixa de foto de
    ponta a ponta, com 85% da altura da tela em todas as larguras, inclusive no celular.
    - Nome e "Cidade — ano" ficam embaixo à esquerda, em branco.

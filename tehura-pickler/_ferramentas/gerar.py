@@ -335,10 +335,11 @@ def inicio(lg):
 {foto(destaques[0], 0, "cheia", lg, aqui, "veu", lazy=False)}
 <div class="coluna abertura__texto">
 <h1 class="abertura__logo"><img src="{rel(aqui, "imagens/logo-tehura-pickler-branco.svg")}" width="{LOGO_W}" height="{LOGO_H}" alt="TEHURA PICKLER Arquitetura"></h1>
+<a class="rolar" href="#destaques" aria-label="{simples(UI["rolar"], lg)}"><svg class="rolar__seta" viewBox="0 0 12 48" aria-hidden="true" focusable="false"><path d="M6 0v47M.5 41.5 6 47l5.5-5.5" fill="none" stroke="currentColor" stroke-width="1"/></svg></a>
 </div>
 </section>
 
-<section class="faixas" aria-labelledby="t-destaques">
+<section class="faixas" id="destaques" aria-labelledby="t-destaques">
 <h2 class="visualmente-oculto" id="t-destaques">{x(UI["projetos"], lg)}</h2>
 {faixas}
 <div class="coluna faixas__fim"><a class="link" href="{rel(aqui, arquivo("projetos.html", lg))}">{x(UI["ver_projetos"], lg)}</a></div>
