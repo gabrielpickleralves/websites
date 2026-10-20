@@ -204,6 +204,8 @@ Menu: Escritório, Biografia, Projetos, Contato.
 - **Onde o botão aparece:**
   - na página Contato;
   - no menu do celular.
+- **No cabeçalho do desktop:** o link "Fale conosco" / "Get in touch" também abre o WhatsApp
+  (desde 20/10/2026).
 
   O rodapé tem o link do WhatsApp com o número.
 - **Chamada final das páginas:** desde 16/10/2026, a pedido do escritório, tem só a frase. Ficaram

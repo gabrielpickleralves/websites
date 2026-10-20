@@ -62,6 +62,7 @@ UI = {
     'contato': t('Contato', 'Contact'),
     'idioma': t('Idioma', 'Language'),
     'cta': t('Conte sobre seu projeto', 'Tell us about your project'),
+    'fale_conosco': t('Fale conosco', 'Get in touch'),
     'ver_projetos': t('Ver todos os projetos', 'See all projects'),
     'conheca_escritorio': t('Conheça o escritório', 'About the studio'),
     'leia_biografia': t('Leia a biografia', 'Read her biography'),

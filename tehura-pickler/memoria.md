@@ -197,6 +197,11 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
 - **Jost nos parágrafos:** os textos corridos passam a usar a Jost (com minúsculas), e a Tehura
   fica em títulos, menu, rótulos e botões. Isso **substitui** a decisão de 15/10/2026 ("só Tehura,
   tudo em maiúsculas"), com confirmação do escritório.
+- **"Fale conosco" no cabeçalho do desktop:** fica depois do PT | EN e abre o WhatsApp (escolha
+  do escritório, em vez da página Contato).
+- **Mantidos como estavam, por decisão do escritório:**
+  - a chamada final continua sem botão;
+  - a página Contato continua sem e-mail e sem mapa.
 
 ## Decisões rejeitadas
 

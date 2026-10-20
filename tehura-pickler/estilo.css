@@ -154,9 +154,24 @@ main:focus { outline: none; }
 .topo--sobre-foto:not(.topo--rolado) .idiomas a:not([aria-current]) { color: rgba(255, 255, 255, .8); }
 .idiomas a[aria-current] { text-decoration: underline; text-underline-offset: .4em; text-decoration-thickness: 1px; }
 .topo__abrir { min-height: 44px; padding: 0; border: 0; background: none; cursor: pointer; }
+/* "Fale conosco": abre o WhatsApp; usa a cor do cabeçalho (branco sobre foto, carvão no topo rolado) */
+.topo__contato {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px;
+  border: 1px solid currentColor; text-decoration: none; white-space: nowrap;
+  font-size: var(--t-rotulo); line-height: 1.4; letter-spacing: .14em;
+  transition: background-color .3s ease, color .3s ease, border-color .3s ease;
+}
+.topo__contato:hover, .topo__contato:focus-visible { background: var(--carvao); border-color: var(--carvao); color: var(--fundo); }
+.topo--sobre-foto:not(.topo--rolado) .topo__contato:hover,
+.topo--sobre-foto:not(.topo--rolado) .topo__contato:focus-visible { background: var(--branco); border-color: var(--branco); color: var(--carvao); }
 @media (min-width: 1024px) {
-  .topo__nav { display: flex; align-items: center; gap: 48px; }
+  .topo__nav { display: flex; align-items: center; gap: 28px; }
+  .topo__links { gap: 24px; }
   .topo__abrir { display: none; }
+}
+@media (min-width: 1280px) {
+  .topo__nav { gap: 40px; }
+  .topo__links { gap: 36px; }
 }
 
 /* menu do celular: painel em tela cheia */

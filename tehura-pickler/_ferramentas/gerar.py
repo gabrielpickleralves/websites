@@ -160,6 +160,7 @@ def cabecalho(chave, secao, lg, aqui, sobre_foto):
 {itens_menu(chave, secao, lg, aqui)}
 </ul>
 {idiomas(chave, lg, aqui)}
+<a class="topo__contato" href="{whatsapp(lg)}" target="_blank" rel="noopener">{x(UI["fale_conosco"], lg)}<span class="visualmente-oculto"> ({x(UI["abre_whatsapp"], lg)})</span></a>
 </nav>
 <button class="topo__abrir rotulo" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="menu-celular" data-menu-abrir>{x(UI["menu"], lg)}</button>
 </div>

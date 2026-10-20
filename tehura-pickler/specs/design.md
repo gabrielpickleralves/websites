@@ -72,6 +72,7 @@ TEHURA PICKLER.
   - nenhum ícone decorativo.
 - **Contato:** o WhatsApp é o único canal, e não há botão flutuante.
   - O botão "Conte sobre seu projeto" fica na página Contato e no menu do celular.
+  - No cabeçalho do desktop, o link "Fale conosco" também abre o WhatsApp.
   - O rodapé tem o link do WhatsApp.
   - Desde 16/10/2026, a pedido do escritório, a chamada final das outras páginas tem só a frase,
     sem botão.
@@ -381,6 +382,12 @@ Nível de movimento: **sutil** (decisão do escritório).
 - **Desktop:**
   - botão de voltar e monograma à esquerda, alinhados à coluna de conteúdo;
   - menu à direita: Escritório, Biografia, Projetos, Contato e PT | EN;
+  - depois do PT | EN, o link "Fale conosco" (20/10/2026):
+    - abre o WhatsApp com a mensagem pronta;
+    - é um botão pequeno com contorno de 1 px na cor do cabeçalho (branco sobre foto, carvão no
+      topo rolado), que fica preenchido ao passar o mouse;
+    - tem 44 px de altura;
+    - só aparece no desktop, porque no celular o WhatsApp está no painel do menu;
   - item atual sublinhado.
 - **Celular:** botão de voltar e monograma à esquerda e botão "Menu" à direita. O botão abre um painel bege em tela
   cheia, com os links em tamanho grande, o botão do WhatsApp e a troca de idioma.
