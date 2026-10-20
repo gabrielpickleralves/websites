@@ -5,6 +5,8 @@
 @font-face { font-family: Tehura; src: url("fontes/tehura-light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
 @font-face { font-family: Tehura; src: url("fontes/tehura-regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
 @font-face { font-family: Tehura; src: url("fontes/tehura-bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+/* Jost (SIL OFL 1.1, ver fontes/OFL-Jost.txt): parágrafos e sinais que a Tehura não tem */
+@font-face { font-family: Jost; src: url("fontes/jost-regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
 
 /* ------------------------------------------------------------------ medidas e cores (design.md, seções 2, 5 e 6) */
 
@@ -16,8 +18,10 @@
   --branco: #FFFFFF;
   --veu: rgba(30, 29, 25, .45);
 
-  /* a Tehura não tem minúsculas nem alguns sinais; a reserva só entra nesses sinais */
-  --fonte: Tehura, "Century Gothic", Futura, "Avenir Next", Avenir, system-ui, sans-serif;
+  /* a Tehura não tem minúsculas nem alguns sinais (©, %, aspas curvas): a Jost entra só nesses sinais */
+  --fonte: Tehura, Jost, "Century Gothic", Futura, "Avenir Next", Avenir, system-ui, sans-serif;
+  /* parágrafos: Jost, com minúsculas, para a leitura de textos longos */
+  --fonte-texto: Jost, "Century Gothic", Futura, "Avenir Next", Avenir, system-ui, sans-serif;
 
   --t-foto: clamp(1.75rem, 1.3rem + 1.5vw, 2.5rem);       /* 28 → 40 px, Light */
   --t-pagina: clamp(1.75rem, 1.3rem + 1.5vw, 2.5rem);     /* 28 → 40 px, Regular */
@@ -58,6 +62,8 @@ main:focus { outline: none; }
 .coluna { width: min(var(--coluna), 100% - 2 * var(--margem)); margin-inline: auto; }
 .secao { padding-block: var(--secao); }
 .secao--sem-topo { padding-top: 0; }
+/* seções seguidas não somam os dois espaços: entre elas fica um só (design.md, seção 6) */
+.secao + .secao { padding-top: 0; }
 .cinza { color: var(--cinza); }
 .visualmente-oculto {
   position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden;
@@ -75,6 +81,12 @@ main:focus { outline: none; }
 .titulo-secao { font-size: var(--t-secao); line-height: 1.25; letter-spacing: .08em; margin-bottom: 32px; }
 .nome-sobre-foto { font-size: var(--t-foto); font-weight: 300; line-height: 1.15; letter-spacing: .04em; }
 .rotulo { font-size: var(--t-rotulo); line-height: 1.4; letter-spacing: .14em; }
+
+/* parágrafos em Jost (design.md, seção 4); títulos, menu, rótulos e botões continuam em Tehura */
+:is(.texto, .dividida__texto, .projeto__conteudo, .linha-do-tempo) p:not(.rotulo),
+.topo-pagina__texto {
+  font-family: var(--fonte-texto); letter-spacing: .01em; line-height: 1.7;
+}
 
 /* ------------------------------------------------------------------ marcas do site de teste */
 
@@ -144,9 +156,24 @@ main:focus { outline: none; }
 .topo--sobre-foto:not(.topo--rolado) .idiomas a:not([aria-current]) { color: rgba(255, 255, 255, .8); }
 .idiomas a[aria-current] { text-decoration: underline; text-underline-offset: .4em; text-decoration-thickness: 1px; }
 .topo__abrir { min-height: 44px; padding: 0; border: 0; background: none; cursor: pointer; }
+/* "Fale conosco": abre o WhatsApp; usa a cor do cabeçalho (branco sobre foto, carvão no topo rolado) */
+.topo__contato {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px;
+  border: 1px solid currentColor; text-decoration: none; white-space: nowrap;
+  font-size: var(--t-rotulo); line-height: 1.4; letter-spacing: .14em;
+  transition: background-color .3s ease, color .3s ease, border-color .3s ease;
+}
+.topo__contato:hover, .topo__contato:focus-visible { background: var(--carvao); border-color: var(--carvao); color: var(--fundo); }
+.topo--sobre-foto:not(.topo--rolado) .topo__contato:hover,
+.topo--sobre-foto:not(.topo--rolado) .topo__contato:focus-visible { background: var(--branco); border-color: var(--branco); color: var(--carvao); }
 @media (min-width: 1024px) {
-  .topo__nav { display: flex; align-items: center; gap: 48px; }
+  .topo__nav { display: flex; align-items: center; gap: 28px; }
+  .topo__links { gap: 24px; }
   .topo__abrir { display: none; }
+}
+@media (min-width: 1280px) {
+  .topo__nav { gap: 40px; }
+  .topo__links { gap: 36px; }
 }
 
 /* menu do celular: painel em tela cheia */
@@ -205,6 +232,22 @@ main:focus { outline: none; }
 .abertura__texto p { margin: 8px 0 0; }
 .abertura__logo { width: clamp(220px, 28vw, 400px); }
 .abertura__logo img { width: 100%; }
+
+/* indicador de rolar na abertura da página inicial: seta fina que desce devagar; parada para quem
+   prefere menos movimento (regra geral no fim do arquivo). É um link para os projetos. */
+.pagina-inicio .abertura__texto { flex-direction: row; justify-content: space-between; align-items: flex-end; gap: 24px; }
+.rolar {
+  display: flex; align-items: flex-end; justify-content: center; flex: none;
+  width: 44px; height: 72px; color: var(--branco);
+}
+.rolar__seta { width: 12px; height: 48px; overflow: visible; animation: rolar-desce 2.4s ease-in-out infinite; }
+.rolar:hover .rolar__seta { animation-play-state: paused; }
+.rolar:focus-visible { outline-color: var(--branco); }
+#destaques { scroll-margin-top: -24px; }    /* ao chegar pela seta, a faixa encosta no cabeçalho, sem tira da abertura */
+@keyframes rolar-desce {
+  0%, 100% { transform: translateY(0); opacity: .9; }
+  50% { transform: translateY(6px); opacity: .55; }
+}
 .abertura--projeto { height: calc(100vh - var(--topo)); height: calc(100svh - var(--topo)); min-height: 420px; }
 
 .faixa {
@@ -299,12 +342,15 @@ main:focus { outline: none; }
 .card .foto { transition: filter .6s ease; }
 .card__link:hover .foto { filter: brightness(.9); }
 .card__link:hover .foto img { transform: scale(1.03); }
-.card__legenda { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
-@media (min-width: 768px) { .card__legenda { flex-direction: row; justify-content: space-between; align-items: baseline; gap: 16px; } }
+/* nome e cidade/ano lado a lado só quando cabem inteiros; senão, cidade/ano desce para baixo do nome */
+.card__legenda {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline;
+  gap: 4px 16px; margin-top: 12px;
+}
 .card__nome { font-size: var(--t-card); font-weight: 700; line-height: 1.4; letter-spacing: .08em; }
 .card__local { margin: 0; color: var(--cinza); font-size: var(--t-rotulo); line-height: 1.4; letter-spacing: .14em; }
 
-.projeto { display: grid; gap: 48px; padding-block: 64px var(--secao); }
+.projeto { display: grid; gap: 48px; padding-top: 64px; }   /* o espaço de baixo vem de "Outros projetos" */
 @media (min-width: 1024px) {
   .projeto { grid-template-columns: 1fr 3fr; gap: 64px; }
   .projeto__ficha { position: sticky; top: calc(var(--topo-rolado) + 32px); align-self: start; }
@@ -379,8 +425,11 @@ main:focus { outline: none; }
 
 /* ------------------------------------------------------------------ movimento sutil (design.md, seção 13) */
 
-.js [data-revelar] { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
-.js [data-revelar].visivel { opacity: 1; transform: none; }
+/* só fica escondido o que ainda está abaixo da tela; ver site.js */
+.js [data-revelar]:not(.visivel) { opacity: 0; transform: translateY(16px); }
+.js [data-revelar].visivel { transition: opacity .6s ease, transform .6s ease; }   /* anima só ao aparecer */
+.js [data-revelar].revelar-ja { transition: none; }
+@media print { .js [data-revelar] { opacity: 1 !important; transform: none !important; } }
 @media (prefers-reduced-motion: reduce) {
   .js [data-revelar] { opacity: 1; transform: none; }
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
