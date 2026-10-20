@@ -287,7 +287,8 @@ análise, seção 3).
   - foto em 3:2, sem borda e sem sombra, na mesma proporção em toda a grade;
   - embaixo, a 12 px da foto: nome do projeto em Bold à esquerda e "Cidade — ano" em cinza quente
     à direita, na mesma linha;
-  - no celular, a cidade e o ano vão para a linha de baixo.
+  - quando os dois não cabem inteiros na mesma linha, em qualquer largura, a cidade e o ano vão
+    para a linha de baixo, sem espremer o nome (20/10/2026).
 - **Ao passar o mouse:** a foto escurece levemente e aumenta 3%, devagar.
 - **Card inteiro clicável**, com foco visível pelo teclado.
 
