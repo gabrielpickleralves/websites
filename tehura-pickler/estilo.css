@@ -379,8 +379,11 @@ main:focus { outline: none; }
 
 /* ------------------------------------------------------------------ movimento sutil (design.md, seção 13) */
 
-.js [data-revelar] { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
-.js [data-revelar].visivel { opacity: 1; transform: none; }
+/* só fica escondido o que ainda está abaixo da tela; ver site.js */
+.js [data-revelar]:not(.visivel) { opacity: 0; transform: translateY(16px); }
+.js [data-revelar].visivel { transition: opacity .6s ease, transform .6s ease; }   /* anima só ao aparecer */
+.js [data-revelar].revelar-ja { transition: none; }
+@media print { .js [data-revelar] { opacity: 1 !important; transform: none !important; } }
 @media (prefers-reduced-motion: reduce) {
   .js [data-revelar] { opacity: 1; transform: none; }
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }

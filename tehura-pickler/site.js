@@ -117,13 +117,47 @@
   }
 
   /* ---------------------------------------------------------------- entrada suave das seções */
-  if (!reduzMovimento && 'IntersectionObserver' in window) {
-    document.documentElement.classList.add('js');
-    var observador = new IntersectionObserver(function (entradas) {
-      entradas.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('visivel'); observador.unobserve(e.target); }
+  // Nenhum conteúdo pode ficar invisível. Só anima o que entra na tela pela rolagem; o que já está na
+  // tela ou acima dela (ao carregar, ao pular por âncora, ao redimensionar ou capturar a página inteira,
+  // ao imprimir) aparece na hora, sem animação. A classe que esconde (.js) só é posta no fim, depois de
+  // tudo pronto: se o script falhar antes, nada some; se der erro depois, tudo é revelado.
+  var aRevelar = [].slice.call(document.querySelectorAll('[data-revelar]'));
+  if (aRevelar.length && !reduzMovimento) {
+    var revelaEl = function (el, imediato) {
+      if (imediato) el.classList.add('revelar-ja');
+      el.classList.add('visivel');
+    };
+    var revelaTudo = function () {
+      aRevelar.forEach(function (el) { revelaEl(el, true); });
+      aRevelar = [];
+    };
+    var confere = function (imediato) {
+      // na rolagem, anima quando a seção já entrou um pouco; nos outros casos, basta um pedaço na tela
+      var limite = imediato ? window.innerHeight : window.innerHeight * 0.92;
+      aRevelar = aRevelar.filter(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.top < limite) {
+          revelaEl(el, imediato || r.bottom < 0);          // pulou por cima: aparece sem animar
+          return false;
+        }
+        return true;
       });
-    }, { rootMargin: '0px 0px -10% 0px' });
-    document.querySelectorAll('[data-revelar]').forEach(function (el) { observador.observe(el); });
+    };
+    var agendado = false;
+    var aoRolar = function () {
+      if (agendado) return;
+      agendado = true;
+      requestAnimationFrame(function () { agendado = false; confere(false); });
+    };
+    var aoMudar = function () { requestAnimationFrame(function () { confere(true); }); };
+
+    confere(true);                                        // o que já está na tela não chega a sumir
+    window.addEventListener('scroll', aoRolar, { passive: true });
+    window.addEventListener('resize', aoMudar);
+    window.addEventListener('hashchange', aoMudar);
+    window.addEventListener('load', aoMudar);             // fontes e imagens mudam as posições
+    window.addEventListener('beforeprint', revelaTudo);
+    window.addEventListener('error', revelaTudo);         // segurança
+    document.documentElement.classList.add('js');
   }
 })();

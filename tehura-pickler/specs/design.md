@@ -329,6 +329,11 @@ A confirmar quando as fotos chegarem.
 Nível de movimento: **sutil** (decisão do escritório).
 
 - **Entrada das seções:** aparecem com um leve deslocamento de 16 px e esmaecimento, em 0,6 s.
+  - **Nenhum conteúdo fica invisível** (20/10/2026).
+    - Só anima o que entra na tela pela rolagem.
+    - Aparece na hora, sem animação, o que já está na tela ou acima dela: ao carregar, ao pular
+      por âncora, ao redimensionar, ao capturar a página inteira e ao imprimir.
+    - Sem JavaScript, ou se o script falhar, tudo aparece.
 - **Ao passar o mouse:** transições de 0,3 s.
 - **Cabeçalho:** a troca de transparente para bege, ao rolar, leva 0,3 s.
 - **O que não entra:**
