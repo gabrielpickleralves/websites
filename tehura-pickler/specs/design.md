@@ -255,6 +255,8 @@ análise, seção 3).
 - **Colunas de texto:** até 60 caracteres por linha, porque o texto em maiúsculas é mais largo.
 - **Topo das páginas internas:** 64 px entre cabeçalho, título, subtítulo, filtros e conteúdo.
 - **Espaço vertical entre seções:** de 64 px no celular a 128 px no desktop.
+  - Seções seguidas não somam os dois espaços: entre elas fica um só (`.secao + .secao`).
+    Corrigido em 20/10/2026, quando havia 256 px antes de "Outros projetos" e da chamada final.
 - **Entre fotos:**
   - grade de projetos: 32 px no desktop e 24 px no tablet. A referência usa 22 px com três
     colunas; com duas colunas grandes, um pouco mais de ar fica melhor.
