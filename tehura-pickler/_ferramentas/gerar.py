@@ -302,6 +302,16 @@ def marcador(chave, lg, classe=''):
             f'<span class="foto__rotulo" aria-hidden="true">{x(UI[chave], lg)}</span></div>')
 
 
+def ritmo_galeria(n):
+    """proporção de cada foto da galeria: 3x2 na largura da coluna e pares 4x5 lado a lado, alternados
+    (3x2, 4x5+4x5, 3x2, 4x5+4x5...). Nunca sobra um 4x5 sozinho, que deixaria meia linha vazia, e a
+    galeria nunca termina com dois 3x2 seguidos."""
+    ritmo = [('3x2', '4x5', '4x5')[i % 3] for i in range(n)]
+    if n % 3 == 2:                       # terminaria em 3x2 + um 4x5 sozinho: vira um par de 4x5
+        ritmo[-2:] = ['4x5', '4x5']
+    return ritmo
+
+
 def card(p, lg, aqui, nivel=2):
     return f'''<li class="card" data-categoria="{p["categoria"]}">
 <a class="card__link" href="{rel(aqui, arquivo(f"projetos/{p['slug']}.html", lg))}">
@@ -481,11 +491,9 @@ def projeto(p, lg):
             valor_html = x(valor, lg)
         ficha.append(f'<div><dt>{x(rotulo, lg)}</dt><dd>{valor_html}</dd></div>')
     # galeria: fotos 3:2 na largura da coluna intercaladas com pares 4:5 (design.md, seção 11)
-    n_fotos = len(p.get('fotos') or []) or 5               # sem fotos ainda: 5 marcadores
-    ritmo = ['3x2', '4x5', '4x5', '3x2', '3x2']
+    n_fotos = len(p.get('fotos') or []) or 6               # sem fotos ainda: 6 marcadores
     itens = []
-    for i in range(n_fotos):
-        prop = ritmo[i % len(ritmo)]
+    for i, prop in enumerate(ritmo_galeria(n_fotos)):
         itens.append(f'''<li class="galeria__item galeria__item--{prop}">
 <button type="button" class="galeria__botao" data-galeria-indice="{i}" aria-label="{simples(UI["ampliar"], lg)} {i + 1}">
 {foto(p, i, prop, lg, aqui)}

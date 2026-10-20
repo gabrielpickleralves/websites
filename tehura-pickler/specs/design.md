@@ -322,6 +322,9 @@ A confirmar quando as fotos chegarem.
        Rótulo em Bold e cinza quente; valor em Regular e carvão. Linhas areia entre os itens.
      - **à direita**, o texto curto do projeto e a galeria: fotos 3:2 na largura da coluna,
        intercaladas com pares de fotos 4:5 lado a lado.
+       - Sequência (20/10/2026): 3:2, par 4:5, 3:2, par 4:5…
+       - Nunca sobra uma 4:5 sozinha, e a galeria nunca termina com duas 3:2 seguidas.
+       - Sem fotos, mostra 6 marcadores.
   3. **"Outros projetos":** dois cards.
   4. **Chamada final:** só a frase, sem botão.
 - **No celular:** a ficha técnica vem logo depois da abertura, antes do texto e das
