@@ -5,6 +5,8 @@
 @font-face { font-family: Tehura; src: url("fontes/tehura-light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
 @font-face { font-family: Tehura; src: url("fontes/tehura-regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
 @font-face { font-family: Tehura; src: url("fontes/tehura-bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+/* Jost (SIL OFL 1.1, ver fontes/OFL-Jost.txt): parágrafos e sinais que a Tehura não tem */
+@font-face { font-family: Jost; src: url("fontes/jost-regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
 
 /* ------------------------------------------------------------------ medidas e cores (design.md, seções 2, 5 e 6) */
 
@@ -16,8 +18,10 @@
   --branco: #FFFFFF;
   --veu: rgba(30, 29, 25, .45);
 
-  /* a Tehura não tem minúsculas nem alguns sinais; a reserva só entra nesses sinais */
-  --fonte: Tehura, "Century Gothic", Futura, "Avenir Next", Avenir, system-ui, sans-serif;
+  /* a Tehura não tem minúsculas nem alguns sinais (©, %, aspas curvas): a Jost entra só nesses sinais */
+  --fonte: Tehura, Jost, "Century Gothic", Futura, "Avenir Next", Avenir, system-ui, sans-serif;
+  /* parágrafos: Jost, com minúsculas, para a leitura de textos longos */
+  --fonte-texto: Jost, "Century Gothic", Futura, "Avenir Next", Avenir, system-ui, sans-serif;
 
   --t-foto: clamp(1.75rem, 1.3rem + 1.5vw, 2.5rem);       /* 28 → 40 px, Light */
   --t-pagina: clamp(1.75rem, 1.3rem + 1.5vw, 2.5rem);     /* 28 → 40 px, Regular */
@@ -75,6 +79,12 @@ main:focus { outline: none; }
 .titulo-secao { font-size: var(--t-secao); line-height: 1.25; letter-spacing: .08em; margin-bottom: 32px; }
 .nome-sobre-foto { font-size: var(--t-foto); font-weight: 300; line-height: 1.15; letter-spacing: .04em; }
 .rotulo { font-size: var(--t-rotulo); line-height: 1.4; letter-spacing: .14em; }
+
+/* parágrafos em Jost (design.md, seção 4); títulos, menu, rótulos e botões continuam em Tehura */
+:is(.texto, .dividida__texto, .projeto__conteudo, .linha-do-tempo) p:not(.rotulo),
+.topo-pagina__texto {
+  font-family: var(--fonte-texto); letter-spacing: .01em; line-height: 1.7;
+}
 
 /* ------------------------------------------------------------------ marcas do site de teste */
 

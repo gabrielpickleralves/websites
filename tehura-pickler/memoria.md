@@ -192,6 +192,12 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
   - rodapé (link).
 - **Aviso registrado:** isso substituiu a decisão de ter o botão como o mais visível de cada página.
 
+**20/10/2026, melhorias no protótipo**
+
+- **Jost nos parágrafos:** os textos corridos passam a usar a Jost (com minúsculas), e a Tehura
+  fica em títulos, menu, rótulos e botões. Isso **substitui** a decisão de 15/10/2026 ("só Tehura,
+  tudo em maiúsculas"), com confirmação do escritório.
+
 ## Decisões rejeitadas
 
 **15/10/2026**
@@ -200,7 +206,9 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
 - **Plataforma editável** (WordPress, Wix, Webflow): trocada por código próprio.
 - **Formulário, e-mail e agendamento online como canais de contato:** fica só o WhatsApp.
 - **Endereço completo com mapa:** fica só bairro e cidade.
-- **Segunda fonte para os textos longos** (sem serifa ou serifada) e pedido de minúsculas ao
+- **Montserrat nos parágrafos:** fica a Jost, que combina mais com o desenho fino da Tehura.
+- **Segunda fonte para os textos longos** (rejeitada em 15/10, aceita em 20/10 com a Jost; ver
+  Decisões aprovadas) e pedido de minúsculas ao
   designer: fica só a Tehura, em maiúsculas.
 - **"Arquitetura residencial e de interiores"** (frase da amostra da fonte): ampliada para
   "Arquitetura e interiores", para abranger todos os públicos.

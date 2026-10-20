@@ -261,6 +261,7 @@ def pagina(chave, lg, titulo, descricao, corpo, secao=None, sobre_foto=False, ex
 <link rel="icon" href="{f("favicon.svg")}" type="image/svg+xml">
 <link rel="apple-touch-icon" href="{f("apple-touch-icon.png")}">
 <link rel="preload" href="{f("fontes/tehura-regular.woff2")}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{f("fontes/jost-regular.woff2")}" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{f("estilo.css")}">
 <script src="{f("site.js")}" defer></script>
 {extra_head}</head>
@@ -576,44 +577,63 @@ def nao_encontrada(lg):
 FONTE_TTF = os.path.join(RAIZ, 'identidade', 'fonte', 'Tehura-Regular.ttf')
 
 
-def caracteres_da_fonte():
+FONTE_JOST = os.path.join(RAIZ, 'fontes', 'jost-regular.woff2')
+# onde os parágrafos usam a Jost (mesmos seletores do estilo.css)
+CAIXAS_DE_TEXTO = {'texto', 'dividida__texto', 'projeto__conteudo', 'linha-do-tempo'}
+
+
+def caracteres_das_fontes():
+    """caracteres que a Tehura e a Jost têm; None se o fontTools (ou o brotli, para WOFF2) não estiver instalado"""
     try:
         from fontTools.ttLib import TTFont
-        return set(TTFont(FONTE_TTF).getBestCmap())
+        return set(TTFont(FONTE_TTF).getBestCmap()), set(TTFont(FONTE_JOST).getBestCmap())
     except ImportError:
         return None
 
 
 class Textos(HTMLParser):
-    """junta o texto visível, fora de <script>, <style> e dos marcadores [PREENCHER]"""
+    """junta o texto visível (fora de <script>, <style> e dos marcadores [PREENCHER]), separando o que é
+    parágrafo em Jost do que é Tehura"""
+    VAZIAS = ('meta', 'link', 'img', 'br', 'input', 'source', 'path')
+
     def __init__(self):
         super().__init__()
-        self.pilha, self.texto = [], []
+        self.pilha, self.texto = [], []                       # pilha: (tag, classes, ignorar)
 
     def handle_starttag(self, tag, attrs):
-        if tag in ('meta', 'link', 'img', 'br', 'input', 'source'):
+        if tag in self.VAZIAS:
             return
-        classe = dict(attrs).get('class') or ''
-        self.pilha.append(tag in ('script', 'style', 'title') or 'preencher' in classe.split())
+        classes = set((dict(attrs).get('class') or '').split())
+        self.pilha.append((tag, classes, tag in ('script', 'style', 'title') or 'preencher' in classes))
 
     def handle_endtag(self, tag):
-        if self.pilha and tag not in ('meta', 'link', 'img', 'br', 'input', 'source'):
+        if self.pilha and tag not in self.VAZIAS:
             self.pilha.pop()
 
+    def paragrafo(self):
+        for i, (tag, classes, _) in enumerate(self.pilha):
+            if tag == 'p' and 'rotulo' not in classes:
+                if 'topo-pagina__texto' in classes or any(c & CAIXAS_DE_TEXTO for _, c, _ in self.pilha[:i]):
+                    return True
+        return False
+
     def handle_data(self, data):
-        if not any(self.pilha):
-            self.texto.append(data)
+        if not any(ignorar for _, _, ignorar in self.pilha):
+            self.texto.append((data, self.paragrafo()))
 
 
-def confere_sinais(gerados, cmap):
-    problemas = {}
+def confere_sinais(gerados, tehura, jost):
+    """sinais sem desenho na fonte usada (erro) e sinais da Tehura que saem na Jost, a fonte de reserva (aviso)"""
+    faltam, reserva = {}, {}
     for caminho, conteudo_html in gerados.items():
         leitor = Textos(); leitor.feed(conteudo_html)
-        for ch in ''.join(leitor.texto):
-            if ch.isspace() or ord(ch) in cmap:
-                continue
-            problemas.setdefault(ch, set()).add(caminho)
-    return problemas
+        for trecho, em_jost in leitor.texto:
+            for ch in trecho:
+                if ch.isspace() or ord(ch) in (jost if em_jost else tehura):
+                    continue
+                destino = reserva if (not em_jost and ord(ch) in jost) else faltam
+                destino.setdefault(ch, set()).add(caminho)
+    return faltam, reserva
 
 
 # ------------------------------------------------------------------ sitemap
@@ -666,17 +686,19 @@ def main():
             f.write(conteudo_html)
     print(f'{len(gerados)} páginas geradas.')
 
-    cmap = caracteres_da_fonte()
-    if cmap is None:
-        print('Aviso: fontTools não instalado; os sinais da fonte não foram conferidos.')
+    fontes = caracteres_das_fontes()
+    if fontes is None:
+        print('Aviso: fontTools/brotli não instalados; os sinais das fontes não foram conferidos.')
     else:
-        problemas = confere_sinais(gerados, cmap)
-        if problemas:
-            print('ATENÇÃO, sinais que a fonte Tehura não tem:')
-            for ch, onde in problemas.items():
+        faltam, reserva = confere_sinais(gerados, *fontes)
+        for ch, onde in reserva.items():
+            print(f'Aviso: {ch!r} (U+{ord(ch):04X}) não existe na Tehura e sai na Jost, em {len(onde)} página(s).')
+        if faltam:
+            print('ATENÇÃO, sinais que nenhuma das fontes tem:')
+            for ch, onde in faltam.items():
                 print(f'  {ch!r} (U+{ord(ch):04X}) em: {", ".join(sorted(onde))}')
         else:
-            print('Sinais da fonte: tudo certo.')
+            print('Sinais das fontes: tudo certo.')
 
     falta = sorted(p for p in pendencias['preencher'] if p)
     print(f'[PREENCHER] diferentes: {len(falta)}')

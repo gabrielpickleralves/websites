@@ -173,19 +173,32 @@ TEHURA PICKLER.
 
 ## 4. Tipografia
 
-**Uma só família: Tehura**, fonte própria do escritório, em três pesos: Light, Regular e Bold.
-Arquivos em `identidade/fonte/`. A publicação no site está autorizada.
+**Duas famílias** (decisão do escritório em 20/10/2026, que substitui "só Tehura, tudo em maiúsculas"):
 
-**Tudo em maiúsculas**, inclusive os textos longos (decisão do escritório).
+- **Tehura**, fonte própria do escritório, em Light, Regular e Bold.
+  - Usada em títulos, menu, rótulos, botões, legendas, ficha técnica e rodapé.
+  - Arquivos em `identidade/fonte/`. A publicação no site está autorizada.
+- **Jost** (licença SIL OFL 1.1, `fontes/OFL-Jost.txt`), em Regular, só nos parágrafos de texto
+  corrido.
+  - Onde: `p` dentro de `.texto`, `.dividida__texto` (inclusive a Biografia e o Contato),
+    `.projeto__conteudo` e `.linha-do-tempo`, além de `.topo-pagina__texto`.
+  - Medidas: espaço entre letras de 0,01em e entrelinha de 1,7.
+  - Escolhida por ser geométrica e leve como a Tehura, mas com minúsculas, o que facilita a leitura
+    de textos longos.
+  - Arquivo: `fontes/jost-regular.woff2`, conjunto latino com os acentos do português, 9,4 KB, vindo
+    do pacote npm `@fontsource/jost`.
 
-- **Como funciona:** a fonte não tem minúsculas, e as letras minúsculas são desenhadas como
+**Tehura em maiúsculas.**
+
+- **Como funciona:** a Tehura não tem minúsculas, e as letras minúsculas são desenhadas como
   maiúsculas.
-- **Regra:** os textos são escritos no HTML em caixa normal (frases com maiúscula só no começo e
-  nos nomes próprios). A própria fonte mostra tudo em maiúsculas.
-- **Por quê:** leitores de tela, Google, tradução automática e copiar e colar continuam recebendo o
-  texto normal. Por isso não se usa `text-transform: uppercase`.
+- **Regra:** todos os textos são escritos no HTML em caixa normal (frases com maiúscula só no
+  começo e nos nomes próprios). A Tehura mostra tudo em maiúsculas, e a Jost mostra o texto como
+  está escrito.
+- **Por quê:** leitores de tela, Google, tradução automática e copiar e colar recebem o texto
+  normal. Por isso não se usa `text-transform: uppercase`.
 
-**Sinais que a fonte não tem: contornar nos textos.**
+**Sinais que a Tehura não tem** (vale para títulos, rótulos e menus; os parágrafos em Jost têm todos).
 
 - **Sinais ausentes:** `²` `%` `·` `#` `©` `*` `$` `_` `|` `[ ]` `< >`, aspas curvas `“ ” ‘ ’`,
   `…`, `º` e `ª`, além de `ü`, `è` e `ñ`.
@@ -195,27 +208,25 @@ Arquivos em `identidade/fonte/`. A publicação no site está autorizada.
   - usar aspas retas;
   - escrever "por cento" ou evitar números em porcentagem;
   - no rodapé, escrever "2026 TEHURA PICKLER — Todos os direitos reservados", sem "©".
-- **Reserva:** se um desses sinais aparecer, o navegador usa só nele uma fonte geométrica
-  do sistema, listada depois da Tehura.
+- **Reserva:** a Jost vem logo depois da Tehura na lista de fontes. Se um desses sinais aparecer num
+  texto em Tehura, ele sai na Jost, que tem desenho parecido. O `gerar.py` avisa quando isso
+  acontece.
 
 **Pesos:**
 
 - **Regular:**
   - títulos de página e de seção (como na referência, os títulos ficam leves e o peso vem do
     tamanho);
-  - menu, botões e texto corrido.
+  - menu e botões.
 - **Bold:** só em rótulos pequenos (ficha técnica) e no nome dos projetos nos cards.
 - **Light:** só em tamanhos grandes, a partir de 24 px (nomes sobre as fotos). Em tamanho pequeno o
   traço fino perde leitura.
 
-**Para compensar a leitura em maiúsculas:**
+**Texto corrido:** parágrafos curtos e nunca abaixo de 17 px. A referência usa 13–14 px, o que é
+pequeno demais.
 
-- parágrafos curtos, de até quatro ou cinco linhas;
-- espaço entre letras levemente aberto;
-- entrelinha generosa;
-- texto corrido nunca abaixo de 17 px. A referência usa 13–14 px, o que é pequeno demais.
-
-**Formato no site:** WOFF2, convertido dos arquivos TTF enviados. Só a Regular é pré-carregada.
+**Formato no site:** WOFF2. A Tehura foi convertida dos TTF enviados. São pré-carregadas a Tehura
+Regular e a Jost Regular.
 
 ## 5. Escala tipográfica
 
@@ -227,7 +238,7 @@ análise, seção 3).
 | Nome sobre foto (faixas e abertura de projeto) | 28 → 40 px | Light | 1,15 | 0,04 em |
 | Título de página | 28 → 40 px | Regular | 1,2 | 0,06 em |
 | Título de seção | 22 → 28 px | Regular | 1,25 | 0,08 em |
-| Texto corrido | 17 → 18 px | Regular | 1,75 | 0,06 em |
+| Texto corrido (Jost) | 17 → 18 px | Regular | 1,7 | 0,01 em |
 | Nome do projeto no card | 15 → 16 px | Bold | 1,4 | 0,08 em |
 | Menu, botões, filtros e rótulos | 14 → 15 px | Regular (rótulo da ficha em Bold) | 1,4 | 0,14 em |
 | Texto pequeno (direitos autorais) | 13 px | Regular | 1,5 | 0,1 em |

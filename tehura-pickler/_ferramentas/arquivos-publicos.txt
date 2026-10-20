@@ -24,6 +24,8 @@ site.js
 favicon.ico
 favicon.svg
 apple-touch-icon.png
+fontes/OFL-Jost.txt
+fontes/jost-regular.woff2
 fontes/tehura-bold.woff2
 fontes/tehura-light.woff2
 fontes/tehura-regular.woff2
