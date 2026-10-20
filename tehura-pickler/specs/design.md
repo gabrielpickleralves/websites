@@ -208,7 +208,8 @@ TEHURA PICKLER.
   - usar o travessão "—" como separador, no lugar de "·";
   - usar aspas retas;
   - escrever "por cento" ou evitar números em porcentagem;
-  - no rodapé, escrever "2026 TEHURA PICKLER — Todos os direitos reservados", sem "©".
+  - no rodapé, o "©" de "© 2026 TEHURA PICKLER — Todos os direitos reservados" sai na Jost
+    (desde 20/10/2026).
 - **Reserva:** a Jost vem logo depois da Tehura na lista de fontes. Se um desses sinais aparecer num
   texto em Tehura, ele sai na Jost, que tem desenho parecido. O `gerar.py` avisa quando isso
   acontece.
@@ -465,8 +466,8 @@ A ordem foi escolhida pelo escritório.
   - logo completo em carvão;
   - WhatsApp, horário e bairro/cidade;
   - Instagram e CAU;
-- embaixo, linha fina e "2026 TEHURA PICKLER — Todos os direitos reservados" (a fonte não tem
-  "©").
+- embaixo, linha fina e "© 2026 TEHURA PICKLER — Todos os direitos reservados" (em inglês,
+  "All rights reserved"). O "©" sai na Jost, porque a Tehura não tem esse sinal.
 
 **Erro 404:** monograma, frase curta e link para o início.
 

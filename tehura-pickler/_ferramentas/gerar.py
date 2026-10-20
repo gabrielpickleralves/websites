@@ -197,7 +197,7 @@ def rodape(lg, aqui):
 <li class="cinza">{x(UI["cau"], lg)} — {x(S["cau"], lg)}</li>
 </ul>
 </div>
-<p class="rodape__base">{S["ano"]} {S["nome"]} — {x(UI["direitos"], lg)}</p>
+<p class="rodape__base">© {S["ano"]} {S["nome"]} — {x(UI["direitos"], lg)}</p>
 </div>
 </footer>'''
 

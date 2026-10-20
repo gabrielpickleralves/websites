@@ -199,6 +199,7 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
   tudo em maiúsculas"), com confirmação do escritório.
 - **"Fale conosco" no cabeçalho do desktop:** fica depois do PT | EN e abre o WhatsApp (escolha
   do escritório, em vez da página Contato).
+- **Rodapé com "©":** "© 2026 TEHURA PICKLER — Todos os direitos reservados". O "©" sai na Jost.
 - **Mantidos como estavam, por decisão do escritório:**
   - a chamada final continua sem botão;
   - a página Contato continua sem e-mail e sem mapa.
