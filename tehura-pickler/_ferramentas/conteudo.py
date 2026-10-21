@@ -36,6 +36,8 @@ SITE = {
     'teste': True,
     'ano': 2026,
     'nome': 'TEHURA PICKLER',
+    # como o logo se lê: a última linha muda com o idioma (pedido do escritório em 21/10/2026)
+    'nome_logo': t('TEHURA PICKLER Arquitetura', 'TEHURA PICKLER Architecture'),
     'frase': t('Arquitetura e interiores', 'Architecture and interiors'),
     'whatsapp': '5511989396948',
     'whatsapp_exibicao': '+55 11 98939-6948',

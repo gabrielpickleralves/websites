@@ -34,7 +34,8 @@ Fonte de verdade sobre o que será construído.
 
 ## 3. Escritório e proposta de valor
 
-- **Nome:** TEHURA PICKLER. No logo aparece como "TEHURA PICKLER ARQUITETURA".
+- **Nome:** TEHURA PICKLER. No logo aparece como "TEHURA PICKLER ARQUITETURA" e, nas páginas em
+  inglês, como "TEHURA PICKLER ARCHITECTURE" (desde 21/10/2026).
 - **Natureza:** escritório de arquitetura liderado pela arquiteta Tehura Pickler.
 - **Frase do escritório:** "Arquitetura e interiores".
 - **Proposta de valor:** [A DEFINIR] O que diferencia o escritório, nas palavras do próprio
@@ -259,7 +260,7 @@ Menu: Escritório, Biografia, Projetos, Contato.
 - **Fonte:** só a Tehura, a fonte própria do escritório, com publicação autorizada. Os arquivos TTF
   de `identidade/fonte/` são convertidos para WOFF2 e servidos pelo próprio site.
 - **Logo:** os SVG de `identidade/svg/`, feitos a partir dos PNG 4K de `identidade/logo/` e
-  conferidos com eles.
+  conferidos com eles. A versão em inglês (ARCHITECTURE) é gerada pelo `_ferramentas/recursos.py`.
 - **Sem formulário:** o contato é só pelo WhatsApp.
 - **Sitemap:** `sitemap.xml`, gerado pelo `gerar.py` com todas as páginas (menos a 404), em
   português e em inglês, ligadas por `hreflang`.

@@ -92,6 +92,17 @@ TEHURA PICKLER.
   Eles foram conferidos com os PNG: diferença de 1,85% da área no logo e de 0,23% no monograma,
   só na suavização das bordas.
 
+- **Logo em inglês** (pedido do escritório em 21/10/2026): nas páginas em inglês, o logo mostra
+  "ARCHITECTURE" no lugar de "ARQUITETURA".
+  - Arquivos: `imagens/logo-tehura-pickler-en.svg` e `imagens/logo-tehura-pickler-branco-en.svg`,
+    gerados pelo `_ferramentas/recursos.py` a partir do SVG da identidade.
+  - "TEHURA" e "PICKLER" são os mesmos do original. "ARCHITECTURE" usa a mesma fonte, o mesmo
+    tamanho e a mesma linha de base de "ARQUITETURA", justificado na mesma largura, com o
+    espaço entre letras um pouco menor porque tem uma letra a mais.
+  - A imagem de compartilhamento das páginas em inglês também usa esse logo.
+  - Os originais de `identidade/` não mudam, e as páginas em português continuam com
+    "ARQUITETURA".
+
 **Composição:**
 
 - **Logo:** feito com a própria fonte Tehura.
@@ -110,7 +121,7 @@ TEHURA PICKLER.
 - Sobre o bege: logo e monograma em carvão.
 - Sobre fotos e sobre carvão: versão branca.
 - O desenho nunca é alterado: nada de mudar a cor fora dessas versões, distorcer, contornar ou
-  aplicar sombra.
+  aplicar sombra. A única exceção é a última linha em inglês (ver acima).
 
 **Onde cada um aparece:**
 
@@ -488,7 +499,7 @@ A ordem foi escolhida pelo escritório.
 ## 16. Elementos a evitar
 
 - Qualquer elemento copiado da referência (ver seção 0).
-- Alterações no logo e no monograma.
+- Alterações no logo e no monograma (fora a versão em inglês do logo, seção 1).
 - Os sinais que a fonte não tem (ver seção 4).
 - Texto escrito em maiúsculas no HTML: a fonte já faz isso.
 - Light em tamanhos pequenos.

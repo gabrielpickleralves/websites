@@ -204,6 +204,15 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
   - a chamada final continua sem botão;
   - a página Contato continua sem e-mail e sem mapa.
 
+**21/10/2026, logo em inglês**
+
+- **Nas páginas em inglês**, o logo mostra "TEHURA PICKLER ARCHITECTURE" (abertura, rodapé e imagem
+  de compartilhamento). Em português continua "ARQUITETURA".
+- **Aviso registrado:** isso abre uma exceção à regra "o desenho do logo nunca é alterado", com
+  confirmação do escritório.
+- **Como foi feito:** TEHURA e PICKLER idênticos ao original; ARCHITECTURE na mesma fonte, tamanho e
+  linha de base, justificado na mesma largura. Os arquivos de `identidade/` não mudaram.
+
 **21/10/2026, voltar para o mesmo ponto**
 
 - **Botão de voltar:** a pedido do escritório, quem chegou pela página inicial (por "Conheça o
@@ -339,6 +348,13 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
     - o mesmo vale depois de recarregar a página interna e depois de usar o filtro;
     - vindo de outra página, numa aba nova ou sem JavaScript, vai para o topo;
     - nenhuma seção invisível, erro no console ou violação no axe-core.
+
+- **21/10/2026, logo em inglês:**
+  - `_ferramentas/recursos.py` gera `imagens/logo-tehura-pickler{,-branco}-en.svg` e
+    `imagens/compartilhamento-en.jpg`;
+  - antes de trocar a última linha, o script confere que as medidas guardadas reproduzem exatamente
+    a linha ARQUITETURA do SVG da identidade;
+  - `gerar.py` usa o logo, a imagem de compartilhamento e o texto alternativo do idioma da página.
 
 ## Problemas encontrados
 

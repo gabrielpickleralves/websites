@@ -29,6 +29,9 @@ fontes/jost-regular.woff2
 fontes/tehura-bold.woff2
 fontes/tehura-light.woff2
 fontes/tehura-regular.woff2
+imagens/compartilhamento-en.jpg
 imagens/compartilhamento.jpg
+imagens/logo-tehura-pickler-branco-en.svg
 imagens/logo-tehura-pickler-branco.svg
+imagens/logo-tehura-pickler-en.svg
 imagens/logo-tehura-pickler.svg

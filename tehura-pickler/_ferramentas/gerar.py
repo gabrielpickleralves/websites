@@ -180,13 +180,22 @@ def cabecalho(chave, secao, lg, aqui, sobre_foto):
 </dialog>'''
 
 
+def logo_completo(lg, cor=''):
+    """logo empilhado; nas páginas em inglês, com ARCHITECTURE na última linha (pedido do escritório em 21/10/2026)"""
+    return f'imagens/logo-tehura-pickler{cor}{"-en" if lg == "en" else ""}.svg'
+
+
+def compartilhamento(lg):
+    return f'imagens/compartilhamento{"-en" if lg == "en" else ""}.jpg'
+
+
 def rodape(lg, aqui):
-    logo = rel(aqui, 'imagens/logo-tehura-pickler.svg')
+    logo = rel(aqui, logo_completo(lg))
     bairro = x(S['bairro'], lg)
     return f'''<footer class="rodape">
 <div class="coluna">
 <div class="rodape__colunas">
-<a class="rodape__logo" href="{rel(aqui, arquivo("index.html", lg))}"><img src="{logo}" width="{LOGO_W}" height="{LOGO_H}" alt="TEHURA PICKLER Arquitetura, {simples(UI["inicio"], lg).lower()}" loading="lazy"></a>
+<a class="rodape__logo" href="{rel(aqui, arquivo("index.html", lg))}"><img src="{logo}" width="{LOGO_W}" height="{LOGO_H}" alt="{tr(S["nome_logo"], lg)}, {simples(UI["inicio"], lg).lower()}" loading="lazy"></a>
 <ul class="rodape__lista">
 <li><a href="{whatsapp(lg)}" target="_blank" rel="noopener">{x(UI["whatsapp"], lg)} — {S["whatsapp_exibicao"]}</a></li>
 <li class="cinza">{x(S["horario"], lg)}</li>
@@ -213,8 +222,8 @@ def json_ld(lg):
     dados = {
         '@context': 'https://schema.org', '@type': 'ProfessionalService',
         'name': S['nome'], 'description': tr(S['frase'], lg), 'url': S['url_base'],
-        'logo': S['url_base'] + 'imagens/logo-tehura-pickler.svg',
-        'image': S['url_base'] + 'imagens/compartilhamento.jpg',
+        'logo': S['url_base'] + logo_completo(lg),
+        'image': S['url_base'] + compartilhamento(lg),
         'telephone': S['whatsapp_exibicao'],
         'address': {'@type': 'PostalAddress', 'addressLocality': S['cidade'], 'addressRegion': S['uf'],
                     'addressCountry': 'BR'},
@@ -253,10 +262,10 @@ def pagina(chave, lg, titulo, descricao, corpo, secao=None, sobre_foto=False, ex
 <meta property="og:url" content="{absoluto(aqui)}">
 <meta property="og:title" content="{html.escape(titulo_completo, quote=True)}">
 <meta property="og:description" content="{descricao}">
-<meta property="og:image" content="{S["url_base"]}imagens/compartilhamento.jpg">
+<meta property="og:image" content="{S["url_base"]}{compartilhamento(lg)}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="TEHURA PICKLER Arquitetura">
+<meta property="og:image:alt" content="{tr(S["nome_logo"], lg)}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="{f("favicon.ico")}" sizes="48x48">
 <link rel="icon" href="{f("favicon.svg")}" type="image/svg+xml">
@@ -334,7 +343,7 @@ def inicio(lg):
     corpo = f'''<section class="abertura">
 {foto(destaques[0], 0, "cheia", lg, aqui, "veu", lazy=False)}
 <div class="coluna abertura__texto">
-<h1 class="abertura__logo"><img src="{rel(aqui, "imagens/logo-tehura-pickler-branco.svg")}" width="{LOGO_W}" height="{LOGO_H}" alt="TEHURA PICKLER Arquitetura"></h1>
+<h1 class="abertura__logo"><img src="{rel(aqui, logo_completo(lg, "-branco"))}" width="{LOGO_W}" height="{LOGO_H}" alt="{tr(S["nome_logo"], lg)}"></h1>
 <a class="rolar" href="#destaques" aria-label="{simples(UI["rolar"], lg)}"><svg class="rolar__seta" viewBox="0 0 12 48" aria-hidden="true" focusable="false"><path d="M6 0v47M.5 41.5 6 47l5.5-5.5" fill="none" stroke="currentColor" stroke-width="1"/></svg></a>
 </div>
 </section>
