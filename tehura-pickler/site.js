@@ -1,5 +1,5 @@
-/* TEHURA PICKLER · comportamento do site: cabeçalho, menu do celular, filtro de projetos, galeria ampliada
-   e entrada suave das seções. Sem bibliotecas. Tudo continua usável sem JavaScript. */
+/* TEHURA PICKLER · comportamento do site: cabeçalho, botão de voltar, menu do celular, filtro de projetos,
+   galeria ampliada e entrada suave das seções. Sem bibliotecas. Tudo continua usável sem JavaScript. */
 (function () {
   'use strict';
 
@@ -19,6 +19,23 @@
     atualizaTopo();
     window.addEventListener('scroll', atualizaTopo, { passive: true });
     window.addEventListener('resize', atualizaTopo);
+  }
+
+  /* ---------------------------------------------------------------- botão de voltar ao início */
+  // quem chegou pela página inicial volta para o mesmo ponto dela: o navegador devolve a rolagem.
+  // Nos outros casos (link aberto em outra aba, vindo de outra página, sem JavaScript) segue o link.
+  var voltar = document.querySelector('.voltar');
+  if (voltar) {
+    var semIndex = function (url) { return url.split('#')[0].replace(/index\.html$/, ''); };
+    if (!history.state && document.referrer && semIndex(document.referrer) === semIndex(voltar.href)) {
+      history.replaceState({ veioDoInicio: true }, '');
+    }
+    voltar.addEventListener('click', function (e) {
+      if (history.state && history.state.veioDoInicio && history.length > 1) {
+        e.preventDefault();
+        history.back();
+      }
+    });
   }
 
   /* ---------------------------------------------------------------- menu do celular */
@@ -60,7 +77,7 @@
         status.textContent = visiveis === 1 ? status.dataset.modeloUm : status.dataset.modelo.replace('{n}', visiveis);
       }
       var hash = area === 'todos' ? '' : '#' + area;
-      if (window.location.hash !== hash) history.replaceState(null, '', hash || window.location.pathname);
+      if (window.location.hash !== hash) history.replaceState(history.state, '', hash || window.location.pathname);
     };
     filtros.hidden = false;
     botoes.forEach(function (b) {

@@ -386,6 +386,9 @@ Nível de movimento: **sutil** (decisão do escritório).
   - **Cor e hover:** usa a cor do cabeçalho; ao passar o mouse, a seta anda 4 px para a esquerda.
   - **Área de toque:** 44 × 44 px.
   - **Acessibilidade:** link relativo para o início, com `aria-label` "Voltar ao início".
+  - **Para onde volta** (21/10/2026): quem chegou pela página inicial volta para o mesmo ponto
+    onde estava nela, como no botão de voltar do navegador. Nos outros casos (veio de outra
+    página, abriu em aba nova ou sem JavaScript), vai para o topo do início.
 - **Desktop:**
   - botão de voltar e monograma à esquerda, alinhados à coluna de conteúdo;
   - menu à direita: Escritório, Biografia, Projetos, Contato e PT | EN;

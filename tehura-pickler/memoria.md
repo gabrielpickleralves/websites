@@ -204,6 +204,14 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
   - a chamada final continua sem botão;
   - a página Contato continua sem e-mail e sem mapa.
 
+**21/10/2026, voltar para o mesmo ponto**
+
+- **Botão de voltar:** a pedido do escritório, quem chegou pela página inicial (por "Conheça o
+  escritório", "Leia a biografia", uma faixa de projeto ou o menu) volta para o mesmo ponto onde
+  estava nela, e não para o topo.
+- **Nos outros casos** continua indo para o topo do início: veio de outra página interna, abriu
+  numa aba nova ou está sem JavaScript.
+
 ## Decisões rejeitadas
 
 **15/10/2026**
@@ -321,6 +329,16 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
     lado.
   - **Conferências:** nenhuma rolagem lateral, erro no console ou seção invisível nas 20 páginas,
     de 360 a 1920 px; menu do celular funcionando; axe-core sem violações.
+- **21/10/2026, voltar para o mesmo ponto:**
+  - em `site.js`, a seta usa o histórico do navegador quando a página anterior é o início, e o
+    navegador devolve a rolagem;
+  - o filtro de Projetos preserva essa marcação ao mudar o endereço;
+  - **Conferências:**
+    - PT e EN, em 1440 e 390 px, com e sem o cache de voltar do navegador: volta ao mesmo ponto
+      (diferença de até 2 px);
+    - o mesmo vale depois de recarregar a página interna e depois de usar o filtro;
+    - vindo de outra página, numa aba nova ou sem JavaScript, vai para o topo;
+    - nenhuma seção invisível, erro no console ou violação no axe-core.
 
 ## Problemas encontrados
 

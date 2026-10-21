@@ -138,7 +138,8 @@ Menu: Escritório, Biografia, Projetos, Contato.
 - **Em todas as páginas:**
   - cabeçalho fixo com o monograma TP, o menu e a troca de idioma;
   - em todas menos a inicial, um botão de voltar ao início (seta "←") no canto superior esquerdo,
-    à esquerda do monograma;
+    à esquerda do monograma. Quem chegou pela página inicial volta para o mesmo ponto onde estava
+    nela (desde 21/10/2026);
   - rodapé com WhatsApp, Instagram, horário, bairro/cidade e CAU do escritório.
 - **Início** (ordem aprovada, detalhes em `specs/design.md`, seção 15):
   1. abertura com foto de projeto em tela cheia e o logo completo em branco;
