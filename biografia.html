@@ -389,9 +389,9 @@ dialog.menu::backdrop{background:var(--tinta)}
 .vendas-intro{max-width:34em;margin:clamp(18px,2.4vw,30px) 0 0;font-size:clamp(1.05rem,.5vw + .95rem,1.3rem);color:var(--cinza)}
 .vendas-lista{padding-top:clamp(56px,7vw,110px)}
 .barcos{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:clamp(18px,2.4vw,32px);margin:clamp(28px,4vw,48px) 0 0;padding:0;list-style:none}
-.barco{display:flex;flex-direction:column;background:#fff;border:1px solid rgba(15,42,51,.12)}
+.barco{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid rgba(15,42,51,.12);transition:box-shadow .35s ease}
 .barco-foto{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--espuma)}
-.barco-foto img{width:100%;height:100%;object-fit:cover}
+.barco-foto img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
 .barco[data-vendido] .barco-foto img{filter:grayscale(.75)}
 .barco-sem-foto{display:grid;place-items:center}
 .barco-foto.barco-sem-foto img{width:46%;height:auto;opacity:.4}
@@ -407,6 +407,39 @@ dialog.menu::backdrop{background:var(--tinta)}
 .barcos-vazio{display:grid;justify-items:start;gap:20px;max-width:40em;margin-top:clamp(24px,3vw,40px);padding:clamp(22px,3vw,36px);border:1px solid rgba(15,42,51,.12);background:#fff}
 .barcos-vazio[hidden]{display:none}
 .barcos-vazio p{margin:0;font-size:clamp(1.05rem,.4vw + .95rem,1.2rem)}
+/* o nome do barco é um h2 (logo abaixo do h1 da página) com o tamanho de h3; o cartão inteiro leva à página
+   do barco, porque o link do nome cobre o cartão; o botão do WhatsApp fica por cima */
+.barco h2{font-size:clamp(1.1rem,1.5vw,1.5rem);line-height:1.05;letter-spacing:-.02em}
+.barco h2 a{color:inherit;text-decoration:none}
+.barco h2 a::after{content:"";position:absolute;inset:0;z-index:1}
+.barco h2 a:focus-visible{outline:none}
+.barco h2 a:focus-visible::after{outline:3px solid var(--foco);outline-offset:2px}
+.barco .btn{position:relative;z-index:2}
+@media (hover:hover){.barco:hover{box-shadow:0 22px 44px -26px rgba(15,42,51,.5)}.barco:hover .barco-foto img{transform:scale(1.04)}.barco:hover h2 a{text-decoration:underline;text-underline-offset:.18em}}
+/* página do barco (embarcacao.html): foto grande de um lado; nome, preço, dados e contato do outro */
+.emb-sec{padding-bottom:clamp(56px,7vw,110px)}
+.emb{display:grid;gap:clamp(28px,4vw,64px)}
+.emb-fotos{min-width:0}
+.emb-foto{position:relative;margin:0;background:var(--espuma)}
+.emb-foto img{display:block;width:100%;height:auto;max-height:min(86svh,1000px);object-fit:contain}
+.emb[data-vendido] .emb-foto img{filter:grayscale(.75)}
+.emb-foto.barco-sem-foto{aspect-ratio:4/3}
+.emb-foto.barco-sem-foto img{width:46%;height:auto;opacity:.4}
+.emb-miniaturas{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 0;padding:0;list-style:none}
+.emb-miniaturas button{display:block;width:clamp(64px,8vw,92px);aspect-ratio:1;padding:0;border:2px solid transparent;background:var(--espuma);cursor:pointer}
+.emb-miniaturas button[aria-current]{border-color:var(--tinta)}
+.emb-miniaturas img{width:100%;height:100%;object-fit:cover}
+.emb-info{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(18px,2vw,26px)}
+.emb-titulo{font-size:clamp(1.6rem,2.2vw + 1rem,3.2rem);line-height:1.02;overflow-wrap:break-word}
+.emb-preco{margin:0;font-size:clamp(1.5rem,1.2vw + 1.1rem,2.2rem);font-weight:700}
+.emb-dados{align-self:stretch;margin:0;border-top:1px solid rgba(15,42,51,.14)}
+.emb-dados div{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:16px;padding:14px 0;border-bottom:1px solid rgba(15,42,51,.14)}
+.emb-dados dt{color:var(--cinza)}
+.emb-dados dd{margin:0;font-weight:600}
+.emb-desc{display:grid;gap:10px}
+.emb-desc h2{font-size:clamp(1rem,.6vw + .85rem,1.2rem);line-height:1.2;letter-spacing:-.01em}
+.emb-desc p{margin:0;font-size:clamp(1.02rem,.3vw + .95rem,1.15rem)}
+@media (min-width:900px){.emb{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:start}.emb-info{position:sticky;top:calc(var(--topo-h) + 28px)}}
 .historia{display:grid;gap:clamp(32px,5vw,90px);margin-top:clamp(40px,6vw,90px)}
 .historia figure{margin:0}
 .historia figure .px{aspect-ratio:1}

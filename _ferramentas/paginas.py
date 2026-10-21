@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Monta as páginas internas do site (biografia.html e compra-e-venda.html) a partir de index.html.
+Monta as páginas internas do site (biografia.html, compra-e-venda.html e embarcacao.html) a partir de index.html.
 
 O topo, o Menu, o rodapé, o estilo e o script comum vêm sempre de index.html. O conteúdo de cada
 página fica no próprio arquivo dela e é preservado:
@@ -26,6 +26,11 @@ PAGINAS = {
     'compra-e-venda.html': {
         'titulo': 'Embarcações à venda | Marina Boreste',
         'descricao': 'Conheça as embarcações à venda na Marina Boreste. Os preços são negociáveis, e todo o atendimento é feito pelo WhatsApp.',
+    },
+    'embarcacao.html': {                                       # a página de cada barco: embarcacao.html?barco=...
+        'titulo': 'Embarcação à venda | Marina Boreste',
+        'descricao': 'Fotos, dados e preço de uma embarcação à venda na Marina Boreste. Os preços são negociáveis, e todo o atendimento é feito pelo WhatsApp.',
+        'secao': 'compra-e-venda.html',                       # no topo e no Menu, Embarcações à venda fica marcado
     },
 }
 SECOES_DO_INICIO = 'servicos|infraestrutura|pousada|localizacao|contato'
@@ -56,11 +61,11 @@ def partes_comuns(idx):
     }
 
 
-def ajusta_links(html, atual):
-    """links de seção levam à página inicial; o link da página atual ganha aria-current"""
+def ajusta_links(html, atual, valor='page'):
+    """links de seção levam à página inicial; o link da página atual (ou da seção dela) ganha aria-current"""
     html = html.replace('href="#inicio"', 'href="index.html"')
     html = re.sub(r'href="#(%s)"' % SECOES_DO_INICIO, r'href="index.html#\1"', html)
-    html = re.sub(r'(<a\b[^>]*\bhref="%s")' % re.escape(atual), r'\1 aria-current="page"', html)
+    html = re.sub(r'(<a\b[^>]*\bhref="%s")' % re.escape(atual), r'\1 aria-current="%s"' % valor, html)
     return html
 
 
@@ -79,10 +84,11 @@ def conteudo(nome):
 
 def monta(nome, dados, comum):
     pagina, scripts = conteudo(nome)
-    topo = ajusta_links(comum['topo'], nome).replace('<header class="topo">', '<header class="topo" data-solido>', 1)
-    rodape = ajusta_links(comum['rodape'], nome)
+    atual, valor = (dados['secao'], 'true') if 'secao' in dados else (nome, 'page')
+    topo = ajusta_links(comum['topo'], atual, valor).replace('<header class="topo">', '<header class="topo" data-solido>', 1)
+    rodape = ajusta_links(comum['rodape'], atual, valor)
     rodape = rodape.replace('<a class="rodape-topo" href="index.html">', '<a class="rodape-topo" href="#conteudo">')
-    assert '#inicio' not in topo + rodape and 'index.html#servicos' in topo and 'aria-current="page"' in topo, nome
+    assert '#inicio' not in topo + rodape and 'index.html#servicos' in topo and 'aria-current="' in topo, nome
     url = BASE + nome
     return f'''<!doctype html>
 <html lang="pt-BR">

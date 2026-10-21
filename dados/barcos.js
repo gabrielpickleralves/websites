@@ -1,4 +1,5 @@
-/* Embarcações à venda, mostradas na página compra-e-venda.html.
+/* Embarcações à venda, mostradas na página compra-e-venda.html. Clicar num cartão abre
+   embarcacao.html, a página do barco, com a foto grande, os dados e o botão de contato.
    Cada barco é um bloco { ... } dentro da lista lá embaixo, separado do próximo por vírgula.
    Os cartões aparecem na página na mesma ordem desta lista.
 
@@ -10,8 +11,9 @@
    preco          valor em reais, só números, ex.: 185000 (aparece "R$ 185.000");
                   use null para mostrar "Preço negociável"
    status         "disponível" ou "vendido"; vendido ganha a etiqueta "Vendido" e fica sem o botão de WhatsApp
-   foto           caminho da foto, guardada na pasta imagens/barcos/, ex.: "imagens/barcos/nome-do-barco-2015.jpg"
-   descricaoFoto  o que a foto mostra, para quem usa leitor de tela (opcional)
+   foto           foto de capa, guardada na pasta imagens/barcos/, ex.: "imagens/barcos/nome-do-barco-2015.jpg"
+   descricaoFoto  o que a foto de capa mostra, para quem usa leitor de tela (opcional)
+   maisFotos      outras fotos, só na página do barco (opcional), ex.: ["imagens/barcos/nome-2.jpg", "imagens/barcos/nome-3.jpg"]
 
    Modelo para copiar:
    {
@@ -35,7 +37,7 @@ window.BARCOS = [
     descricao: "Farol robot, guincho elétrico, 2 bombas de porão, GPS/sonda Garmin, flaps hidráulicos, chuveiro de água doce, churrasqueira, piso EVA, som, rádio VHF, strobo, salvatagem completa e âncora de popa.",
     preco: 195000,
     status: "disponível",
-    foto: "",
-    descricaoFoto: ""
+    foto: "imagens/barcos/lancha-fast-275-cabinada-1994.webp",
+    descricaoFoto: "A lancha sobre a carreta, com o casco azul-marinho e branco, o nome Shamu-2 no costado e o toldo armado."
   },
 ];
