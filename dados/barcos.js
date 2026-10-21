@@ -27,4 +27,15 @@
    },
 */
 window.BARCOS = [
+  {
+    nome: "Lancha Fast 275 Cabinada",
+    ano: 1994,
+    pes: 0,
+    motor: "Centro-rabeta Yamaha 275 HP, ano 2010, 610 horas",
+    descricao: "Farol robot, guincho elétrico, 2 bombas de porão, GPS/sonda Garmin, flaps hidráulicos, chuveiro de água doce, churrasqueira, piso EVA, som, rádio VHF, strobo, salvatagem completa e âncora de popa.",
+    preco: 195000,
+    status: "disponível",
+    foto: "",
+    descricaoFoto: ""
+  },
 ];
