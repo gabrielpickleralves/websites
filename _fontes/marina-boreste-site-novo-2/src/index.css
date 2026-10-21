@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Marina Boreste, site novo 2. As cores são as do site atual; a interface é outra.
+   Única ousadia: a abertura desenhada como uma folha de carta náutica. */
+@layer base {
+  :root {
+    --tinta: #0F2A33;
+    --tinta-2: #17404D;
+    --casco: #F3F4EF;
+    --espuma: #DDE9EC;
+    --azul: #1B9AD6;
+    --azul-texto: #0A6A9E;
+    --azul-claro: #7FCBEE;
+    --cinza: #4B636B;
+    --foco: var(--azul-texto);
+    --gut: clamp(16px, 4vw, 56px);
+    --topo: 68px;          /* altura da barra do topo */
+    --ease: cubic-bezier(.2, .75, .15, 1);
+    /* tokens do shadcn apontando para as cores da marca */
+    --background: 75 13% 95%;
+    --foreground: 195 55% 13%;
+    --border: 195 55% 13%;
+    --ring: 201 88% 33%;
+  }
+  html { scroll-padding-top: calc(var(--topo) + 16px); -webkit-text-size-adjust: 100%; }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+  body { margin: 0; background: var(--casco); color: var(--tinta); font-family: Figtree, Arial, sans-serif; font-size: 17px; line-height: 1.6; }
+  img, video { display: block; max-width: 100%; height: auto; }
+  a { color: inherit; text-underline-offset: .2em; text-decoration-thickness: 1px; }
+  a:hover { text-decoration-thickness: 2px; }
+  :focus-visible { outline: 3px solid var(--foco); outline-offset: 3px; border-radius: 2px; }
+  .no-escuro { --foco: var(--azul-claro); }
+  /* títulos recebem o foco ao trocar de página ou de seção, para o leitor de tela; não são clicáveis, então sem contorno */
+  h1[tabindex="-1"]:focus, h2[tabindex="-1"]:focus, main:focus { outline: none; }
+  h1, h2, h3 { font-family: "Big Shoulders Display", "Arial Narrow", Arial, sans-serif; font-weight: 800; line-height: .92; letter-spacing: -.005em; margin: 0; text-wrap: balance; }
+  p { margin: 0; }
+  .sr { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+  .num { font-variant-numeric: tabular-nums; }
+}
+
+@layer components {
+  .wrap { width: calc(100% - 2 * var(--gut)); max-width: 1400px; margin-inline: auto; }
+  .medida { max-width: 36em; }
+
+  /* botões: retos, com canto de 4px; o azul da marca leva texto em tinta (contraste 6,1:1) */
+  .bt { display: inline-flex; align-items: center; justify-content: center; gap: .55em; min-height: 48px; padding: 0 20px; border-radius: 4px; border: 1.5px solid transparent; font: 600 16px/1.2 Figtree, Arial, sans-serif; text-decoration: none; cursor: pointer; transition: background-color .2s ease, color .2s ease, border-color .2s ease; }
+  .bt svg { width: 20px; height: 20px; flex: none; }
+  .bt-azul { background: var(--azul); color: var(--tinta); }
+  .bt-azul:hover { background: #45ADE0; }
+  .bt-linha { background: transparent; color: inherit; border-color: currentColor; }
+  .bt-linha:hover { background: rgba(127, 160, 170, .18); }
+  .bt-tinta { background: var(--tinta); color: var(--casco); }
+  .bt-tinta:hover { background: var(--tinta-2); }
+
+  /* link externo: o mesmo sinal ↗ do site atual, desenhado com máscara */
+  .ext::after { content: ""; display: inline-block; width: .6em; height: .6em; margin-left: .3em; vertical-align: .05em; background: currentColor; opacity: .8;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 8 8 2M3.5 2H8v4.5' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 8 8 2M3.5 2H8v4.5' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center / contain no-repeat; }
+
+  /* ---------- a folha de carta náutica da abertura ---------- */
+  /* moldura das cartas: fio externo, barra graduada (segmentos alternados de um minuto) e fio interno */
+  .carta { --barra: 7px; --passo: 56px; position: relative; padding: var(--barra); border: 1.5px solid var(--tinta);
+    background:
+      repeating-linear-gradient(90deg, var(--tinta) 0 var(--passo), var(--casco) var(--passo) calc(var(--passo) * 2)) top left / 100% var(--barra) no-repeat,
+      repeating-linear-gradient(90deg, var(--casco) 0 var(--passo), var(--tinta) var(--passo) calc(var(--passo) * 2)) bottom left / 100% var(--barra) no-repeat,
+      repeating-linear-gradient(180deg, var(--casco) 0 var(--passo), var(--tinta) var(--passo) calc(var(--passo) * 2)) top left / var(--barra) 100% no-repeat,
+      repeating-linear-gradient(180deg, var(--tinta) 0 var(--passo), var(--casco) var(--passo) calc(var(--passo) * 2)) top right / var(--barra) 100% no-repeat;
+  }
+  .carta-folha { position: relative; height: 100%; border: 1px solid var(--tinta); background: var(--casco); }
+  /* rótulos de latitude e longitude na margem, como nas cartas */
+  .carta-grau { position: absolute; z-index: 1; padding: 0 6px; background: var(--casco); font: 600 12px/1 Figtree, Arial, sans-serif; font-variant-numeric: tabular-nums; color: var(--tinta); white-space: nowrap; }
+  .carta-grau-topo { top: -7px; }
+  .carta-grau-lado { left: -7px; transform: rotate(-90deg) translateX(-50%); transform-origin: left top; }
+  @media (max-width: 699px) { .carta { --barra: 5px; --passo: 34px; } .carta-grau { font-size: 11px; } }
+
+  /* o vídeo vertical numa prancha alta, sem cortar o 9:16 */
+  .prancha { position: relative; aspect-ratio: 9 / 16; background: var(--tinta); overflow: hidden; border: 1px solid var(--tinta); }
+  .prancha img, .prancha video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+  /* entrada da abertura: a moldura e o título chegam uma vez, ao carregar */
+  .entra-linha { display: block; overflow: hidden; }
+  @media (prefers-reduced-motion: no-preference) {
+    .entra-carta { animation: entra-carta .9s var(--ease) both; }
+    .entra-linha > span { display: block; animation: sobe 1s var(--ease) both; animation-delay: calc(.25s + var(--l, 0) * .12s); }
+    .entra-leve { animation: aparece .8s ease both; animation-delay: .75s; }
+  }
+  @keyframes entra-carta { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes sobe { from { transform: translateY(105%); } to { transform: none; } }
+  @keyframes aparece { from { opacity: 0; } to { opacity: 1; } }
+
+  /* índice de serviços */
+  .indice-item[data-state="active"] { color: var(--azul-texto); }
+  .indice-item[data-state="active"] .indice-marca { transform: scaleX(1); }
+  .indice-marca { transform: scaleX(0); transform-origin: left; transition: transform .35s var(--ease); }
+
+  /* lugares ao longo da costa (a faixa do site atual, agora parada como nomes numa carta) */
+  .costa { background: repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 28px) left bottom / 100% 8px no-repeat; }
+
+  @media (forced-colors: active) {
+    .carta { border: 2px solid CanvasText; background: none; }
+    .bt { border: 1px solid ButtonText; }
+    .ext::after { background: LinkText; }
+  }
+}
