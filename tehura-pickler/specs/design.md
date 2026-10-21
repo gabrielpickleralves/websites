@@ -130,11 +130,14 @@ TEHURA PICKLER.
   - como ícone do navegador (favicon) e de atalho no celular.
 - **Logo completo:**
   - em branco, sobre a foto em tela cheia da abertura da página inicial;
-  - no rodapé.
+  - no rodapé;
+  - no cabeçalho bege, ao lado do monograma (21/10/2026, ver seção 14).
 
 **Tamanhos e área livre:**
 
 - **Tamanho mínimo do logo:** 120 px de largura.
+  - Exceção, por escolha do escritório (21/10/2026): no cabeçalho, o logo tem a altura do TP, com 70
+    a 91 px de largura.
 - **Área livre ao redor do logo:** igual à altura de uma linha do "TEHURA".
 
 ### Frase do escritório
@@ -378,7 +381,8 @@ Nível de movimento: **sutil** (decisão do escritório).
 
 **Decisões do escritório:**
 
-- **Cabeçalho:** monograma TP.
+- **Cabeçalho:** monograma TP. Desde 21/10/2026, com o cabeçalho bege, também um traço fino e o
+  logo completo ao lado do TP.
 - **Abertura da página inicial:** foto em tela cheia (altura total da tela), com o logo completo em
   branco.
 - **Grade de projetos:** duas colunas grandes no desktop e uma no celular.
@@ -390,6 +394,16 @@ Nível de movimento: **sutil** (decisão do escritório).
 - **Nas páginas internas:** já começa bege.
 - **Altura:** 96 px no topo e 64 px depois de rolar (a referência usa 119 e 59 px). No celular,
   64 px.
+- **TP | logo** (pedido do escritório em 21/10/2026):
+  - **Como é:** monograma TP, traço fino vertical (o mesmo do botão de voltar) e o logo completo em
+    carvão, todos da mesma altura: 44 px no topo das páginas no desktop e 34 px depois de rolar e
+    no celular.
+  - **Quando aparece:** sempre que o cabeçalho está bege. Na página inicial, sobre a foto, fica só o
+    TP, porque o logo grande já está na foto; o logo aparece ao rolar, com a troca de cor.
+  - **Em inglês:** com ARCHITECTURE.
+  - **De 1024 a 1279 px:** fica só o TP, porque o menu completo ocupa a linha toda.
+  - **No painel do menu do celular:** também TP | logo.
+  - O conjunto inteiro é um único link para o início.
 - **Botão de voltar ao início** (pedido do escritório em 16/10/2026):
   - **Onde aparece:** em todas as páginas menos a inicial, no canto superior esquerdo, à esquerda
     do monograma, separado dele por uma linha fina.

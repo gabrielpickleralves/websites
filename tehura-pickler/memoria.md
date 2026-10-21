@@ -213,6 +213,15 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
 - **Como foi feito:** TEHURA e PICKLER idênticos ao original; ARCHITECTURE na mesma fonte, tamanho e
   linha de base, justificado na mesma largura. Os arquivos de `identidade/` não mudaram.
 
+**21/10/2026, logo no cabeçalho**
+
+- **Com o cabeçalho bege** (páginas internas sempre; página inicial depois de rolar): TP, traço fino
+  e logo completo, da altura do TP. Sobre a foto da página inicial continua só o TP.
+- **Aviso registrado:** isso substitui "cabeçalho só com o monograma TP" e "logo completo só na
+  abertura e no rodapé", com confirmação do escritório.
+- **Tamanho:** o escritório escolheu o logo da altura do TP (70 a 91 px de largura), abaixo do
+  mínimo de 120 px, em vez de aumentar o cabeçalho para 80 px.
+
 **21/10/2026, voltar para o mesmo ponto**
 
 - **Botão de voltar:** a pedido do escritório, quem chegou pela página inicial (por "Conheça o
@@ -356,6 +365,14 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
     a linha ARQUITETURA do SVG da identidade;
   - `gerar.py` usa o logo, a imagem de compartilhamento e o texto alternativo do idioma da página.
 
+- **21/10/2026, logo no cabeçalho:**
+  - `marca()` em `gerar.py` monta o TP, o traço e o logo, no cabeçalho e no painel do menu do
+    celular;
+  - de 1280 a 1439 px, o menu ficou um pouco mais justo (36 e 32 px entre os itens);
+  - **Conferências:** de 360 a 1920 px, PT e EN, no topo e depois de rolar: nada se sobrepõe, o logo
+    não se deforma e tem a altura do TP; na página inicial ele só aparece depois de rolar; nenhum
+    erro no console nem violação no axe-core.
+
 ## Problemas encontrados
 
 **15/10/2026**
@@ -394,6 +411,13 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
   Os quatro foram corrigidos.
 - **Logo do rodapé:** carrega só quando a pessoa rola até ele (`loading="lazy"`). Em capturas de
   página inteira ele pode não aparecer, mas não é defeito.
+
+**21/10/2026**
+
+- **Logo no cabeçalho de 1024 a 1279 px:** o menu completo já ocupa a linha toda, e faltariam
+  cerca de 130 px para o logo. Nessa faixa fica só o TP.
+- **Logo espremido:** a regra geral `img { max-width: 100% }` deixava o navegador estreitar o logo
+  quando faltava espaço. O logo do cabeçalho agora nunca encolhe (`max-width: none`).
 
 **20/10/2026**
 

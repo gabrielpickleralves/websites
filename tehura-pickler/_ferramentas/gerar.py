@@ -147,6 +147,14 @@ def voltar_inicio(lg, aqui):
             f'aria-label="{simples(UI["voltar_inicio"], lg)}">{SETA_VOLTAR}</a>')
 
 
+def marca(lg, aqui, inicio):
+    """monograma TP, traço fino e logo completo (pedido do escritório em 21/10/2026). O logo só aparece com o
+    cabeçalho bege: sobre a foto da página inicial fica só o TP, porque o logo grande já está na foto"""
+    return (f'<a class="topo__marca" href="{inicio}" aria-label="TEHURA PICKLER, {simples(UI["inicio"], lg).lower()}">'
+            f'{monograma("topo__monograma")}<span class="topo__traco"></span>'
+            f'<img class="topo__logo" src="{rel(aqui, logo_completo(lg))}" width="{LOGO_W}" height="{LOGO_H}" alt=""></a>')
+
+
 def cabecalho(chave, secao, lg, aqui, sobre_foto):
     inicio = rel(aqui, arquivo('index.html', lg))
     classe = 'topo topo--sobre-foto' if sobre_foto else 'topo'
@@ -154,7 +162,7 @@ def cabecalho(chave, secao, lg, aqui, sobre_foto):
     return f'''<a class="pular" href="#conteudo">{x(UI["pular"], lg)}</a>
 <header class="{classe}" data-topo>
 <div class="coluna topo__barra">
-<div class="topo__esquerda">{voltar}<a class="topo__marca" href="{inicio}" aria-label="TEHURA PICKLER, {simples(UI["inicio"], lg).lower()}">{monograma("topo__monograma")}</a></div>
+<div class="topo__esquerda">{voltar}{marca(lg, aqui, inicio)}</div>
 <nav class="topo__nav" aria-label="{simples(UI["menu"], lg)}">
 <ul class="topo__links">
 {itens_menu(chave, secao, lg, aqui)}
@@ -167,7 +175,7 @@ def cabecalho(chave, secao, lg, aqui, sobre_foto):
 </header>
 <dialog class="menu-celular" id="menu-celular" aria-label="{simples(UI["menu"], lg)}" data-menu>
 <div class="coluna menu-celular__barra">
-<a class="topo__marca" href="{inicio}" aria-label="TEHURA PICKLER, {simples(UI["inicio"], lg).lower()}">{monograma("topo__monograma")}</a>
+{marca(lg, aqui, inicio)}
 <button class="rotulo" type="button" data-menu-fechar>{x(UI["fechar"], lg)}</button>
 </div>
 <nav class="coluna menu-celular__nav" aria-label="{simples(UI["menu"], lg)}">
