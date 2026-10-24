@@ -5,6 +5,8 @@ export const RAIZ = "../";   // fotos, vídeo e dados vêm da pasta do site atua
 export const WHATS = "https://wa.me/5512997292082";
 export const WHATS_OPORTUNIDADES = "https://wa.me/5512997292082?text=Ol%C3%A1!%20Quero%20saber%20das%20pr%C3%B3ximas%20oportunidades%20de%20barcos%20%C3%A0%20venda%20na%20Marina%20Boreste.";
 export const MAPS_MARINA = "https://www.google.com/maps/search/?api=1&query=Marina%20Boreste%2C%20Barra%20do%20Una%2C%20S%C3%A3o%20Sebasti%C3%A3o%20-%20SP&query_place_id=ChIJS2xwpZCIzZQRFnlkunPgOQ8";
+export const MAPS_POUSADA = "https://www.google.com/maps/search/?api=1&query=Pousada%20Una%2C%20Rua%20Petr%C3%B3polis%2C%2080%2C%20Barra%20do%20Una%2C%20S%C3%A3o%20Sebasti%C3%A3o%20-%20SP&query_place_id=ChIJ14_vbpqIzZQRNGed2SGEBd8";
+export const INSTA_MARINA = "https://www.instagram.com/marinaboreste/";
 export const NOVA_ABA = { target: "_blank", rel: "noopener" } as const;
 
 /* rotas: # é a lista; #/<barco> é a página do barco */

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { flushSync } from "react-dom";
 import type { Barco } from "./tipos";
-import { IcPausa, IcVolta, IcWhats } from "./icones";
-import { MAPS_MARINA, NOVA_ABA, RAIZ, WHATS, WHATS_OPORTUNIDADES, caminho, chave, lerChave, linkWhats, preco, useBarcos, useMidia, vendido } from "./uteis";
+import { IcFace, IcInsta, IcPausa, IcVolta, IcWhats } from "./icones";
+import { INSTA_MARINA, MAPS_MARINA, MAPS_POUSADA, NOVA_ABA, RAIZ, WHATS, WHATS_OPORTUNIDADES, caminho, chave, lerChave, linkWhats, preco, useBarcos, useMidia, vendido } from "./uteis";
 
 type Transicao = { startViewTransition?: (f: () => void) => { finished: Promise<void> } };
 
@@ -70,8 +71,11 @@ function Prancha({ menos }: { menos: boolean }) {
   );
 }
 
-/* ---------- topo ---------- */
+/* ---------- topo e Menu: os mesmos do site da Marina Boreste ---------- */
+const SECOES = [["servicos", "Serviços"], ["infraestrutura", "Infraestrutura"], ["pousada", "Pousada Una"], ["localizacao", "Localização"], ["contato", "Vamos conversar?"]];
 function Topo() {
+  const [aberto, setAberto] = useState(false);
+  const titulo = "font-[Archivo] [font-stretch:125%] [font-variation-settings:'wdth'_125] font-medium uppercase tracking-[-.03em]";
   return (
     <header className="sticky top-0 z-30 border-b border-tinta/10 bg-casco/95 backdrop-blur-[6px]">
       <a href="#conteudo" onClick={e => { e.preventDefault(); document.getElementById("conteudo")?.focus(); }}
@@ -80,11 +84,45 @@ function Topo() {
         <a href={RAIZ + "index.html"} aria-label="Marina Boreste, ir para a página inicial" className="shrink-0">
           <img src={RAIZ + "imagens/logo-marina-boreste.svg"} alt="" width={470} height={180} className="h-10 w-auto sm:h-11" />
         </a>
-        <nav aria-label="Páginas do site" className="flex items-center gap-2 sm:gap-3">
-          <a className="btn btn-linha hidden md:inline-flex" href={RAIZ + "biografia.html"}>Biografia</a>
-          <a className="btn btn-linha hidden md:inline-flex" href={RAIZ + "index.html"}>Página inicial</a>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <nav aria-label="Páginas do site" className="hidden gap-2 lg:flex">
+            <a className="btn btn-linha border-tinta/30" href={RAIZ + "biografia.html"}>Biografia</a>
+            <a className="btn btn-linha border-azul-texto text-azul-texto" href="#" aria-current="page">Embarcações à venda</a>
+          </nav>
           <a className="btn btn-azul px-3 sm:px-5" href={WHATS} {...NOVA_ABA}><IcWhats /><span className="hidden sm:inline">WhatsApp</span><span className="sr"> da Marina Boreste (abre em nova aba)</span></a>
-        </nav>
+          <Dialog.Root open={aberto} onOpenChange={setAberto}>
+            <Dialog.Trigger className="btn btn-tinta">Menu</Dialog.Trigger>
+            <Dialog.Portal>
+              <Dialog.Content aria-describedby={undefined} className="no-escuro fixed inset-0 z-50 grid grid-rows-[auto_1fr_auto] overflow-y-auto bg-tinta px-[var(--gut)] pb-8 pt-3.5 text-casco outline-none motion-safe:data-[state=open]:animate-in motion-safe:data-[state=open]:fade-in-0">
+                <Dialog.Title className="sr">Menu</Dialog.Title>
+                <div className="flex items-center justify-between gap-4">
+                  <a href={RAIZ + "index.html"} aria-label="Marina Boreste, ir para a página inicial"><img src={RAIZ + "imagens/logo-marina-boreste-negativo.svg"} alt="" width={470} height={180} className="h-[clamp(50px,5.6vw,80px)] w-auto" /></a>
+                  <Dialog.Close className="btn btn-linha">Fechar</Dialog.Close>
+                </div>
+                <nav aria-label="Páginas e seções do site" className="self-center py-8">
+                  <ul className="m-0 mb-[clamp(22px,3.4vw,40px)] flex list-none flex-wrap gap-2.5 p-0">
+                    <li><a className="btn btn-linha border-azul-claro text-azul-claro" href={RAIZ + "biografia.html"}>Biografia</a></li>
+                    <li><a className="btn btn-azul" href="#" aria-current="page" onClick={() => setAberto(false)}>Embarcações à venda</a></li>
+                  </ul>
+                  <ul className="m-0 list-none p-0">
+                    {SECOES.map(([id, nome]) => (
+                      <li key={id}><a href={RAIZ + "index.html#" + id} className={titulo + " block w-fit py-[.06em] text-[clamp(1.6rem,5.2vw,4.4rem)] leading-[1.1] no-underline hover:text-azul"}>{nome}</a></li>
+                    ))}
+                  </ul>
+                </nav>
+                <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-[15px] text-[#B9CDD3]">
+                  <div className="flex gap-2.5">
+                    <a className="btn btn-linha text-casco" href={INSTA_MARINA} {...NOVA_ABA}><IcInsta /><span className="sr">Instagram </span>@marinaboreste<span className="sr"> (abre em nova aba)</span></a>
+                    <a className="btn btn-linha w-12 px-0 text-casco" href={WHATS} {...NOVA_ABA} aria-label="WhatsApp da Marina Boreste (abre em nova aba)"><IcWhats /></a>
+                  </div>
+                  <span>Segunda a domingo, das 8h às 17h</span>
+                  <a className="text-casco hover:text-azul-claro" href="tel:+5512997292082"><span className="sr">Telefone: </span>(12) 99729-2082</a>
+                  <a className="text-casco hover:text-azul-claro" href="mailto:atendimento@boreste.com.br"><span className="sr">E-mail: </span>atendimento@boreste.com.br</a>
+                </div>
+              </Dialog.Content>
+            </Dialog.Portal>
+          </Dialog.Root>
+        </div>
       </div>
     </header>
   );
@@ -209,25 +247,54 @@ function Detalhe({ b, id }: { b: Barco | undefined; id: string }) {
   );
 }
 
-/* ---------- rodapé ---------- */
+/* ---------- rodapé: o mesmo do site da Marina Boreste ---------- */
 function Rodape() {
+  const h = "mb-3 text-[.95rem] leading-tight tracking-[-.01em] text-azul-claro";
+  const rede = "btn btn-linha w-12 px-0 text-casco";
   return (
-    <footer className="no-escuro bg-tinta pb-8 pt-[clamp(56px,7vw,100px)] text-casco">
-      <div className="wrap grid gap-10 sm:grid-cols-2">
+    <footer className="no-escuro bg-tinta pb-7 pt-[clamp(48px,6vw,90px)] text-[15px] text-casco">
+      <div className="wrap grid gap-9 sm:grid-cols-2 lg:grid-cols-[1.3fr_.8fr_1fr_1fr]">
         <div>
-          <a href={RAIZ + "index.html"} aria-label="Marina Boreste, ir para a página inicial"><img src={RAIZ + "imagens/logo-marina-boreste-negativo.svg"} alt="" width={470} height={180} loading="lazy" className="h-16 w-auto" /></a>
-          <p className="mt-6 max-w-[30em] text-[15px] text-casco/80">Infraestrutura e serviços para a guarda, manutenção, compra e venda de embarcações, sempre em harmonia com o meio ambiente.</p>
+          <a href={RAIZ + "index.html"} aria-label="Marina Boreste, ir para a página inicial"><img src={RAIZ + "imagens/logo-marina-boreste-negativo.svg"} alt="" width={470} height={180} loading="lazy" className="h-[clamp(64px,6vw,84px)] w-auto" /></a>
+          <p className="mt-5 max-w-[30em] text-[#B9CDD3]">Infraestrutura e serviços para a guarda, manutenção, compra e venda de embarcações, sempre em harmonia com o meio ambiente.</p>
         </div>
-        <address className="grid content-start gap-2 text-[15.5px] not-italic sm:justify-self-end">
-          <a className="ext" href={MAPS_MARINA} {...NOVA_ABA}>Rua Petrópolis, 215, Barra do Una<br />São Sebastião (SP), CEP 11624-179<span className="sr"> (ver no Google Maps, abre em nova aba)</span></a>
-          <a href="tel:+551238671550"><span className="sr">Telefone: </span>(12) 3867-1550</a>
-          <a href="tel:+5512997292082"><span className="sr">Celular e WhatsApp: </span>(12) 99729-2082</a>
-          <a href="mailto:boreste@boreste.com.br"><span className="sr">E-mail: </span>boreste@boreste.com.br</a>
-        </address>
+        <nav aria-labelledby="r-marina">
+          <h2 id="r-marina" className={h}>A marina</h2>
+          <ul className="m-0 grid list-none gap-1.5 p-0">
+            {[["index.html#servicos", "Serviços"], ["index.html#infraestrutura", "Infraestrutura"], ["biografia.html", "Biografia"], ["index.html#localizacao", "Localização"], ["index.html#contato", "Vamos conversar?"]].map(([href, nome]) => (
+              <li key={href}><a className="no-underline hover:underline" href={RAIZ + href}>{nome}</a></li>))}
+          </ul>
+        </nav>
+        <div>
+          <h2 className={h}>Marina Boreste</h2>
+          <address className="grid gap-1.5 not-italic">
+            <a className="ext no-underline hover:underline" href={MAPS_MARINA} {...NOVA_ABA}>Rua Petrópolis, 215, Barra do Una<br />São Sebastião (SP), CEP 11624-179<span className="sr"> (ver no Google Maps, abre em nova aba)</span></a>
+            <a className="no-underline hover:underline" href="tel:+551238671550"><span className="sr">Telefone: </span>(12) 3867-1550</a>
+            <a className="no-underline hover:underline" href="tel:+5512997292082"><span className="sr">Celular e WhatsApp: </span>(12) 99729-2082</a>
+            <a className="no-underline hover:underline" href="mailto:boreste@boreste.com.br"><span className="sr">E-mail: </span>boreste@boreste.com.br</a>
+          </address>
+          <div className="mt-4 flex gap-2.5">
+            <a className={rede} href={INSTA_MARINA} {...NOVA_ABA} aria-label="Instagram da Marina Boreste, @marinaboreste (abre em nova aba)"><IcInsta /></a>
+            <a className={rede} href={WHATS} {...NOVA_ABA} aria-label="WhatsApp da Marina Boreste (abre em nova aba)"><IcWhats /></a>
+          </div>
+        </div>
+        <div>
+          <h2 className={h}>Pousada Una</h2>
+          <address className="grid gap-1.5 not-italic">
+            <a className="ext no-underline hover:underline" href={MAPS_POUSADA} {...NOVA_ABA}>Rua Petrópolis, 80, Barra do Una<br />São Sebastião (SP)<span className="sr"> (ver no Google Maps, abre em nova aba)</span></a>
+            <a className="no-underline hover:underline" href="tel:+551238671515"><span className="sr">Telefone: </span>(12) 3867-1515</a>
+            <a className="ext no-underline hover:underline" href="https://pousadauna.com.br/" {...NOVA_ABA}>pousadauna.com.br<span className="sr"> (site da Pousada Una, abre em nova aba)</span></a>
+          </address>
+          <div className="mt-4 flex gap-2.5">
+            <a className={rede} href="https://www.instagram.com/pousadauna/" {...NOVA_ABA} aria-label="Instagram da Pousada Una, @pousadauna (abre em nova aba)"><IcInsta /></a>
+            <a className={rede} href="https://www.facebook.com/pousadauna/" {...NOVA_ABA} aria-label="Facebook da Pousada Una (abre em nova aba)"><IcFace /></a>
+          </div>
+        </div>
       </div>
-      <div className="wrap mt-12 flex flex-col gap-2 border-t border-casco/20 pt-6 text-[14px] text-casco/75 sm:flex-row sm:justify-between">
+      <div className="wrap mt-12 flex flex-col gap-2 border-t border-casco/20 pt-6 text-[14px] text-casco/75 sm:flex-row sm:items-center sm:justify-between">
         <p>© 2026 Marina Boreste. Todos os direitos reservados.</p>
         <p>Segunda a domingo, das 8h às 17h</p>
+        <a className="font-semibold text-casco no-underline hover:underline" href="#conteudo" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); document.querySelector<HTMLElement>("main h1")?.focus({ preventScroll: true }); }}>Voltar ao topo</a>
       </div>
     </footer>
   );
