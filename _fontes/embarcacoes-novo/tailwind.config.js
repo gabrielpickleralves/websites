@@ -4,14 +4,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        tinta: { DEFAULT: "#0F2A33", 2: "#17404D" },
-        casco: "#F3F4EF",
-        espuma: "#DDE9EC",
-        azul: { DEFAULT: "#1B9AD6", texto: "#0A6A9E", claro: "#7FCBEE" },
-        cinza: "#4B636B",
+        rio: { DEFAULT: "#17201C", 2: "#24302B" },   // a água escura do Rio Una: texto e fundos escuros
+        papel: "#FAFAF8",                            // fundo
+        nevoa: "#E6EBE8",                            // fundo das fotos e painéis
+        mata: "#4A5A52",                             // texto secundário
+        boia: { DEFAULT: "#EF6A2E", texto: "#9A3A0E", claro: "#F6A47A" },   // laranja de boia: só nas ações
         erro: "#B42318",
       },
-      fontFamily: { archivo: ["Archivo", "Arial", "sans-serif"] },
+      fontFamily: { texto: ["\"Schibsted Grotesk\"", "Arial", "sans-serif"] },
       keyframes: {
         "accordion-down": { from: { height: "0" }, to: { height: "var(--radix-accordion-content-height)" } },
         "accordion-up": { from: { height: "var(--radix-accordion-content-height)" }, to: { height: "0" } },

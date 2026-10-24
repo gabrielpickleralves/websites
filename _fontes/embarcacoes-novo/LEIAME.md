@@ -1,7 +1,8 @@
 # Embarcações à venda, site novo
 
 Outra versão da página Embarcações à venda, num site próprio (`embarcacoes-novo/`, um único `index.html`).
-Usa as cores, a fonte Archivo, o logotipo, os textos, as fotos e o vídeo do site da Marina Boreste, e lê o
+Tem identidade visual própria (papel, a água escura do Rio Una e o laranja das boias, em Schibsted Grotesk)
+e usa o logotipo, os textos, as fotos e o vídeo do site da Marina Boreste. Lê o
 mesmo `dados/barcos.js`: um barco cadastrado lá aparece aqui também.
 
 - A foto do anúncio cresce até virar a foto da página do barco (View Transitions; sem a animação nos

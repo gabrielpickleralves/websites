@@ -64,7 +64,7 @@ function Prancha({ menos }: { menos: boolean }) {
         <video ref={video} muted loop playsInline preload="none" tabIndex={-1} onPlaying={() => setTocando(true)} data-tocando={tocando ? "" : undefined} />
       </div>
       <button type="button" onClick={() => { if (pausado) toca(); else { video.current?.pause(); setPausado(true); } }}
-        className="btn absolute bottom-3 right-3 z-[1] min-h-[44px] border-casco/50 bg-tinta/55 px-4 text-[14px] text-casco hover:bg-tinta/85">
+        className="btn absolute bottom-3 right-3 z-[1] min-h-[44px] border-papel/50 bg-rio/55 px-4 text-[14px] text-papel hover:bg-rio/85">
         <IcPausa pausado={pausado} /><span>{pausado ? "Retomar" : "Pausar"}</span><span className="sr"> vídeo</span>
       </button>
     </div>
@@ -75,25 +75,25 @@ function Prancha({ menos }: { menos: boolean }) {
 const SECOES = [["servicos", "Serviços"], ["infraestrutura", "Infraestrutura"], ["pousada", "Pousada Una"], ["localizacao", "Localização"], ["contato", "Vamos conversar?"]];
 function Topo() {
   const [aberto, setAberto] = useState(false);
-  const titulo = "font-[Archivo] [font-stretch:125%] [font-variation-settings:'wdth'_125] font-medium uppercase tracking-[-.03em]";
+  const titulo = "font-bold tracking-[-.025em]";
   return (
-    <header className="sticky top-0 z-30 border-b border-tinta/10 bg-casco/95 backdrop-blur-[6px]">
+    <header className="sticky top-0 z-30 border-b border-rio/10 bg-papel/95 backdrop-blur-[6px]">
       <a href="#conteudo" onClick={e => { e.preventDefault(); document.getElementById("conteudo")?.focus(); }}
-        className="btn btn-tinta absolute left-2 top-2 z-40 -translate-y-[200%] focus:translate-y-0">Pular para o conteúdo</a>
+        className="btn btn-rio absolute left-2 top-2 z-40 -translate-y-[200%] focus:translate-y-0">Pular para o conteúdo</a>
       <div className="wrap flex h-[var(--topo)] items-center justify-between gap-3">
         <a href={RAIZ + "index.html"} aria-label="Marina Boreste, ir para a página inicial" className="shrink-0">
           <img src={RAIZ + "imagens/logo-marina-boreste.svg"} alt="" width={470} height={180} className="h-10 w-auto sm:h-11" />
         </a>
         <div className="flex items-center gap-2 sm:gap-3">
           <nav aria-label="Páginas do site" className="hidden gap-2 lg:flex">
-            <a className="btn btn-linha border-tinta/30" href={RAIZ + "biografia.html"}>Biografia</a>
-            <a className="btn btn-linha border-azul-texto text-azul-texto" href="#" aria-current="page">Embarcações à venda</a>
+            <a className="btn btn-linha border-rio/30" href={RAIZ + "biografia.html"}>Biografia</a>
+            <a className="btn btn-linha border-boia-texto text-boia-texto" href="#" aria-current="page">Embarcações à venda</a>
           </nav>
-          <a className="btn btn-azul px-3 sm:px-5" href={WHATS} {...NOVA_ABA}><IcWhats /><span className="hidden sm:inline">WhatsApp</span><span className="sr"> da Marina Boreste (abre em nova aba)</span></a>
+          <a className="btn btn-boia px-3 sm:px-5" href={WHATS} {...NOVA_ABA}><IcWhats /><span className="hidden sm:inline">WhatsApp</span><span className="sr"> da Marina Boreste (abre em nova aba)</span></a>
           <Dialog.Root open={aberto} onOpenChange={setAberto}>
-            <Dialog.Trigger className="btn btn-tinta">Menu</Dialog.Trigger>
+            <Dialog.Trigger className="btn btn-rio">Menu</Dialog.Trigger>
             <Dialog.Portal>
-              <Dialog.Content aria-describedby={undefined} className="no-escuro fixed inset-0 z-50 grid grid-rows-[auto_1fr_auto] overflow-y-auto bg-tinta px-[var(--gut)] pb-8 pt-3.5 text-casco outline-none motion-safe:data-[state=open]:animate-in motion-safe:data-[state=open]:fade-in-0">
+              <Dialog.Content aria-describedby={undefined} className="no-escuro fixed inset-0 z-50 grid grid-rows-[auto_1fr_auto] overflow-y-auto bg-rio px-[var(--gut)] pb-8 pt-3.5 text-papel outline-none motion-safe:data-[state=open]:animate-in motion-safe:data-[state=open]:fade-in-0">
                 <Dialog.Title className="sr">Menu</Dialog.Title>
                 <div className="flex items-center justify-between gap-4">
                   <a href={RAIZ + "index.html"} aria-label="Marina Boreste, ir para a página inicial"><img src={RAIZ + "imagens/logo-marina-boreste-negativo.svg"} alt="" width={470} height={180} className="h-[clamp(50px,5.6vw,80px)] w-auto" /></a>
@@ -101,23 +101,23 @@ function Topo() {
                 </div>
                 <nav aria-label="Páginas e seções do site" className="self-center py-8">
                   <ul className="m-0 mb-[clamp(22px,3.4vw,40px)] flex list-none flex-wrap gap-2.5 p-0">
-                    <li><a className="btn btn-linha border-azul-claro text-azul-claro" href={RAIZ + "biografia.html"}>Biografia</a></li>
-                    <li><a className="btn btn-azul" href="#" aria-current="page" onClick={() => setAberto(false)}>Embarcações à venda</a></li>
+                    <li><a className="btn btn-linha border-boia-claro text-boia-claro" href={RAIZ + "biografia.html"}>Biografia</a></li>
+                    <li><a className="btn btn-boia" href="#" aria-current="page" onClick={() => setAberto(false)}>Embarcações à venda</a></li>
                   </ul>
                   <ul className="m-0 list-none p-0">
                     {SECOES.map(([id, nome]) => (
-                      <li key={id}><a href={RAIZ + "index.html#" + id} className={titulo + " block w-fit py-[.06em] text-[clamp(1.6rem,5.2vw,4.4rem)] leading-[1.1] no-underline hover:text-azul"}>{nome}</a></li>
+                      <li key={id}><a href={RAIZ + "index.html#" + id} className={titulo + " block w-fit py-[.06em] text-[clamp(1.6rem,5.2vw,4.4rem)] leading-[1.1] no-underline hover:text-boia"}>{nome}</a></li>
                     ))}
                   </ul>
                 </nav>
                 <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-[15px] text-[#B9CDD3]">
                   <div className="flex gap-2.5">
-                    <a className="btn btn-linha text-casco" href={INSTA_MARINA} {...NOVA_ABA}><IcInsta /><span className="sr">Instagram </span>@marinaboreste<span className="sr"> (abre em nova aba)</span></a>
-                    <a className="btn btn-linha w-12 px-0 text-casco" href={WHATS} {...NOVA_ABA} aria-label="WhatsApp da Marina Boreste (abre em nova aba)"><IcWhats /></a>
+                    <a className="btn btn-linha text-papel" href={INSTA_MARINA} {...NOVA_ABA}><IcInsta /><span className="sr">Instagram </span>@marinaboreste<span className="sr"> (abre em nova aba)</span></a>
+                    <a className="btn btn-linha w-12 px-0 text-papel" href={WHATS} {...NOVA_ABA} aria-label="WhatsApp da Marina Boreste (abre em nova aba)"><IcWhats /></a>
                   </div>
                   <span>Segunda a domingo, das 8h às 17h</span>
-                  <a className="text-casco hover:text-azul-claro" href="tel:+5512997292082"><span className="sr">Telefone: </span>(12) 99729-2082</a>
-                  <a className="text-casco hover:text-azul-claro" href="mailto:atendimento@boreste.com.br"><span className="sr">E-mail: </span>atendimento@boreste.com.br</a>
+                  <a className="text-papel hover:text-boia-claro" href="tel:+5512997292082"><span className="sr">Telefone: </span>(12) 99729-2082</a>
+                  <a className="text-papel hover:text-boia-claro" href="mailto:atendimento@boreste.com.br"><span className="sr">E-mail: </span>atendimento@boreste.com.br</a>
                 </div>
               </Dialog.Content>
             </Dialog.Portal>
@@ -136,7 +136,7 @@ function Lista({ barcos, menos }: { barcos: Barco[] | null; menos: boolean }) {
       <section aria-labelledby="t-vendas" className="wrap grid gap-[clamp(28px,4vw,56px)] pb-[clamp(40px,6vw,88px)] pt-[clamp(32px,6vw,96px)] lg:grid-cols-[minmax(0,1fr)_auto]">
         <div className="flex flex-col justify-end gap-6">
           <h1 id="t-vendas" tabIndex={-1} className="text-[clamp(1.9rem,6vw,5.4rem)]">Embarcações à venda</h1>
-          <p className="entra max-w-[34em] text-[clamp(1.05rem,.5vw+.95rem,1.3rem)] text-cinza">Conheça as embarcações à venda na Marina Boreste. Os preços são negociáveis, e todo o atendimento é feito pelo WhatsApp.</p>
+          <p className="entra max-w-[34em] text-[clamp(1.05rem,.5vw+.95rem,1.3rem)] text-mata">Conheça as embarcações à venda na Marina Boreste. Os preços são negociáveis, e todo o atendimento é feito pelo WhatsApp.</p>
           {barcos && disponiveis > 0 && <p className="entra text-[15px] font-semibold">{disponiveis === 1 ? "1 embarcação disponível" : disponiveis + " embarcações disponíveis"}</p>}
         </div>
         <Prancha menos={menos} />
@@ -144,28 +144,28 @@ function Lista({ barcos, menos }: { barcos: Barco[] | null; menos: boolean }) {
 
       <section aria-label="Lista de embarcações à venda" className="wrap pb-[clamp(64px,9vw,140px)]">
         {barcos && !disponiveis && (
-          <div className="grid max-w-[40em] justify-items-start gap-5 border-t border-tinta pt-6">
+          <div className="grid max-w-[40em] justify-items-start gap-5 border-t border-rio pt-6">
             <p className="text-[18px]">No momento não há embarcações anunciadas. Fale com a gente pelo WhatsApp para saber das próximas oportunidades.</p>
-            <a className="btn btn-azul" href={WHATS_OPORTUNIDADES} {...NOVA_ABA}><IcWhats />Falar no WhatsApp<span className="sr"> sobre as próximas oportunidades (abre em nova aba)</span></a>
+            <a className="btn btn-boia" href={WHATS_OPORTUNIDADES} {...NOVA_ABA}><IcWhats />Falar no WhatsApp<span className="sr"> sobre as próximas oportunidades (abre em nova aba)</span></a>
           </div>
         )}
         <ul className="m-0 grid list-none gap-[clamp(20px,3vw,40px)] p-0">
           {(barcos || []).map(b => (
-            <li key={chave(b)} data-chave={chave(b)} className="anuncio relative grid border border-tinta/15 bg-white md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
-              <div className="anuncio-foto relative aspect-[4/3] overflow-hidden bg-espuma">
+            <li key={chave(b)} data-chave={chave(b)} className="anuncio relative grid border border-rio/15 bg-white md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
+              <div className="anuncio-foto relative aspect-[4/3] overflow-hidden bg-nevoa">
                 {b.foto
                   ? <img src={caminho(b.foto)} alt={b.descricaoFoto || ""} width={800} height={600} loading="lazy" decoding="async" className={"h-full w-full object-cover " + (vendido(b) ? "grayscale-[.75]" : "")} />
                   : <div className="grid h-full place-items-center"><img src={RAIZ + "imagens/logo-marina-boreste.svg"} alt="" width={470} height={180} className="w-[46%] opacity-40" /></div>}
-                {vendido(b) && <span aria-hidden className="absolute left-3 top-3 rounded-full bg-tinta px-3 py-1 text-[13px] font-bold text-casco">Vendido</span>}
+                {vendido(b) && <span aria-hidden className="absolute left-3 top-3 rounded-sm bg-rio px-3 py-1 text-[13px] font-bold text-papel">Vendido</span>}
               </div>
               <div className="flex flex-col items-start gap-4 p-[clamp(20px,3vw,48px)]">
                 <h2 className="text-[clamp(1.35rem,1.5vw+.8rem,2.3rem)]">
                   <a className="anuncio-link no-underline" href={"#/" + chave(b)}>{b.nome}{vendido(b) && <span className="sr"> (vendido)</span>}</a>
                 </h2>
                 <Dados b={b} />
-                {b.descricao && <p className="max-w-[36em] text-cinza">{b.descricao}</p>}
+                {b.descricao && <p className="max-w-[36em] text-mata">{b.descricao}</p>}
                 <p className="mt-auto pt-2 text-[clamp(1.25rem,1vw+1rem,1.7rem)] font-bold">{vendido(b) ? "Vendido" : preco(b.preco)}</p>
-                {!vendido(b) && <a className="btn btn-azul relative z-[2] w-full md:w-auto" href={linkWhats(b)} {...NOVA_ABA}><IcWhats />Falar no WhatsApp sobre este barco<span className="sr">: {b.nome} (abre em nova aba)</span></a>}
+                {!vendido(b) && <a className="btn btn-boia relative z-[2] w-full md:w-auto" href={linkWhats(b)} {...NOVA_ABA}><IcWhats />Falar no WhatsApp sobre este barco<span className="sr">: {b.nome} (abre em nova aba)</span></a>}
               </div>
             </li>
           ))}
@@ -180,10 +180,10 @@ function Dados({ b, grande }: { b: Barco; grande?: boolean }) {
   const linhas = ([["Ano", b.ano], ["Tamanho", b.pes ? b.pes + " pés" : ""], ["Motor", b.motor]] as const).filter(d => d[1] != null && d[1] !== "" && d[1] !== 0);
   if (!linhas.length) return null;
   return (
-    <dl className={"m-0 " + (grande ? "self-stretch border-t border-tinta/15" : "flex flex-wrap gap-x-5 gap-y-1 text-[15px]")}>
+    <dl className={"m-0 " + (grande ? "self-stretch border-t border-rio/15" : "flex flex-wrap gap-x-5 gap-y-1 text-[15px]")}>
       {linhas.map(([rot, v]) => (
-        <div key={rot} className={grande ? "grid grid-cols-[7em_1fr] gap-4 border-b border-tinta/15 py-3.5" : "flex gap-1.5"}>
-          <dt className="text-cinza">{rot}</dt><dd className="m-0 font-semibold">{String(v)}</dd>
+        <div key={rot} className={grande ? "grid grid-cols-[7em_1fr] gap-4 border-b border-rio/15 py-3.5" : "flex gap-1.5"}>
+          <dt className="text-mata">{rot}</dt><dd className="m-0 font-semibold">{String(v)}</dd>
         </div>
       ))}
     </dl>
@@ -201,7 +201,7 @@ function Detalhe({ b, id }: { b: Barco | undefined; id: string }) {
       {volta}
       <h1 id="t-barco" tabIndex={-1} className="mt-8 text-[clamp(2rem,6vw,5rem)]">Embarcação não encontrada</h1>
       <p className="mt-6 max-w-[36em] text-[18px]">Não encontramos a embarcação "{id}". Ela pode ter sido vendida ou retirada do site.</p>
-      <a className="btn btn-azul mt-6" href="#">Ver as embarcações à venda</a>
+      <a className="btn btn-boia mt-6" href="#">Ver as embarcações à venda</a>
     </section>
   );
   return (
@@ -209,7 +209,7 @@ function Detalhe({ b, id }: { b: Barco | undefined; id: string }) {
       {volta}
       <div className="mt-6 grid gap-[clamp(24px,4vw,64px)] lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-start">
         <div className="min-w-0">
-          <div className="overflow-hidden bg-espuma">
+          <div className="overflow-hidden bg-nevoa">
             {fotos.length
               ? <img src={fotos[i]} alt={i === 0 ? b.descricaoFoto || "" : b.nome + ", foto " + (i + 1) + " de " + fotos.length} style={{ viewTransitionName: "foto-barco" }}
                   className={"mx-auto max-h-[min(84svh,980px)] w-full object-contain " + (vendido(b) ? "grayscale-[.75]" : "")} />
@@ -219,7 +219,7 @@ function Detalhe({ b, id }: { b: Barco | undefined; id: string }) {
             <ul className="m-0 mt-3 flex list-none flex-wrap gap-2.5 p-0">
               {fotos.map((f, k) => (
                 <li key={f}><button type="button" onClick={() => setI(k)} aria-label={"Ver a foto " + (k + 1) + " de " + fotos.length} aria-current={k === i ? "true" : undefined}
-                  className="block aspect-square w-[clamp(64px,8vw,92px)] border-2 border-transparent bg-espuma aria-[current=true]:border-tinta"><img src={f} alt="" loading="lazy" className="h-full w-full object-cover" /></button></li>
+                  className="block aspect-square w-[clamp(64px,8vw,92px)] border-2 border-transparent bg-nevoa aria-[current=true]:border-rio"><img src={f} alt="" loading="lazy" className="h-full w-full object-cover" /></button></li>
               ))}
             </ul>
           )}
@@ -231,15 +231,15 @@ function Detalhe({ b, id }: { b: Barco | undefined; id: string }) {
           {b.descricao && <div className="grid gap-2"><h2 className="text-[1.1rem]">Descrição</h2><p className="max-w-[36em] text-[17.5px]">{b.descricao}</p></div>}
           {vendido(b)
             ? <a className="btn btn-linha" href="#">Ver as embarcações à venda</a>
-            : <a className="btn btn-azul hidden lg:inline-flex" href={linkWhats(b)} {...NOVA_ABA}><IcWhats />Falar no WhatsApp sobre este barco<span className="sr">: {b.nome} (abre em nova aba)</span></a>}
+            : <a className="btn btn-boia hidden lg:inline-flex" href={linkWhats(b)} {...NOVA_ABA}><IcWhats />Falar no WhatsApp sobre este barco<span className="sr">: {b.nome} (abre em nova aba)</span></a>}
         </div>
       </div>
       {/* no celular, o preço e o contato ficam sempre à mão, numa barra fixa embaixo */}
       {!vendido(b) && (
-        <div className="barra-celular fixed inset-x-0 bottom-0 z-20 border-t border-tinta/15 bg-casco/95 backdrop-blur-[6px] lg:hidden">
+        <div className="barra-celular fixed inset-x-0 bottom-0 z-20 border-t border-rio/15 bg-papel/95 backdrop-blur-[6px] lg:hidden">
           <div className="wrap flex items-center justify-between gap-3 pt-3">
             <p className="text-[18px] font-bold">{preco(b.preco)}</p>
-            <a className="btn btn-azul" href={linkWhats(b)} {...NOVA_ABA}><IcWhats />Falar no WhatsApp<span className="sr"> sobre o barco {b.nome} (abre em nova aba)</span></a>
+            <a className="btn btn-boia" href={linkWhats(b)} {...NOVA_ABA}><IcWhats />Falar no WhatsApp<span className="sr"> sobre o barco {b.nome} (abre em nova aba)</span></a>
           </div>
         </div>
       )}
@@ -249,10 +249,10 @@ function Detalhe({ b, id }: { b: Barco | undefined; id: string }) {
 
 /* ---------- rodapé: o mesmo do site da Marina Boreste ---------- */
 function Rodape() {
-  const h = "mb-3 text-[.95rem] leading-tight tracking-[-.01em] text-azul-claro";
-  const rede = "btn btn-linha w-12 px-0 text-casco";
+  const h = "mb-3 text-[.95rem] leading-tight tracking-[-.01em] text-boia-claro";
+  const rede = "btn btn-linha w-12 px-0 text-papel";
   return (
-    <footer className="no-escuro bg-tinta pb-7 pt-[clamp(48px,6vw,90px)] text-[15px] text-casco">
+    <footer className="no-escuro bg-rio pb-7 pt-[clamp(48px,6vw,90px)] text-[15px] text-papel">
       <div className="wrap grid gap-9 sm:grid-cols-2 lg:grid-cols-[1.3fr_.8fr_1fr_1fr]">
         <div>
           <a href={RAIZ + "index.html"} aria-label="Marina Boreste, ir para a página inicial"><img src={RAIZ + "imagens/logo-marina-boreste-negativo.svg"} alt="" width={470} height={180} loading="lazy" className="h-[clamp(64px,6vw,84px)] w-auto" /></a>
@@ -291,10 +291,10 @@ function Rodape() {
           </div>
         </div>
       </div>
-      <div className="wrap mt-12 flex flex-col gap-2 border-t border-casco/20 pt-6 text-[14px] text-casco/75 sm:flex-row sm:items-center sm:justify-between">
+      <div className="wrap mt-12 flex flex-col gap-2 border-t border-papel/20 pt-6 text-[14px] text-papel/75 sm:flex-row sm:items-center sm:justify-between">
         <p>© 2026 Marina Boreste. Todos os direitos reservados.</p>
         <p>Segunda a domingo, das 8h às 17h</p>
-        <a className="font-semibold text-casco no-underline hover:underline" href="#conteudo" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); document.querySelector<HTMLElement>("main h1")?.focus({ preventScroll: true }); }}>Voltar ao topo</a>
+        <a className="font-semibold text-papel no-underline hover:underline" href="#conteudo" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); document.querySelector<HTMLElement>("main h1")?.focus({ preventScroll: true }); }}>Voltar ao topo</a>
       </div>
     </footer>
   );
