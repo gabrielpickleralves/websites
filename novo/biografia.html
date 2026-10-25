@@ -2,158 +2,183 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Biografia | Marina Boreste</title>
-<meta name="description" content="Missão: Proporcionar infraestrutura e serviços ideais para a guarda, manutenção, compra e venda de embarcações, sempre em harmonia com o meio ambiente.">
-<meta name="theme-color" content="#142A22">
+<meta name="description" content="Missão: Proporcionar infraestrutura e serviços ideais para a guarda, manutenção, compra e venda de embarcações, sempre em harmonia com o meio ambiente, para que os clientes possam desfrutar da natureza e dos prazeres da atividade náutica.">
+<meta name="theme-color" content="#0B1D2E">
 <meta name="color-scheme" content="light">
 <meta name="format-detection" content="telephone=no">
+<link rel="icon" href="../favicon.ico" sizes="48x48">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
 <link rel="canonical" href="https://gabrielpickleralves.github.io/websites/novo/biografia.html">
 <meta property="og:url" content="https://gabrielpickleralves.github.io/websites/novo/biografia.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Marina Boreste">
 <meta property="og:title" content="Biografia | Marina Boreste">
-<meta property="og:description" content="Missão: Proporcionar infraestrutura e serviços ideais para a guarda, manutenção, compra e venda de embarcações, sempre em harmonia com o meio ambiente.">
+<meta property="og:description" content="Missão: Proporcionar infraestrutura e serviços ideais para a guarda, manutenção, compra e venda de embarcações, sempre em harmonia com o meio ambiente, para que os clientes possam desfrutar da natureza e dos prazeres da atividade náutica.">
 <meta property="og:image" content="https://gabrielpickleralves.github.io/websites/imagens/marina-boreste-compartilhamento.jpg">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Logotipo da Marina Boreste sobre a foto do píer, com lanchas atracadas no Rio Una">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="../favicon.ico" sizes="48x48">
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Sans:wght@400..700&amp;display=swap">
+<link rel="preload" href="fontes/newsreader.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fontes/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="estilo.css">
-<script>document.documentElement.classList.add('js')</script>
+<script>
+/* liga as animações antes da primeira pintura; se o site.js não rodar em 3 s, mostra tudo sem animação */
+(function(d){var r=d.documentElement;r.classList.add('js');
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){r.classList.add('anima');
+setTimeout(function(){if(!window.__site)r.classList.remove('anima')},3000)}
+try{if(sessionStorage.getItem('mb-intro'))r.classList.add('sem-intro')}catch(e){}})(document);
+</script>
 </head>
-<body>
+<body class="pag-interna">
 <a class="pula" href="#conteudo">Pular para o conteúdo</a>
 <header class="topo solido" data-topo>
-  <div class="wrap topo-dentro">
-    <a class="logo" href="index.html" aria-label="Marina Boreste, página inicial">
-      <img class="l-neg" src="../imagens/logo-marina-boreste-negativo.svg" alt="" width="470" height="180">
-      <img class="l-cor" src="../imagens/logo-marina-boreste.svg" alt="" width="470" height="180">
-    </a>
-    <nav class="nav" aria-label="Principal">
+  <div class="topo-dentro">
+    <a class="topo-logo" href="index.html" aria-label="Marina Boreste, voltar ao início"><img src="../imagens/logo-marina-boreste.svg" alt="" width="470" height="180"></a>
+    <nav class="topo-links" aria-label="Páginas do site">
       <a href="index.html#servicos">Serviços</a>
-      <a href="index.html#infraestrutura">Infraestrutura</a>
       <a href="compra-e-venda.html">Embarcações à venda</a>
-      <a href="biografia.html" aria-current="page">Biografia</a>
-      <a href="index.html#localizacao">Localização</a>
+      <a href="biografia.html">Biografia</a>
       <a href="index.html#contato">Contato</a>
     </nav>
     <div class="topo-acoes">
-      <a class="btn btn-azul" href="https://wa.me/5512997292082" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.6 20.4l1.3-4.4a8.4 8.4 0 1 1 3.2 3.1z"/><path d="M9.2 8.3c-.3 2.8 2.9 6.4 6.3 6.5l1-1.6-2-1.1-.9.9c-.9-.4-1.8-1.3-2.3-2.4l.9-.9-1.1-2z"/></svg><span class="wpp-txt">WhatsApp</span><span class="sr"> da Marina Boreste (abre em nova aba)</span></a>
-      <button class="btn btn-linha abre-menu" type="button" data-abre-menu aria-haspopup="dialog" aria-expanded="false">Menu</button>
+      <a class="btn btn-azul topo-wpp" href="https://wa.me/5512997292082" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.6 20.4l1.3-4.4a8.4 8.4 0 1 1 3.2 3.1z"/><path d="M9.2 8.3c-.3 2.8 2.9 6.4 6.3 6.5l1-1.6-2-1.1-.9.9c-.9-.4-1.8-1.3-2.3-2.4l.9-.9-1.1-2z"/></svg><span class="wpp-txt">WhatsApp</span><span class="sr"> da Marina Boreste (abre em nova aba)</span></a>
+      <button class="menu-btn" type="button" data-abre-menu aria-haspopup="dialog" aria-expanded="false"><svg class="timao" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="6.6"/><circle cx="12" cy="12" r="2"/><path d="M12.00 10.00L12.00 1.80M13.41 10.59L19.21 4.79M14.00 12.00L22.20 12.00M13.41 13.41L19.21 19.21M12.00 14.00L12.00 22.20M10.59 13.41L4.79 19.21M10.00 12.00L1.80 12.00M10.59 10.59L4.79 4.79"/></svg><span>Menu</span></button>
     </div>
   </div>
-  <dialog class="menu" id="menu" aria-label="Menu">
-    <div class="wrap menu-dentro">
-      <div class="menu-topo">
-        <a class="logo" href="index.html" aria-label="Marina Boreste, página inicial" data-fecha><img src="../imagens/logo-marina-boreste-negativo.svg" alt="" width="470" height="180"></a>
-        <button class="btn btn-linha" type="button" data-fecha-menu>Fechar</button>
-      </div>
-      <nav aria-label="Menu"><ul>
-        <li><a href="index.html#servicos" data-fecha>Serviços</a></li>
-        <li><a href="index.html#infraestrutura" data-fecha>Infraestrutura</a></li>
-        <li><a href="compra-e-venda.html" data-fecha>Embarcações à venda</a></li>
-        <li><a href="biografia.html" aria-current="page" data-fecha>Biografia</a></li>
-        <li><a href="index.html#localizacao" data-fecha>Localização</a></li>
-        <li><a href="index.html#contato" data-fecha>Contato</a></li>
-      </ul></nav>
-      <div class="menu-pe">
-        <span>Segunda a domingo, das 8h às 17h</span>
-        <a href="tel:+5512997292082"><span class="sr">Telefone: </span>(12) 99729-2082</a>
-        <a href="mailto:atendimento@boreste.com.br"><span class="sr">E-mail: </span>atendimento@boreste.com.br</a>
-      </div>
-    </div>
-  </dialog>
 </header>
-<main id="conteudo" class="interna" tabindex="-1">
-<div class="wrap">
-  <a class="volta" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Voltar ao início</a>
-  <header class="interna-cab">
-    <h1>Nossa história</h1>
-    <p class="lead">Da paixão de um navegante, em meados da década de 70, a uma marina administrada pela família há mais de 40 anos.</p>
-  </header>
-  <div class="historia">
-    <figure>
-      <img src="../imagens/marina-vista-aerea-800.webp" srcset="../imagens/marina-vista-aerea-400.webp 400w, ../imagens/marina-vista-aerea-800.webp 800w" sizes="(max-width:860px) 100vw, 40vw" alt="Vista aérea da Marina Boreste, entre o Rio Una e o mar" width="800" height="800" loading="lazy" decoding="async">
-      <figcaption>A Marina Boreste vista de cima, entre o Rio Una e o mar.</figcaption>
-    </figure>
-    <div class="historia-txt">
-      <blockquote class="missao">
-        <p class="dado"><span class="luz" aria-hidden="true"></span>Missão</p>
-        <p>Proporcionar infraestrutura e serviços ideais para a guarda, manutenção, compra e venda de embarcações, sempre em harmonia com o meio ambiente, para que os clientes possam desfrutar da natureza e dos prazeres da atividade náutica.</p>
-      </blockquote>
-      <p>Não havia telefone celular nem GPS, não havia previsão do tempo e às vezes nem estradas. Mas mesmo assim, em meados da década de 70, Amandio Alves Pinto, um apaixonado pelo mar, saía com o seu barco navegando pela barra do Rio Una, mar afora, atraído pelas belezas do litoral norte de São Paulo.</p>
-      <p>Foi por esta paixão e pelo seu espírito visionário que, ainda nesta época, ele começou a desenvolver em sua propriedade, na beira do Rio Una, as primeiras atividades náuticas da Marina Boreste, sendo ponto de apoio para amigos e outros navegantes.</p>
-      <p>Com o tempo, a necessidade de facilitar o acesso a outros amantes do mar se tornava mais latente, e a Marina Boreste, acompanhando esta tendência, se organizava e se estruturava para atender os seus clientes cada vez melhor.</p>
-      <p>Hoje, administrada pela família, a Marina Boreste continua investindo constantemente em melhorias, está consolidada no mercado, e a satisfação dos seus clientes é a comprovação da qualidade de seus serviços.</p>
-      <p>E é neste clima de pioneirismo, amizade, honestidade e respeito à natureza que a Marina Boreste assume o compromisso de manter a sua embarcação sempre em boas mãos.</p>
-      <ul class="numeros">
-        <li><b>40<small>+ anos</small></b><span>de experiência</span></li>
-        <li><b>3.000<small>m²</small></b><span>de galpões</span></li>
-        <li><b>10<small>t</small></b><span>por embarcação</span></li>
-        <li><b>24<small>h</small></b><span>de monitoramento</span></li>
-      </ul>
+<dialog class="menu" id="menu" aria-label="Menu">
+  <div class="menu-dentro">
+    <div class="menu-topo">
+      <a class="menu-logo" href="index.html" aria-label="Marina Boreste, voltar ao início" data-fecha-menu><img src="../imagens/logo-marina-boreste-negativo.svg" alt="" width="470" height="180"></a>
+      <button class="menu-btn" type="button" data-fecha-menu><svg class="timao" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="6.6"/><circle cx="12" cy="12" r="2"/><path d="M12.00 10.00L12.00 1.80M13.41 10.59L19.21 4.79M14.00 12.00L22.20 12.00M13.41 13.41L19.21 19.21M12.00 14.00L12.00 22.20M10.59 13.41L4.79 19.21M10.00 12.00L1.80 12.00M10.59 10.59L4.79 4.79"/></svg><span>Fechar</span></button>
     </div>
-  </div>
-  <p class="volta-fim"><a class="btn btn-linha" href="index.html">Voltar ao início</a></p>
-</div>
-</main>
-<footer class="escuro rodape">
-  <div class="wrap">
-    <div class="rodape-grid">
-      <div>
-        <a class="logo" href="index.html" aria-label="Marina Boreste, página inicial"><img src="../imagens/logo-marina-boreste-negativo.svg" alt="" width="470" height="180" loading="lazy"></a>
-        <p style="margin-top:20px;max-width:34ch">Infraestrutura e serviços para a guarda, manutenção, compra e venda de embarcações, sempre em harmonia com o meio ambiente.</p>
+    <nav class="menu-nav" aria-label="Páginas e seções do site">
+      <ul class="menu-destaques">
+        <li style="--i:0"><a href="biografia.html">Biografia</a></li>
+        <li style="--i:1"><a href="compra-e-venda.html">Embarcações à venda</a></li>
+      </ul>
+      <ul class="menu-secoes">
+        <li style="--i:2"><a href="index.html#servicos">Serviços</a></li>
+        <li style="--i:3"><a href="index.html#infraestrutura">Infraestrutura</a></li>
+        <li style="--i:4"><a href="index.html#pousada">Pousada Una</a></li>
+        <li style="--i:5"><a href="index.html#localizacao">Localização</a></li>
+        <li style="--i:6"><a href="index.html#contato">Vamos conversar?</a></li>
+      </ul>
+    </nav>
+    <div class="menu-pe">
+      <div class="redes">
+        <a class="rede" href="https://www.instagram.com/marinaboreste/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg><span class="sr">Instagram </span>@marinaboreste<span class="sr"> (abre em nova aba)</span></a>
+        <a class="rede" href="https://wa.me/5512997292082" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.6 20.4l1.3-4.4a8.4 8.4 0 1 1 3.2 3.1z"/><path d="M9.2 8.3c-.3 2.8 2.9 6.4 6.3 6.5l1-1.6-2-1.1-.9.9c-.9-.4-1.8-1.3-2.3-2.4l.9-.9-1.1-2z"/></svg>WhatsApp<span class="sr"> da Marina Boreste (abre em nova aba)</span></a>
       </div>
+      <p>Segunda a domingo, das 8h às 17h</p>
+      <p><a href="tel:+5512997292082"><span class="sr">Telefone: </span>(12) 99729-2082</a></p>
+      <p><a href="mailto:atendimento@boreste.com.br"><span class="sr">E-mail: </span>atendimento@boreste.com.br</a></p>
+    </div>
+    <picture class="menu-timao" aria-hidden="true"><source type="image/avif" srcset="../imagens/timao-de-madeira-500.avif 500w, ../imagens/timao-de-madeira-800.avif 800w, ../imagens/timao-de-madeira-1200.avif 1200w" sizes="(max-width: 700px) 90vw, 46vw"><source type="image/webp" srcset="../imagens/timao-de-madeira-500.webp 500w, ../imagens/timao-de-madeira-800.webp 800w, ../imagens/timao-de-madeira-1200.webp 1200w" sizes="(max-width: 700px) 90vw, 46vw"><img src="../imagens/timao-de-madeira-800.webp" alt="" width="1600" height="1600" loading="lazy" decoding="async"></picture>
+  </div>
+</dialog>
+<main id="conteudo" class="interna" tabindex="-1">
+<section class="pagina" aria-labelledby="t-historia">
+  <div class="wrap">
+    <a class="btn btn-linha voltar-inicio" href="index.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 10H4M9.5 4.5 4 10l5.5 5.5"/></svg>Voltar ao início</a>
+    <h1 class="tx pagina-titulo" id="t-historia" tabindex="-1">Nossa história</h1>
+    <ul class="numeros">
+      <li data-rv style="--i:0"><b><span data-conta="40">40</span><small>+ anos</small></b><span>de experiência nas águas de Barra do Una</span></li>
+      <li data-rv style="--i:1"><b><span data-conta="3000">3.000</span><small>m²</small></b><span>de galpões na garagem náutica</span></li>
+      <li data-rv style="--i:2"><b><span data-conta="10">10</span><small>t</small></b><span>por embarcação, sem empilhamento</span></li>
+      <li data-rv style="--i:3"><b><span data-conta="24">24</span><small>h</small></b><span>de monitoramento por câmeras</span></li>
+    </ul>
+    <div class="historia">
+      <figure class="historia-foto">
+        <div class="moldura revela" data-rvimg><div class="px" data-px><button class="zoom" type="button" aria-label="Ampliar foto: vista aérea da Marina Boreste"><picture><source type="image/avif" srcset="img/marina-vista-aerea-400.avif 400w, img/marina-vista-aerea-800.avif 800w" sizes="(min-width: 900px) 44vw, 100vw"><source type="image/webp" srcset="img/marina-vista-aerea-400.webp 400w, img/marina-vista-aerea-800.webp 800w" sizes="(min-width: 900px) 44vw, 100vw"><img src="img/marina-vista-aerea-800.webp" alt="Vista aérea da Marina Boreste, entre o Rio Una e o mar" width="800" height="800" loading="lazy" decoding="async"></picture></button></div></div>
+        <figcaption>A Marina Boreste vista de cima, entre o Rio Una e o mar.</figcaption>
+      </figure>
+      <div class="historia-txt">
+        <img class="assinatura" src="../imagens/logo-marina-boreste.svg" alt="Marina Boreste" width="470" height="180" loading="lazy" decoding="async" data-rv>
+        <blockquote class="missao" data-rv>
+          <p class="missao-rot">Missão</p>
+          <p>Proporcionar infraestrutura e serviços ideais para a guarda, manutenção, compra e venda de embarcações, sempre em harmonia com o meio ambiente, para que os clientes possam desfrutar da natureza e dos prazeres da atividade náutica.</p>
+        </blockquote>
+        <p data-rv>Não havia telefone celular nem GPS, não havia previsão do tempo e às vezes nem estradas. Mas mesmo assim, em meados da década de 70, Amandio Alves Pinto, um apaixonado pelo mar, saía com o seu barco navegando pela barra do Rio Una, mar afora, atraído pelas belezas do litoral norte de São Paulo.</p>
+        <p data-rv>Foi por esta paixão e pelo seu espírito visionário que, ainda nesta época, ele começou a desenvolver em sua propriedade, na beira do Rio Una, as primeiras atividades náuticas da Marina Boreste, sendo ponto de apoio para amigos e outros navegantes.</p>
+        <p data-rv>Com o tempo, a necessidade de facilitar o acesso a outros amantes do mar se tornava mais latente, e a Marina Boreste, acompanhando esta tendência, se organizava e se estruturava para atender os seus clientes cada vez melhor.</p>
+        <p data-rv>Hoje, administrada pela família, a Marina Boreste continua investindo constantemente em melhorias, está consolidada no mercado, e a satisfação dos seus clientes é a comprovação da qualidade de seus serviços.</p>
+        <p data-rv>E é neste clima de pioneirismo, amizade, honestidade e respeito à natureza que a Marina Boreste assume o compromisso de manter a sua embarcação sempre em boas mãos.</p>
+      </div>
+    </div>
+    <p class="voltar-fim"><a class="btn btn-linha voltar-inicio" href="index.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 10H4M9.5 4.5 4 10l5.5 5.5"/></svg>Voltar ao início</a></p>
+  </div>
+</section>
+</main>
+<footer class="rodape">
+  <div class="wrap">
+    <a class="rodape-logo" href="index.html" aria-label="Marina Boreste, voltar ao início"><img src="../imagens/logo-marina-boreste-negativo.svg" alt="" width="470" height="180" loading="lazy" decoding="async"></a>
+    <div class="rodape-grade">
+      <p class="rodape-desc">Infraestrutura e serviços para a guarda, manutenção, compra e venda de embarcações, sempre em harmonia com o meio ambiente.</p>
       <nav aria-labelledby="r-marina">
         <h2 id="r-marina">A marina</h2>
         <ul>
           <li><a href="index.html#servicos">Serviços</a></li>
           <li><a href="index.html#infraestrutura">Infraestrutura</a></li>
-          <li><a href="compra-e-venda.html">Embarcações à venda</a></li>
           <li><a href="biografia.html">Biografia</a></li>
           <li><a href="index.html#localizacao">Localização</a></li>
-          <li><a href="index.html#contato">Contato</a></li>
+          <li><a href="index.html#contato">Vamos conversar?</a></li>
         </ul>
       </nav>
       <div>
         <h2>Marina Boreste</h2>
         <address>
-          <a class="ext" href="https://www.google.com/maps/search/?api=1&amp;query=Marina%20Boreste%2C%20Barra%20do%20Una%2C%20S%C3%A3o%20Sebasti%C3%A3o%20-%20SP&amp;query_place_id=ChIJS2xwpZCIzZQRFnlkunPgOQ8" target="_blank" rel="noopener">Rua Petrópolis, 215, Barra do Una<br>São Sebastião (SP), CEP 11624-179<span class="sr"> (ver no Google Maps, abre em nova aba)</span></a><br>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Marina%20Boreste%2C%20Barra%20do%20Una%2C%20S%C3%A3o%20Sebasti%C3%A3o%20-%20SP&amp;query_place_id=ChIJS2xwpZCIzZQRFnlkunPgOQ8" target="_blank" rel="noopener">Rua Petrópolis, 215, Barra do Una<br>São Sebastião (SP), CEP 11624-179<span class="sr"> (ver no Google Maps, abre em nova aba)</span></a><br>
           <a href="tel:+551238671550"><span class="sr">Telefone: </span>(12) 3867-1550</a><br>
           <a href="tel:+5512997292082"><span class="sr">Celular e WhatsApp: </span>(12) 99729-2082</a><br>
           <a href="mailto:boreste@boreste.com.br"><span class="sr">E-mail: </span>boreste@boreste.com.br</a>
         </address>
         <div class="redes">
-          <a class="rede" href="https://www.instagram.com/marinaboreste/" target="_blank" rel="noopener" aria-label="Instagram da Marina Boreste, @marinaboreste (abre em nova aba)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg></a>
-          <a class="rede" href="https://wa.me/5512997292082" target="_blank" rel="noopener" aria-label="WhatsApp da Marina Boreste (abre em nova aba)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.6 20.4l1.3-4.4a8.4 8.4 0 1 1 3.2 3.1z"/><path d="M9.2 8.3c-.3 2.8 2.9 6.4 6.3 6.5l1-1.6-2-1.1-.9.9c-.9-.4-1.8-1.3-2.3-2.4l.9-.9-1.1-2z"/></svg></a>
+          <a class="rede rede-so" href="https://www.instagram.com/marinaboreste/" target="_blank" rel="noopener" aria-label="Instagram da Marina Boreste, @marinaboreste (abre em nova aba)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg></a>
+          <a class="rede rede-so" href="https://wa.me/5512997292082" target="_blank" rel="noopener" aria-label="WhatsApp da Marina Boreste (abre em nova aba)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.6 20.4l1.3-4.4a8.4 8.4 0 1 1 3.2 3.1z"/><path d="M9.2 8.3c-.3 2.8 2.9 6.4 6.3 6.5l1-1.6-2-1.1-.9.9c-.9-.4-1.8-1.3-2.3-2.4l.9-.9-1.1-2z"/></svg></a>
         </div>
       </div>
       <div>
         <h2>Pousada Una</h2>
         <address>
-          <a class="ext" href="https://www.google.com/maps/search/?api=1&amp;query=Pousada%20Una%2C%20Rua%20Petr%C3%B3polis%2C%2080%2C%20Barra%20do%20Una%2C%20S%C3%A3o%20Sebasti%C3%A3o%20-%20SP&amp;query_place_id=ChIJ14_vbpqIzZQRNGed2SGEBd8" target="_blank" rel="noopener">Rua Petrópolis, 80, Barra do Una<br>São Sebastião (SP)<span class="sr"> (ver no Google Maps, abre em nova aba)</span></a><br>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Pousada%20Una%2C%20Rua%20Petr%C3%B3polis%2C%2080%2C%20Barra%20do%20Una%2C%20S%C3%A3o%20Sebasti%C3%A3o%20-%20SP&amp;query_place_id=ChIJ14_vbpqIzZQRNGed2SGEBd8" target="_blank" rel="noopener">Rua Petrópolis, 80, Barra do Una<br>São Sebastião (SP)<span class="sr"> (ver no Google Maps, abre em nova aba)</span></a><br>
           <a href="tel:+551238671515"><span class="sr">Telefone: </span>(12) 3867-1515</a><br>
-          <a class="ext" href="https://pousadauna.com.br/" target="_blank" rel="noopener">pousadauna.com.br<span class="sr"> (site da Pousada Una, abre em nova aba)</span></a>
+          <a href="https://pousadauna.com.br/" target="_blank" rel="noopener">pousadauna.com.br<span class="sr"> (site da Pousada Una, abre em nova aba)</span></a>
         </address>
         <div class="redes">
-          <a class="rede" href="https://www.instagram.com/pousadauna/" target="_blank" rel="noopener" aria-label="Instagram da Pousada Una, @pousadauna (abre em nova aba)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg></a>
-          <a class="rede" href="https://www.facebook.com/pousadauna/" target="_blank" rel="noopener" aria-label="Facebook da Pousada Una (abre em nova aba)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.2 8.4V6.9c0-.8.5-1.2 1.3-1.2h1.6V3h-2.5c-2.4 0-3.6 1.5-3.6 3.7v1.7H8.7v3h2.3V21h3.2v-9.6h2.5l.4-3z"/></svg></a>
+          <a class="rede rede-so" href="https://www.instagram.com/pousadauna/" target="_blank" rel="noopener" aria-label="Instagram da Pousada Una, @pousadauna (abre em nova aba)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg></a>
+          <a class="rede rede-so" href="https://www.facebook.com/pousadauna/" target="_blank" rel="noopener" aria-label="Facebook da Pousada Una (abre em nova aba)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.2 8.4V6.9c0-.8.5-1.2 1.3-1.2h1.6V3h-2.5c-2.4 0-3.6 1.5-3.6 3.7v1.7H8.7v3h2.3V21h3.2v-9.6h2.5l.4-3z"/></svg></a>
         </div>
       </div>
     </div>
     <div class="rodape-fim">
-      <span>© 2026 Marina Boreste</span>
-      <span>23°45'29"S 45°45'40"W · VHF 74 · Segunda a domingo, 8h às 17h</span>
+      <span>© 2026 Marina Boreste. Todos os direitos reservados.</span>
+      <span>Segunda a domingo, das 8h às 17h</span>
+      <a class="rodape-topo" href="#conteudo">Voltar ao topo <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 16V4M4.5 9.5 10 4l5.5 5.5"/></svg></a>
     </div>
   </div>
 </footer>
-<script src="site.js"></script>
+<aside class="atalhos" aria-label="Atalhos"><button class="fab-topo" type="button" data-volta-topo aria-label="Voltar ao topo"><svg class="rosa" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><circle cx="100" cy="100" r="97" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="100" cy="100" r="83" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M100.0 17.0L100.0 3.0M107.7 12.3L108.5 3.4M115.3 13.3L116.8 4.5M122.8 15.0L125.1 6.3M130.1 17.3L133.2 8.8M137.2 20.2L141.0 12.1M141.5 28.1L148.5 16.0M150.5 27.9L155.6 20.5M156.6 32.6L162.4 25.7M162.2 37.8L168.6 31.4M167.4 43.4L174.3 37.6M172.1 49.5L179.5 44.4M171.9 58.5L184.0 51.5M179.8 62.8L187.9 59.0M182.7 69.9L191.2 66.8M185.0 77.2L193.7 74.9M186.7 84.7L195.5 83.2M187.7 92.3L196.6 91.5M183.0 100.0L197.0 100.0M187.7 107.7L196.6 108.5M186.7 115.3L195.5 116.8M185.0 122.8L193.7 125.1M182.7 130.1L191.2 133.2M179.8 137.2L187.9 141.0M171.9 141.5L184.0 148.5M172.1 150.5L179.5 155.6M167.4 156.6L174.3 162.4M162.2 162.2L168.6 168.6M156.6 167.4L162.4 174.3M150.5 172.1L155.6 179.5M141.5 171.9L148.5 184.0M137.2 179.8L141.0 187.9M130.1 182.7L133.2 191.2M122.8 185.0L125.1 193.7M115.3 186.7L116.8 195.5M107.7 187.7L108.5 196.6M100.0 183.0L100.0 197.0M92.3 187.7L91.5 196.6M84.7 186.7L83.2 195.5M77.2 185.0L74.9 193.7M69.9 182.7L66.8 191.2M62.8 179.8L59.0 187.9M58.5 171.9L51.5 184.0M49.5 172.1L44.4 179.5M43.4 167.4L37.6 174.3M37.8 162.2L31.4 168.6M32.6 156.6L25.7 162.4M27.9 150.5L20.5 155.6M28.1 141.5L16.0 148.5M20.2 137.2L12.1 141.0M17.3 130.1L8.8 133.2M15.0 122.8L6.3 125.1M13.3 115.3L4.5 116.8M12.3 107.7L3.4 108.5M17.0 100.0L3.0 100.0M12.3 92.3L3.4 91.5M13.3 84.7L4.5 83.2M15.0 77.2L6.3 74.9M17.3 69.9L8.8 66.8M20.2 62.8L12.1 59.0M28.1 58.5L16.0 51.5M27.9 49.5L20.5 44.4M32.6 43.4L25.7 37.6M37.8 37.8L31.4 31.4M43.4 32.6L37.6 25.7M49.5 27.9L44.4 20.5M58.5 28.1L51.5 16.0M62.8 20.2L59.0 12.1M69.9 17.3L66.8 8.8M77.2 15.0L74.9 6.3M84.7 13.3L83.2 4.5M92.3 12.3L91.5 3.4" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M100.0 100.0L139.6 60.4L100.0 89.0Z" fill="currentColor"/><path d="M100.0 100.0L139.6 60.4L111.0 100.0Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M100.0 100.0L139.6 139.6L111.0 100.0Z" fill="currentColor"/><path d="M100.0 100.0L139.6 139.6L100.0 111.0Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M100.0 100.0L60.4 139.6L100.0 111.0Z" fill="currentColor"/><path d="M100.0 100.0L60.4 139.6L89.0 100.0Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M100.0 100.0L60.4 60.4L89.0 100.0Z" fill="currentColor"/><path d="M100.0 100.0L60.4 60.4L100.0 89.0Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M100.0 100.0L100.0 20.0L89.4 89.4Z" fill="currentColor"/><path d="M100.0 100.0L100.0 20.0L110.6 89.4Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M100.0 100.0L180.0 100.0L110.6 89.4Z" fill="currentColor"/><path d="M100.0 100.0L180.0 100.0L110.6 110.6Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M100.0 100.0L100.0 180.0L110.6 110.6Z" fill="currentColor"/><path d="M100.0 100.0L100.0 180.0L89.4 110.6Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M100.0 100.0L20.0 100.0L89.4 110.6Z" fill="currentColor"/><path d="M100.0 100.0L20.0 100.0L89.4 89.4Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><circle cx="100" cy="100" r="3.4" fill="currentColor"/></svg></button></aside>
+<dialog class="foto-zoom" id="foto-zoom" aria-labelledby="zoom-titulo">
+  <div class="zoom-topo">
+    <p id="zoom-titulo">Foto <span data-zoom-n>1</span> de <span data-zoom-total>1</span></p>
+    <button class="btn btn-linha-clara" type="button" data-zoom-fecha>Fechar</button>
+  </div>
+  <figure class="zoom-palco"><img src="data:," alt="" data-zoom-img><figcaption data-zoom-legenda></figcaption></figure>
+  <div class="zoom-nav">
+    <button class="seta" type="button" data-zoom-dir="-1" aria-label="Foto anterior"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 3 5 9l6 6"/></svg></button>
+    <button class="seta" type="button" data-zoom-dir="1" aria-label="Próxima foto"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m7 3 6 6-6 6"/></svg></button>
+  </div>
+  <p class="sr" role="status" data-zoom-aviso></p>
+</dialog>
+<script src="lenis.min.js" defer></script>
+<script src="site.js" defer></script>
 </body>
 </html>
