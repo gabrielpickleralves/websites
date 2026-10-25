@@ -13,6 +13,8 @@
   function vendido(b) { return simples(b.status) === 'vendido'; }
   function caminho(f) { return /^(https?:)?\//.test(f) ? f : RAIZ + f; }
   function endereco(b) { return 'embarcacao.html?barco=' + encodeURIComponent(chave(b)); }
+  /* a foto do cartão e a da página do barco têm o mesmo nome de transição: ao abrir o barco, ela viaja até o lugar */
+  function viaja(b, img) { img.style.viewTransitionName = 'barco-' + chave(b); img.style.setProperty('view-transition-class', 'foto'); }
 
   /* preço: o valor e, embaixo, "Preço negociável"; sem valor, só "Preço negociável" */
   function preco(b, alvo) {
@@ -38,9 +40,12 @@
     a.appendChild(el('span', 'sr', ': ' + b.nome + ' (abre em nova aba)'));
     return a;
   }
-  function imagem(b, img) {
-    if (b.foto) { img.src = caminho(b.foto); img.alt = b.descricaoFoto || ''; }
-    else { img.src = RAIZ + 'imagens/logo-marina-boreste.svg'; img.alt = ''; }   // sem foto: o logotipo no lugar
+  function semFoto(img) { img.src = RAIZ + 'imagens/logo-marina-boreste.svg'; img.alt = ''; }   // sem foto: o logotipo no lugar
+  function imagem(b, img, moldura) {
+    if (b.foto) {
+      img.src = caminho(b.foto); img.alt = b.descricaoFoto || '';
+      img.onerror = function () { img.onerror = null; semFoto(img); moldura.classList.add('barco-sem-foto'); };   // foto com nome errado no barcos.js
+    } else semFoto(img);
     img.decoding = 'async';
   }
 
@@ -51,15 +56,15 @@
     barcos.forEach(function (b) {
       var foi = vendido(b);
       if (!foi) disponiveis++;
-      var li = el('li', 'barco'); li.setAttribute('data-rv', '');
+      var li = el('li', 'barco');
       if (foi) li.setAttribute('data-vendido', '');
-      var moldura = el('a', b.foto ? 'barco-foto' : 'barco-foto barco-sem-foto'), img = el('img');
-      moldura.href = endereco(b); moldura.tabIndex = -1; moldura.setAttribute('aria-hidden', 'true');
-      imagem(b, img); img.width = 900; img.height = 1200; img.loading = 'lazy';
-      moldura.appendChild(img);
+      var moldura = el('a', (b.foto ? 'barco-foto' : 'barco-foto barco-sem-foto') + ' revela'), caixa = el('span', 'barco-img'), img = el('img');
+      moldura.href = endereco(b); moldura.tabIndex = -1; moldura.setAttribute('aria-hidden', 'true'); moldura.setAttribute('data-rvimg', '');
+      imagem(b, img, moldura); img.width = 900; img.height = 1200; img.loading = 'lazy'; viaja(b, img);
+      caixa.appendChild(img); moldura.appendChild(caixa);
       if (foi) moldura.appendChild(el('span', 'barco-etiqueta', 'Vendido'));
       li.appendChild(moldura);
-      var corpo = el('div', 'barco-corpo');
+      var corpo = el('div', 'barco-corpo'); corpo.setAttribute('data-rv', '');
       var titulo = el('h2'), link = el('a', null, b.nome);
       link.href = endereco(b);
       if (foi) link.appendChild(el('span', 'sr', ' (vendido)'));
@@ -96,7 +101,7 @@
     if (b.foto) lista2.push({ src: caminho(b.foto), alt: b.descricaoFoto || '' });
     (Array.isArray(b.maisFotos) ? b.maisFotos : []).forEach(function (f) { if (f) lista2.push({ src: caminho(f), alt: '' }); });
     var moldura = el('figure', 'emb-foto'), img = el('img');
-    imagem(b, img); img.fetchPriority = 'high';
+    imagem(b, img, moldura); img.fetchPriority = 'high'; viaja(b, img);
     if (!b.foto) moldura.className = 'emb-foto barco-sem-foto';
     moldura.appendChild(img); fotos.appendChild(moldura);
     if (lista2.length > 1) {
@@ -106,6 +111,7 @@
         bt.type = 'button'; bt.setAttribute('aria-label', 'Ver a foto ' + (i + 1) + ' de ' + lista2.length);
         if (!i) bt.setAttribute('aria-current', 'true');
         m.src = f.src; m.alt = ''; m.loading = 'lazy'; m.decoding = 'async';
+        m.onerror = function () { li.hidden = true; };   // miniatura com nome errado: some
         bt.appendChild(m); li.appendChild(bt); mini.appendChild(li);
         bt.addEventListener('click', function () {
           img.src = f.src; img.alt = f.alt || (b.nome + ', foto ' + (i + 1) + ' de ' + lista2.length);

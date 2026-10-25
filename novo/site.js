@@ -10,6 +10,7 @@
   var reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var anima = raiz.classList.contains('anima');
   var temIO = 'IntersectionObserver' in window;
+  var temLinhaDoTempo = window.CSS && CSS.supports('animation-timeline: view()');   // movimentos ligados à rolagem feitos pelo CSS
   var VH = innerHeight;
 
   /* a entrada do logotipo toca uma vez por visita */
@@ -61,7 +62,7 @@
       var r = medidas[i], p = (r.top + r.height / 2 - VH / 2) / (VH / 2 + r.height / 2);
       el.style.transform = 'translate3d(0,' + (Math.max(-1, Math.min(1, p)) * -0.045 * r.height).toFixed(1) + 'px,0)';
     });
-    if (heroMidia && y < VH * 1.2) heroMidia.style.transform = 'translate3d(0,' + (y * 0.28).toFixed(1) + 'px,0)';
+    if (heroMidia && !temLinhaDoTempo && y < VH * 1.2) heroMidia.style.transform = 'translate3d(0,' + (y * 0.28).toFixed(1) + 'px,0)';
   }
 
   var pendente = false;
@@ -78,7 +79,7 @@
   quadro();
 
   /* ----- revelação ao rolar: títulos palavra a palavra, depois texto e fotos ----- */
-  var revelaveis = $$('[data-rv], [data-rvimg], .tx');
+  var revelaveis = $$('[data-rv], [data-rvimg], [data-rvlogo], .tx');
   if (anima && temIO) {
     $$('.tx').forEach(function (h) {
       if (h.children.length) return;
@@ -99,30 +100,60 @@
     revelaveis.forEach(function (el) { el.classList.add('visto'); });
   }
 
-  /* ----- números que contam ----- */
+  /* ----- números que rolam como hodômetro, coluna por coluna; o número inteiro fica para leitores de tela ----- */
   var numeros = $$('[data-conta]');
   if (anima && temIO && numeros.length) {
-    numeros.forEach(function (el) { el.textContent = '0'; });
-    var ioN = new IntersectionObserver(function (es) {
-      es.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        ioN.unobserve(e.target);
-        var el = e.target, fim = Number(el.getAttribute('data-conta')), t0 = performance.now(), dur = 1400;
-        (function passo(t) {
-          var k = Math.min(1, (t - t0) / dur);
-          el.textContent = Math.round(fim * (1 - Math.pow(1 - k, 3))).toLocaleString('pt-BR');
-          if (k < 1) requestAnimationFrame(passo);
-        })(t0);
+    numeros.forEach(function (el) {
+      var valor = el.textContent.trim(), dito = document.createElement('span'), visto = document.createElement('span'), i = 0;
+      dito.className = 'sr'; dito.textContent = valor;
+      visto.className = 'roll__digits'; visto.setAttribute('aria-hidden', 'true');
+      Array.prototype.forEach.call(valor, function (ch) {
+        if (!/\d/.test(ch)) { visto.appendChild(document.createTextNode(ch)); return; }
+        var col = document.createElement('span'), tira = document.createElement('span');
+        col.className = 'roll__col'; tira.className = 'roll__strip';
+        tira.style.setProperty('--d', ch); tira.style.setProperty('--i', i++);
+        for (var n = 0; n < 10; n++) { var d = document.createElement('span'); d.setAttribute('data-n', n); tira.appendChild(d); }   // o algarismo vem do CSS: não entra no texto copiado
+        col.appendChild(tira); visto.appendChild(col);
       });
-    }, { threshold: 0.6 });
+      el.textContent = ''; el.appendChild(dito); el.appendChild(visto); el.classList.add('roll');
+    });
+    var ioN = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); ioN.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -15% 0px' });
     numeros.forEach(function (el) { ioN.observe(el); });
   }
 
+  /* ----- a frase do Sobre se preenche de tinta (o CSS faz o movimento; aqui só separa as palavras) ----- */
+  if (anima && temLinhaDoTempo) $$('[data-tinta]').forEach(function (el) {
+    var palavras = el.textContent.trim().split(/\s+/);
+    el.textContent = '';
+    palavras.forEach(function (p, i) {
+      if (i) el.appendChild(document.createTextNode(' '));
+      var s = document.createElement('span'); s.textContent = p; el.appendChild(s);
+    });
+    el.classList.add('tinta-on');
+  });
+
+  /* ----- aberto agora: pelo horário publicado (segunda a domingo, das 8h às 17h, horário de São Paulo) ----- */
+  var aberto = $('[data-aberto]');
+  function atualizaAberto() {
+    try {
+      var partes = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
+      var h = Number(partes.filter(function (p) { return p.type === 'hour'; })[0].value);
+      var abre = h >= 8 && h < 17;
+      aberto.textContent = abre ? 'Aberto agora, até as 17h' : (h < 8 ? 'Fechado agora. Abre às 8h' : 'Fechado agora. Abre amanhã às 8h');
+      aberto.setAttribute('data-estado', abre ? 'aberto' : 'fechado');
+      aberto.hidden = false;
+    } catch (e) {}
+  }
+  if (aberto) { atualizaAberto(); setInterval(atualizaAberto, 60000); }
+
   /* ----- serviços: o serviço no meio da tela acende e troca a foto fixa ----- */
-  var servs = $$('[data-serv]'), fotosServ = $$('[data-serv-foto]');
+  var servs = $$('[data-serv]'), fotosServ = $$('[data-serv-foto]'), servN = $('[data-serv-n]');
   function ativaServ(i) {
     servs.forEach(function (s, k) { s.classList.toggle('ativo', k === i); });
     fotosServ.forEach(function (f, k) { f.classList.toggle('on', k === i); });
+    if (servN) servN.textContent = i + 1;
   }
   if (servs.length && temIO) {
     var ioS = new IntersectionObserver(function (es) {
