@@ -34,6 +34,7 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);     /* revelações longas: linhas, números, fotos que abrem */
 
   --m: clamp(20px, 4vw, 64px);
   --sec: clamp(96px, 11vw, 200px);
@@ -77,8 +78,8 @@ p + p { margin-top: 0.8em; }
   .btn-azul:hover { background: var(--azul-forte); }
   .btn-linha:hover { background: var(--nevoa-2); }
   .btn-linha-clara:hover { background: #1D3D5C; }
-  .btn:hover svg { transform: translateX(-2px); }
-  .btn svg { transition: transform 200ms var(--ease-out); }
+  .voltar-inicio:hover svg, .emb-voltas .btn:hover svg { transform: translateX(-3px); }
+  .voltar-inicio svg, .emb-voltas .btn svg { transition: transform 300ms var(--ease-out); }
 }
 .voltar-inicio svg, .emb-voltas .btn svg { width: 1.2em; height: 1.2em; }
 .voltar-fim { margin-top: var(--sec); }
@@ -185,13 +186,16 @@ p + p { margin-top: 0.8em; }
 
 /* entrada do logotipo: uma vez por visita (sessão) */
 .la-lua { transform-box: fill-box; transform-origin: 50% 50%; }
-.anima:not(.sem-intro) .la-lua { animation: lua-entra 900ms var(--ease-out) 120ms both; }
-.anima:not(.sem-intro) .la-barco { animation: barco-entra 820ms var(--ease-out) 320ms both; }
-.anima:not(.sem-intro) .la-marina { animation: sobe-svg 700ms var(--ease-out) 480ms both; }
-.anima:not(.sem-intro) .la-boreste { animation: sobe-svg 800ms var(--ease-out) 540ms both; }
-.anima:not(.sem-intro) .hero-sub { animation: sobe 700ms var(--ease-out) 760ms both; }
-.anima:not(.sem-intro) .hero-acao { animation: sobe 700ms var(--ease-out) 840ms both; }
-.anima:not(.sem-intro) .hero-lado { animation: sobe 700ms var(--ease-out) 920ms both; }
+.anima:not(.sem-intro) .hero-logo .la-lua { animation: lua-entra 850ms var(--ease-expo) 100ms both; }
+.anima:not(.sem-intro) .hero-logo .la-barco { animation: barco-entra 800ms var(--ease-expo) 260ms both; }
+.anima:not(.sem-intro) .hero-logo .la-marina { animation: sobe-svg 650ms var(--ease-out) 400ms both; }
+.anima:not(.sem-intro) .hero-logo .la-boreste { animation: sobe-svg 750ms var(--ease-out) 450ms both; }
+.anima:not(.sem-intro) .hero-sub { animation: sobe 650ms var(--ease-out) 600ms both; }
+.anima:not(.sem-intro) .hero-acao { animation: sobe 650ms var(--ease-out) 680ms both; }
+.anima:not(.sem-intro) .hero-lado { animation: sobe 650ms var(--ease-out) 760ms both; }
+.rola-rosa { display: block; }
+.anima:not(.sem-intro) .rola-rosa { animation: rosa-entra 1100ms var(--ease-expo) 700ms backwards; }
+@keyframes rosa-entra { from { opacity: 0; transform: rotate(-150deg) scale(0.9); } }
 @keyframes lua-entra { from { opacity: 0; transform: rotate(-80deg) scale(0.92); } }
 @keyframes barco-entra { from { opacity: 0; transform: translateX(-40px); } }
 @keyframes sobe-svg { from { opacity: 0; transform: translateY(26px); } }
@@ -223,7 +227,12 @@ p + p { margin-top: 0.8em; }
 
 /* ---------- dados rápidos ---------- */
 .faixa { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; padding-block: clamp(48px, 5vw, 72px); }
-.faixa dt { font-size: var(--t-small); font-weight: 600; color: var(--tinta-2); margin-bottom: 6px; }
+.faixa dt { display: flex; align-items: center; gap: 8px; font-size: var(--t-small); font-weight: 600; color: var(--tinta-2); margin-bottom: 6px; }
+.faixa dt svg { width: 20px; height: 20px; flex: none; color: var(--tinta); }
+.aberto { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: var(--t-small); font-weight: 600; }
+.aberto::before { content: ""; width: 8px; height: 8px; flex: none; border-radius: 50%; background: var(--azul); }
+.aberto[data-estado="fechado"] { color: var(--tinta-2); }
+.aberto[data-estado="fechado"]::before { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
 .faixa a { text-decoration-color: rgba(11, 29, 46, 0.35); }
 @media (max-width: 900px) { .faixa { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 520px) { .faixa { grid-template-columns: 1fr; gap: 24px; } }
@@ -238,8 +247,18 @@ p + p { margin-top: 0.8em; }
 .sobre-foto .moldura { --ar: 14 / 15; }
 figcaption { font-size: var(--t-small); color: var(--tinta-2); margin-top: 12px; }
 .numeros { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin-top: clamp(64px, 8vw, 128px); }
-.numeros b { display: flex; align-items: baseline; font-family: var(--serifa); font-weight: 400; font-size: var(--t-head); line-height: 0.95; letter-spacing: -0.03em; font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
-.numeros small { font-size: 0.32em; margin-left: 0.18em; letter-spacing: 0; }
+.numeros b { display: flex; align-items: flex-end; font-family: var(--serifa); font-weight: 400; font-size: var(--t-head); line-height: 0.95; letter-spacing: -0.03em; font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+.numeros small { font-size: 0.32em; margin-left: 0.18em; letter-spacing: 0; padding-bottom: 0.16em; }
+.roll__digits { --alt: 1.3em; display: inline-flex; line-height: 1; }
+.roll__col { display: inline-block; height: var(--alt); margin-block: -0.15em; overflow: clip; }
+.roll__strip { display: flex; flex-direction: column; transform: translateY(calc(var(--d) * -1 * var(--alt))); }
+.roll__strip > span { height: var(--alt); line-height: var(--alt); }
+.roll__strip > span::before { content: attr(data-n); }
+.roll__digits { -webkit-user-select: none; user-select: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .roll:not(.is-in) .roll__strip { transform: none; }
+  .roll.is-in .roll__strip { transition: transform 1150ms var(--ease-expo) calc(var(--i) * 80ms); }
+}
 .numeros li > span { display: block; margin-top: 14px; font-size: var(--t-small); color: var(--tinta-2); max-width: 24ch; }
 @media (max-width: 900px) {
   .sobre-grade { grid-template-columns: 1fr; gap: 64px; }
@@ -250,7 +269,10 @@ figcaption { font-size: var(--t-small); color: var(--tinta-2); margin-top: 12px;
 /* ---------- serviços ---------- */
 .servicos { background: var(--mar); color: var(--claro); padding-block: var(--sec); }
 .servicos-grade { display: grid; grid-template-columns: 5fr 6fr; gap: clamp(40px, 6vw, 120px); align-items: start; }
-.serv-fotos { position: sticky; top: calc(var(--topo-h) + 32px); aspect-ratio: 4 / 5; max-height: calc(100svh - var(--topo-h) - 64px); overflow: hidden; background: var(--mar-2); }
+.servicos { position: relative; }
+.serv-lado { position: sticky; top: calc(var(--topo-h) + 32px); }
+.serv-fotos { position: relative; aspect-ratio: 4 / 5; max-height: calc(100svh - var(--topo-h) - 110px); overflow: hidden; background: var(--mar-2); }
+.serv-conta { margin-top: 14px; font-size: var(--t-small); color: var(--claro-2); font-variant-numeric: tabular-nums; }
 .serv-foto { position: absolute; inset: 0; opacity: 0; transition: opacity 650ms ease; }
 .serv-foto.on { opacity: 1; }
 .serv-foto picture, .serv-foto img { width: 100%; height: 100%; object-fit: cover; }
@@ -268,7 +290,7 @@ figcaption { font-size: var(--t-small); color: var(--tinta-2); margin-top: 12px;
 .serv-foto-inline { display: none; }
 @media (max-width: 900px) {
   .servicos-grade { grid-template-columns: 1fr; }
-  .serv-fotos { display: none; }
+  .serv-lado { display: none; }
   .serv-foto-inline { display: block; aspect-ratio: 4 / 3; overflow: hidden; margin-bottom: 20px; background: var(--mar-2); }
   .serv-foto-inline picture, .serv-foto-inline img { width: 100%; height: 100%; object-fit: cover; }
   .serv h3, .serv .simbolo { color: var(--claro); }
@@ -301,8 +323,11 @@ figcaption { font-size: var(--t-small); color: var(--tinta-2); margin-top: 12px;
 }
 
 /* ---------- foto larga do píer ---------- */
-.banda { --ar: 21 / 9; }
-@media (max-width: 760px) { .banda { --ar: 4 / 3; } }
+.janela-palco { position: relative; height: 100svh; overflow: clip; }
+.janela-moldura { position: absolute; inset: 0; overflow: hidden; }
+.janela-moldura .zoom, .janela-moldura picture, .janela-moldura img { width: 100%; height: 100%; }
+.janela-moldura img { object-fit: cover; }
+@media (max-width: 760px) { .janela-palco { height: 72svh; } .janela-moldura img { object-position: 28% 60%; } }
 
 /* ---------- pousada ---------- */
 .pousada { background: var(--nevoa); padding-block: var(--sec); }
@@ -384,7 +409,12 @@ figcaption { font-size: var(--t-small); color: var(--tinta-2); margin-top: 12px;
 /* ---------- rodapé ---------- */
 .rodape { background: var(--mar-fundo); color: var(--claro); padding: clamp(80px, 9vw, 160px) 0 calc(32px + env(safe-area-inset-bottom)); }
 .rodape-logo { display: block; width: min(100%, 1040px); }
-.rodape-logo img { width: 100%; height: auto; }
+.rodape-logo svg { width: 100%; height: auto; overflow: visible; }
+.anima .rodape-logo:not(.visto) .la-lua, .anima .rodape-logo:not(.visto) .la-barco, .anima .rodape-logo:not(.visto) .la-marina, .anima .rodape-logo:not(.visto) .la-boreste { opacity: 0; }
+.anima .rodape-logo.visto .la-lua { animation: lua-entra 950ms var(--ease-expo) both; }
+.anima .rodape-logo.visto .la-barco { animation: barco-entra 900ms var(--ease-expo) 160ms both; }
+.anima .rodape-logo.visto .la-marina { animation: sobe-svg 700ms var(--ease-out) 300ms both; }
+.anima .rodape-logo.visto .la-boreste { animation: sobe-svg 800ms var(--ease-out) 360ms both; }
 .rodape-grade { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr 1.2fr; gap: 40px; margin-top: clamp(56px, 6vw, 96px); font-size: var(--t-small); }
 .rodape-desc { font-size: var(--t-body); max-width: 34ch; }
 .rodape h2 { font-family: var(--sans); font-size: var(--t-small); font-weight: 600; letter-spacing: 0; color: var(--claro-2); margin-bottom: 14px; }
@@ -425,7 +455,7 @@ figcaption { font-size: var(--t-small); color: var(--tinta-2); margin-top: 12px;
 .vendas-grade { display: grid; grid-template-columns: 7fr 4fr; gap: clamp(40px, 6vw, 112px); align-items: start; }
 .vendas-txt .lead { margin-top: 28px; max-width: 34ch; }
 .vendas-video { display: grid; gap: 10px; justify-items: start; }
-.vendas-midia { position: relative; width: 100%; aspect-ratio: 9 / 16; max-height: 72svh; overflow: hidden; background: var(--mar); }
+.vendas-midia { position: relative; width: 100%; aspect-ratio: 9 / 16; max-height: 60svh; overflow: hidden; background: var(--mar); }
 .vendas-midia img, .vendas-midia video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .vendas-midia video { opacity: 0; transition: opacity 900ms ease; }
 .vendas-midia video.tocando { opacity: 1; }
@@ -435,9 +465,9 @@ figcaption { font-size: var(--t-small); color: var(--tinta-2); margin-top: 12px;
 .barcos { list-style: none; padding: 0; display: grid; gap: clamp(72px, 9vw, 152px); }
 .barco { display: grid; grid-template-columns: 5fr 6fr; gap: clamp(32px, 5vw, 88px); align-items: start; }
 .barco-foto { position: relative; display: block; aspect-ratio: 3 / 4; overflow: hidden; background: var(--nevoa); }
-.barco-foto img { width: 100%; height: 100%; object-fit: cover; transition: transform 900ms var(--ease-out); }
-.barco-sem-foto img { object-fit: contain; padding: 18%; }
-@media (hover: hover) and (pointer: fine) { .barco-foto:hover img { transform: scale(1.04); } }
+.barco-img { display: block; width: 100%; height: 100%; transition: transform 900ms var(--ease-out); }
+.barco-foto img { width: 100%; height: 100%; object-fit: cover; }
+@media (hover: hover) and (pointer: fine) { .barco-foto:hover .barco-img { transform: scale(1.04); } }
 [data-vendido] .barco-foto img, [data-vendido] .emb-foto img { filter: grayscale(1); }
 .barco-etiqueta { position: absolute; left: 16px; top: 16px; background: var(--mar); color: var(--claro); font: 600 var(--t-small)/1 var(--sans); padding: 10px 14px; border-radius: 999px; }
 .barco-corpo h2 { font-size: clamp(2.25rem, 1.4rem + 3vw, 4.5rem); }
@@ -463,6 +493,7 @@ figcaption { font-size: var(--t-small); color: var(--tinta-2); margin-top: 12px;
 .emb-fotos { display: grid; gap: 10px; }
 .emb-foto { aspect-ratio: 3 / 4; overflow: hidden; background: var(--nevoa); margin: 0; }
 .emb-foto img { width: 100%; height: 100%; object-fit: cover; }
+.barco-sem-foto img, .emb-foto.barco-sem-foto img { object-fit: contain; padding: 18%; }
 .emb-miniaturas { list-style: none; padding: 0; display: flex; gap: 10px; overflow-x: auto; }
 .emb-miniaturas button { width: 84px; height: 84px; padding: 0; border: 0; cursor: pointer; opacity: 0.6; transition: opacity 200ms ease; }
 .emb-miniaturas button[aria-current] { opacity: 1; outline: 2px solid var(--mar); outline-offset: 2px; }
@@ -486,13 +517,56 @@ figcaption { font-size: var(--t-small); color: var(--tinta-2); margin-top: 12px;
 .seta:active { transform: scale(0.94); }
 .seta svg { width: 20px; height: 20px; }
 
+/* ---------- linha d'água: borda das seções azul-marinho ---------- */
+.servicos, .contato, .rodape { position: relative; overflow-x: clip; }
+.onda { position: absolute; left: -6%; width: 112%; max-width: none; bottom: 100%; height: clamp(22px, 2.6vw, 40px); margin-bottom: -1px; pointer-events: none; }
+.servicos .onda, .contato .onda { color: var(--mar); }
+.rodape .onda { color: var(--mar-fundo); }
+
+/* camada que escurece o vídeo quando o topo sai da tela */
+.hero-escuro { position: absolute; inset: 0; z-index: -1; background: var(--mar); opacity: 0; pointer-events: none; }
+
+/* ---------- movimentos ligados à rolagem (sem suporte ou com movimento reduzido, tudo fica parado e completo) ---------- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* o topo se afasta: o vídeo desce e escurece, o logotipo e o texto sobem e somem */
+    .hero { view-timeline-name: --hero; }
+    .hero-midia { animation: hero-afunda linear both; animation-timeline: --hero; animation-range: exit 0% exit 100%; }
+    .hero-escuro { animation: hero-escurece linear both; animation-timeline: --hero; animation-range: exit 0% exit 100%; }
+    .hero-txt { animation: hero-sobe linear both; animation-timeline: --hero; animation-range: exit 0% exit 75%; }
+
+    /* a foto do píer abre como uma janela até a tela cheia */
+    .janela { height: 200svh; view-timeline-name: --janela; }
+    .janela-palco { position: sticky; top: 0; height: 100svh; }
+    .janela-moldura { animation: janela-abre linear both; animation-timeline: --janela; animation-range: contain 0% contain 70%; }
+    .janela-moldura picture { animation: janela-assenta linear both; animation-timeline: --janela; animation-range: contain 0% contain 70%; }
+
+    /* a frase do Sobre se preenche de tinta, palavra a palavra, enquanto é lida */
+    .tinta-on > span { display: inline-block; opacity: 0.45; animation: tinta linear both; animation-timeline: view(); animation-range: cover 18% cover 42%; }
+
+    /* a linha d'água desliza um pouco enquanto a seção passa */
+    .onda { animation: onda linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+  }
+}
+@keyframes hero-afunda { to { transform: translateY(16%) scale(1.06); } }
+@keyframes hero-escurece { to { opacity: 0.5; } }
+@keyframes hero-sobe { to { transform: translateY(-10%); opacity: 0; } }
+@keyframes janela-abre { from { transform: scale(var(--janela-ini, 0.5)); } }
+@keyframes janela-assenta { from { transform: scale(1.45); } }
+@keyframes tinta { to { opacity: 1; } }
+@keyframes onda { from { transform: translateX(-4%); } to { transform: translateX(4%); } }
+@media (max-width: 760px) { .janela { --janela-ini: 0.78; } }
+
 /* ---------- troca de página ---------- */
 @media (prefers-reduced-motion: no-preference) {
   @view-transition { navigation: auto; }
   html:not(.lenis) { scroll-behavior: smooth; }
 }
 ::view-transition-old(root) { animation: vt-sai 220ms var(--ease-out) both; }
-::view-transition-new(root) { animation: vt-entra 420ms var(--ease-out) both; }
+::view-transition-new(root) { animation: vt-entra 420ms var(--ease-out) 60ms both; }
+::view-transition-group(*.foto) { animation-duration: 480ms; animation-timing-function: var(--ease-in-out); }
+::view-transition-image-pair(*.foto) { overflow: clip; }
+::view-transition-old(*.foto), ::view-transition-new(*.foto) { height: 100%; object-fit: cover; }
 @keyframes vt-sai { to { opacity: 0; } }
 @keyframes vt-entra { from { opacity: 0; transform: translateY(14px); } }
 
@@ -508,7 +582,7 @@ html.lenis, html.lenis body { height: auto; }
   .menu.fechando { animation-direction: reverse; }
   .menu[open] .menu-timao img, .foto-zoom[open] { animation: none; }
   .btn:active, .fab-topo:active, .seta:active { transform: none; }
-  .serv-foto picture, .zoom picture, .barco-foto img { transition: none; transform: none !important; }
+  .serv-foto picture, .zoom picture, .barco-img { transition: none; transform: none !important; }
   .topo, .fab-topo { transition: opacity 150ms ease, visibility 150ms; }
   .topo.escondido { transform: none; }
 }
