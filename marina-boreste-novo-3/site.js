@@ -80,10 +80,9 @@
   }
   $$('[data-bandeiras]').forEach(function (c) { poeBandeiras(c, c.dataset.bandeiras); });
 
-  /* ---------- nome da abertura: cada letra sobe por trás da linha ---------- */
-  var nomeAbre = $('[data-letras]');
-  if (nomeAbre) {
-    var texto = nomeAbre.textContent.trim(), visivel = el('span'), n = 0;
+  /* ---------- títulos grandes: cada letra sobe por trás da linha ---------- */
+  $$('[data-letras]').forEach(function (titulo) {
+    var texto = titulo.textContent.trim(), visivel = el('span'), n = 0;
     visivel.setAttribute('aria-hidden', 'true');
     texto.split(' ').forEach(function (palavra, k) {
       var caixa = el('span', 'palavra');
@@ -91,16 +90,24 @@
       if (k) visivel.appendChild(d.createTextNode(' '));
       visivel.appendChild(caixa);
     });
-    nomeAbre.textContent = '';
-    nomeAbre.appendChild(el('span', 'sr', texto));
-    nomeAbre.appendChild(visivel);
-    nomeAbre.classList.add('pronto');
-  }
+    titulo.textContent = '';
+    titulo.appendChild(el('span', 'sr', texto));
+    titulo.appendChild(visivel);
+    titulo.classList.add('pronto');
+  });
 
-  /* ---------- embarcações à venda (dados/barcos.js do site atual) ---------- */
-  var lista = $('[data-barcos]');
+  /* ---------- embarcações à venda (dados/barcos.js do site atual): vitrine no início, lista na página ---------- */
+  function slug(t) { return t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+  function preco(b) { return b.preco ? Number(b.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }) : 'Preço negociável'; }
+  function foto(src, alt, classe) {
+    var f = el('div', 'moldura ' + (classe || '')), img = el('img');
+    img.src = '../' + src; img.alt = alt; img.loading = 'lazy'; img.decoding = 'async';
+    f.appendChild(img); return f;
+  }
   var barcos = (window.BARCOS || []).filter(function (b) { return b && b.nome; });
-  if (lista && window.BARCOS) {
+  $$('[data-barcos]').forEach(function (lista) {
+    if (!window.BARCOS) return;
+    var vitrine = lista.dataset.modo === 'vitrine';
     lista.textContent = '';
     if (!barcos.length) {
       var vazio = el('div', 'venda-vazio');
@@ -110,22 +117,32 @@
       bv.target = '_blank'; bv.rel = 'noopener'; bv.style.marginTop = '24px';
       vazio.appendChild(bv);
       lista.appendChild(vazio);
+      return;
     }
-    barcos.forEach(function (b) {
+    (vitrine ? barcos.slice(0, 2) : barcos).forEach(function (b) {
       var vendido = b.status === 'vendido';
-      var art = el('article', 'barco-venda');
-      var foto = el('div', 'moldura');
-      foto.setAttribute('data-rv', '');
-      if (b.foto) {
-        var img = el('img');
-        img.src = '../' + b.foto; img.alt = b.descricaoFoto || b.nome; img.loading = 'lazy'; img.decoding = 'async';
-        foto.appendChild(img);
+      if (vitrine) {
+        var a = el('a', 'barco-vitrine');
+        a.href = 'embarcacoes.html#' + slug(b.nome);
+        a.setAttribute('data-luz', ''); a.setAttribute('data-rv', '');
+        if (b.foto) a.appendChild(foto(b.foto, b.descricaoFoto || b.nome));
+        var txt = el('span', 'barco-vitrine-texto');
+        txt.appendChild(el('strong', null, b.nome));
+        txt.appendChild(el('span', 'barco-preco', vendido ? 'Vendido' : preco(b)));
+        txt.appendChild(el('span', 'barco-vitrine-ver', 'Ver detalhes'));
+        a.appendChild(txt);
+        lista.appendChild(a);
+        return;
       }
-      if (vendido) foto.appendChild(el('span', 'etiqueta', 'Vendido'));
-      art.appendChild(foto);
+      var art = el('article', 'barco-venda');
+      art.id = slug(b.nome);
+      var capaFoto = b.foto ? foto(b.foto, b.descricaoFoto || b.nome) : el('div', 'moldura');
+      capaFoto.setAttribute('data-rv', ''); capaFoto.setAttribute('data-luz', '');
+      if (vendido) capaFoto.appendChild(el('span', 'etiqueta', 'Vendido'));
+      art.appendChild(capaFoto);
       var tx = el('div', 'barco-venda-texto');
       tx.appendChild(el('h3', null, b.nome));
-      tx.appendChild(el('p', 'barco-preco', b.preco ? 'R$ ' + Number(b.preco).toLocaleString('pt-BR') : 'Preço negociável'));
+      tx.appendChild(el('p', 'barco-preco', preco(b)));
       var ficha = el('dl', 'barco-ficha');
       [['Ano', b.ano], ['Tamanho', b.pes ? b.pes + ' pés' : ''], ['Motor', b.motor]].forEach(function (linha) {
         if (!linha[1]) return;
@@ -133,8 +150,13 @@
       });
       tx.appendChild(ficha);
       if (b.descricao) tx.appendChild(el('p', null, b.descricao));
+      if (b.maisFotos && b.maisFotos.length) {
+        var mais = el('div', 'barco-mais');
+        b.maisFotos.forEach(function (src, n) { mais.appendChild(foto(src, b.nome + ', foto ' + (n + 2))); });
+        tx.appendChild(mais);
+      }
       if (!vendido) {
-        var bt = el('a', 'botao', 'Perguntar pelo WhatsApp');
+        var bt = el('a', 'botao botao-brilho', 'Perguntar pelo WhatsApp');
         bt.href = WHATS + '?text=' + encodeURIComponent('Olá! Tenho interesse na ' + b.nome + (b.ano ? ' (' + b.ano + ')' : '') + ', anunciada no site da Marina Boreste.');
         bt.target = '_blank'; bt.rel = 'noopener';
         bt.appendChild(el('span', 'sr', ' (abre em nova aba)'));
@@ -145,7 +167,7 @@
       art.appendChild(tx);
       lista.appendChild(art);
     });
-  }
+  });
 
   /* ---------- menu ---------- */
   var menu = $('#menu');
@@ -167,9 +189,9 @@
 
   /* ---------- vídeo da abertura: toca só na tela e respeita quem pausou ---------- */
   var video = $('[data-video]'), pausa = $('[data-pausa]'), pausouAMao = reduz;
-  function ajustaBotao() { var parado = video.paused; pausa.textContent = parado ? 'Tocar vídeo' : 'Pausar vídeo'; pausa.setAttribute('aria-pressed', String(parado)); }
+  function ajustaBotao() { if (!pausa) return; var parado = video.paused; pausa.textContent = parado ? 'Tocar vídeo' : 'Pausar vídeo'; pausa.setAttribute('aria-pressed', String(parado)); }
   if (video) {
-    pausa.addEventListener('click', function () {
+    if (pausa) pausa.addEventListener('click', function () {
       if (video.paused) { pausouAMao = false; video.play().catch(function () {}); } else { pausouAMao = true; video.pause(); }
     });
     video.addEventListener('play', ajustaBotao); video.addEventListener('pause', ajustaBotao);
@@ -219,21 +241,100 @@
     });
   });
 
-  /* ---------- serviços: o índice ao lado acompanha a leitura ---------- */
-  var indice = $('[data-indice]');
-  if (indice) {
-    var marca = function (id) {
-      $$('a', indice).forEach(function (a) {
-        var ativo = a.getAttribute('href') === '#' + id;
-        if (ativo) { a.setAttribute('aria-current', 'true'); indice.style.setProperty('--y', a.parentNode.offsetTop + 'px'); }
-        else a.removeAttribute('aria-current');
+  /* ---------- abas: serviços (com troca automática) e como chegar ---------- */
+  $$('[data-abas]').forEach(function (caixa) {
+    var abas = $$('[role="tab"]', caixa), paineis = abas.map(function (a) { return d.getElementById(a.getAttribute('aria-controls')); });
+    var indicador = $('.abas-indicador', caixa), lista = $('[role="tablist"]', caixa);
+    var tempo = +caixa.dataset.auto || 0, atual = 0, relogio = 0, parou = !tempo || reduz, visivel = false, segurando = false;
+    caixa.classList.add('ativas');
+    function mede() {
+      var a = abas[atual], vertical = getComputedStyle(lista).flexDirection === 'column';
+      indicador.style.transform = vertical
+        ? 'translateY(' + a.offsetTop + 'px) scaleY(' + a.offsetHeight / 100 + ')'
+        : 'translateX(' + a.offsetLeft + 'px) scaleX(' + a.offsetWidth / 100 + ')';
+    }
+    function mostra(n, foco, sentido) {
+      var antes = atual; atual = (n + abas.length) % abas.length;
+      abas.forEach(function (a, i) {
+        var sim = i === atual;
+        a.setAttribute('aria-selected', String(sim)); a.tabIndex = sim ? 0 : -1;
+        paineis[i].hidden = !sim;
       });
-    };
-    marca($('.fileira').id);
-    var ioIndice = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) marca(e.target.id); });
-    }, { rootMargin: '-35% 0px -60% 0px' });
-    $$('.fileira').forEach(function (f) { ioIndice.observe(f); });
+      var p = paineis[atual];
+      p.style.setProperty('--de', (sentido || (atual >= antes ? 1 : -1)) * 28 + 'px');
+      p.classList.remove('entrando'); void p.offsetWidth; p.classList.add('entrando');
+      if (foco) abas[atual].focus();
+      // a aba escolhida desliza para dentro da faixa no celular
+      lista.scrollTo({ left: abas[atual].offsetLeft - 24, behavior: reduz ? 'auto' : 'smooth' });
+      mede(); arma();
+    }
+    function arma() {
+      clearTimeout(relogio);
+      caixa.style.setProperty('--auto', tempo + 'ms');
+      caixa.classList.toggle('rodando', !parou && visivel && !segurando);
+      if (!parou && visivel && !segurando) relogio = setTimeout(function () { mostra(atual + 1, false, 1); }, tempo);
+    }
+    function para() { parou = true; arma(); }
+    abas.forEach(function (a, i) {
+      a.addEventListener('click', function () { para(); mostra(i); });
+      a.addEventListener('keydown', function (e) {
+        var passo = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+        if (e.key === 'Home') passo = -atual; else if (e.key === 'End') passo = abas.length - 1 - atual;
+        if (passo === undefined) return;
+        e.preventDefault(); para(); mostra(atual + passo, true);
+      });
+    });
+    ['pointerenter', 'focusin'].forEach(function (ev) { caixa.addEventListener(ev, function () { segurando = true; arma(); }); });
+    ['pointerleave', 'focusout'].forEach(function (ev) { caixa.addEventListener(ev, function () { segurando = false; arma(); }); });
+    // no celular, arrastar o painel para o lado troca de aba (segue o dedo e solta com o embalo)
+    var area = $('[data-paineis]', caixa), x0 = 0, y0 = 0, t0 = 0, dx = 0, arrastando = false, decidido = false;
+    if (area && tempo) {
+      area.addEventListener('pointerdown', function (e) { if (e.pointerType === 'mouse') return; x0 = e.clientX; y0 = e.clientY; t0 = e.timeStamp; dx = 0; arrastando = true; decidido = false; });
+      area.addEventListener('pointermove', function (e) {
+        if (!arrastando) return;
+        var mx = e.clientX - x0, my = e.clientY - y0;
+        if (!decidido) { if (Math.abs(mx) < 10 && Math.abs(my) < 10) return; decidido = true; if (Math.abs(my) > Math.abs(mx)) { arrastando = false; return; } area.setPointerCapture(e.pointerId); }
+        dx = mx; paineis[atual].style.transform = 'translateX(' + dx + 'px)';
+      });
+      var solta = function (e) {
+        if (!arrastando) return; arrastando = false;
+        var v = dx / Math.max(1, e.timeStamp - t0), p = paineis[atual];
+        p.style.transform = '';
+        if (Math.abs(dx) > 70 || Math.abs(v) > 0.45) { para(); mostra(atual + (dx < 0 ? 1 : -1), false, dx < 0 ? 1 : -1); }
+      };
+      area.addEventListener('pointerup', solta); area.addEventListener('pointercancel', solta);
+    }
+    new IntersectionObserver(function (es) { visivel = es[0].isIntersecting; arma(); }, { threshold: 0.35 }).observe(caixa);
+    addEventListener('resize', mede);
+    if (d.fonts) d.fonts.ready.then(mede);
+    mostra(0);
+  });
+
+  /* ---------- números que contam até o valor ---------- */
+  var ioNum = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      ioNum.unobserve(e.target);
+      var alvo = +e.target.dataset.conta, depois = e.target.dataset.depois || '', inicio = performance.now(), dur = 1600;
+      (function passo(t) {
+        var k = Math.min(1, (t - inicio) / dur), v = Math.round(alvo * (1 - Math.pow(1 - k, 4)));
+        e.target.textContent = v.toLocaleString('pt-BR') + depois;
+        if (k < 1) requestAnimationFrame(passo);
+      })(inicio);
+    });
+  }, { threshold: 0.6 });
+  if (!reduz) $$('[data-conta]').forEach(function (n) { ioNum.observe(n); });
+
+  /* ---------- luz que segue o ponteiro nas fotos e cartões; ícones que puxam o ponteiro ---------- */
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    d.addEventListener('pointermove', function (e) {
+      var alvo = e.target.closest && e.target.closest('[data-luz]');
+      if (alvo) { var b = alvo.getBoundingClientRect(); alvo.style.setProperty('--lx', (e.clientX - b.left) + 'px'); alvo.style.setProperty('--ly', (e.clientY - b.top) + 'px'); }
+    }, { passive: true });
+    if (!reduz) $$('[data-ima]').forEach(function (a) {
+      a.addEventListener('pointermove', function (e) { var b = a.getBoundingClientRect(); a.style.transform = 'translate(' + ((e.clientX - b.left - b.width / 2) * 0.25).toFixed(1) + 'px,' + ((e.clientY - b.top - b.height / 2) * 0.25).toFixed(1) + 'px)'; });
+      a.addEventListener('pointerleave', function () { a.style.transform = ''; });
+    });
   }
 
   /* ---------- copiar coordenadas ---------- */
@@ -437,11 +538,13 @@
 
   /* ---------- tudo que anda com a rolagem ---------- */
   var pousada = $('.pousada'), trilho = $('[data-triptico]');
-  if (!reduz && pousada) pousada.classList.add('pin');
+  var largo = matchMedia('(min-width: 760px)');
+  function pinaPousada() { if (pousada) pousada.classList.toggle('pin', !reduz && largo.matches); }
+  pinaPousada(); largo.addEventListener('change', pinaPousada);
   var rumoBarco = $('.rumo-barco'), rumoEsteira = $('.rumo-esteira');
   var derivas = $$('[data-deriva]'), rosa = $('[data-rosa]'), local = $('.local'), cabo = $('[data-cabo]'), diario = $('.diario');
   var triC = $('.tri-c'), triL = $('.tri-l'), triR = $('.tri-r'), cabeca = $('.pousada-cabeca');
-  var cabecalho = $('[data-topo]'), abre = $('.abre'), ultimoY = scrollY, ultimoT = performance.now();
+  var cabecalho = $('[data-topo]'), abre = $('[data-capa]'), ultimoY = scrollY, ultimoT = performance.now();
   var pedido = 0;
 
   function rolagem() {
@@ -455,7 +558,7 @@
     var pin = trilho && pousada.classList.contains('pin');
     var bt = pin && trilho.getBoundingClientRect(), palcoH = pin && trilho.firstElementChild.clientHeight;
     var hc = pin && triC.offsetHeight, fim = pin && cabeca.offsetTop + cabeca.offsetHeight + 40;
-    var hTopo = cabecalho.offsetHeight, fundoAbre = abre.getBoundingClientRect().bottom;
+    var hTopo = cabecalho.offsetHeight, fundoAbre = abre ? abre.getBoundingClientRect().bottom : 0;
     var bTrav = travTrilho && travTrilho.getBoundingClientRect(), bFecho = palavras.length && fecho.getBoundingClientRect();
 
     // topo transparente sobre o vídeo e sobre a travessia; branco no resto
