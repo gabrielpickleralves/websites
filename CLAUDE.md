@@ -63,3 +63,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 ---
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
+
+## Claude Code automations
+
+Use the `claude-automation-recommender` skill proactively, without waiting to be asked: at the start of a session in this repo, after new skills or tools are installed, and whenever a manual step keeps repeating. Share only recommendations that are new since the last run.
