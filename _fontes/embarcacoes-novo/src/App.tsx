@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { flushSync } from "react-dom";
 import type { Barco } from "./tipos";
-import { IcFace, IcInsta, IcPausa, IcVolta, IcWhats } from "./icones";
+import { IcFace, IcInsta, IcVolta, IcWhats } from "./icones";
 import { INSTA_MARINA, MAPS_MARINA, MAPS_POUSADA, NOVA_ABA, RAIZ, WHATS, WHATS_OPORTUNIDADES, caminho, chave, lerChave, linkWhats, preco, useBarcos, useMidia, vendido } from "./uteis";
 
 type Transicao = { startViewTransition?: (f: () => void) => { finished: Promise<void> } };
@@ -34,41 +34,6 @@ function useNavegacao(menos: boolean) {
     return () => window.removeEventListener("hashchange", muda);
   }, [menos]);
   return atual;
-}
-
-/* ---------- vídeo dos barcos: carrega depois da página; parado com menos movimento ou economia de dados ---------- */
-function Prancha({ menos }: { menos: boolean }) {
-  const video = useRef<HTMLVideoElement>(null);
-  const [pausado, setPausado] = useState(true);
-  const [tocando, setTocando] = useState(false);
-  const toca = () => {
-    const v = video.current;
-    if (!v) return;
-    if (!v.src) v.src = RAIZ + (v.canPlayType('video/webm; codecs="vp9"') ? "video/marina-boreste-barcos.webm" : "video/marina-boreste-barcos-leve.mp4");
-    v.play().then(() => setPausado(false)).catch(() => setPausado(true));
-  };
-  useEffect(() => {
-    const economia = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
-    if (menos || economia) return;
-    if (document.readyState === "complete") toca(); else window.addEventListener("load", toca, { once: true });
-    return () => window.removeEventListener("load", toca);
-  }, [menos]);
-  return (
-    <div className="prancha aspect-[4/5] lg:aspect-[9/16] lg:h-[min(64svh,600px)]">
-      <div className="prancha-midia absolute inset-0" aria-hidden>
-        <picture>
-          <source type="image/avif" srcSet={`${RAIZ}video/marina-boreste-barcos-capa-480.avif 480w, ${RAIZ}video/marina-boreste-barcos-capa-720.avif 720w`} sizes="(min-width: 1024px) 340px, 100vw" />
-          <source type="image/webp" srcSet={`${RAIZ}video/marina-boreste-barcos-capa-480.webp 480w, ${RAIZ}video/marina-boreste-barcos-capa-720.webp 720w`} sizes="(min-width: 1024px) 340px, 100vw" />
-          <img src={RAIZ + "video/marina-boreste-barcos-capa.jpg"} alt="" width={720} height={1280} fetchPriority="high" />
-        </picture>
-        <video ref={video} muted loop playsInline preload="none" tabIndex={-1} onPlaying={() => setTocando(true)} data-tocando={tocando ? "" : undefined} />
-      </div>
-      <button type="button" onClick={() => { if (pausado) toca(); else { video.current?.pause(); setPausado(true); } }}
-        className="btn absolute bottom-3 right-3 z-[1] min-h-[44px] border-papel/50 bg-rio/55 px-4 text-[14px] text-papel hover:bg-rio/85">
-        <IcPausa pausado={pausado} /><span>{pausado ? "Retomar" : "Pausar"}</span><span className="sr"> vídeo</span>
-      </button>
-    </div>
-  );
 }
 
 /* ---------- topo e Menu: os mesmos do site da Marina Boreste ---------- */
@@ -129,17 +94,16 @@ function Topo() {
 }
 
 /* ---------- lista ---------- */
-function Lista({ barcos, menos }: { barcos: Barco[] | null; menos: boolean }) {
+function Lista({ barcos }: { barcos: Barco[] | null }) {
   const disponiveis = (barcos || []).filter(b => !vendido(b)).length;
   return (
     <>
-      <section aria-labelledby="t-vendas" className="wrap grid gap-[clamp(28px,4vw,56px)] pb-[clamp(40px,6vw,88px)] pt-[clamp(32px,6vw,96px)] lg:grid-cols-[minmax(0,1fr)_auto]">
+      <section aria-labelledby="t-vendas" className="wrap pb-[clamp(40px,6vw,88px)] pt-[clamp(32px,6vw,96px)]">
         <div className="flex flex-col justify-end gap-6">
           <h1 id="t-vendas" tabIndex={-1} className="text-[clamp(1.9rem,6vw,5.4rem)]">Embarcações à venda</h1>
           <p className="entra max-w-[34em] text-[clamp(1.05rem,.5vw+.95rem,1.3rem)] text-mata">Conheça as embarcações à venda na Marina Boreste. Os preços são negociáveis, e todo o atendimento é feito pelo WhatsApp.</p>
           {barcos && disponiveis > 0 && <p className="entra text-[15px] font-semibold">{disponiveis === 1 ? "1 embarcação disponível" : disponiveis + " embarcações disponíveis"}</p>}
         </div>
-        <Prancha menos={menos} />
       </section>
 
       <section aria-label="Lista de embarcações à venda" className="wrap pb-[clamp(64px,9vw,140px)]">
@@ -309,7 +273,7 @@ export default function App() {
     <>
       <Topo />
       <main id="conteudo" tabIndex={-1}>
-        {id ? (barcos ? <Detalhe b={barcos.find(x => chave(x) === id)} id={id} /> : null) : <Lista barcos={barcos} menos={menos} />}
+        {id ? (barcos ? <Detalhe b={barcos.find(x => chave(x) === id)} id={id} /> : null) : <Lista barcos={barcos} />}
       </main>
       <Rodape />
     </>
