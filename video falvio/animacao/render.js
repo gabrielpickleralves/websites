@@ -7,7 +7,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const FPS = 30, DURACAO = 115; // 1:55
+const FPS = 30, DURACAO = Math.ceil(require('./tempos.json').total);
 const raiz = __dirname;
 const tipos = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.woff2': 'font/woff2' };
 

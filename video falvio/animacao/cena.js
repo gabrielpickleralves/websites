@@ -114,17 +114,25 @@ function documento(titulo, w = 0.8, h = 1.05, { carimbo = null, corTitulo = '#22
   return grupo(corpo, frente);
 }
 
-// boneco branco (manequim) como nas referências
-function boneco(cor = COR.branco, s = 1) {
-  const g = grupo(
-    em(esfera(0.2, cor), 0, 1.66, 0),
-    em(cilindro(0.06, 0.07, 0.12, cor), 0, 1.46, 0),
-    em(capsula(0.22, 0.42, cor), 0, 1.1, 0),
-    em(capsula(0.085, 0.62, cor), -0.11, 0.42, 0),
-    em(capsula(0.085, 0.62, cor), 0.11, 0.42, 0),
-  );
-  const bE = em(capsula(0.065, 0.5, cor), -0.32, 1.08, 0); bE.rotation.z = 0.12;
-  const bD = em(capsula(0.065, 0.5, cor), 0.32, 1.08, 0); bD.rotation.z = -0.12;
+// boneco branco (manequim) como nas referências; roupa: 'terno' (homens) ou 'vestido' (mulheres)
+function boneco(cor = COR.branco, s = 1, roupa = 'terno', { gravata = COR.vermelho, vestido = '#7d2f42' } = {}) {
+  const g = grupo(em(esfera(0.2, cor), 0, 1.66, 0), em(cilindro(0.06, 0.07, 0.12, cor), 0, 1.46, 0));
+  if (roupa === 'vestido') {
+    g.add(em(capsula(0.18, 0.36, vestido), 0, 1.12, 0),
+      em(cilindro(0.17, 0.4, 0.62, vestido), 0, 0.72, 0),
+      em(capsula(0.065, 0.36, cor), -0.1, 0.3, 0),
+      em(capsula(0.065, 0.36, cor), 0.1, 0.3, 0));
+  } else {
+    const paleto = '#262a33', calca = '#1d2027';
+    g.add(em(capsula(0.22, 0.42, paleto), 0, 1.1, 0),
+      em(caixa(0.13, 0.34, 0.03, '#f2f2f2', 0.01), 0, 1.26, 0.2),
+      em(caixa(0.05, 0.3, 0.03, gravata, 0.01), 0, 1.24, 0.225),
+      em(capsula(0.085, 0.62, calca), -0.11, 0.42, 0),
+      em(capsula(0.085, 0.62, calca), 0.11, 0.42, 0));
+  }
+  const manga = roupa === 'vestido' ? cor : '#262a33';
+  const bE = em(capsula(0.065, 0.5, manga), -0.32, 1.08, 0); bE.rotation.z = 0.12;
+  const bD = em(capsula(0.065, 0.5, manga), 0.32, 1.08, 0); bD.rotation.z = -0.12;
   g.add(bE, bD);
   g.scale.setScalar(s);
   return g;
@@ -298,7 +306,7 @@ function poseCena(id, t) {
   add(id, em(etiqueta('MIAMI', { fundo: COR.vermelho, h: 0.2 }), MIA[0] + 0.55, 0.95, MIA[1]), F(id, 3));
   add(id, em(etiqueta('VISTOS CONCEDIDOS', { fundo: COR.branco, cor: '#222', h: 0.16 }), MIA[0] + 1.25, 0.5, MIA[1] + 0.75), P(id, 'vistos'));
   [[0, 0.32], [0.25, 0.3], [0.48, 0.2], [0.64, 0.18]].forEach(([dx, s], i) =>
-    add(id, em(boneco(COR.branco, s), MIA[0] + 0.8 + dx, 0.12, MIA[1] + 1.25), P(id, 'senador') + i * 0.25, { cair: 0 }));
+    add(id, em(boneco(COR.branco, s, i === 0 ? 'terno' : 'vestido', { vestido: ['', '#7d2f42', '#3f6d8c', '#b0894a'][i] }), MIA[0] + 0.8 + dx, 0.12, MIA[1] + 1.25), P(id, 'senador') + i * 0.25, { cair: 0 }));
 
   const CLOSE = [FOZ[0] - 0.3, 6.2, FOZ[1] + 3.8], ALVO_FOZ = [FOZ[0], 0, FOZ[1] - 0.2];
   cam(id, [-0.3, 12.6, 4.6], [-0.3, 0, -0.75], [0, 0, 0], (t, pos, alvo) => {
@@ -425,7 +433,27 @@ function poseCena(id, t) {
   add(id, em(etiqueta('QUEM DECIDE: GOVERNO DOS EUA', { h: 0.14 }), 0, 0.35, 1.0), P(id, 'governo'));
 }
 
-// 9. RESUMO — balança
+// 9. E O TRUMP?
+{
+  const id = 'trump';
+  cam(id, [0, 2.5, 9.0], [0, 2.0, 0], [0, 0, -0.8]);
+  add(id, em(emblema('EUA'), 1.45, 1.2, -1.0), F(id, 0), { update: (t, o) => { o.rotation.y = Math.sin(t * 0.6) * 0.15; } });
+  add(id, em(pedestal(0.55, 0.3), 0, 0.15, 0.4), F(id, 0), { cair: 0 });
+  add(id, em(boneco(COR.branco, 1, 'terno', { gravata: COR.vermelho }), 0, 0.3, 0.4), F(id, 0) + 0.15, { cair: 0.6 });
+  add(id, em(etiqueta('DONALD TRUMP', { fundo: COR.vermelho, h: 0.17 }), 0, 2.45, 0.5), F(id, 0) + 0.4);
+  function balao(texto, w, x, y, rabo = 1) {
+    const g = grupo(caixa(w, 0.62, 0.14, COR.branco, 0.18));
+    const r = em(cilindro(0, 0.13, 0.28, COR.branco), rabo * w * 0.28, -0.4, 0); r.rotation.z = Math.PI + rabo * 0.4;
+    g.add(r, em(etiqueta(texto, { fundo: null, cor: '#1e1e1e', h: 0.22, fonte: '800 64px Inter', billboard: false }), 0, 0, 0.08));
+    return em(g, x, y, 0.6);
+  }
+  add(id, balao('APROVO A VINDA', 2.2, -0.7, 4.05, 1), P(id, 'aprova'), { cair: 0.8 });
+  add(id, balao('GENTE DE BEM', 1.9, 0.75, 3.15, -1), P(id, 'chamou'), { cair: 0.8 });
+  add(id, em(etiqueta('"FINE PEOPLE"', { h: 0.13 }), 0.75, 2.62, 0.7), P(id, 'chamou') + 0.4);
+  add(id, em(etiqueta('NÃO ME ENVOLVI', { fundo: COR.escuro, h: 0.16 }), -1.15, 1.3, 0.9), P(id, 'envolveu'));
+}
+
+// 10. RESUMO — balança
 {
   const id = 'resumo';
   cam(id, [0, 2.6, 8.6], [0, 2.0, 0], [0, 0.1, -1.0]);
@@ -433,8 +461,8 @@ function poseCena(id, t) {
   const base = grupo(em(cilindro(0.5, 0.6, 0.12, COR.ouro), 0, 0.06, 0), em(cilindro(0.06, 0.08, 2.4, COR.ouro), 0, 1.25, 0), em(esfera(0.12, COR.ouro), 0, 2.5, 0));
   add(id, em(base, 0, 0, 0), F(id, 0), { cair: 0 });
   const braco = new THREE.Group();
-  braco.add(caixa(2.8, 0.07, 0.07, COR.ouro, 0.02));
-  const pratos = [-1.3, 1.3].map((x, i) => {
+  braco.add(caixa(2.4, 0.07, 0.07, COR.ouro, 0.02));
+  const pratos = [-1.1, 1.1].map((x, i) => {
     const pend = new THREE.Group();
     pend.add(em(new THREE.Line(new THREE.BufferGeometry().setFromPoints([v3(0, 0, 0), v3(0, -0.85, 0)]), new THREE.LineBasicMaterial({ color: 0xcaa64a })), 0, 0, 0));
     pend.add(em(cilindro(0.48, 0.38, 0.06, COR.ouro), 0, -0.88, 0));
@@ -448,17 +476,17 @@ function poseCena(id, t) {
     const ang = -0.22 * easeOutBack(clamp((t - tInclina) / 0.9)) + Math.sin(t * 1.4) * 0.015;
     braco.rotation.z = ang; pratos.forEach((p) => { p.rotation.z = -ang; });
   } });
-  add(id, em(etiqueta('VOCÊ ACHA QUE ELE VOLTA?', { fundo: COR.branco, cor: '#222', h: 0.22 }), 0, 4.0, 0), F(id, 1));
+  add(id, em(etiqueta('SERÁ QUE DONALD TRUMP\nFARÁ ALGUMA COISA?', { fundo: COR.branco, cor: '#222', h: 0.2 }), 0, 4.15, 0), F(id, 1));
   const icone = grupo(caixa(0.9, 0.6, 0.12, COR.vermelho, 0.16), em(cilindro(0, 0.12, 0.25, COR.vermelho), -0.2, -0.36, 0));
   icone.children[1].rotation.z = Math.PI;
   [-0.22, 0, 0.22].forEach((x) => icone.add(em(esfera(0.055, '#fff'), x, 0, 0.07)));
-  add(id, em(icone, 0, 3.35, 0.4), F(id, 2), { update: (t, o) => { o.rotation.y = Math.sin(t * 2) * 0.25; } });
+  add(id, em(icone, 0, 3.25, 0.4), F(id, 2), { update: (t, o) => { o.rotation.y = Math.sin(t * 2) * 0.25; } });
 }
 
 // ---------- overlays HTML ----------
 const elCap = document.querySelector('#capitulo span'), elSelo = document.getElementById('selo'), elLeg = document.getElementById('legenda'), elFontes = document.getElementById('fontes');
 const SELOS = { gancho: '25—28\nOUT', fato: 'STF\nDECISÃO', rota: '22H50\nTERÇA', reacoes: 'NEGAM\n→ ADMITEM', precedentes: 'NÃO É O\nPRIMEIRO',
-  pergunta1: 'CF\nART. 55', pergunta2: 'EXTRA-\nDIÇÃO', pergunta3: 'ASILO\nPOLÍTICO', resumo: 'E\nAGORA?' };
+  pergunta1: 'CF\nART. 55', pergunta2: 'EXTRA-\nDIÇÃO', pergunta3: 'ASILO\nPOLÍTICO', trump: 'FINE\nPEOPLE', resumo: 'E\nAGORA?' };
 
 // legendas em blocos curtos, palavra por palavra
 const blocos = [];
