@@ -1,9 +1,9 @@
 # Roteiro — A saída de Flávio Bolsonaro do Brasil
 
-- **Duração:** 1:55 (308 palavras faladas)
+- **Duração:** 2:07 (versão com a cena do Trump; a tabela abaixo é a versão de 1:55) (308 palavras faladas)
 - **Formato:** vertical 9:16 (1080×1920), narração em off com voz de IA (Kokoro, voz `pm_alex`)
 - **Estilo (das referências):** cenário 3D escuro e minimalista, manequins e objetos simples, etiqueta de capítulo no canto superior esquerdo, selo vermelho no canto direito, legenda grande palavra por palavra.
-- **Vídeo:** `video-flavio-1m55.mp4` · **Fonte da animação:** `animacao/` (o texto falado fica em `animacao/narracao.json`)
+- **Vídeo:** `video-flavio.mp4` · **Fonte da animação:** `animacao/` (o texto falado fica em `animacao/narracao.json`)
 
 ---
 
