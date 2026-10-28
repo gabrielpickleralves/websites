@@ -171,7 +171,7 @@ function add(id, obj, tin, { tout = C[id].fim + 1.2, update = null, cair = 0.5 }
 
 function atualizarItens(t) {
   for (const it of itens) {
-    const a = clamp((t - it.tin) / 0.55), b = clamp((t - (it.tout - 0.4)) / 0.4);
+    const a = clamp((t - it.tin) / 0.35), b = clamp((t - (it.tout - 0.25)) / 0.25);
     const s = easeOutBack(a) * (1 - easeInOut(b));
     it.obj.visible = s > 0.002;
     if (!it.obj.visible) continue;
@@ -187,8 +187,11 @@ const cams = {};
 function cam(id, pos, alvo, drift = [0, 0, -0.6], fn = null) { cams[id] = { pos: v3(...pos), alvo: v3(...alvo), drift: v3(...drift), fn }; }
 function poseCena(id, t) {
   const c = C[id], k = cams[id], p = clamp((t - c.inicio) / (c.fim - c.inicio));
-  let pos = k.pos.clone().add(k.drift.clone().multiplyScalar(p)), alvo = k.alvo.clone();
+  let pos = k.pos.clone().add(k.drift.clone().multiplyScalar(p * 1.6)), alvo = k.alvo.clone();
   if (k.fn) [pos, alvo] = k.fn(t, pos, alvo);
+  const ts = c.frases.filter((f) => f <= t).pop() ?? c.inicio;
+  pos.add(alvo.clone().sub(pos).normalize().multiplyScalar(Math.sin(clamp((t - ts) / 0.7) * Math.PI) * 0.35));
+  pos.x += Math.sin(t * 0.9) * 0.12;
   pos.x += c.ox; alvo.x += c.ox;
   return [pos, alvo];
 }
@@ -433,7 +436,30 @@ function poseCena(id, t) {
   add(id, em(etiqueta('QUEM DECIDE: GOVERNO DOS EUA', { h: 0.14 }), 0, 0.35, 1.0), P(id, 'governo'));
 }
 
-// 9. E O TRUMP?
+// 9. PERSEGUIÇÃO? (versão dos aliados, atribuída)
+{
+  const id = 'perseguicao';
+  cam(id, [0, 2.5, 9.0], [0, 2.0, 0], [0.3, 0, -0.9]);
+  add(id, em(pedestal(0.5, 0.3), -1.2, 0.15, 0.5), F(id, 0), { cair: 0 });
+  add(id, em(boneco(COR.branco, 0.9, 'terno'), -1.2, 0.3, 0.5), F(id, 0) + 0.1, { cair: 0.6 });
+  add(id, em(etiqueta('FLÁVIO BOLSONARO', { fundo: COR.vermelho, h: 0.14 }), -1.2, 2.15, 0.6), F(id, 0) + 0.2);
+  add(id, em(etiqueta('ALIADOS:\n"PERSEGUIÇÃO POLÍTICA"', { fundo: COR.branco, cor: '#222', h: 0.17 }), 0, 3.95, 0), P(id, 'perseguicao'));
+  add(id, em(etiqueta('CONSTITUCIONALISTA (GAZETA DO POVO):\nVÊ INDÍCIOS', { h: 0.12 }), 0.35, 3.25, 0.2), P(id, 'constitucionalista'));
+  // relógio: pedido da PF minutos após a vitória
+  const relogio = grupo(cilindro(0.42, 0.42, 0.08, COR.branco));
+  relogio.children[0].rotation.x = Math.PI / 2;
+  const ponteiro = em(caixa(0.04, 0.3, 0.03, '#222', 0.01), 0, 0.13, 0.06);
+  relogio.add(ponteiro, em(esfera(0.04, COR.vermelho), 0, 0, 0.07));
+  const tMin = P(id, 'minutos');
+  add(id, em(relogio, 1.15, 1.95, 0.3), P(id, 'policia'), { update: (t) => {
+    const a = -Math.max(0, t - tMin) * 2.5; ponteiro.position.set(-Math.sin(a) * 0.13, Math.cos(a) * 0.13, 0.06); ponteiro.rotation.z = a;
+  } });
+  add(id, em(etiqueta('PF: MINUTOS APÓS\nA VITÓRIA DE LULA (O GLOBO)', { fundo: COR.vermelho, h: 0.12 }), 1.0, 1.25, 0.5), tMin);
+  const doc = documento('DECISÃO\nMORAES', 0.62, 0.82, { carimbo: 'SIGILO' });
+  add(id, em(doc, -0.05, 1.6, 0.9), P(id, 'sigilo') - 0.3, { cair: 1, update: (t, o) => { o.rotation.y = -0.2 + Math.sin(t) * 0.05; } });
+}
+
+// 10. E O TRUMP?
 {
   const id = 'trump';
   cam(id, [0, 2.5, 9.0], [0, 2.0, 0], [0, 0, -0.8]);
@@ -453,7 +479,7 @@ function poseCena(id, t) {
   add(id, em(etiqueta('NÃO ME ENVOLVI', { fundo: COR.escuro, h: 0.16 }), -1.15, 1.3, 0.9), P(id, 'envolveu'));
 }
 
-// 10. RESUMO — balança
+// 11. RESUMO — balança
 {
   const id = 'resumo';
   cam(id, [0, 2.6, 8.6], [0, 2.0, 0], [0, 0.1, -1.0]);
@@ -486,7 +512,7 @@ function poseCena(id, t) {
 // ---------- overlays HTML ----------
 const elCap = document.querySelector('#capitulo span'), elSelo = document.getElementById('selo'), elLeg = document.getElementById('legenda'), elFontes = document.getElementById('fontes');
 const SELOS = { gancho: '25—28\nOUT', fato: 'STF\nDECISÃO', rota: '22H50\nTERÇA', reacoes: 'NEGAM\n→ ADMITEM', precedentes: 'NÃO É O\nPRIMEIRO',
-  pergunta1: 'CF\nART. 55', pergunta2: 'EXTRA-\nDIÇÃO', pergunta3: 'ASILO\nPOLÍTICO', trump: 'FINE\nPEOPLE', resumo: 'E\nAGORA?' };
+  pergunta1: 'CF\nART. 55', pergunta2: 'EXTRA-\nDIÇÃO', pergunta3: 'ASILO\nPOLÍTICO', perseguicao: 'VERSÃO DOS\nALIADOS', trump: 'FINE\nPEOPLE', resumo: 'E\nAGORA?' };
 
 // legendas em blocos curtos, palavra por palavra
 const blocos = [];
@@ -511,6 +537,7 @@ function overlays(t) {
   const b = blocos.find((b) => t >= b.t0 - 0.05 && t < Math.min(b.prox, b.t1 + 0.7));
   const html = b ? `<div>${b.map((p) => `<span class="${t >= p.t0 ? '' : 'f'}">${p.w}</span>`).join(' ')}</div>` : '';
   if (html !== ultimaLeg) { elLeg.innerHTML = html; ultimaLeg = html; }
+  if (b) elLeg.firstChild.style.transform = `scale(${0.86 + 0.14 * easeOutBack(clamp((t - b.t0) / 0.18))})`;
   elFontes.textContent = c.id === 'resumo' && t > F('resumo', 2) ? 'FONTES: NEXO · GAZETA DO POVO · AOS FATOS · BRASIL DE FATO' : '';
 }
 
@@ -522,7 +549,7 @@ window.renderAt = (t) => {
   let [p, a] = pos(atual.id, t);
   const anterior = tempos.cenas[C[atual.id].i - 1];
   if (anterior) {
-    const k = easeInOut(clamp((t - atual.inicio + 0.25) / 1.0));
+    const k = easeInOut(clamp((t - atual.inicio + 0.15) / 0.6));
     if (k < 1) {
       const [p0, a0] = pos(anterior.id, t);
       p = p0.lerp(p, k); a = a0.lerp(a, k);

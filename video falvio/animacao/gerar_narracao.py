@@ -15,10 +15,10 @@ motor = sys.argv[1]
 voz = sys.argv[2] if len(sys.argv) > 2 else ("pt-BR-AntonioNeural" if motor == "edge" else "pm_alex")
 velocidade = float(sys.argv[3]) if len(sys.argv) > 3 else 1.0
 
-PAUSA_FRASE = 0.25
-PAUSA_CENA = 0.6
-INICIO = 0.3
-FIM = 1.5
+PAUSA_FRASE = 0.1
+PAUSA_CENA = 0.3
+INICIO = 0.1
+FIM = 1.2
 SR = 24000
 
 

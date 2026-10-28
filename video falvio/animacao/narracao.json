@@ -78,6 +78,16 @@
   ]
  },
  {
+  "id": "perseguicao",
+  "tag": "PERSEGUIÇÃO?",
+  "frases": [
+   "Para aliados de Flávio, foi perseguição política.",
+   "Um constitucionalista ouvido pela Gazeta do Povo vê indícios disso.",
+   "Segundo O Globo, a Polícia Federal pediu a medida minutos depois da vitória de Lula.",
+   "E a decisão de Moraes segue sob sigilo."
+  ]
+ },
+ {
   "id": "trump",
   "tag": "E O TRUMP?",
   "frases": [
