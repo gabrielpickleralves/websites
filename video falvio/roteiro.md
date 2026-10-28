@@ -1,21 +1,23 @@
 # Roteiro — A saída de Flávio Bolsonaro do Brasil
 
-- **Duração:** ~1min30 (≈ 225 palavras faladas)
-- **Formato:** vertical 9:16, narração em off
-- **Estilo (das referências):** cenário 3D escuro e minimalista, objetos simples no centro (passaporte, mapa, avião, balança), etiqueta de capítulo no canto superior esquerdo, legenda grande palavra por palavra na parte de baixo.
+- **Duração:** 1:55 (308 palavras faladas)
+- **Formato:** vertical 9:16 (1080×1920), narração em off com voz de IA (Kokoro, voz `pm_alex`)
+- **Estilo (das referências):** cenário 3D escuro e minimalista, manequins e objetos simples, etiqueta de capítulo no canto superior esquerdo, selo vermelho no canto direito, legenda grande palavra por palavra.
+- **Vídeo:** `video-flavio-1m55.mp4` · **Fonte da animação:** `animacao/` (o texto falado fica em `animacao/narracao.json`)
 
 ---
 
 | Tempo | Capítulo (etiqueta) | O que aparece em 3D | Fala (narração) |
 |---|---|---|---|
-| 0:00–0:06 | E AGORA? | Calendário 3D virando três dias: DOM · TER · QUA | Perdeu a eleição no domingo. Na terça à noite, atravessou a fronteira. Na quarta, desembarcou em Miami. |
-| 0:06–0:20 | O FATO | Documento "STF", passaporte com cadeado e selo "24 H"; etiquetas "LAVAGEM DE DINHEIRO" e "EVASÃO DE DIVISAS" | Flávio Bolsonaro é investigado por lavagem de dinheiro e evasão de divisas. Depois da derrota, a Polícia Federal apontou risco de fuga, e Alexandre de Moraes proibiu o senador de sair do país e mandou entregar os passaportes em 24 horas. |
-| 0:20–0:38 | A ROTA | Mapa 3D: alfinete em Foz do Iguaçu → ponte → Puerto Iguazú → linha pontilhada de avião contornando o Brasil → Equador → Miami; relógio "22h50" | Segundo a migração argentina, ele cruzou a ponte Tancredo Neves, em Foz do Iguaçu, às 22h50 de terça. De Puerto Iguazú, seguiu de jatinho — a imprensa relata uma escala no Equador — até Miami. Os Estados Unidos confirmaram a chegada e concederam vistos à família. |
-| 0:38–0:50 | AS REAÇÕES | Três balões de fala surgindo: "NEGAM" → "ADMITEM"; celular com vídeo; balão "VERGONHOSA" | Aliados primeiro negaram a viagem; depois, admitiram. Um dia antes, o próprio Flávio tinha dito em vídeo que não pensava em sair. Lula chamou a fuga de vergonhosa. |
-| 0:50–0:58 | 1ª PERGUNTA | Cadeira do Senado com contador de faltas "1/3" | Agora, três perguntas. Primeira: ele continua senador? Por enquanto, sim. Mas quem falta a um terço das sessões pode perder o mandato — e quem declara isso é a Mesa do Senado. |
-| 0:58–1:08 | 2ª PERGUNTA | Bandeiras BR e EUA em pedestais; documento "PEDIDO DE EXTRADIÇÃO" atravessando entre eles; martelo de juiz do lado americano | Segunda: dá pra trazer de volta? Só por extradição. O Brasil precisa fazer um pedido formal, com ordem de prisão, e quem decide é a Justiça americana. |
-| 1:08–1:15 | 3ª PERGUNTA | Formulário "ASYLUM" sobre uma mesa | Terceira: ele pode pedir asilo nos Estados Unidos, alegando perseguição política. Aí quem decide é o governo americano. |
-| 1:15–1:30 | RESUMO | Balança: de um lado "ORDEM DO STF", do outro "WASHINGTON"; zoom out | Resumindo: ele saiu contra uma ordem do Supremo, e o caminho de volta agora passa por Washington. Você acha que ele volta? Comenta aqui. |
+| 0:00–0:11 | E AGORA? | Três cartões de calendário caem um por um (DOM 25 · TER 27 · QUA 28) com legenda; manequim branco com etiqueta "FLÁVIO BOLSONARO" | Perdeu a eleição no domingo. Na terça à noite, atravessou a fronteira. Na quarta, desembarcou em Miami. Essa é a saída de Flávio Bolsonaro do Brasil, em menos de dois minutos. |
+| 0:11–0:27 | O FATO | Manequim "SENADOR"; etiquetas "INVESTIGADO", "LAVAGEM DE DINHEIRO", "EVASÃO DE DIVISAS"; "PF: RISCO DE FUGA" em vermelho; documento "STF DECISÃO" e passaporte com cadeado e "24 H" | Flávio é senador, e é investigado por lavagem de dinheiro e evasão de divisas. Depois da derrota, a Polícia Federal apontou risco de fuga. O ministro Alexandre de Moraes, do Supremo, proibiu o senador de sair do país, e mandou entregar os passaportes em 24 horas. |
+| 0:27–0:47 | A ROTA | Mapa 3D visto de cima: zoom em Foz do Iguaçu (alfinete, ponte, "22H50"); câmera abre e o jatinho segue a linha pontilhada até o Equador ("escala, segundo a imprensa") e Miami; "VISTOS CONCEDIDOS" + 4 manequins | Segundo a migração argentina, ele cruzou a ponte Tancredo Neves, em Foz do Iguaçu, às dez e cinquenta da noite de terça. Do lado argentino, em Puerto Iguazú, seguiu de jatinho. A imprensa relata uma escala no Equador, antes de Miami. O governo americano confirmou a chegada, e concedeu vistos ao senador, à esposa e às duas filhas. |
+| 0:47–1:05 | AS REAÇÕES | Balão "NÃO VIAJOU" (ALIADOS) recebe carimbo "ADMITIRAM"; celular "NÃO PENSO EM SAIR" com "1 DIA ANTES"; balões "MOEDA DE TROCA" (Carlos Jordy) e "VERGONHOSA" (Lula) | Aliados primeiro negaram a viagem. Depois, admitiram. Um dia antes, o próprio Flávio tinha dito em vídeo que não pensava em sair do país. O senador eleito Carlos Jordy disse que a viagem era para ele não virar moeda de troca. E o presidente Lula chamou a fuga de vergonhosa. |
+| 1:05–1:15 | PRECEDENTES | Três manequins em pedestais: Flávio (out. 2026), Eduardo Bolsonaro (nos EUA desde 2025), Alexandre Ramagem (condenado pelo STF); emblema "EUA" ao fundo | E ele não é o primeiro. Eduardo Bolsonaro mora nos Estados Unidos desde 2025. Alexandre Ramagem, condenado pelo Supremo, também deixou o país. |
+| 1:15–1:27 | 1ª PERGUNTA | "ELE CONTINUA SENADOR?"; cadeira azul "POR ENQUANTO, SIM"; 15 blocos de sessões, 5 ficam vermelhos ("1/3 DE FALTAS"); prédio do Senado "MESA DO SENADO DECLARA" | Agora, três perguntas. Primeira: ele continua senador? Por enquanto, sim. Mas quem falta a um terço das sessões pode perder o mandato. E quem declara isso é a Mesa do Senado. |
+| 1:27–1:37 | 2ª PERGUNTA | "DÁ PRA TRAZER DE VOLTA?" / "SÓ POR EXTRADIÇÃO"; emblemas BRASIL e EUA em pedestais; documento "PEDIDO DE EXTRADIÇÃO" + "ORDEM DE PRISÃO" voa de um lado ao outro; martelo do juiz | Segunda: dá pra trazer de volta? Só por extradição. O Brasil precisa fazer um pedido formal, com ordem de prisão. E quem decide é a Justiça americana. |
+| 1:37–1:45 | 3ª PERGUNTA | "E SE PEDIR ASILO?"; mesa com formulário "PEDIDO DE ASILO"; "PERSEGUIÇÃO POLÍTICA?"; emblema EUA; "QUEM DECIDE: GOVERNO DOS EUA" | Terceira: ele pode pedir asilo nos Estados Unidos, alegando perseguição política. Aí, quem decide é o governo americano. |
+| 1:45–1:54 | RESUMO | Balança dourada: "ORDEM DO STF" × "WASHINGTON", que pesa mais; "VOCÊ ACHA QUE ELE VOLTA?"; ícone de comentário; fontes no rodapé | Resumindo: ele saiu contra uma ordem do Supremo, e o caminho de volta agora passa por Washington. Você acha que ele volta? Comenta aqui. |
 
 ---
 

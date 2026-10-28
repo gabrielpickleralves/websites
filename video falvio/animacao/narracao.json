@@ -1,0 +1,53 @@
+[
+  {"id": "gancho", "tag": "E AGORA?", "frases": [
+    "Perdeu a eleição no domingo.",
+    "Na terça à noite, atravessou a fronteira.",
+    "Na quarta, desembarcou em Miami.",
+    "Essa é a saída de Flávio Bolsonaro do Brasil, em menos de dois minutos."
+  ]},
+  {"id": "fato", "tag": "O FATO", "frases": [
+    "Flávio é senador, e é investigado por lavagem de dinheiro e evasão de divisas.",
+    "Depois da derrota, a Polícia Federal apontou risco de fuga.",
+    "O ministro Alexandre de Moraes, do Supremo, proibiu o senador de sair do país, e mandou entregar os passaportes em 24 horas."
+  ]},
+  {"id": "rota", "tag": "A ROTA", "frases": [
+    "Segundo a migração argentina, ele cruzou a ponte Tancredo Neves, em Foz do Iguaçu, às dez e cinquenta da noite de terça.",
+    "Do lado argentino, em Puerto Iguazú, seguiu de jatinho.",
+    "A imprensa relata uma escala no Equador, antes de Miami.",
+    "O governo americano confirmou a chegada, e concedeu vistos ao senador, à esposa e às duas filhas."
+  ]},
+  {"id": "reacoes", "tag": "AS REAÇÕES", "frases": [
+    "Aliados primeiro negaram a viagem.",
+    "Depois, admitiram.",
+    "Um dia antes, o próprio Flávio tinha dito em vídeo que não pensava em sair do país.",
+    "O senador eleito Carlos Jordy disse que a viagem era para ele não virar moeda de troca.",
+    "E o presidente Lula chamou a fuga de vergonhosa."
+  ]},
+  {"id": "precedentes", "tag": "PRECEDENTES", "frases": [
+    "E ele não é o primeiro.",
+    "Eduardo Bolsonaro mora nos Estados Unidos desde 2025.",
+    "Alexandre Ramagem, condenado pelo Supremo, também deixou o país."
+  ]},
+  {"id": "pergunta1", "tag": "1ª PERGUNTA", "frases": [
+    "Agora, três perguntas.",
+    "Primeira: ele continua senador?",
+    "Por enquanto, sim.",
+    "Mas quem falta a um terço das sessões pode perder o mandato.",
+    "E quem declara isso é a Mesa do Senado."
+  ]},
+  {"id": "pergunta2", "tag": "2ª PERGUNTA", "frases": [
+    "Segunda: dá pra trazer de volta?",
+    "Só por extradição.",
+    "O Brasil precisa fazer um pedido formal, com ordem de prisão.",
+    "E quem decide é a Justiça americana."
+  ]},
+  {"id": "pergunta3", "tag": "3ª PERGUNTA", "frases": [
+    "Terceira: ele pode pedir asilo nos Estados Unidos, alegando perseguição política.",
+    "Aí, quem decide é o governo americano."
+  ]},
+  {"id": "resumo", "tag": "RESUMO", "frases": [
+    "Resumindo: ele saiu contra uma ordem do Supremo, e o caminho de volta agora passa por Washington.",
+    "Você acha que ele volta?",
+    "Comenta aqui."
+  ]}
+]

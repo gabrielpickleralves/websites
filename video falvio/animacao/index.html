@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Saída de Flávio</title>
+<style>
+  @font-face { font-family: Inter; font-weight: 800; src: url(node_modules/@fontsource/inter/files/inter-latin-800-normal.woff2); }
+  @font-face { font-family: Mono; font-weight: 700; src: url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-700-normal.woff2); }
+  @font-face { font-family: Mono; font-weight: 500; src: url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2); }
+  html, body { margin: 0; background: #1f2228; overflow: hidden; }
+  #palco { position: relative; width: 1080px; height: 1920px; }
+  canvas { display: block; }
+  .vinheta { position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 75% 60% at 50% 45%, transparent 55%, rgba(8,9,12,.65) 100%); }
+  #topo { position: absolute; left: 56px; top: 104px; font: 500 22px Mono; letter-spacing: 4px; color: rgba(255,255,255,.45); }
+  #capitulo { position: absolute; left: 56px; top: 146px; display: flex; align-items: center; gap: 16px;
+    background: rgba(255,255,255,.08); border-radius: 40px; padding: 12px 30px 12px 18px;
+    font: 700 28px Mono; letter-spacing: 3px; color: #fff; }
+  #capitulo i { width: 22px; height: 22px; border-radius: 50%; background: #fff; display: block; }
+  #selo { position: absolute; right: 56px; top: 104px; width: 150px; height: 150px; border-radius: 50%;
+    border: 5px solid #d2343f; background: #15171b; color: #fff; display: flex; align-items: center; justify-content: center;
+    text-align: center; font: 700 22px/1.25 Mono; letter-spacing: 1px; white-space: pre; }
+  #legenda { position: absolute; left: 0; right: 0; top: 1430px; display: flex; justify-content: center; }
+  #legenda div { max-width: 900px; background: rgba(18,20,24,.86); border-radius: 18px; padding: 18px 34px;
+    font: 800 58px/1.22 Inter; color: #fff; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,.35); }
+  #legenda span.f { color: rgba(255,255,255,.38); }
+  #fontes { position: absolute; left: 0; right: 0; top: 1700px; text-align: center; font: 500 22px Mono; color: rgba(255,255,255,.5); }
+</style>
+<script type="importmap">{ "imports": { "three": "./node_modules/three/build/three.module.js", "three/addons/": "./node_modules/three/examples/jsm/" } }</script>
+</head>
+<body>
+<div id="palco">
+  <div class="vinheta"></div>
+  <div id="topo">EXPLICANDO · POLÍTICA</div>
+  <div id="capitulo"><i></i><span></span></div>
+  <div id="selo"></div>
+  <div id="legenda"></div>
+  <div id="fontes"></div>
+</div>
+<script type="module" src="cena.js"></script>
+</body>
+</html>
