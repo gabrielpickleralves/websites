@@ -9,7 +9,7 @@ const path = require('path');
 
 const FPS = 30, DURACAO = Math.ceil(require('./tempos.json').total);
 const raiz = __dirname;
-const tipos = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.woff2': 'font/woff2' };
+const tipos = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.woff2': 'font/woff2', '.png': 'image/png' };
 
 const servidor = http.createServer((req, res) => {
   const f = path.join(raiz, decodeURIComponent(req.url.split('?')[0]));

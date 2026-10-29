@@ -6,6 +6,11 @@ const tempos = await (await fetch('tempos.json')).json();
 await document.fonts.load('800 58px Inter');
 await document.fonts.load('700 64px Mono');
 await document.fonts.load('500 22px Mono');
+const FOTOS = {};
+for (const n of ['flavio', 'trump', 'moraes', 'lula']) {
+  const t = await new THREE.TextureLoader().loadAsync(`fotos/${n}.png`);
+  t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; FOTOS[n] = t;
+}
 
 // ---------- cores ----------
 const COR = { fundo: '#1f2228', chao: '#2a2e35', branco: '#e9e9ec', cinza: '#8d939c', escuro: '#3a3f47',
@@ -114,9 +119,20 @@ function documento(titulo, w = 0.8, h = 1.05, { carimbo = null, corTitulo = '#22
   return grupo(corpo, frente);
 }
 
-// boneco branco (manequim) como nas referências; roupa: 'terno' (homens) ou 'vestido' (mulheres)
-function boneco(cor = COR.branco, s = 1, roupa = 'terno', { gravata = COR.vermelho, vestido = '#7d2f42' } = {}) {
-  const g = grupo(em(esfera(0.2, cor), 0, 1.66, 0), em(cilindro(0.06, 0.07, 0.12, cor), 0, 1.46, 0));
+// rosto em círculo (foto) que sempre olha para a câmera
+function retrato(nome, r = 0.26, borda = '#f2f2f2') {
+  const g = new THREE.Group();
+  g.add(new THREE.Mesh(new THREE.CircleGeometry(r * 1.1, 64), new THREE.MeshBasicMaterial({ color: borda, toneMapped: false, fog: false })));
+  const foto = new THREE.Mesh(new THREE.CircleGeometry(r, 64), new THREE.MeshBasicMaterial({ map: FOTOS[nome], toneMapped: false, fog: false }));
+  foto.position.z = 0.002;
+  g.add(foto);
+  g.userData.billboard = true;
+  return g;
+}
+
+// boneco branco (manequim) como nas referências; roupa: 'terno' (homens) ou 'vestido' (mulheres); foto: rosto no lugar da cabeça
+function boneco(cor = COR.branco, s = 1, roupa = 'terno', { gravata = COR.vermelho, vestido = '#7d2f42', foto = null } = {}) {
+  const g = grupo(foto ? em(retrato(foto, 0.27), 0, 1.72, 0.05) : em(esfera(0.2, cor), 0, 1.66, 0), em(cilindro(0.06, 0.07, 0.12, cor), 0, 1.46, 0));
   if (roupa === 'vestido') {
     g.add(em(capsula(0.18, 0.36, vestido), 0, 1.12, 0),
       em(cilindro(0.17, 0.4, 0.62, vestido), 0, 0.72, 0),
@@ -190,8 +206,8 @@ function poseCena(id, t) {
   let pos = k.pos.clone().add(k.drift.clone().multiplyScalar(p * 1.6)), alvo = k.alvo.clone();
   if (k.fn) [pos, alvo] = k.fn(t, pos, alvo);
   const ts = c.frases.filter((f) => f <= t).pop() ?? c.inicio;
-  pos.add(alvo.clone().sub(pos).normalize().multiplyScalar(Math.sin(clamp((t - ts) / 0.7) * Math.PI) * 0.35));
-  pos.x += Math.sin(t * 0.9) * 0.12;
+  pos.add(alvo.clone().sub(pos).normalize().multiplyScalar(Math.sin(clamp((t - ts) / 0.7) * Math.PI) * 0.25));
+  pos.x += Math.sin(t * 0.9) * 0.06;
   pos.x += c.ox; alvo.x += c.ox;
   return [pos, alvo];
 }
@@ -201,7 +217,7 @@ function poseCena(id, t) {
 // 1. GANCHO
 {
   const id = 'gancho';
-  cam(id, [0, 2.6, 9.4], [0, 2.0, 0], [0, 0.2, -1.2]);
+  cam(id, [0, 2.6, 10.6], [0, 2.0, 0], [0, 0.2, -0.9]);
   const dias = [['DOM', '25', 'PERDEU A ELEIÇÃO'], ['TER', '27', 'CRUZOU A FRONTEIRA'], ['QUA', '28', 'CHEGOU A MIAMI']];
   dias.forEach(([d, n, txt], i) => {
     const card = grupo(caixa(1.3, 1.5, 0.14, COR.branco, 0.06));
@@ -216,7 +232,7 @@ function poseCena(id, t) {
     const lab = em(etiqueta(txt, { h: 0.16 }), x, y0 - 1.0, -0.2);
     add(id, lab, tin + 0.3, { update: (t, o) => { o.position.y += easeInOut(clamp((t - F(id, 3)) / 0.8)) * 0.7; } });
   });
-  const b = em(boneco(), 0, 0, 1.8);
+  const b = em(boneco(COR.branco, 1, 'terno', { foto: 'flavio' }), 0, 0, 1.8);
   add(id, b, F(id, 3), { cair: 0 });
   add(id, em(pedestal(0.55, 0.06, COR.escuro), 0, 0.03, 1.8), F(id, 3), { cair: 0 });
   add(id, em(etiqueta('FLÁVIO BOLSONARO', { fundo: COR.vermelho, h: 0.2 }), 0, 2.15, 1.8), F(id, 3) + 0.4);
@@ -226,7 +242,9 @@ function poseCena(id, t) {
 {
   const id = 'fato';
   cam(id, [0, 2.4, 8.6], [0, 1.8, 0], [0.3, 0, -0.8]);
-  add(id, em(boneco(), -1.3, 0, 0.6), F(id, 0), { cair: 0 });
+  add(id, em(boneco(COR.branco, 1, 'terno', { foto: 'flavio' }), -1.3, 0, 0.6), F(id, 0), { cair: 0 });
+  add(id, em(boneco(COR.branco, 0.95, 'terno', { foto: 'moraes', gravata: '#15171b' }), 0.15, 0, -1.4), P(id, 'ministro') - 0.2, { cair: 0.6 });
+  add(id, em(etiqueta('ALEXANDRE DE MORAES · STF', { fundo: COR.escuro, h: 0.15 }), 0.3, 2.35, -1.3), P(id, 'ministro'));
   add(id, em(etiqueta('SENADOR', { h: 0.17 }), -1.3, 2.15, 0.6), F(id, 0) + 0.3);
   add(id, em(etiqueta('INVESTIGADO', { fundo: COR.branco, cor: '#222', h: 0.18 }), 0.75, 3.75, 0), P(id, 'investigado'));
   add(id, em(etiqueta('LAVAGEM DE DINHEIRO', { h: 0.16 }), 0.75, 3.38, 0), P(id, 'lavagem'));
@@ -309,7 +327,7 @@ function poseCena(id, t) {
   add(id, em(etiqueta('MIAMI', { fundo: COR.vermelho, h: 0.2 }), MIA[0] + 0.55, 0.95, MIA[1]), F(id, 3));
   add(id, em(etiqueta('VISTOS CONCEDIDOS', { fundo: COR.branco, cor: '#222', h: 0.16 }), MIA[0] + 1.25, 0.5, MIA[1] + 0.75), P(id, 'vistos'));
   [[0, 0.32], [0.25, 0.3], [0.48, 0.2], [0.64, 0.18]].forEach(([dx, s], i) =>
-    add(id, em(boneco(COR.branco, s, i === 0 ? 'terno' : 'vestido', { vestido: ['', '#7d2f42', '#3f6d8c', '#b0894a'][i] }), MIA[0] + 0.8 + dx, 0.12, MIA[1] + 1.25), P(id, 'senador') + i * 0.25, { cair: 0 }));
+    add(id, em(boneco(COR.branco, s, i === 0 ? 'terno' : 'vestido', { vestido: ['', '#7d2f42', '#3f6d8c', '#b0894a'][i], foto: i === 0 ? 'flavio' : null }), MIA[0] + 0.8 + dx, 0.12, MIA[1] + 1.25), P(id, 'senador') + i * 0.25, { cair: 0 }));
 
   const CLOSE = [FOZ[0] - 0.3, 6.2, FOZ[1] + 3.8], ALVO_FOZ = [FOZ[0], 0, FOZ[1] - 0.2];
   cam(id, [-0.3, 12.6, 4.6], [-0.3, 0, -0.75], [0, 0, 0], (t, pos, alvo) => {
@@ -342,6 +360,7 @@ function poseCena(id, t) {
   add(id, balao('MOEDA DE TROCA', 2.3, -0.75, 2.0, -1), F(id, 3), { cair: 0.8 });
   add(id, em(etiqueta('CARLOS JORDY · SENADOR ELEITO', { h: 0.13 }), -0.75, 1.45, 0.1), P(id, 'jordy'));
   add(id, balao('VERGONHOSA', 2.0, 0.8, 0.95), F(id, 4), { cair: 0.8 });
+  add(id, em(retrato('lula', 0.34, COR.vermelho), -0.6, 0.95, 0.3), P(id, 'lula'));
   add(id, em(etiqueta('LULA · PRESIDENTE', { h: 0.13 }), 0.95, 1.5, 0.1), P(id, 'lula'));
 }
 
@@ -354,7 +373,7 @@ function poseCena(id, t) {
     ['ALEXANDRE RAMAGEM', 'CONDENADO PELO STF', 1.55, P(id, 'ramagem')]];
   quem.forEach(([nome, info, x, tin], i) => {
     add(id, em(pedestal(0.5, 0.3), x, 0.15, 0), tin, { cair: 0 });
-    add(id, em(boneco(i === 1 ? '#f2f2f4' : '#cfd1d6', 0.85), x, 0.3, 0), tin + 0.1, { cair: 0.6 });
+    add(id, em(boneco(i === 1 ? '#f2f2f4' : '#cfd1d6', 0.85, 'terno', { foto: i === 1 ? 'flavio' : null }), x, 0.3, 0), tin + 0.1, { cair: 0.6 });
     add(id, em(etiqueta(nome, { fundo: i === 1 ? COR.vermelho : COR.escuro, h: 0.13 }), x, 2.0 + (i % 2) * 0.45, 0.2), tin + 0.3);
     add(id, em(etiqueta(info, { fundo: COR.branco, cor: '#222', h: 0.11 }), x, 1.77 + (i % 2) * 0.45, 0.2), tin + 0.5);
   });
@@ -441,7 +460,7 @@ function poseCena(id, t) {
   const id = 'perseguicao';
   cam(id, [0, 2.5, 9.0], [0, 2.0, 0], [0.3, 0, -0.9]);
   add(id, em(pedestal(0.5, 0.3), -1.2, 0.15, 0.5), F(id, 0), { cair: 0 });
-  add(id, em(boneco(COR.branco, 0.9, 'terno'), -1.2, 0.3, 0.5), F(id, 0) + 0.1, { cair: 0.6 });
+  add(id, em(boneco(COR.branco, 0.9, 'terno', { foto: 'flavio' }), -1.2, 0.3, 0.5), F(id, 0) + 0.1, { cair: 0.6 });
   add(id, em(etiqueta('FLÁVIO BOLSONARO', { fundo: COR.vermelho, h: 0.14 }), -1.2, 2.15, 0.6), F(id, 0) + 0.2);
   add(id, em(etiqueta('ALIADOS:\n"PERSEGUIÇÃO POLÍTICA"', { fundo: COR.branco, cor: '#222', h: 0.17 }), 0, 3.95, 0), P(id, 'perseguicao'));
   add(id, em(etiqueta('CONSTITUCIONALISTA (GAZETA DO POVO):\nVÊ INDÍCIOS', { h: 0.12 }), 0.35, 3.25, 0.2), P(id, 'constitucionalista'));
@@ -465,7 +484,7 @@ function poseCena(id, t) {
   cam(id, [0, 2.5, 9.0], [0, 2.0, 0], [0, 0, -0.8]);
   add(id, em(emblema('EUA'), 1.45, 1.2, -1.0), F(id, 0), { update: (t, o) => { o.rotation.y = Math.sin(t * 0.6) * 0.15; } });
   add(id, em(pedestal(0.55, 0.3), 0, 0.15, 0.4), F(id, 0), { cair: 0 });
-  add(id, em(boneco(COR.branco, 1, 'terno', { gravata: COR.vermelho }), 0, 0.3, 0.4), F(id, 0) + 0.15, { cair: 0.6 });
+  add(id, em(boneco(COR.branco, 1, 'terno', { gravata: '#2f5fa8', foto: 'trump' }), 0, 0.3, 0.4), F(id, 0) + 0.15, { cair: 0.6 });
   add(id, em(etiqueta('DONALD TRUMP', { fundo: COR.vermelho, h: 0.17 }), 0, 2.45, 0.5), F(id, 0) + 0.4);
   function balao(texto, w, x, y, rabo = 1) {
     const g = grupo(caixa(w, 0.62, 0.14, COR.branco, 0.18));
