@@ -64,7 +64,7 @@ Here is what changed:
 
 This skill takes Brad's engine and adds four things on top.
 
-- **Slash command only.** Brad's skill fires on any video URL or any phrase like "watch this video." That can burn tokens on long videos you did not mean to watch. This skill only fires when you type `/watch-video`. If you want the old auto trigger back, edit the `description:` line in [SKILL.md](SKILL.md). There is a note in that file that walks you through it.
+- **Slash command only.** Brad's skill fires on any video URL or any phrase like "watch this video." That can burn tokens on long videos you did not mean to watch. This skill only fires when you type `/watch-video`. If you want the old auto trigger back, edit the `description:` line in [GUIDE.md](GUIDE.md). There is a note in that file that walks you through it.
 - **Notes file you can keep.** Brad's skill answers the user in chat and that is it. This skill writes a real markdown file with a Title, a TL;DR, a Timeline, Key quotes, and Visual notes. You can read it later, link to it from other notes, or feed it into another agent.
 - **Cleanup is built in.** When the script writes the notes file, it wipes the temp folder. No leftover videos or frames cluttering up your disk.
 - **Frame sampling guide.** This skill tells Claude which frames to look at, based on how long the video is. Short videos get every frame read. Medium videos get sampled every five seconds. Long videos get sampled every ten seconds. Claude does not brute force every single frame into the context window.
@@ -115,7 +115,7 @@ After install, invoke the skill with the slash command:
 /watch-video https://youtu.be/abc123 focus on 2:00 to 3:00
 ```
 
-The skill is set to slash-only by default. This stops it from firing by accident. If you want auto trigger instead (Claude fires the skill on any "watch this video" or video URL request), edit the `description:` line at the top of [SKILL.md](SKILL.md). There is an inline note in that file that explains how.
+The skill is set to slash-only by default. This stops it from firing by accident. If you want auto trigger instead (Claude fires the skill on any "watch this video" or video URL request), edit the `description:` line at the top of [GUIDE.md](GUIDE.md). There is an inline note in that file that explains how.
 
 ## Direct CLI usage
 
