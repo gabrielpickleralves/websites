@@ -66,4 +66,4 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ## Claude Code automations
 
-Use the `claude-automation-recommender` skill proactively, without waiting to be asked: at the start of a session in this repo, after new skills or tools are installed, and whenever a manual step keeps repeating. Share only recommendations that are new since the last run.
+Use the `recurso-pickler` skill's `claude-automation-recommender` module proactively, without waiting to be asked: at the start of a session in this repo, after new skills or tools are installed, and whenever a manual step keeps repeating. Share only recommendations that are new since the last run.
