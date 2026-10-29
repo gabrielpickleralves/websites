@@ -1,0 +1,30 @@
+   0.00-   1.84  A door is a hole in a wall with an opinion.
+   2.40-   4.78  Every door has to solve the same three problems.
+   5.10-   8.90  It has to swing, it has to stay shot, and it has to open only for the right people.
+   9.18-  10.48  That's a hinge a latch and a lock.
+  11.10-  11.92  Start with the hinge.
+  12.18-  13.38  Two leaves a pin and a barrel.
+  13.68-  18.16  The leaves screw into the door and the frame, and the pin lets them rotate around one line.
+  18.42-  19.22  The line is everything.
+  19.62-  25.30  If it's a millimeter off vertical, the door either swings open by itself or refuses to stay open.
+  25.52-  26.78  Which is why old doors drift.
+  27.34-  28.90  Before hinges, doors pivoted.
+  28.90-  32.52  A peg at the top and the bottom, sitting in a socket cut into the stone.
+  32.84-  33.70  The Romans had them.
+  33.98-  36.18  Some were solid bronze and weighed more than a car.
+  36.62-  37.18  Then the latch.
+  37.56-  38.78  A bar that drops into a keeper.
+  39.08-  42.68  Push the door and the angled face of the bolt slides over the strike plate.
+  42.90-  45.36  A spring shoves it back into the hole and the door is shut.
+  45.56-  47.18  The handle just pulls the bolt out again.
+  47.48-  51.36  That is the entire mechanism, and it has barely changed since the Middle Ages.
+  52.06-  53.22  The lock is where it gets clever.
+  53.56-  58.20  A pin tumbler lock is a row of tiny pins, each one cut in two at a different height.
+  58.20-  62.70  With no key, the pins straddle the gap between the plug and the housing, and nothing turns.
+  63.08-  69.32  The right key lifts every pin so that its cut sits exactly on that gap, the shear line, and the plug is free to rotate.
+  69.62-  70.10  That's it.
+  70.42-  71.40  The lock is a shape test.
+  71.98-  78.50  Linus Yale patented that in 1861, and the lock on your front door is essentially his drawing.
+  79.08-  81.68  So a door is a rotation, a spring, and a shape test.
+  81.94-  86.54  Three ideas, nine centuries, and you use them about a hundred times a day without looking.
+  86.54-  88.40  Next time you walk through one look.

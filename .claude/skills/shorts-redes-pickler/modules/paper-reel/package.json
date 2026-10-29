@@ -1,0 +1,1 @@
+{ "name": "paper-reel-skill", "private": true, "description": "paper-reel Claude Code skill tools", "dependencies": { "playwright": "1.58.0" } }

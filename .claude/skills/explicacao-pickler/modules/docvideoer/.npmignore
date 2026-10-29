@@ -1,0 +1,8 @@
+docvideo-output/
+node_modules/
+templates/**/node_modules/
+.env
+.env.*
+.claude/
+CLAUDE.md
+AGENTS.md

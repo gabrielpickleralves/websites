@@ -1,0 +1,324 @@
+{
+ "id": "demo",
+ "title": "口播工作台演示",
+ "duration": 26.474,
+ "audio": "narration.m4a",
+ "envelope": "envelope.json",
+ "voiceStart": 0.05,
+ "app": {
+  "title": "口播工作台"
+ },
+ "backdrop": {
+  "kind": "grid"
+ },
+ "chapters": [
+  {
+   "at": 2.3,
+   "label": "工作流",
+   "tab": "工作流"
+  },
+  {
+   "at": 9.52,
+   "label": "真实页面",
+   "tab": "真实页面"
+  },
+  {
+   "at": 15.58,
+   "label": "动效"
+  }
+ ],
+ "captions": [
+  {
+   "text": "这是口播工作台的演示",
+   "start": 0.0,
+   "end": 1.65
+  },
+  {
+   "text": "说到一个工具",
+   "start": 2.3,
+   "end": 3.05
+  },
+  {
+   "text": "它就被加进清单",
+   "start": 3.4,
+   "end": 4.5
+  },
+  {
+   "text": "文案",
+   "start": 5.0,
+   "end": 5.5
+  },
+  {
+   "text": "配音",
+   "start": 5.64,
+   "end": 6.15
+  },
+  {
+   "text": "画面",
+   "start": 6.4,
+   "end": 6.75
+  },
+  {
+   "text": "再由一个统筹者",
+   "start": 7.3,
+   "end": 8.35
+  },
+  {
+   "text": "把它们连起来",
+   "start": 8.4,
+   "end": 9.45
+  },
+  {
+   "text": "真实页面放进内置浏览器",
+   "start": 9.95,
+   "end": 11.8
+  },
+  {
+   "text": "说到关键句的时候聚光",
+   "start": 11.88,
+   "end": 13.7
+  },
+  {
+   "text": "再把原文抬成卡片",
+   "start": 14.05,
+   "end": 15.5
+  },
+  {
+   "text": "能力和检查项",
+   "start": 16.1,
+   "end": 17.1
+  },
+  {
+   "text": "说到哪项就打开哪项",
+   "start": 17.4,
+   "end": 18.8
+  },
+  {
+   "text": "光标点击",
+   "start": 19.1,
+   "end": 19.85
+  },
+  {
+   "text": "相机跟随",
+   "start": 20.06,
+   "end": 20.85
+  },
+  {
+   "text": "承接换页",
+   "start": 21.0,
+   "end": 21.75
+  },
+  {
+   "text": "运动模糊",
+   "start": 21.92,
+   "end": 22.5
+  },
+  {
+   "text": "四项都打开",
+   "start": 23.1,
+   "end": 23.95
+  },
+  {
+   "text": "这一页就讲完了",
+   "start": 24.3,
+   "end": 25.6
+  }
+ ],
+ "shots": [
+  {
+   "id": "outline",
+   "template": "orb",
+   "start": 0,
+   "end": 2.3,
+   "props": {
+    "kicker": "talk-workbench 演示",
+    "title": "三个部分",
+    "outline": "三个部分",
+    "nodes": [
+     {
+      "label": "工作流",
+      "at": 0.25
+     },
+     {
+      "label": "真实页面",
+      "at": 0.7
+     },
+     {
+      "label": "动效",
+      "at": 1.15
+     }
+    ],
+    "exit": {
+     "at": 1.8,
+     "rect": [
+      120,
+      520,
+      840,
+      900
+     ]
+    }
+   }
+  },
+  {
+   "id": "flow",
+   "template": "app.modules",
+   "start": 2.3,
+   "end": 9.52,
+   "props": {
+    "title": "口播工作流",
+    "sub": "说到哪个，加哪个",
+    "items": [
+     {
+      "name": "文案",
+      "role": "先确认，再往下做",
+      "icon": "file-text",
+      "at": 5.0
+     },
+     {
+      "name": "配音",
+      "role": "真人录音或 TTS",
+      "icon": "microphone",
+      "at": 5.64
+     },
+     {
+      "name": "画面",
+      "role": "跟着配音的时间走",
+      "icon": "film-slate",
+      "at": 6.4
+     }
+    ],
+    "orchestrator": {
+     "name": "统筹者",
+     "role": "把三步连起来",
+     "icon": "terminal-window",
+     "at": 7.8
+    },
+    "launch": {
+     "from": [
+      120,
+      520,
+      840,
+      900
+     ],
+     "r": 36
+    }
+   }
+  },
+  {
+   "id": "page",
+   "template": "app.browser",
+   "start": 9.52,
+   "end": 15.58,
+   "props": {
+    "name": "Remotion",
+    "source": "remotion.dev · 官网实际页面",
+    "url": "https://www.remotion.dev/",
+    "image": "remotion.png",
+    "size": [
+     848,
+     620
+    ],
+    "focus": {
+     "x": 228,
+     "y": 279,
+     "w": 390,
+     "h": 27,
+     "at": 13.22,
+     "text": "Create videos and motion graphics with React.",
+     "label": "官网原文"
+    },
+    "carry": {
+     "anchor": "item:2",
+     "click": true
+    }
+   }
+  },
+  {
+   "id": "motion",
+   "template": "scene",
+   "start": 15.58,
+   "end": 26.474,
+   "props": {
+    "pieces": [
+     {
+      "kind": "text",
+      "text": "检查项",
+      "at": 16.6,
+      "y": 560,
+      "size": 104,
+      "mark": {
+       "word": "检查项",
+       "at": 16.9
+      },
+      "out": 22.75
+     },
+     {
+      "kind": "toggles",
+      "at": 17.45,
+      "y": 860,
+      "items": [
+       {
+        "label": "光标点击",
+        "type": "toggle",
+        "on": false,
+        "flipAt": 19.15,
+        "emphAt": 19.27
+       },
+       {
+        "label": "相机跟随",
+        "type": "toggle",
+        "on": false,
+        "flipAt": 20.1,
+        "emphAt": 20.22
+       }
+      ]
+     },
+     {
+      "kind": "toggles",
+      "at": 17.75,
+      "y": 1150,
+      "items": [
+       {
+        "label": "承接换页",
+        "type": "toggle",
+        "on": false,
+        "flipAt": 21.05,
+        "emphAt": 21.17
+       },
+       {
+        "label": "运动模糊",
+        "type": "toggle",
+        "on": false,
+        "flipAt": 21.95,
+        "emphAt": 22.07
+       }
+      ]
+     },
+     {
+      "kind": "text",
+      "text": "都打开",
+      "at": 23.44,
+      "y": 560,
+      "size": 104,
+      "mark": {
+       "word": "都打开",
+       "at": 23.74
+      },
+      "out": 24.05
+     },
+     {
+      "kind": "text",
+      "text": "讲完了",
+      "at": 25.04,
+      "y": 560,
+      "size": 96,
+      "mark": {
+       "word": "讲完了",
+       "at": 25.34
+      }
+     }
+    ]
+   }
+  }
+ ]
+}

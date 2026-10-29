@@ -1,0 +1,4 @@
+interface:
+  display_name: "DraftCut"
+  short_description: "自然说话到精炼原声与精美视频：口播稿、视频脚本两次人工审核"
+  default_prompt: "Use $draftcut with my audio and optional material folder. Refine the full spoken content while preserving my voice. Obtain my explicit approval of the spoken manuscript, then my approval of the video director script, before producing the final video."

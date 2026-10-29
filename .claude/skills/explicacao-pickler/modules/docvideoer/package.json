@@ -1,0 +1,68 @@
+{
+  "name": "docvideoer",
+  "version": "1.0.0",
+  "description": "AI 文档转视频工具 — 将文档内容自动转换为讲解视频，支持 Edge TTS / macOS TTS 和 Remotion 渲染",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coding-ax/docvideoer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/coding-ax/docvideoer/issues"
+  },
+  "homepage": "https://github.com/coding-ax/docvideoer#readme",
+  "keywords": [
+    "remotion",
+    "tts",
+    "document",
+    "video",
+    "codex",
+    "claude"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "docvideoer": "./scripts/docvideoer.mjs"
+  },
+  "files": [
+    "SKILL.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    ".claude/commands/",
+    ".claude/skills/",
+    "scripts/",
+    "templates/doc-video/src/",
+    "templates/doc-video/package.json",
+    "templates/doc-video/package-lock.json",
+    "templates/doc-video/tsconfig.json",
+    "examples/",
+    "README.md",
+    "LICENSE",
+    ".env.example"
+  ],
+  "scripts": {
+    "fetch": "node scripts/fetch-doc.mjs",
+    "tts": "node scripts/tts.mjs",
+    "setup-video": "node scripts/setup-remotion.mjs",
+    "docvideoer": "node scripts/docvideoer.mjs",
+    "check": "node --check scripts/docvideoer.mjs && node --check scripts/fetch-doc.mjs && node --check scripts/setup-remotion.mjs && node --check scripts/tts.mjs"
+  },
+  "dependencies": {
+    "@remotion/bundler": "^4.0.0",
+    "@remotion/renderer": "^4.0.0",
+    "@remotion/transitions": "^4.0.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "remotion": "^4.0.0",
+    "@mozilla/readability": "^0.5.0",
+    "jsdom": "^25.0.0",
+    "dotenv": "^16.4.0"
+  },
+  "devDependencies": {
+    "@remotion/cli": "^4.0.0",
+    "@types/react": "^18.3.0",
+    "typescript": "^5.5.0"
+  }
+}
