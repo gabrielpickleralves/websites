@@ -37,9 +37,14 @@ const servidor = http.createServer((req, res) => {
     }
   } else {
     const saida = process.argv[2];
+    // trilha por baixo da voz: volume baixo, abaixa quando a voz fala (sidechain), entra e sai suave
+    const audio = ['-i', path.join(raiz, 'trilha.mp3'), '-filter_complex',
+      `[2:a]atrim=0:${DURACAO},volume=0.35,afade=t=in:d=1.5,afade=t=out:st=${DURACAO - 3}:d=3[m];` +
+      '[1:a]apad,asplit=2[v][vk];[m][vk]sidechaincompress=threshold=0.03:ratio=6:attack=20:release=400[md];' +
+      '[v][md]amix=inputs=2:duration=shortest:normalize=0[a]', '-map', '0:v', '-map', '[a]'];
     const ff = spawn('ffmpeg', ['-y', '-v', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-',
-      '-i', path.join(raiz, 'narracao.wav'), '-c:v', 'libx264', '-preset', 'medium', '-crf', '20', '-pix_fmt', 'yuv420p',
-      '-c:a', 'aac', '-b:a', '160k', '-af', 'apad', '-t', String(DURACAO), '-movflags', '+faststart', saida], { stdio: ['pipe', 'inherit', 'inherit'] });
+      '-i', path.join(raiz, 'narracao.wav'), ...audio, '-c:v', 'libx264', '-preset', 'medium', '-crf', '20', '-pix_fmt', 'yuv420p',
+      '-c:a', 'aac', '-b:a', '192k', '-t', String(DURACAO), '-movflags', '+faststart', saida], { stdio: ['pipe', 'inherit', 'inherit'] });
     const total = FPS * DURACAO, inicio = Date.now();
     for (let i = 0; i < total; i++) {
       await page.evaluate((t) => window.renderAt(t), i / FPS);
