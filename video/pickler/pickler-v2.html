@@ -123,28 +123,54 @@ function cardBlur(t) {
   if (t >= 10.5 && t < 12) return lerp(24, 0, easeOut(prog(t, 10.5, 0.8)));
   return 3;
 }
+// cada card é desenhado uma vez, já em 5 níveis de desfoque; por quadro só se misturam os dois mais próximos
+const BLURS = [0, 3, 8, 16, 24], CPAD = 70;
+function buildCardSprites() {
+  for (const cd of CARDS) {
+    const cw = 420 * cd.sc, ch = 190 * cd.sc;
+    const [base, bx] = mk(Math.ceil(cw + CPAD * 2), Math.ceil(ch + CPAD * 2));
+    bx.translate(base.width / 2, base.height / 2);
+    bx.beginPath(); bx.roundRect(-cw / 2, -ch / 2, cw, ch, 28 * cd.sc);
+    bx.fillStyle = 'rgba(255,255,255,0.06)'; bx.fill();
+    bx.strokeStyle = 'rgba(255,255,255,0.25)'; bx.lineWidth = 1; bx.stroke();
+    bx.font = `800 ${ch * 0.42}px ${cd.f}`; bx.textAlign = 'center'; bx.textBaseline = 'middle';
+    bx.shadowColor = cd.col; bx.shadowBlur = 10; bx.fillStyle = cd.col; bx.fillText(WORD, 0, 2);
+    cd.spr = BLURS.map(b => {
+      if (!b) return base;
+      const [k, kx] = mk(base.width, base.height); kx.filter = `blur(${b}px)`; kx.drawImage(base, 0, 0); return k;
+    });
+  }
+}
 function cards(T, alpha) {
   const t = T % SEG, ct = cardTime(T), blur = cardBlur(t);
   const bright = t >= 10.5 && t < 12 ? 1 + 0.5 * Math.sin(Math.PI * prog(t, 10.5, 1.5)) : 1;
   const v = t >= 10.5 && t < 12 ? 1 + 1.2 * Math.sin(Math.PI * prog(t, 10.5, 1.5)) : 1;  // fator de velocidade p/ rastro
+  let li = 0; while (li < BLURS.length - 2 && blur > BLURS[li + 1]) li++;
+  const mixB = clamp((blur - BLURS[li]) / (BLURS[li + 1] - BLURS[li]));
   for (const cd of CARDS) {
     const y = H + 150 - ((cd.y0 * cd.range + cd.sp * ct) % cd.range);
     const u = clamp((H + 150 - y) / (H + 300));
     const a = Math.sin(Math.PI * u) * alpha;
     if (a <= 0.01) continue;
-    const cw = 420 * cd.sc, ch = 190 * cd.sc;
+    const cw = 420 * cd.sc, ch = 190 * cd.sc, sw = cd.spr[0].width, sh = cd.spr[0].height;
     const smear = Math.max(1, Math.round(v * 2));          // 14. rastro vertical quando aceleram
     for (let s = 0; s < smear; s++) {
       x.save();
       x.translate(cd.x, y + s * 4); x.rotate(cd.rot);
       x.globalAlpha = a / smear;
-      x.beginPath(); x.roundRect(-cw / 2, -ch / 2, cw, ch, 14 * cd.sc * 2);
-      x.save(); x.clip(); x.setTransform(1, 0, 0, 1, 0, 0); x.drawImage(bdC, 0, 0, W, H); x.restore();
-      if (blur > 0.3) x.filter = `blur(${blur}px) brightness(${bright})`; else if (bright !== 1) x.filter = `brightness(${bright})`;
-      x.fillStyle = 'rgba(255,255,255,0.06)'; x.fill();
-      x.strokeStyle = 'rgba(255,255,255,0.25)'; x.lineWidth = 1; x.stroke();
-      x.font = `800 ${ch * 0.42}px ${cd.f}`; x.textAlign = 'center'; x.textBaseline = 'middle';
-      x.shadowColor = cd.col; x.shadowBlur = 10; x.fillStyle = cd.col; x.fillText(WORD, 0, 2);
+      // vidro: o fundo desfocado aparece só dentro do card (recorte da área em volta)
+      x.save();
+      x.beginPath(); x.roundRect(-cw / 2, -ch / 2, cw, ch, 28 * cd.sc); x.clip();
+      const m = x.getTransform(), sc = Math.hypot(m.a, m.b), r = Math.hypot(cw, ch) / 2 * sc + 4;
+      x.setTransform(1, 0, 0, 1, 0, 0);
+      x.drawImage(bdC, (m.e - r) / 2, (m.f - r) / 2, r, r, m.e - r, m.f - r, r * 2, r * 2);
+      x.restore();
+      x.globalAlpha = a / smear * (1 - mixB); x.drawImage(cd.spr[li], -sw / 2, -sh / 2);
+      x.globalAlpha = a / smear * mixB; x.drawImage(cd.spr[li + 1], -sw / 2, -sh / 2);
+      if (bright > 1) {                                     // brilho extra ao entrar em foco
+        x.globalCompositeOperation = 'lighter'; x.globalAlpha = a / smear * (bright - 1);
+        x.drawImage(cd.spr[mixB < 0.5 ? li : li + 1], -sw / 2, -sh / 2);
+      }
       x.restore();
     }
   }
@@ -410,7 +436,7 @@ window.FPS = FPS; window.DUR = DUR; window.SIZE = [W, H]; window.render = render
 window.ready = Promise.all(['800 100px "Inter"', '100px "Unbounded"', '100px "Playfair Display"', '100px "Space Mono"', '100px "Syne"', '100px "Bodoni Moda"']
   .map(f => document.fonts.load(f, WORD))).then(() => {
   x.font = `800 100px ${MAINF}`; SIZE = 100 * 960 / x.measureText(WORD).width;
-  drawWord(); dustPoints();
+  drawWord(); dustPoints(); buildCardSprites();
   return true;
 });
 
