@@ -1,5 +1,5 @@
 // Renderiza pickler.html quadro a quadro e codifica em MP4 com ffmpeg.
-// Uso: node render.cjs [saida.mp4] [quadroInicial] [quadroFinal]
+// Uso: [HTML=arquivo.html] node render.cjs [saida.mp4] [quadroInicial] [quadroFinal]
 const { chromium } = require('playwright');
 const { spawn } = require('child_process');
 const path = require('path');
@@ -8,7 +8,7 @@ const path = require('path');
   const out = process.argv[2] || path.join(__dirname, 'pickler.mp4');
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
-  await page.goto('file://' + path.join(__dirname, 'pickler.html') + '?render');
+  await page.goto('file://' + path.join(__dirname, process.env.HTML || 'pickler.html') + '?render');
   await page.addStyleTag({ content: 'canvas{height:1920px!important}' });
   await page.evaluate(() => window.ready);
   const { FPS, DUR } = await page.evaluate(() => ({ FPS: window.FPS, DUR: window.DUR }));
@@ -18,10 +18,9 @@ const path = require('path');
     '-c:v', 'libx264', '-preset', 'slow', '-crf', '21', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out],
     { stdio: ['pipe', 'inherit', 'inherit'] });
 
-  const canvas = page.locator('canvas');
   for (let f = first; f < last; f++) {
     await page.evaluate(n => window.render(n), f);
-    ff.stdin.write(await canvas.screenshot({ type: 'png' }));
+    ff.stdin.write(await page.screenshot({ type: 'png', clip: { x: 0, y: 0, width: 1080, height: 1920 } }));
     if (f % 60 === 0) process.stdout.write(`quadro ${f}/${last}\n`);
   }
   ff.stdin.end();

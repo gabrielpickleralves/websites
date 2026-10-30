@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Pickler tech</title>
+<!--
+  Plano (um protagonista, o sinal verde; o resto é informação em branco translúcido):
+  1. terminal     o boot rola pela tela e termina no comando verde
+  2. grade        a grade acende em onda e o sinal escreve PICKLER em matriz de pontos
+  3. circuito     trilhas se desenham até o chip; pulsos verdes chegam nele; câmera entra no chip
+  4. HUD          anéis giram, radar varre, o progresso verde vai de 0 a 100%
+  5. dados        barras oscilam, scanner desce, a linha verde se desenha e o número sobe
+  6. globo        nuvem de pontos gira; arcos verdes ligam os pontos ativos
+  7. hex          colunas hexadecimais caem; uma faixa verde varre e limpa a tela
+  8. título       PICKLER em fonte variável: onda de peso e largura, máquina de escrever, pausa, saída
+-->
+<style>
+@font-face{font-family:"Roboto Flex";src:url(fontes/RobotoFlex.woff2);font-weight:100 1000;font-stretch:25% 151%}
+@font-face{font-family:"JetBrains Mono";src:url(fontes/JetBrainsMono.woff2);font-weight:400 800}
+html,body{margin:0;background:#000;overflow:hidden}
+#stage{position:relative;width:1080px;height:1920px;transform-origin:0 0}
+canvas{display:block}
+#title{position:absolute;left:0;right:0;top:0;bottom:0;display:none;align-items:center;justify-content:center;
+  font-family:"Roboto Flex";font-size:250px;line-height:1;color:#ecefe9;white-space:nowrap}
+#title span{display:inline-block}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="c" width="1080" height="1920" role="img" aria-label="Pickler"></canvas>
+  <div id="title" aria-hidden="true"></div>
+</div>
+<script>
+const W = 1080, H = 1920, FPS = 30, DUR = 20.5;
+const BG = '#07080a', ACC = '#c6ff2e';
+const ink = a => `rgba(236,239,233,${a})`;
+const MONO = '"JetBrains Mono"';
+
+const c = document.getElementById('c'), x = c.getContext('2d', { willReadFrequently: true });
+const titleEl = document.getElementById('title');
+const TITLE = 'PICKLER';
+titleEl.innerHTML = [...TITLE].map(ch => `<span>${ch}</span>`).join('');
+const spans = [...titleEl.children];
+
+// ---------- helpers ----------
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, p) => a + (b - a) * p;
+const prog = (t, s, d) => clamp((t - s) / d);
+const easeOut = p => 1 - Math.pow(1 - p, 5);                    // entradas
+const easeInOut = p => p < .5 ? 16 * p ** 5 : 1 - Math.pow(-2 * p + 2, 5) / 2;  // câmera e movimento
+const easeBack = p => { const k = 1.70158; return 1 + (k + 1) * Math.pow(p - 1, 3) + k * Math.pow(p - 1, 2); };  // pop
+const hash = n => { const s = Math.sin(n * 12.9898 + 78.233) * 43758.5453; return s - Math.floor(s); };
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+  t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+function bg() {
+  x.fillStyle = BG; x.fillRect(0, 0, W, H);
+  // luz difusa ao fundo, para dar profundidade
+  const g = x.createRadialGradient(W / 2, H * 0.45, 0, W / 2, H * 0.45, H * 0.6);
+  g.addColorStop(0, 'rgba(120,140,130,0.10)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+}
+function camera(s, cx = W / 2, cy = H / 2) { x.translate(cx, cy); x.scale(s, s); x.translate(-cx, -cy); }
+function polyLen(p) { let L = 0; for (let i = 1; i < p.length; i++) L += Math.hypot(p[i][0] - p[i - 1][0], p[i][1] - p[i - 1][1]); return L; }
+function pointAt(p, d) {
+  for (let i = 1; i < p.length; i++) {
+    const s = Math.hypot(p[i][0] - p[i - 1][0], p[i][1] - p[i - 1][1]);
+    if (d <= s) { const k = d / s; return [lerp(p[i - 1][0], p[i][0], k), lerp(p[i - 1][1], p[i][1], k)]; }
+    d -= s;
+  }
+  return p[p.length - 1];
+}
+function drawPartial(p, frac) {
+  const L = polyLen(p) * frac; if (L <= 0) return;
+  x.beginPath(); x.moveTo(p[0][0], p[0][1]);
+  let d = 0;
+  for (let i = 1; i < p.length; i++) {
+    const s = Math.hypot(p[i][0] - p[i - 1][0], p[i][1] - p[i - 1][1]);
+    if (d + s >= L) { const q = pointAt(p, L); x.lineTo(q[0], q[1]); break; }
+    x.lineTo(p[i][0], p[i][1]); d += s;
+  }
+  x.stroke();
+}
+
+// ---------- 1. terminal ----------
+const T1 = rng(11);
+const MODS = ['pkl_core', 'render_bus', 'gpu_sched', 'net_stack', 'vfs', 'crypto_aes', 'io_ring', 'clk_sync',
+  'mem_pool', 'shader_cache', 'audio_dsp', 'sensor_hub', 'uplink', 'kv_store', 'ml_runtime'];
+const VERBS = ['init', 'load', 'mount', 'probe', 'link', 'verify', 'alloc', 'spawn', 'sync'];
+const LOG = Array.from({ length: 90 }, (_, i) => {
+  const ts = (i * 0.0137 + T1() * 0.01).toFixed(4).padStart(9, ' ');
+  const hex = '0x' + Math.floor(T1() * 0xffffff).toString(16).padStart(6, '0');
+  return { text: `[${ts}] ${VERBS[Math.floor(T1() * VERBS.length)]} ${MODS[Math.floor(T1() * MODS.length)]} @${hex}`,
+    tag: T1() > 0.12 ? 'OK' : 'SKIP' };
+});
+function sTerminal(t) {
+  bg();
+  const lh = 46, rate = 34, top = 90;
+  x.font = `400 30px ${MONO}`; x.textBaseline = 'top';
+  const shown = Math.min(LOG.length, Math.floor(t * rate) + 1);
+  const cmdAt = 1.55, maxRows = Math.floor((H - top - 160) / lh);
+  const rows = t >= cmdAt ? maxRows : Math.min(shown, maxRows);
+  const first = Math.max(0, shown - rows);
+  for (let r = 0; r < rows && first + r < shown; r++) {
+    const i = first + r, L = LOG[i];
+    const typed = clamp((t - i / rate) / 0.08);
+    const s = L.text.slice(0, Math.ceil(L.text.length * typed));
+    x.fillStyle = ink(r === rows - 1 && t < cmdAt ? 0.9 : 0.42); x.fillText(s, 56, top + r * lh);
+    if (typed >= 1) { x.fillStyle = ink(L.tag === 'OK' ? 0.7 : 0.3); x.fillText(L.tag, W - 56 - x.measureText(L.tag).width, top + r * lh); }
+  }
+  // o comando verde (protagonista)
+  if (t >= cmdAt) {
+    const cmd = '> pickler --boot', n = Math.min(cmd.length, Math.floor((t - cmdAt) / 0.035));
+    x.font = `700 46px ${MONO}`; x.fillStyle = ACC;
+    const y = H - 130; x.fillText(cmd.slice(0, n), 56, y);
+    const cw = x.measureText(cmd.slice(0, n)).width;
+    if (Math.floor(t * 4) % 2 === 0 || n < cmd.length) x.fillRect(56 + cw + 6, y, 26, 48);
+  }
+}
+
+// ---------- 2. grade + matriz de pontos ----------
+const GLYPH = {
+  P: ['11110', '10001', '10001', '11110', '10000', '10000', '10000'],
+  I: ['01110', '00100', '00100', '00100', '00100', '00100', '01110'],
+  C: ['01110', '10001', '10000', '10000', '10000', '10001', '01110'],
+  K: ['10001', '10010', '10100', '11000', '10100', '10010', '10001'],
+  L: ['10000', '10000', '10000', '10000', '10000', '10000', '11111'],
+  E: ['11111', '10000', '10000', '11110', '10000', '10000', '11111'],
+  R: ['11110', '10001', '10001', '11110', '10100', '10010', '10001'],
+};
+const GC = 45, GP = W / GC, GR = Math.ceil(H / GP);
+const WORDCELLS = new Map();   // "col,row" -> coluna dentro da palavra
+{
+  const c0 = Math.floor((GC - 41) / 2), r0 = Math.floor(GR / 2) - 4;
+  [...TITLE].forEach((ch, k) => GLYPH[ch].forEach((row, ry) => [...row].forEach((b, rx) => {
+    if (b === '1') WORDCELLS.set(`${c0 + k * 6 + rx},${r0 + ry}`, k * 6 + rx);
+  })));
+}
+function sGrid(t) {
+  bg();
+  x.save();
+  camera(lerp(1, 1.5, easeInOut(prog(t, 1.75, 0.85))));
+  const ocx = GC / 2, ocy = GR / 2, maxD = Math.hypot(ocx, ocy);
+  for (let r = 0; r < GR; r++) for (let col = 0; col < GC; col++) {
+    const d = Math.hypot(col - ocx, r - ocy) / maxD;
+    const a = easeBack(prog(t, d * 1.1, 0.4));          // onda a partir do centro
+    if (a <= 0) continue;
+    const key = `${col},${r}`, wc = WORDCELLS.get(key);
+    const heat = 0.05 + hash(col * 131 + r * 7) ** 2 * 0.3 + 0.08 * Math.sin(t * 3 + col * 0.4 + r * 0.2) ** 2;
+    let fill = ink(heat), s = a;
+    if (wc !== undefined) {
+      const on = prog(t, 1.2 + wc * 0.035, 0.25);     // escreve coluna a coluna
+      if (on > 0) { fill = ACC; s = lerp(1.5, 1, easeOut(on)); }
+    } else if (t > 1.75) fill = ink(heat * lerp(1, 0.45, prog(t, 1.75, 0.5)));
+    const sz = (GP - 5) * s;
+    x.fillStyle = fill;
+    x.fillRect(col * GP + (GP - sz) / 2, r * GP + (GP - sz) / 2, sz, sz);
+  }
+  x.restore();
+}
+
+// ---------- 3. circuito ----------
+const CHIP = 300, CX = W / 2, CY = H / 2;
+const TRACES = (() => {
+  const R = rng(5), out = [];
+  const sides = [[0, -1], [0, 1], [-1, 0], [1, 0]];
+  sides.forEach(([dx, dy], si) => {
+    const n = dy ? 9 : 14;
+    for (let k = 0; k < n; k++) {
+      const off = (k - (n - 1) / 2) * (CHIP / n) * 0.95;
+      const px = CX + (dy ? off : dx * CHIP / 2), py = CY + (dx ? off : dy * CHIP / 2);
+      const run1 = 40 + R() * 160, bend = (R() > 0.5 ? 1 : -1) * (60 + R() * 220);
+      const p = [[px, py], [px + dx * run1, py + dy * run1]];
+      const b = p[1];
+      const p2 = dy ? [b[0] + bend, b[1] + dy * Math.abs(bend)] : [b[0] + dx * Math.abs(bend), b[1] + bend];
+      p.push(p2);
+      p.push(dy ? [p2[0], dy > 0 ? H + 40 : -40] : [dx > 0 ? W + 40 : -40, p2[1]]);
+      out.push({ p, delay: R() * 0.5, si });
+    }
+  });
+  return out;
+})();
+const PULSES = [3, 17, 30, 41];
+function sCircuit(t) {
+  bg();
+  x.save();
+  const push = easeInOut(prog(t, 1.95, 0.65));
+  camera(lerp(1, 7, push));
+  x.lineWidth = 3; x.lineJoin = 'round'; x.lineCap = 'round';
+  TRACES.forEach((tr, i) => {
+    const f = easeOut(prog(t, 0.1 + tr.delay, 0.9));
+    x.strokeStyle = ink(0.32); drawPartial(tr.p, f);
+    if (f > 0) { const q = tr.p[0]; x.fillStyle = ink(0.6); x.fillRect(q[0] - 5, q[1] - 5, 10, 10); }
+  });
+  // pulsos verdes viajam da borda até o chip
+  const arrived = [];
+  PULSES.forEach((pi, k) => {
+    const tr = TRACES[pi], rev = [...tr.p].reverse(), L = polyLen(rev);
+    const f = easeInOut(prog(t, 1.0 + k * 0.12, 0.7));
+    if (f <= 0) return;
+    x.strokeStyle = ACC; x.lineWidth = 5; drawPartial(rev, f);
+    const q = pointAt(rev, L * f);
+    x.fillStyle = ACC; x.beginPath(); x.arc(q[0], q[1], 11, 0, Math.PI * 2); x.fill();
+    if (f >= 1) arrived.push(k);
+  });
+  // chip
+  const pop = easeBack(prog(t, 0, 0.45));
+  x.save(); camera(pop, CX, CY);
+  x.fillStyle = '#101214'; x.fillRect(CX - CHIP / 2, CY - CHIP / 2, CHIP, CHIP);
+  const lit = arrived.length / PULSES.length;
+  x.lineWidth = 4; x.strokeStyle = lit > 0 ? ACC : ink(0.7); x.strokeRect(CX - CHIP / 2, CY - CHIP / 2, CHIP, CHIP);
+  x.strokeStyle = ink(0.18); x.lineWidth = 2;
+  for (let k = 1; k < 6; k++) { const o = -CHIP / 2 + k * CHIP / 6; x.beginPath(); x.moveTo(CX + o, CY - CHIP / 2 + 20); x.lineTo(CX + o, CY + CHIP / 2 - 20); x.stroke(); }
+  x.fillStyle = lit > 0 ? ACC : ink(0.5);
+  x.font = `700 40px ${MONO}`; x.textAlign = 'center'; x.textBaseline = 'middle';
+  x.fillText('PK-01', CX, CY);
+  x.textAlign = 'left';
+  x.restore();
+  x.restore();
+}
+
+// ---------- 4. HUD ----------
+function sHud(t) {
+  bg();
+  x.save();
+  const out = easeInOut(prog(t, 2.2, 0.4));
+  camera(lerp(1, 2.6, out));
+  x.globalAlpha = 1 - out;
+  // mira cruzando a tela inteira
+  x.strokeStyle = ink(0.14); x.lineWidth = 2;
+  x.beginPath(); x.moveTo(0, CY); x.lineTo(W, CY); x.moveTo(CX, 0); x.lineTo(CX, H); x.stroke();
+  // varredura de radar
+  const ang = t * 2.4;
+  const sw = x.createConicGradient(ang, CX, CY);
+  sw.addColorStop(0, 'rgba(236,239,233,0.16)'); sw.addColorStop(0.12, 'rgba(236,239,233,0)'); sw.addColorStop(1, 'rgba(236,239,233,0)');
+  x.fillStyle = sw; x.beginPath(); x.arc(CX, CY, 540, 0, Math.PI * 2); x.fill();
+  // anéis com marcações, cada um gira numa velocidade
+  const rings = [150, 230, 330, 420, 500, 600];
+  rings.forEach((r, k) => {
+    const a = easeOut(prog(t, k * 0.07, 0.6));
+    if (a <= 0) return;
+    const rot = (k % 2 ? -1 : 1) * t * (0.25 + k * 0.12);
+    x.save(); x.translate(CX, CY); x.rotate(rot); x.scale(lerp(0.85, 1, a), lerp(0.85, 1, a));
+    x.globalAlpha = (1 - out) * a;
+    x.strokeStyle = ink(0.35); x.lineWidth = k % 3 === 0 ? 2 : 1.5;
+    const gaps = 2 + (k % 3);
+    for (let g = 0; g < gaps; g++) {
+      x.beginPath(); x.arc(0, 0, r, g * Math.PI * 2 / gaps, (g + 0.75) * Math.PI * 2 / gaps); x.stroke();
+    }
+    const ticks = 36 + k * 12;
+    x.strokeStyle = ink(0.25);
+    for (let i = 0; i < ticks; i++) {
+      const th = i / ticks * Math.PI * 2, len = i % 6 === 0 ? 18 : 8;
+      x.beginPath(); x.moveTo(Math.cos(th) * r, Math.sin(th) * r); x.lineTo(Math.cos(th) * (r - len), Math.sin(th) * (r - len)); x.stroke();
+    }
+    x.restore();
+  });
+  // progresso verde (protagonista) + contador
+  const p = easeInOut(prog(t, 0.4, 1.6));
+  x.strokeStyle = ACC; x.lineWidth = 14; x.lineCap = 'butt';
+  x.beginPath(); x.arc(CX, CY, 330, -Math.PI / 2, -Math.PI / 2 + p * Math.PI * 2); x.stroke();
+  x.fillStyle = ACC; x.font = `800 120px ${MONO}`; x.textAlign = 'center'; x.textBaseline = 'middle';
+  x.fillText(String(Math.round(p * 100)).padStart(3, '0') + '%', CX, CY);
+  // leituras nos cantos, trocando a cada 3 quadros
+  x.font = `400 26px ${MONO}`; x.fillStyle = ink(0.55); x.textAlign = 'left'; x.textBaseline = 'top';
+  const tick = Math.floor(t * 10);
+  const read = k => (hash(tick * 17 + k) * 9999).toFixed(2).padStart(7, '0');
+  [['LAT', 70, 80], ['LON', 70, 120], ['ALT', 70, 160], ['SIG', W - 300, 80], ['FPS', W - 300, 120], ['TMP', W - 300, 160],
+   ['CPU', 70, H - 200], ['MEM', 70, H - 160], ['NET', W - 300, H - 200], ['I/O', W - 300, H - 160]]
+    .forEach(([k, px, py], i) => x.fillText(`${k} ${read(i)}`, px, py));
+  // barras laterais
+  for (let i = 0; i < 24; i++) {
+    const h = 6, y = 420 + i * 46, w = 30 + 90 * hash(Math.floor(t * 8) * 31 + i);
+    x.fillStyle = ink(0.25); x.fillRect(40, y, w, h); x.fillRect(W - 40 - w, y, w, h);
+  }
+  x.restore();
+}
+
+// ---------- 5. dados ----------
+const LINE = (() => { const R = rng(9); let v = 0.15; return Array.from({ length: 24 }, (_, i) => (v = clamp(v + (R() - 0.3) * 0.12, 0.05, 0.95), v)); })();
+function sData(t) {
+  bg();
+  // grade fina
+  x.strokeStyle = ink(0.07); x.lineWidth = 1;
+  for (let gx = 0; gx <= W; gx += 90) { x.beginPath(); x.moveTo(gx, 0); x.lineTo(gx, H); x.stroke(); }
+  for (let gy = 0; gy <= H; gy += 90) { x.beginPath(); x.moveTo(0, gy); x.lineTo(W, gy); x.stroke(); }
+  // equalizador na metade de baixo
+  const nb = 36, bw = W / nb;
+  for (let i = 0; i < nb; i++) {
+    const a = easeOut(prog(t, Math.abs(i - nb / 2) * 0.02, 0.5));
+    const v = 0.25 + 0.75 * Math.abs(Math.sin(t * (2.5 + hash(i) * 3) + i * 0.7)) * (0.4 + 0.6 * hash(i + 40));
+    const h = v * 760 * a;
+    x.fillStyle = ink(0.12 + 0.2 * v); x.fillRect(i * bw + 3, H - 80 - h, bw - 6, h);
+  }
+  // linha verde se desenhando na metade de cima (protagonista)
+  const pts = LINE.map((v, i) => [60 + i * (W - 120) / (LINE.length - 1), 1050 - v * 640]);
+  const f = easeInOut(prog(t, 0.35, 1.3));
+  x.strokeStyle = ACC; x.lineWidth = 7; x.lineJoin = 'round'; x.lineCap = 'round';
+  drawPartial(pts, f);
+  const L = polyLen(pts), head = pointAt(pts, L * f);
+  pts.forEach((q, i) => {
+    const s = easeBack(prog(t, 0.35 + 1.3 * i / (pts.length - 1), 0.3));
+    if (s > 0) { x.fillStyle = ACC; x.beginPath(); x.arc(q[0], q[1], 9 * s, 0, Math.PI * 2); x.fill(); }
+  });
+  if (f > 0 && f < 1) { x.fillStyle = 'rgba(198,255,46,0.25)'; x.beginPath(); x.arc(head[0], head[1], 30, 0, Math.PI * 2); x.fill(); }
+  // número subindo
+  const n = 248.6 * easeOut(prog(t, 0.35, 1.5));
+  x.fillStyle = ACC; x.font = `800 150px ${MONO}`; x.textBaseline = 'top'; x.textAlign = 'left';
+  x.fillText('+' + n.toFixed(1) + '%', 60, 120);
+  x.fillStyle = ink(0.5); x.font = `400 30px ${MONO}`; x.fillText('throughput / 24h', 66, 290);
+  // scanner descendo
+  const sy = ((t * 900) % (H + 200)) - 100;
+  const g = x.createLinearGradient(0, sy - 120, 0, sy);
+  g.addColorStop(0, 'rgba(236,239,233,0)'); g.addColorStop(1, 'rgba(236,239,233,0.16)');
+  x.fillStyle = g; x.fillRect(0, sy - 120, W, 120);
+  x.fillStyle = ink(0.5); x.fillRect(0, sy, W, 2);
+}
+
+// ---------- 6. globo de pontos ----------
+const SPHERE = (() => {
+  const n = 1500, pts = [], ga = Math.PI * (3 - Math.sqrt(5));
+  for (let i = 0; i < n; i++) { const y = 1 - (i / (n - 1)) * 2, r = Math.sqrt(1 - y * y), th = ga * i; pts.push([Math.cos(th) * r, y, Math.sin(th) * r]); }
+  return pts;
+})();
+const HOT = [40, 260, 420, 610, 777, 905, 1080, 1230, 1333, 1460];
+const STARS = Array.from({ length: 160 }, (_, i) => [hash(i) * W, hash(i + 500) * H, hash(i + 900)]);
+function sGlobe(t) {
+  bg();
+  STARS.forEach(([sx, sy, b]) => { x.fillStyle = ink(0.08 + b * 0.25); x.fillRect(sx, sy, 2, 2); });
+  const R = 470 * lerp(0.7, 1.15, easeInOut(prog(t, 0, 2.6)));
+  const ry = t * 0.6, rx = -0.35;
+  const proj = ([px, py, pz]) => {
+    let X = px * Math.cos(ry) + pz * Math.sin(ry), Z = -px * Math.sin(ry) + pz * Math.cos(ry);
+    let Y = py * Math.cos(rx) - Z * Math.sin(rx); Z = py * Math.sin(rx) + Z * Math.cos(rx);
+    const k = 3 / (3 + Z);
+    return [CX + X * R * k, CY + Y * R * k, Z];
+  };
+  const appear = easeOut(prog(t, 0, 0.8));
+  SPHERE.forEach((p, i) => {
+    if (hash(i * 3) > appear) return;
+    const [sx, sy, z] = proj(p);
+    const front = (1 - z) / 2;
+    x.fillStyle = ink(0.08 + front * 0.6);
+    const s = 1.5 + front * 3; x.fillRect(sx - s / 2, sy - s / 2, s, s);
+  });
+  // arcos verdes entre os pontos ativos (protagonista)
+  x.strokeStyle = ACC; x.lineWidth = 3;
+  for (let k = 0; k < HOT.length - 1; k++) {
+    const a = SPHERE[HOT[k]], b = SPHERE[HOT[k + 1]];
+    const f = easeInOut(prog(t, 0.6 + k * 0.15, 0.6));
+    if (f <= 0 || proj(a)[2] > 0.3 || proj(b)[2] > 0.3) continue;  // só arcos na face visível
+    const arc = [];
+    for (let s = 0; s <= 24; s++) {
+      const u = s / 24, m = [lerp(a[0], b[0], u), lerp(a[1], b[1], u), lerp(a[2], b[2], u)];
+      const len = Math.hypot(...m), lift = 1 + 0.25 * Math.sin(Math.PI * u);
+      arc.push(proj(m.map(v => v / len * lift)));
+    }
+    drawPartial(arc.map(q => [q[0], q[1]]), f);
+  }
+  HOT.forEach((i, k) => {
+    const on = prog(t, 0.6 + k * 0.15, 0.2); if (on <= 0) return;
+    const [sx, sy, z] = proj(SPHERE[i]); if (z > 0.3) return;
+    const pulse = (t * 1.5 + k * 0.3) % 1;
+    x.fillStyle = ACC; x.beginPath(); x.arc(sx, sy, 9, 0, Math.PI * 2); x.fill();
+    x.strokeStyle = `rgba(198,255,46,${1 - pulse})`; x.lineWidth = 2;
+    x.beginPath(); x.arc(sx, sy, 10 + pulse * 40, 0, Math.PI * 2); x.stroke();
+  });
+}
+
+// ---------- 7. chuva hexadecimal ----------
+const HEXC = '0123456789ABCDEF';
+const COLS = Array.from({ length: 22 }, (_, i) => ({ speed: 300 + hash(i + 7) * 700, off: hash(i + 70) * 2000 }));
+function sHex(t) {
+  bg();
+  const cw = W / COLS.length, lh = 46;
+  x.font = `500 34px ${MONO}`; x.textBaseline = 'top'; x.textAlign = 'center';
+  const wipe = easeInOut(prog(t, 1.2, 0.7)) * (H + 200);
+  COLS.forEach((col, i) => {
+    const headY = ((col.off + t * col.speed) % (H + 600)) - 300;
+    for (let r = 0; r < 18; r++) {
+      const y = headY - r * lh;
+      if (y < -lh || y > H || y < wipe) continue;
+      const ch = HEXC[Math.floor(hash(i * 97 + r * 13 + Math.floor(t * 12 + r)) * 16)];
+      x.fillStyle = r === 0 ? ink(0.95) : ink(0.55 * (1 - r / 18));
+      x.fillText(ch, i * cw + cw / 2, y);
+    }
+  });
+  x.textAlign = 'left';
+  // faixa verde varrendo e limpando a tela (protagonista)
+  if (wipe > 0 && wipe < H + 200) {
+    const g = x.createLinearGradient(0, wipe - 200, 0, wipe);
+    g.addColorStop(0, 'rgba(198,255,46,0)'); g.addColorStop(1, 'rgba(198,255,46,0.35)');
+    x.fillStyle = g; x.fillRect(0, wipe - 200, W, 200);
+    x.fillStyle = ACC; x.fillRect(0, wipe - 6, W, 6);
+  }
+}
+
+// ---------- 8. título em fonte variável ----------
+// onda por letra (em quadros, relativo ao momento da letra): grosso e largo -> fino e estreito -> leitura
+const KEYS = [[-10, 900, 150], [-5, 100, 25], [1, 100, 25], [9, 720, 112]];
+function axisAt(df) {
+  if (df <= KEYS[0][0]) return null;
+  for (let k = 1; k < KEYS.length; k++) {
+    if (df <= KEYS[k][0]) {
+      const p = easeInOut((df - KEYS[k - 1][0]) / (KEYS[k][0] - KEYS[k - 1][0]));
+      return [lerp(KEYS[k - 1][1], KEYS[k][1], p), lerp(KEYS[k - 1][2], KEYS[k][2], p)];
+    }
+  }
+  return [KEYS[3][1], KEYS[3][2]];
+}
+function sTitle(t, frame) {
+  bg();
+  x.strokeStyle = ink(0.06); x.lineWidth = 1;
+  for (let gx = 0; gx <= W; gx += 90) { x.beginPath(); x.moveTo(gx, 0); x.lineTo(gx, H); x.stroke(); }
+  for (let gy = 0; gy <= H; gy += 90) { x.beginPath(); x.moveTo(0, gy); x.lineTo(W, gy); x.stroke(); }
+  const f0 = Math.round(17.6 * FPS), sweep = 16;
+  spans.forEach((sp, i) => {
+    const a = axisAt(frame - (f0 + i / (spans.length - 1) * sweep));
+    sp.style.visibility = a ? 'visible' : 'hidden';
+    if (a) sp.style.fontVariationSettings = `"wght" ${a[0].toFixed(1)}, "wdth" ${a[1].toFixed(1)}`;
+  });
+  // máquina de escrever embaixo
+  const line = '// system online', n = Math.max(0, Math.floor((t - 0.9) / 0.04));
+  x.font = `500 38px ${MONO}`; x.fillStyle = ACC; x.textBaseline = 'middle'; x.textAlign = 'center';
+  const shown = line.slice(0, n), full = x.measureText(line).width;
+  x.textAlign = 'left';
+  x.fillText(shown, CX - full / 2, CY + 260);
+  if (n <= line.length && Math.floor(t * 4) % 2 === 0) x.fillRect(CX - full / 2 + x.measureText(shown).width + 6, CY + 240, 20, 40);
+}
+
+// ---------- glitch, flash, acabamento ----------
+const GLITCH = [[2.33, 4], [4.97, 3], [10.1, 4], [12.78, 3], [15.4, 4], [17.2, 3]];
+const glitchAt = f => GLITCH.some(([s, len]) => { const f0 = Math.round(s * FPS); return f >= f0 && f < f0 + len; });
+function glitch(seed) {
+  const img = x.getImageData(0, 0, W, H), s = img.data, out = new Uint8ClampedArray(s.length);
+  const offs = new Int16Array(H), n = 4 + Math.floor(hash(seed) * 4);
+  for (let k = 0; k < n; k++) {
+    const y0 = Math.floor(hash(seed * 3 + k) * H), h = 16 + Math.floor(hash(seed * 5 + k) * 150);
+    const dx = Math.round((hash(seed * 7 + k) - 0.5) * 160);
+    for (let y = y0; y < Math.min(H, y0 + h); y++) offs[y] = dx;
+  }
+  const cl = v => v < 0 ? 0 : v >= W ? W - 1 : v;
+  for (let y = 0; y < H; y++) {
+    const row = y * W * 4, o = offs[y];
+    for (let i = 0; i < W; i++) {
+      const p = row + i * 4;
+      out[p] = s[row + cl(i - o + 4) * 4]; out[p + 1] = s[row + cl(i - o) * 4 + 1]; out[p + 2] = s[row + cl(i - o - 4) * 4 + 2]; out[p + 3] = 255;
+    }
+  }
+  x.putImageData(new ImageData(out, W, H), 0, 0);
+}
+const FLASHES = [2.4, 12.8];
+const isFlash = f => FLASHES.some(s => { const f0 = Math.round(s * FPS); return f === f0 - 2 || f === f0 - 1; });
+const grains = Array.from({ length: 6 }, (_, k) => {
+  const g = document.createElement('canvas'); g.width = 540; g.height = 960;
+  const gx = g.getContext('2d'), d = gx.createImageData(540, 960);
+  for (let i = 0; i < d.data.length; i += 4) { const v = hash(i * 0.37 + k * 999) * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; }
+  gx.putImageData(d, 0, 0); return g;
+});
+function finish(frame) {
+  const v = x.createRadialGradient(W / 2, H / 2, H * 0.3, W / 2, H / 2, H * 0.75);
+  v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,0.55)');
+  x.fillStyle = v; x.fillRect(0, 0, W, H);
+  x.save(); x.globalAlpha = 0.04; x.globalCompositeOperation = 'screen';
+  x.drawImage(grains[frame % grains.length], 0, 0, W, H); x.restore();
+}
+
+// ---------- roteiro ----------
+const SCENES = [[0, sTerminal], [2.4, sGrid], [5.0, sCircuit], [7.6, sHud], [10.2, sData], [12.8, sGlobe], [15.4, sHex], [17.4, sTitle]];
+function render(frame) {
+  const t = frame / FPS;
+  x.setTransform(1, 0, 0, 1, 0, 0); x.globalAlpha = 1; x.textAlign = 'left';
+  titleEl.style.display = 'none'; titleEl.style.opacity = 1;
+  if (isFlash(frame)) { x.fillStyle = '#fff'; x.fillRect(0, 0, W, H); return; }
+  let k = SCENES.length - 1; while (t < SCENES[k][0]) k--;
+  const [start, scene] = SCENES[k];
+  if (scene === sTitle) titleEl.style.display = 'flex';
+  scene(t - start, frame);
+  if (glitchAt(frame)) glitch(frame + 1);
+  finish(frame);
+  // saída: primeiro o texto, depois o fundo
+  if (scene === sTitle) {
+    titleEl.style.opacity = 1 - easeInOut(prog(t, 19.7, 0.35));
+    x.fillStyle = `rgba(0,0,0,${easeInOut(prog(t, 19.95, 0.45))})`; x.fillRect(0, 0, W, H);
+  }
+}
+
+window.FPS = FPS; window.DUR = DUR; window.render = render;
+window.ready = Promise.all([document.fonts.load(`700 100px "Roboto Flex"`, TITLE), document.fonts.load(`400 30px ${MONO}`, 'A0')]).then(() => true);
+
+// navegador: ?t=N congela o segundo N; movimento reduzido mostra o título parado; sem parâmetros, toca em loop
+const stage = document.getElementById('stage');
+if (!location.search.includes('render')) {
+  const fitStage = () => { stage.style.transform = `scale(${innerHeight / H})`; stage.style.marginLeft = `${(innerWidth - W * innerHeight / H) / 2}px`; };
+  fitStage(); addEventListener('resize', fitStage);
+}
+const freeze = new URLSearchParams(location.search).get('t');
+if (freeze !== null) window.ready.then(() => render(Math.round(parseFloat(freeze) * FPS)));
+else if (matchMedia('(prefers-reduced-motion: reduce)').matches) window.ready.then(() => render(Math.round(19 * FPS)));
+else if (!location.search.includes('render')) window.ready.then(() => {
+  const t0 = performance.now();
+  const tick = now => { render(Math.floor(((now - t0) / 1000 % DUR) * FPS)); requestAnimationFrame(tick); };
+  requestAnimationFrame(tick);
+});
+</script>
+</body>
+</html>
