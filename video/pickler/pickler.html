@@ -23,7 +23,7 @@ canvas{display:block;width:auto;height:100vh;margin:0 auto}
 </style>
 </head>
 <body>
-<canvas id="c" width="1080" height="1920"></canvas>
+<canvas id="c" width="1080" height="1920" role="img" aria-label="Pickler"></canvas>
 <script>
 const W = 1080, H = 1920, FPS = 30, DUR = 18;
 const BG = '#0b0b0b', INK = '#f3efe6', ACC = '#c6ff2e';
@@ -48,11 +48,10 @@ function spring(t, k = 180, d = 14) {
   return 1 - Math.exp(-z * w0 * t) * (Math.cos(wd * t) + (z * w0 / wd) * Math.sin(wd * t));
 }
 
-function widthAt(f, size, text = TEXT, track = 0) {
+const TRACK = -0.02;  // tracking de display: -2% do corpo
+function widthAt(f, size, text = TEXT) {
   x.font = `${size}px "${f}"`;
-  let w = 0;
-  for (const ch of text) w += x.measureText(ch).width;
-  return w + track * (text.length - 1);
+  return x.measureText(text).width + TRACK * size * (text.length - 1);
 }
 const fit = (f, w, text = TEXT) => 100 * w / widthAt(f, 100, text);
 
@@ -67,18 +66,25 @@ function word(o) {
   x.font = `${size}px "${f}"`;
   x.textBaseline = 'alphabetic';
   const m = x.measureText(text);
-  const by = (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2;
-  const chars = [...text], ws = chars.map(ch => x.measureText(ch).width);
-  let px = -ws.reduce((a, b) => a + b, 0) / 2;
+  const asc = m.actualBoundingBoxAscent, desc = m.actualBoundingBoxDescent;
+  const by = (asc - desc) / 2;
+  const chars = [...text], track = TRACK * size;
+  const left = -(m.width + track * (chars.length - 1)) / 2;
   chars.forEach((ch, i) => {
     const L = letter ? letter(i) : {};
+    // posição pelo prefixo medido, para manter o kerning da fonte
+    const px = left + x.measureText(text.slice(0, i)).width + track * i;
     x.globalAlpha = alpha * (L.a ?? 1);
     const ly = by + (L.dy || 0);
+    if (L.mask) {  // máscara na linha de base: a letra nasce escondida e sobe
+      x.save();
+      x.beginPath(); x.rect(px - size, -H, size * 3, H + by + desc + 2); x.clip();
+    }
     x.lineJoin = 'round';
     if (stroke) { x.lineWidth = stroke; x.strokeStyle = strokeColor; x.strokeText(ch, px, ly); }
     if (outline) { x.lineWidth = 3; x.strokeStyle = fill; x.strokeText(ch, px, ly); }
     else { x.fillStyle = fill; x.fillText(ch, px, ly); }
-    px += ws[i];
+    if (L.mask) x.restore();
   });
   x.restore();
 }
@@ -222,7 +228,7 @@ function render(frame) {
     bg(BG);
     const f = 'Anton', size = fit(f, 820);
     word({ f, size, scale: lerp(1, 1.05, easeInOut(prog(t, 1.4, 0.8))),
-      letter: i => { const e = easeOut(prog(t, 0.2 + i * 0.1, 0.6)); return { dy: (1 - e) * 160, a: e }; } });
+      letter: i => { const e = easeOutExpo(prog(t, 0.2 + i * 0.1, 0.6)); return { dy: (1 - e) * size * 0.9, a: e, mask: true }; } });
   } else if (t < 3.8) {
     // 2. close-up 1.6 → 1.0 (ease-out-expo, 1,2 s) + 7. rack focus 20 px → 0 em 700 ms
     bg(BG);
@@ -287,8 +293,14 @@ function render(frame) {
 window.FPS = FPS; window.DUR = DUR; window.render = render;
 window.ready = Promise.all(FONTS.map(f => document.fonts.load(`100px "${f}"`, TEXT))).then(() => true);
 
-// abrindo no navegador: toca em loop em tempo real
-if (!location.search.includes('render')) {
+// abrindo no navegador: ?t=N congela o quadro do segundo N; movimento reduzido mostra o quadro final parado;
+// sem parâmetros, toca em loop em tempo real
+const freeze = new URLSearchParams(location.search).get('t');
+if (freeze !== null) {
+  window.ready.then(() => render(Math.round(parseFloat(freeze) * FPS)));
+} else if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  window.ready.then(() => render(Math.round(16 * FPS)));
+} else if (!location.search.includes('render')) {
   window.ready.then(() => {
     const t0 = performance.now();
     const tick = now => { render(Math.floor(((now - t0) / 1000 % DUR) * FPS)); requestAnimationFrame(tick); };
