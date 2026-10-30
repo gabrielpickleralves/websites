@@ -1,12 +1,12 @@
 ---
 name: motion-graphics-pickler
-description: "Pickler's Motion graphics video toolkit: 30 third-party video skills merged into one. Use for motion graphics: animated logos, titles, kinetic typography, animated diagrams and architecture panels, UI motion, lower thirds, GIF-style loops. Pick one module from INDEX.md and follow it."
+description: "Pickler's Motion graphics video toolkit: 31 third-party video skills merged into one, including the OpenMontage video studio. Use for motion graphics: animated logos, titles, kinetic typography, animated diagrams and architecture panels, UI motion, lower thirds, GIF-style loops. Pick one module from INDEX.md and follow it."
 argument-hint: "[module] [brief], or just describe the video you want"
 ---
 
 # motion-graphics-pickler
 
-30 video skills from the "Motion graphics" section of awesome-claude-video-skills, merged into one. Each lives in `modules/<module>/`, with its instructions in `modules/<module>/GUIDE.md` (its original `SKILL.md`).
+31 video skills: the "Motion graphics" section of awesome-claude-video-skills, plus OpenMontage, merged into one. Each lives in `modules/<module>/`, with its instructions in `modules/<module>/GUIDE.md` (its original `SKILL.md`).
 
 ## How to use
 
@@ -24,6 +24,8 @@ These modules come from many different authors and were only screened automatica
 - Some modules are written in Chinese and produce Chinese output by default. Reply to the user in their language and ask before producing a video in another language.
 
 ## Notes
+
+- `openmontage` is a full video studio installed in `~/OpenMontage`, not a folder of instructions: its `GUIDE.md` says how to find, install and drive it. Pick it for complete videos (explainers, data stories, pitches, montages with narration and music), not for a single animated logo or title.
 
 - Sample videos, GIFs and documentation images were removed to keep the skill small. A module that refers to one of its own example films or gallery images will not find it; continue without it.
 - `INDEX.md` lists every module with its source repository, its stars and what it does.

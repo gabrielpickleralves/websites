@@ -1,9 +1,10 @@
 # motion-graphics-pickler: module index
 
-30 modules, most-starred first. Module folder: `modules/<module>/`. Source: github.com/<repo>.
+31 modules, most-starred first. Module folder: `modules/<module>/`. Source: github.com/<repo>.
 
 | Module | Repo | ★ | What it does |
 |---|---|---|---|
+| `openmontage` | calesthio/OpenMontage | 64239 | Agentic video studio: full explainers, data and chart stories, pitches and documentary montages with narration, music and captions, rendered with Remotion or HyperFrames. Lives in ~/OpenMontage. |
 | `live-panel-skill-live-panel` | ythx-101/live-panel-skill | 815 | Build a terminal-style, always-running animated architecture diagram (a "live panel") from a JSON config and render it to an mp4. Use when the user wants a system, agent or org architecture diagram that looks like a moni |
 | `archscribe` | lazypay/Archscribe | 371 | Create premium hand-drawn architecture, workflow, and swimlane diagrams in a dark neon or light paper style, with editable Excalidraw sources, PNG/SVG previews, animated GIF/MP4 output, and interactive HTML. Use whenever |
 | `eian-riso-broll` | YIAN6557/eian-riso-broll | 345 | 孔版双色（Riso）风格的信息 B-roll 动画。给一份口播逐字稿（可附 SRT 字幕），挑出适合做成信息动画的段落，套用 10 个现成模板（数字冲击 / 流程 / 收敛 / 前后对比 / 连接密度 / 金句 / 多选一 / 误区翻转 / 章节卡 / 截图锚点），先出静态样帧确认，再渲染 1080×1920 竖屏 mp4（无音轨；可出透明底 ProRes）。用户说「Riso 动画」「孔版风 B-roll」「eian-riso-brol |
