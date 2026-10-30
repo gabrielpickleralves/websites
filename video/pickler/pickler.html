@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Pickler motion</title>
+<style>
+@font-face{font-family:"Anton";src:url(fontes/Anton.woff2)}
+@font-face{font-family:"Playfair Display";src:url(fontes/PlayfairDisplay.woff2)}
+@font-face{font-family:"Space Mono";src:url(fontes/SpaceMono.woff2)}
+@font-face{font-family:"Unbounded";src:url(fontes/Unbounded.woff2)}
+@font-face{font-family:"Bodoni Moda";src:url(fontes/BodoniModa.woff2)}
+@font-face{font-family:"Syne";src:url(fontes/Syne.woff2)}
+@font-face{font-family:"Rubik Mono One";src:url(fontes/RubikMonoOne.woff2)}
+@font-face{font-family:"Instrument Serif";src:url(fontes/InstrumentSerif.woff2)}
+@font-face{font-family:"Bebas Neue";src:url(fontes/BebasNeue.woff2)}
+@font-face{font-family:"Monoton";src:url(fontes/Monoton.woff2)}
+@font-face{font-family:"Major Mono Display";src:url(fontes/MajorMono.woff2)}
+@font-face{font-family:"Fraunces";src:url(fontes/Fraunces.woff2)}
+@font-face{font-family:"Bungee";src:url(fontes/Bungee.woff2)}
+@font-face{font-family:"UnifrakturCook";src:url(fontes/UnifrakturCook.woff2)}
+html,body{margin:0;background:#000}
+canvas{display:block;width:auto;height:100vh;margin:0 auto}
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script>
+const W = 1080, H = 1920, FPS = 30, DUR = 18;
+const BG = '#0b0b0b', INK = '#f3efe6', ACC = '#c6ff2e';
+const FONTS = ['Anton', 'Playfair Display', 'Space Mono', 'Unbounded', 'Bodoni Moda', 'Syne', 'Rubik Mono One',
+  'Instrument Serif', 'Bebas Neue', 'Monoton', 'Major Mono Display', 'Fraunces', 'Bungee', 'UnifrakturCook'];
+const TEXT = 'PICKLER';
+
+const c = document.getElementById('c'), x = c.getContext('2d', { willReadFrequently: true });
+
+// ---------- helpers ----------
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, p) => a + (b - a) * p;
+const prog = (t, start, dur) => clamp((t - start) / dur);
+const easeOut = p => 1 - Math.pow(1 - p, 3);
+const easeOutExpo = p => p >= 1 ? 1 : 1 - Math.pow(2, -10 * p);
+const easeInOut = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+const rand = n => { const s = Math.sin(n * 12.9898 + 78.233) * 43758.5453; return s - Math.floor(s); };
+// mola amortecida: stiffness 180, damping 14, massa 1 (passa do alvo ~15% e volta)
+function spring(t, k = 180, d = 14) {
+  if (t <= 0) return 0;
+  const w0 = Math.sqrt(k), z = d / (2 * w0), wd = w0 * Math.sqrt(1 - z * z);
+  return 1 - Math.exp(-z * w0 * t) * (Math.cos(wd * t) + (z * w0 / wd) * Math.sin(wd * t));
+}
+
+function widthAt(f, size, text = TEXT, track = 0) {
+  x.font = `${size}px "${f}"`;
+  let w = 0;
+  for (const ch of text) w += x.measureText(ch).width;
+  return w + track * (text.length - 1);
+}
+const fit = (f, w, text = TEXT) => 100 * w / widthAt(f, 100, text);
+
+// desenha a palavra letra por letra, centralizada em (cx, cy)
+function word(o) {
+  const { f, size, cx = W / 2, cy = H / 2, fill = INK, alpha = 1, scale = 1, blur = 0,
+    stroke = 0, strokeColor = BG, outline = false, letter = null, text = TEXT } = o;
+  x.save();
+  if (blur > 0.05) x.filter = `blur(${blur}px)`;
+  x.translate(cx, cy);
+  x.scale(scale, scale);
+  x.font = `${size}px "${f}"`;
+  x.textBaseline = 'alphabetic';
+  const m = x.measureText(text);
+  const by = (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2;
+  const chars = [...text], ws = chars.map(ch => x.measureText(ch).width);
+  let px = -ws.reduce((a, b) => a + b, 0) / 2;
+  chars.forEach((ch, i) => {
+    const L = letter ? letter(i) : {};
+    x.globalAlpha = alpha * (L.a ?? 1);
+    const ly = by + (L.dy || 0);
+    x.lineJoin = 'round';
+    if (stroke) { x.lineWidth = stroke; x.strokeStyle = strokeColor; x.strokeText(ch, px, ly); }
+    if (outline) { x.lineWidth = 3; x.strokeStyle = fill; x.strokeText(ch, px, ly); }
+    else { x.fillStyle = fill; x.fillText(ch, px, ly); }
+    px += ws[i];
+  });
+  x.restore();
+}
+
+function bg(color) { x.fillStyle = color; x.fillRect(0, 0, W, H); }
+
+// ---------- 11. linhas cinéticas em direções opostas ----------
+function rows(t, { scale = 1, alpha = 1, centerFill = true } = {}) {
+  const rowH = 215, rot = -0.12;
+  const n = Math.ceil(H / (2 * rowH * scale)) + 3;
+  const span = W / scale * 1.6;
+  x.save();
+  x.translate(W / 2, H / 2);
+  x.rotate(rot);
+  x.scale(scale, scale);
+  for (let i = -n; i <= n; i++) {
+    const f = FONTS[((i + n) * 5 + Math.floor(t / 0.4)) % FONTS.length];
+    const size = Math.min(rowH * 0.95, fit(f, 560));
+    const unit = TEXT + '  ·  ';
+    x.font = `${size}px "${f}"`;
+    x.textBaseline = 'middle';
+    const uw = x.measureText(unit).width;
+    const dir = i % 2 === 0 ? 1 : -1;
+    const v = 140 + 110 * (Math.abs(i * 7) % 3);
+    const off = ((dir * v * t) % uw + uw) % uw;
+    const isCenter = i === 0 && centerFill;
+    x.globalAlpha = alpha * (isCenter ? 1 : 0.85);
+    x.lineWidth = 2.5 / Math.max(scale, 0.4);
+    x.strokeStyle = INK;
+    x.fillStyle = ACC;
+    for (let px = -span - off; px < span; px += uw) {
+      if (isCenter) x.fillText(unit, px, i * rowH);
+      else x.strokeText(unit, px, i * rowH);
+    }
+  }
+  x.restore();
+}
+
+// ---------- 4. fragmentos subindo em loop ----------
+const FRAGS = Array.from({ length: 46 }, (_, k) => ({
+  ch: TEXT[k % TEXT.length],
+  f: FONTS[Math.floor(rand(k + 1) * FONTS.length)],
+  layer: k % 3 === 0 ? 1 : 0,             // 0 = fundo (0,3x), 1 = meio (0,6x)
+  x: rand(k + 50) * (W + 500) - 250,
+  size: 0,
+  phase: rand(k + 90),
+  outline: rand(k + 130) > 0.5,
+}));
+FRAGS.forEach((g, k) => g.size = g.layer ? 180 + rand(k + 170) * 160 : 70 + rand(k + 170) * 90);
+
+function frags(t, camX, camY, layer) {
+  const travel = H + 600;
+  const speed = layer ? 520 : 300;          // velocidade constante, sem paradas
+  const k = layer ? 0.6 : 0.3;
+  for (const g of FRAGS) {
+    if (g.layer !== layer) continue;
+    const p = ((t * speed / travel + g.phase) % 1);
+    const y = H + 300 - p * travel;
+    const a = Math.sin(Math.PI * p);        // 0 → 1 → 0 no topo
+    x.save();
+    x.globalAlpha = a * (layer ? 0.75 : 0.35);
+    x.font = `${g.size}px "${g.f}"`;
+    x.textAlign = 'center';
+    x.textBaseline = 'middle';
+    const gx = g.x + camX * k, gy = y + camY * k;
+    if (g.outline) { x.lineWidth = 2; x.strokeStyle = layer ? ACC : INK; x.strokeText(g.ch, gx, gy); }
+    else { x.fillStyle = layer ? INK : '#6d6a63'; x.fillText(g.ch, gx, gy); }
+    x.restore();
+  }
+}
+
+// ---------- 6. glitch: RGB deslocado 4 px + fatias horizontais ----------
+const GLITCH = [[3.9, 4], [4.33, 3], [4.63, 5], [6.55, 4], [9.6, 3], [11.0, 3], [14.0, 4], [15.55, 3]];
+function glitchAt(frame) {
+  for (const [s, len] of GLITCH) {
+    const f0 = Math.round(s * FPS);
+    if (frame >= f0 && frame < f0 + len) return true;
+  }
+  return false;
+}
+function glitch(seed) {
+  const img = x.getImageData(0, 0, W, H), s = img.data, out = new Uint8ClampedArray(s.length);
+  const offs = new Int16Array(H);
+  const slices = 4 + Math.floor(rand(seed) * 4);
+  for (let k = 0; k < slices; k++) {
+    const y0 = Math.floor(rand(seed * 3 + k) * H), h = 16 + Math.floor(rand(seed * 5 + k) * 150);
+    const dx = Math.round((rand(seed * 7 + k) - 0.5) * 160);
+    for (let y = y0; y < Math.min(H, y0 + h); y++) offs[y] = dx;
+  }
+  const cx = v => v < 0 ? 0 : v >= W ? W - 1 : v;
+  for (let y = 0; y < H; y++) {
+    const row = y * W * 4, o = offs[y];
+    for (let i = 0; i < W; i++) {
+      const p = row + i * 4;
+      out[p] = s[row + cx(i - o + 4) * 4];          // vermelho deslocado 4 px para a esquerda
+      out[p + 1] = s[row + cx(i - o) * 4 + 1];
+      out[p + 2] = s[row + cx(i - o - 4) * 4 + 2];  // azul deslocado 4 px para a direita
+      out[p + 3] = 255;
+    }
+  }
+  x.putImageData(new ImageData(out, W, H), 0, 0);
+}
+
+// ---------- acabamento: vinheta + grão ----------
+const grains = Array.from({ length: 6 }, (_, k) => {
+  const g = document.createElement('canvas'); g.width = 540; g.height = 960;
+  const gx = g.getContext('2d'), d = gx.createImageData(540, 960);
+  for (let i = 0; i < d.data.length; i += 4) {
+    const v = rand(i * 0.37 + k * 999) * 255;
+    d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255;
+  }
+  gx.putImageData(d, 0, 0);
+  return g;
+});
+function finish(frame) {
+  const v = x.createRadialGradient(W / 2, H / 2, H * 0.25, W / 2, H / 2, H * 0.72);
+  v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,0.6)');
+  x.fillStyle = v; x.fillRect(0, 0, W, H);
+  x.save(); x.globalAlpha = 0.045; x.globalCompositeOperation = 'screen';
+  x.drawImage(grains[frame % grains.length], 0, 0, W, H);
+  x.restore();
+}
+
+// ---------- 10. cortes secos com flash (2 quadros brancos antes do corte) ----------
+const CUTS = [2.2, 7.0, 12.2, 15.0];
+const isFlash = frame => CUTS.some(s => { const f = Math.round(s * FPS); return frame === f - 2 || frame === f - 1; });
+
+// troca rápida de fonte: uma fonte nova a cada 2 quadros
+const rapidFont = (frame, salt = 0) => FONTS[(Math.floor(frame / 2) * 5 + salt) % FONTS.length];
+
+// ---------- roteiro ----------
+function render(frame) {
+  const t = frame / FPS;
+  x.setTransform(1, 0, 0, 1, 0, 0);
+  x.globalAlpha = 1; x.filter = 'none'; x.textAlign = 'left';
+
+  if (isFlash(frame)) { bg('#ffffff'); return; }
+
+  if (t < 2.2) {
+    // 1. letra por letra: 100 ms entre letras, 600 ms, ease-out
+    bg(BG);
+    const f = 'Anton', size = fit(f, 820);
+    word({ f, size, scale: lerp(1, 1.05, easeInOut(prog(t, 1.4, 0.8))),
+      letter: i => { const e = easeOut(prog(t, 0.2 + i * 0.1, 0.6)); return { dy: (1 - e) * 160, a: e }; } });
+  } else if (t < 3.8) {
+    // 2. close-up 1.6 → 1.0 (ease-out-expo, 1,2 s) + 7. rack focus 20 px → 0 em 700 ms
+    bg(BG);
+    const f = 'Bodoni Moda', size = fit(f, 900);
+    word({ f, size, scale: lerp(1.6, 1.0, easeOutExpo(prog(t, 2.2, 1.2))),
+      blur: lerp(20, 0, easeOut(prog(t, 2.2, 0.7))) });
+  } else if (t < 5.3) {
+    if (t < 4.8) {
+      // troca rápida de fontes com rajadas de glitch
+      const f = rapidFont(frame);
+      const inv = rand(Math.floor(frame / 2)) > 0.72;
+      bg(inv ? ACC : BG);
+      word({ f, size: fit(f, 880), fill: inv ? BG : INK, scale: 1 + 0.03 * Math.sin(frame) });
+    } else {
+      // 9. mola: a palavra "bate" no lugar
+      bg(BG);
+      const f = 'Unbounded';
+      word({ f, size: fit(f, 860), fill: ACC, scale: lerp(1.9, 1, spring(t - 4.8)) });
+    }
+  } else if (t < 7.0) {
+    // 5. máscara de revelação: faixa da esquerda para a direita em 800 ms
+    bg(ACC);
+    const f = t < 6.75 ? 'Rubik Mono One' : rapidFont(frame, 3);
+    const p = easeInOut(prog(t, 5.4, 0.8));
+    x.save();
+    x.beginPath(); x.rect(0, 0, W * p, H); x.clip();
+    word({ f, size: fit(f, 900), fill: BG });
+    x.restore();
+    if (p > 0 && p < 1) { x.fillStyle = BG; x.fillRect(W * p - 6, 0, 12, H); }
+  } else if (t < 10.0) {
+    // 11. linhas cinéticas deslizando em direções opostas
+    bg(BG);
+    rows(t, { scale: lerp(1.15, 1, easeOut(prog(t, 7.0, 1.0))) });
+  } else if (t < 12.2) {
+    // 3. dolly zoom: a palavra cresce enquanto o fundo se afasta
+    bg(BG);
+    const p = easeInOut(prog(t, 10.0, 2.2));
+    rows(t, { scale: lerp(1, 0.26, p), alpha: lerp(0.9, 0.45, p), centerFill: false });
+    const f = 'Anton';
+    word({ f, size: fit(f, 820), fill: ACC, stroke: 26, scale: lerp(0.55, 2.3, p) });
+  } else if (t < 15.0) {
+    // 8. parallax 1x / 0,6x / 0,3x com câmera em movimento + 4. fragmentos subindo
+    bg(BG);
+    const q = easeInOut(prog(t, 12.2, 2.8));
+    const camX = lerp(170, -170, q), camY = lerp(-90, 90, q);
+    frags(t, camX, camY, 0);
+    frags(t, camX, camY, 1);
+    const f = t >= 14.1 && t < 14.8 ? rapidFont(frame, 1) : 'Instrument Serif';
+    word({ f, size: fit(f, 760), cx: W / 2 + camX, cy: H / 2 + camY, stroke: 18 });
+  } else {
+    // 9. mola final + 12. fade e pausa: 1,5 s parada, depois sai
+    bg(BG);
+    const f = 'Anton';
+    const out = 1 - easeInOut(prog(t, 17.1, 0.5));
+    word({ f, size: fit(f, 820), scale: lerp(1.9, 1, spring(t - 15.0)), alpha: out });
+  }
+
+  if (glitchAt(frame)) glitch(frame + 1);
+  finish(frame);
+}
+
+window.FPS = FPS; window.DUR = DUR; window.render = render;
+window.ready = Promise.all(FONTS.map(f => document.fonts.load(`100px "${f}"`, TEXT))).then(() => true);
+
+// abrindo no navegador: toca em loop em tempo real
+if (!location.search.includes('render')) {
+  window.ready.then(() => {
+    const t0 = performance.now();
+    const tick = now => { render(Math.floor(((now - t0) / 1000 % DUR) * FPS)); requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+  });
+}
+</script>
+</body>
+</html>
