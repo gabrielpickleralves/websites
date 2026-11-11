@@ -388,19 +388,6 @@ dialog.menu::backdrop{background:var(--tinta)}
 .vendas-abertura{padding-bottom:0}
 .vendas-intro{max-width:34em;margin:clamp(18px,2.4vw,30px) 0 0;font-size:clamp(1.05rem,.5vw + .95rem,1.3rem);color:var(--cinza)}
 .vendas-lista{padding-top:clamp(28px,4vw,56px)}
-/* abertura: texto à esquerda e, ao lado, o vídeo dos barcos numa prancha vertical que sobe da base ao carregar */
-.vendas-cab{display:grid;gap:clamp(28px,4vw,56px)}
-.vendas-cab-txt{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start}
-.vendas-prancha{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--tinta)}
-.vendas-video{position:absolute;inset:0}
-.vendas-video img,.vendas-video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
-.vendas-video video{opacity:0;transition:opacity .8s ease}
-.vendas-video video[data-tocando]{opacity:1}
-.vendas-prancha .pausa{position:absolute;right:12px;bottom:12px}
-@media (min-width:900px){.vendas-cab{grid-template-columns:minmax(0,1fr) auto}.vendas-prancha{aspect-ratio:9/16;height:min(62svh,580px)}}
-@media (prefers-reduced-motion:no-preference){[data-anim] .vendas-prancha{animation:vendas-sobe .9s cubic-bezier(.2,.75,.15,1) .2s both}[data-anim] .vendas-video{animation:vendas-assenta 1.6s cubic-bezier(.2,.75,.15,1) .2s both}}
-@keyframes vendas-sobe{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
-@keyframes vendas-assenta{from{transform:scale(1.14)}to{transform:none}}
 /* no computador, cada anúncio é uma linha larga: foto à esquerda, dados à direita */
 @media (min-width:900px){.vendas-lista .barcos{grid-template-columns:1fr}.barcos .barco{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}.barcos .barco-corpo{gap:18px;padding:clamp(28px,3vw,52px)}.barcos .barco h2{font-size:clamp(1.5rem,1.4vw + .9rem,2.4rem)}.barcos .barco .btn{width:auto;align-self:flex-start;padding:0 26px}}
 .barcos{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:clamp(18px,2.4vw,32px);margin:clamp(28px,4vw,48px) 0 0;padding:0;list-style:none}
@@ -665,19 +652,10 @@ dialog.foto-zoom::backdrop{background:rgba(10,29,36,.6)}
 
 <!-- ================= EMBARCAÇÕES À VENDA: ABERTURA ================= -->
 <section class="sec vendas-abertura" aria-labelledby="t-vendas">
-  <div class="wrap vendas-cab">
-    <div class="vendas-cab-txt">
-      <a class="btn btn-linha voltar-inicio" href="index.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 10H4M9.5 4.5 4 10l5.5 5.5"/></svg>Voltar ao início</a>
-      <div>
-        <h1 class="tx pagina-titulo" id="t-vendas" tabindex="-1"><span class="w"><span>Embarcações</span></span> <span class="w"><span>à</span></span> <span class="w"><span>venda</span></span></h1>
-        <p class="vendas-intro" data-rv>Conheça as embarcações à venda na Marina Boreste. Os preços são negociáveis, e todo o atendimento é feito pelo WhatsApp.</p>
-      </div>
-    </div>
-    <!-- o vídeo dos barcos da página inicial numa prancha vertical; ao carregar, ele sobe da base como a água -->
-    <div class="vendas-prancha">
-      <div class="vendas-video" aria-hidden="true"><picture><source type="image/avif" srcset="video/marina-boreste-barcos-capa-480.avif 480w, video/marina-boreste-barcos-capa-720.avif 720w" sizes="100vw"><source type="image/webp" srcset="video/marina-boreste-barcos-capa-480.webp 480w, video/marina-boreste-barcos-capa-720.webp 720w" sizes="100vw"><img src="video/marina-boreste-barcos-capa.jpg" alt="" width="720" height="1280" loading="lazy" decoding="async"></picture><video muted loop playsinline preload="none" tabindex="-1" data-webm="video/marina-boreste-barcos.webm" data-mp4="video/marina-boreste-barcos-leve.mp4"></video></div>
-      <button class="pausa" type="button" data-pausa><svg class="ic-pausar" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true" focusable="false"><rect x="4" y="3" width="3.4" height="12" rx="1"/><rect x="10.6" y="3" width="3.4" height="12" rx="1"/></svg><svg class="ic-tocar" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true" focusable="false"><path d="M5 3.2v11.6c0 .6.7 1 1.2.7l9-5.8a.8.8 0 0 0 0-1.4l-9-5.8C5.7 2.2 5 2.6 5 3.2z"/></svg><span class="pausa-txt">Pausar</span><span class="sr"> vídeo e animações</span></button>
-    </div>
+  <div class="wrap">
+    <a class="btn btn-linha voltar-inicio" href="index.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 10H4M9.5 4.5 4 10l5.5 5.5"/></svg>Voltar ao início</a>
+    <h1 class="tx pagina-titulo" id="t-vendas" tabindex="-1"><span class="w"><span>Embarcações</span></span> <span class="w"><span>à</span></span> <span class="w"><span>venda</span></span></h1>
+    <p class="vendas-intro" data-rv>Conheça as embarcações à venda na Marina Boreste. Os preços são negociáveis, e todo o atendimento é feito pelo WhatsApp.</p>
   </div>
 </section>
 
@@ -858,7 +836,7 @@ function iniciaSite(site){
   const alturaTopo = () => topoDentro.offsetHeight;
 
   /* ----- pausa: vídeo, faixa que corre, ondas ----- */
-  const video = $('.hero video, .vendas-video video');   // a abertura da página inicial ou o título de Embarcações à venda
+  const video = $('.hero video');
   const economia = !!(navigator.connection && navigator.connection.saveData);
   let pausado = reduz || economia;
   try { const s = localStorage.getItem('mb-pausado'); if (s !== null) pausado = s === '1'; } catch (e) {}

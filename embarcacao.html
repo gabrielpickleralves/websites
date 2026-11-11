@@ -388,19 +388,6 @@ dialog.menu::backdrop{background:var(--tinta)}
 .vendas-abertura{padding-bottom:0}
 .vendas-intro{max-width:34em;margin:clamp(18px,2.4vw,30px) 0 0;font-size:clamp(1.05rem,.5vw + .95rem,1.3rem);color:var(--cinza)}
 .vendas-lista{padding-top:clamp(28px,4vw,56px)}
-/* abertura: texto à esquerda e, ao lado, o vídeo dos barcos numa prancha vertical que sobe da base ao carregar */
-.vendas-cab{display:grid;gap:clamp(28px,4vw,56px)}
-.vendas-cab-txt{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start}
-.vendas-prancha{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--tinta)}
-.vendas-video{position:absolute;inset:0}
-.vendas-video img,.vendas-video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
-.vendas-video video{opacity:0;transition:opacity .8s ease}
-.vendas-video video[data-tocando]{opacity:1}
-.vendas-prancha .pausa{position:absolute;right:12px;bottom:12px}
-@media (min-width:900px){.vendas-cab{grid-template-columns:minmax(0,1fr) auto}.vendas-prancha{aspect-ratio:9/16;height:min(62svh,580px)}}
-@media (prefers-reduced-motion:no-preference){[data-anim] .vendas-prancha{animation:vendas-sobe .9s cubic-bezier(.2,.75,.15,1) .2s both}[data-anim] .vendas-video{animation:vendas-assenta 1.6s cubic-bezier(.2,.75,.15,1) .2s both}}
-@keyframes vendas-sobe{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
-@keyframes vendas-assenta{from{transform:scale(1.14)}to{transform:none}}
 /* no computador, cada anúncio é uma linha larga: foto à esquerda, dados à direita */
 @media (min-width:900px){.vendas-lista .barcos{grid-template-columns:1fr}.barcos .barco{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}.barcos .barco-corpo{gap:18px;padding:clamp(28px,3vw,52px)}.barcos .barco h2{font-size:clamp(1.5rem,1.4vw + .9rem,2.4rem)}.barcos .barco .btn{width:auto;align-self:flex-start;padding:0 26px}}
 .barcos{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:clamp(18px,2.4vw,32px);margin:clamp(28px,4vw,48px) 0 0;padding:0;list-style:none}
@@ -875,7 +862,7 @@ function iniciaSite(site){
   const alturaTopo = () => topoDentro.offsetHeight;
 
   /* ----- pausa: vídeo, faixa que corre, ondas ----- */
-  const video = $('.hero video, .vendas-video video');   // a abertura da página inicial ou o título de Embarcações à venda
+  const video = $('.hero video');
   const economia = !!(navigator.connection && navigator.connection.saveData);
   let pausado = reduz || economia;
   try { const s = localStorage.getItem('mb-pausado'); if (s !== null) pausado = s === '1'; } catch (e) {}
