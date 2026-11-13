@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+output/
+*.mp4
+*.mov
+*.flv
+*.mkv
+*.mp3
+*.wav
+*.m4a
+*.srt
+*.vtt
+!examples/01-transferable-skills.mp4
+!examples/02-compare-ai-tools.mp4
+.DS_Store

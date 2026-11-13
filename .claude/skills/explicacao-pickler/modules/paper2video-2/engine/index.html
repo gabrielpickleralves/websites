@@ -1,0 +1,15 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>paper2video player</title>
+<style>html,body{margin:0;background:#000;height:100%;display:flex;align-items:center;justify-content:center}canvas#out{width:100vw;max-height:100vh;aspect-ratio:16/9;object-fit:contain}</style>
+</head><body><canvas id="out"></canvas>
+<script type="module">
+// Errors go to window.ERR (read by render.mjs) and, in capture mode, to the server so a waiting render stops instead of hanging.
+const P = new URLSearchParams(location.search);
+window.reportFailure = msg => {
+  window.ERR = (window.ERR || '') + msg + '\n';
+  if (P.get('capture') === '1' && P.get('job')) fetch(`/fail/${encodeURIComponent(P.get('job'))}`, { method: 'POST', body: String(msg) }).catch(() => {});
+};
+window.addEventListener('error', e => window.reportFailure(e.message + ' @' + e.filename + ':' + e.lineno));
+window.addEventListener('unhandledrejection', e => window.reportFailure('rej: ' + (e.reason && (e.reason.stack || e.reason.message || e.reason))));
+import('/engine/main.js').catch(e => window.reportFailure('import: ' + (e.stack || e)));
+</script></body></html>

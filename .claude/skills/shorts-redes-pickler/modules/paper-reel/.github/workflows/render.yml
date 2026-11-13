@@ -1,0 +1,32 @@
+name: render
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  render:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: brew install ffmpeg
+      - name: Playwright
+        run: npm ci && npx playwright install chromium
+      - name: Check the example
+        run: |
+          bin/reel check examples/khan-skill | tee check.txt
+          grep -q "text: PASS" check.txt
+          grep -q "deterministic: true" check.txt
+      - name: Export the example
+        run: mkdir -p out && bin/reel export examples/khan-skill out/khan-skill.mp4
+        env:
+          WORKERS: 3
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: render
+          path: out/

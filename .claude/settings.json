@@ -1,0 +1,18 @@
+{
+  "extraKnownMarketplaces": {
+    "superpowers-dev": {
+      "source": { "source": "github", "repo": "obra/superpowers" }
+    },
+    "i-have-adhd": {
+      "source": { "source": "github", "repo": "ayghri/i-have-adhd" }
+    },
+    "nyldn-plugins": {
+      "source": { "source": "github", "repo": "nyldn/claude-octopus" }
+    }
+  },
+  "enabledPlugins": {
+    "superpowers@superpowers-dev": true,
+    "i-have-adhd@i-have-adhd": true,
+    "octo@nyldn-plugins": true
+  }
+}

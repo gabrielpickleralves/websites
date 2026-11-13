@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>{{TITLE}}</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #000; }
+  #stage { display: block; }
+  @font-face {
+    font-family: 'Pretendard';
+    src: url('assets/fonts/Pretendard-Regular.otf');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Pretendard';
+    src: url('assets/fonts/Pretendard-Bold.otf');
+    font-weight: 700;
+    font-style: normal;
+  }
+{{HANDWRITING_FONT_FACE}}
+</style>
+<!-- three.js addons (GLTFLoader, SkeletonUtils, ...) import the bare name
+     "three", which a browser resolves only through an import map, and the
+     map must come before any module script. new-reel.mjs --3d (or --vendor)
+     copies three.js to assets/vendor/ and examples/jsm/ to
+     assets/vendor/addons/ (references/3d.md "Install three.js"). -->
+<script type="importmap">{ "imports": { "three": "./assets/vendor/three.module.js", "three/addons/": "./assets/vendor/addons/" } }</script>
+</head>
+<body>
+<canvas id="stage" width="{{WIDTH}}" height="{{HEIGHT}}"></canvas>
+<script>
+/* ENGINE:BEGIN — scripts/engine/reel-engine.js, inlined by new-reel.mjs. Not scanned for banned tokens (verify.mjs only scans SCENE). */
+{{ENGINE_SOURCE}}
+/* ENGINE:END */
+</script>
+<script>
+/* AUDIO:BEGIN — scripts/engine/reel-audio.js, inlined by new-reel.mjs. Not scanned for banned tokens (verify.mjs only scans SCENE). */
+{{AUDIO_SOURCE}}
+/* AUDIO:END */
+</script>
+<script type="module">
+/* SCENE:BEGIN */
+(async function () {
+  "use strict";
+  var WIDTH = {{WIDTH}};
+  var HEIGHT = {{HEIGHT}};
+  var FPS = {{FPS}};
+  var HAS_HANDWRITING = {{HAS_HANDWRITING}};
+
+  // Internal 3D render resolution vs the full frame. Headless Chromium has
+  // no GPU (SwiftShader, a CPU WebGL2 implementation) — 0.75 keeps frame
+  // time down (references/3d.md "Speed"). The 3D scene renders at
+  // RW x RH; the 2D overlay (captions, titles) always draws at full size.
+  var RENDER_SCALE = 0.75;
+  var RW = Math.round(WIDTH * RENDER_SCALE);
+  var RH = Math.round(HEIGHT * RENDER_SCALE);
+
+  var canvas = document.getElementById("stage");
+  var ctx = canvas.getContext("2d");
+
+  // Reel.layer()/Reel.dubCode() (references/pipeline.md "Picture first"):
+  // ?layer=captions[&dub=<code>] asks this page to draw only its 2D overlay,
+  // skipping the 3D scene entirely (three.js is not even loaded) — for
+  // dub.mjs and for review.mjs --scan --layer captions, which then scans
+  // every frame quickly. Mirrors the 2D template. Reel.layerFiles picks the
+  // files.
+  var layer = Reel.layer();
+  var dubCode = Reel.dubCode();
+  var isCaptionLayer = layer === "captions";
+  var basePlan = null; // plan.json
+  var files = null; // Reel.layerFiles(plan.meta.lang), set once plan.json is read
+  var dubPlan = null; // that language's plan, loaded only in caption-layer mode
+
+  // Optional declarations a tool reads from window.__reel (a malformed entry
+  // throws, naming it). Fill what the film has; leave the rest empty.
+  var REGIONS = []; // [{id, kind: "key"|"label"|"overlay", box: [x0, y0, x1, y1] (canvas px), outline?, from?, to?}]
+  var HOLDS = []; // [{from, to, id?, reason?}] seconds the film holds or slows on purpose
+  var CAPTION_FONTS = {}; // {"<lang>": "<css font-family list>", "*": "<fallback>"} the caption font per language
+  // Seconds that draw language-dependent text. in: "layer" (default) = drawn in the 2D caption layer;
+  // in: "scene" = text inside the 3D world (a sign, a screen): dub.mjs then needs this language's
+  // own picture (render.mjs <dir> --no-captions --lang <code>), because the caption layer cannot reach it.
+  var LANG_SPANS = []; // [{start, end, in?: "layer" | "scene"}]
+  // Corner notes (a term gloss): plan line `notes: [{at: "start" | "word:<text>", text, corner?, holdSec?}]`,
+  // drawn in the language's 2D caption layer from that language's plan and word times.
+  var cornerNoteList = [];
+
+  // ---- three.js + addons: dynamic imports, so a missing vendor file
+  // rejects `ready` with one clear message instead of crashing the module
+  // script load (references/3d.md "Install three.js"). three.js is never
+  // bundled with this skill. ADDONS lists the addon modules this scene
+  // uses, by path under three/addons/; ADDON[path] is the loaded module
+  // (e.g. new ADDON["loaders/GLTFLoader.js"].GLTFLoader()). Trim it to
+  // what the film imports.
+  var ADDONS = ["loaders/GLTFLoader.js", "utils/SkeletonUtils.js"];
+  var ADDON = {};
+  var THREE = null;
+  var vendorError = null;
+  var INSTALL_STEPS =
+    "Install it, then copy it and its addons into this reel and re-open the page:\n" +
+    "  npm install three --prefix <reel-dir>\n" +
+    "  node <skill>/scripts/new-reel.mjs <reel-dir> --vendor\n" +
+    "Record the installed version and its MIT license in FILM.md (references/3d.md).";
+  if (!isCaptionLayer) {
+    try {
+      THREE = await import("three");
+    } catch (e) {
+      vendorError = "three.js not found at assets/vendor/three.module.js. " + INSTALL_STEPS;
+    }
+    if (THREE) {
+      var missing = [];
+      for (var ai = 0; ai < ADDONS.length; ai++) {
+        try {
+          ADDON[ADDONS[ai]] = await import("three/addons/" + ADDONS[ai]);
+        } catch (e) {
+          missing.push(ADDONS[ai]);
+        }
+      }
+      if (missing.length) {
+        vendorError =
+          "three.js addons not found in assets/vendor/addons/: " + missing.join(", ") + ". " + INSTALL_STEPS;
+      }
+    }
+  }
+
+  var timings = null;
+  var tl = null;
+  var shots = [];
+  var libManifest = null; // assets/lib/manifest.json, or null when absent
+  var libCues = []; // assets/lib/cues.json's cues, or [] when absent
+
+  // The one allowed network call in scene code: loading local JSON as part
+  // of building `ready`. `required` files throw when missing; optional ones
+  // resolve to null.
+  function loadJSON(url, required) {
+    return fetch(url).then(function (res) {
+      if (!res.ok) {
+        if (required) throw new Error(url + " not found — run voice.mjs first");
+        return null;
+      }
+      return res.json();
+    });
+  }
+
+  // The first of `urls` that exists; a base-language caption layer falls
+  // back from dub/<base>/ to the film's own files (Reel.layerFiles).
+  function loadFirstJSON(urls, required) {
+    var i = 0;
+    function next() {
+      if (i >= urls.length) {
+        if (required) throw new Error(urls.join(" or ") + " not found — run voice.mjs (or dub.mjs) first");
+        return null;
+      }
+      return loadJSON(urls[i++], false).then(function (data) {
+        return data == null ? next() : data;
+      });
+    }
+    return Promise.resolve().then(next);
+  }
+
+  // plan.json: meta.lang picks the layer files; meta.filmKey/title/id gives
+  // this film's kit sfx their own character (references/sound.md "Kit").
+  function loadBasePlan() {
+    return loadJSON("plan.json", false).catch(function () {
+      return null;
+    }).then(function (plan) {
+      basePlan = plan;
+      var meta = (plan && plan.meta) || {};
+      ReelAudio.setFilmKey(meta.filmKey || meta.title || meta.id || "film");
+      Reel.setBaseLang(meta.lang || null);
+      files = Reel.layerFiles(meta.lang || "ko-KR");
+    });
+  }
+
+  // The notes this language shows, built once both its timings and plan are loaded.
+  function buildNotes() {
+    cornerNoteList = Reel.cornerNotes({ timings: timings, plan: dubPlan || basePlan, basePlan: basePlan });
+  }
+
+  // Two clocks in a dub: `timings`/`tl` follow the language being drawn (the
+  // captions); `clk` (Reel.clocks) adds the base language's clock from the
+  // film's own voice/timings.json for every non-caption layer — labels,
+  // beats, word-keyed animation, sound cues (references/pipeline.md "Dubbing").
+  var baseTimings = null;
+  var clk = null;
+
+  function loadTimings() {
+    return loadFirstJSON(files.timings, true).then(function (data) {
+      timings = data;
+      tl = Reel.timeline(timings);
+      return isCaptionLayer && dubCode ? loadJSON("voice/timings.json", false) : null;
+    }).then(function (base) {
+      baseTimings = base || timings;
+      clk = Reel.clocks(timings, baseTimings);
+      var lines = timings.lines || [];
+      shots = lines.map(function (l, i) {
+        var start = i === 0 ? 0 : l.start;
+        var end = i === lines.length - 1 ? timings.duration : lines[i + 1].start;
+        return { id: l.id, start: start, end: end, readAt: (l.start + l.end) / 2 };
+      });
+      buildSfxCues();
+    });
+  }
+
+  // That language's plan (per-line fields such as `emphasis`, and its
+  // meta.overlay text) for the overlay code. Caption-layer mode only.
+  function loadDubPlan() {
+    if (!isCaptionLayer) return Promise.resolve();
+    return loadFirstJSON(files.plan, true).then(function (data) {
+      dubPlan = data;
+    });
+  }
+
+  // ---- asset library (design.md §2.5): manifest + cues, then preload
+  // every video clip's frames so clipFrame(id, tLocal) is instant during
+  // seek(t). Absent files (no assets/lib/) leave libManifest null and
+  // libCues empty.
+  function loadAssetLibrary() {
+    return Promise.all([
+      loadJSON("assets/lib/manifest.json", false),
+      loadJSON("assets/lib/cues.json", false),
+    ]).then(function (results) {
+      libManifest = results[0];
+      libCues = (results[1] && results[1].cues) || [];
+      return preloadClipFrames();
+    });
+  }
+
+  function frameFileName(index) {
+    var s = String(index);
+    while (s.length < 5) s = "0" + s;
+    return "frame-" + s + ".jpg";
+  }
+
+  // Resolves once the image is decoded, not just loaded: `onload` alone
+  // lets the first seek draw an image that is still decoding, so a cold
+  // first frame differs from a warm one (references/3d.md "Determinism rules").
+  function loadImage(src) {
+    return new Promise(function (resolve) {
+      var img = new Image();
+      img.onload = function () {
+        img.decode().then(
+          function () { resolve(img); },
+          function () { resolve(img); }
+        );
+      };
+      img.onerror = function () {
+        Reel.recordIssue({ type: "clip-frame-load-failed", src: src });
+        resolve(null);
+      };
+      img.src = src;
+    });
+  }
+
+  function preloadClipFrames() {
+    if (!libManifest || !libManifest.assets) return Promise.resolve();
+    var ids = Object.keys(libManifest.assets);
+    return Promise.all(
+      ids.map(function (id) {
+        var meta = libManifest.assets[id];
+        if (meta.kind !== "video") return null;
+        var frameUrls = [];
+        for (var i = 0; i < meta.frameCount; i++) {
+          frameUrls.push(meta.frameDir + "/" + frameFileName(i));
+        }
+        return Promise.all(frameUrls.map(loadImage)).then(function (frames) {
+          Reel.registerClip(id, frames, meta.fps);
+        });
+      })
+    );
+  }
+
+  function cueLine(cue) {
+    for (var i = 0; i < timings.lines.length; i++) {
+      if (timings.lines[i].id === cue.lineId) return timings.lines[i];
+    }
+    return null;
+  }
+
+  // Optional per-cue fade fields render.mjs passes on to the mix (references/sound.md "Fades");
+  // the same list as CUE_FADE_KEYS in scripts/lib/cues.mjs.
+  var SOUND_FADE_FIELDS = ["fadeInSec", "fadeOutSec", "crossfadeSec", "endsAtCut", "track"];
+
+  // soundCues() -> [{file, at, gainDb, maxSec, soundOnly, ...fade fields}] for every library
+  // cue whose `play` is "sound" or "both". render.mjs reads this through the
+  // page and mixes each `file` at its cue time itself — this page never
+  // plays audio.
+  function soundCues() {
+    if (!libManifest || libCues.length === 0 || !timings) return [];
+    var out = [];
+    libCues.forEach(function (cue) {
+      if (cue.play !== "sound" && cue.play !== "both") return;
+      var line = cueLine(cue);
+      var meta = libManifest.assets[cue.asset];
+      if (!line || !meta) return;
+      var file = meta.kind === "audio" ? meta.file : meta.audio;
+      if (!file) return; // e.g. a silent video clip cued for sound
+      var item = {
+        file: file,
+        at: Reel.cueTime(cue, line, timings),
+        gainDb: cue.gainDb == null ? 0 : cue.gainDb,
+        maxSec: cue.maxSec,
+        // Sound-only files may start with silence; render.mjs skips it so the
+        // sound lands on the cue. A clip's sound keeps its lead to stay on its picture.
+        soundOnly: meta.kind === "audio",
+      };
+      SOUND_FADE_FIELDS.forEach(function (k) { if (cue[k] != null) item[k] = cue[k]; });
+      out.push(item);
+    });
+    return out;
+  }
+
+  // drawLibCues(t) — the frame of any picture cue ("picture"|"both") whose
+  // clip window [cueTime, cueTime+durationSec) contains t, over the 3D
+  // picture and under the overlay. A pure function of t.
+  function drawLibCues(t) {
+    if (!libManifest || libCues.length === 0 || !timings) return;
+    libCues.forEach(function (cue) {
+      if (cue.play !== "picture" && cue.play !== "both") return;
+      var line = cueLine(cue);
+      var meta = libManifest.assets[cue.asset];
+      if (!line || !meta || meta.kind !== "video") return;
+      var at = Reel.cueTime(cue, line, timings);
+      var durationSec = cue.maxSec ? Math.min(cue.maxSec, meta.durationSec) : meta.durationSec;
+      if (t < at || t >= at + durationSec) return;
+      var frame = Reel.clipFrame(cue.asset, t - at);
+      if (frame) Reel.imageCover(ctx, frame, 0, 0, WIDTH, HEIGHT);
+    });
+  }
+
+  function loadDeclaredFonts() {
+    var faces = Array.from(document.fonts);
+    return Promise.all(
+      faces.map(function (face) {
+        return face.load().catch(function (err) {
+          Reel.recordIssue({
+            type: "font-load-failed",
+            family: face.family,
+            weight: face.weight,
+            style: face.style,
+            message: String((err && err.message) || err),
+          });
+          return null;
+        });
+      })
+    ).then(function () {
+      return document.fonts.ready;
+    });
+  }
+
+  // ---- audio: SFX_CUES + renderSfx + sfxStems (no music bed by default) --
+  // SFX_CUES times should be derived from the measured timeline (tl.line /
+  // tl.phrase), not hardcoded constants, so retiming a line moves its cue
+  // with it. Cue shape: {id, at, kind, gain, pan, sync}; `id` should match
+  // the sound card's id (scripts/sfx-cards.mjs). Library sounds are cued in
+  // plan.json and reach render.mjs through soundCues() above.
+  var SFX_CUES = [];
+  function buildSfxCues() {
+    SFX_CUES = [];
+  }
+
+  // renderSfx(sampleRate) -> [L, R] Float32Arrays, exactly
+  // duration*sampleRate samples: the SFX_CUES onsets, mastered to a -15 dBFS
+  // peak — the level a kit effect gets in the 2D scaffold's mix, well under a
+  // -16 LUFS voice (references/sound.md "Mix"). Typed arrays, never plain
+  // Arrays: a 5-minute film as plain numbers ran Node out of heap in
+  // render.mjs; Playwright passes typed arrays back as they are.
+  function renderSfx(sampleRate) {
+    var duration = timings ? timings.duration : 0;
+    var m = ReelAudio.mix(duration, sampleRate);
+    SFX_CUES.forEach(function (cue) {
+      var gen = ReelAudio.sfx[cue.kind];
+      if (!gen) return;
+      var buf = gen(sampleRate, { seed: cue.kind + ":" + cue.at });
+      m.add(buf, cue.at, cue.gain == null ? 1 : cue.gain, cue.pan == null ? 0 : cue.pan);
+    });
+    ReelAudio.master(m, { peakDb: -15 });
+    return [m.L, m.R];
+  }
+
+  // sfxStems(sampleRate) -> Promise<[{id, at, L, R}]> — each SFX_CUES kit
+  // effect rendered alone, for scripts/sfx-cards.mjs's `measure`. Only cues
+  // flagged `card: true` are rendered (all of them when none is flagged).
+  function sfxStems(sampleRate) {
+    var flagged = SFX_CUES.filter(function (cue) { return cue.card === true; });
+    var out = (flagged.length ? flagged : SFX_CUES).map(function (cue) {
+      var gen = ReelAudio.sfx[cue.kind];
+      if (!gen) return null;
+      var arr = Float32Array.from(gen(sampleRate, { seed: cue.kind + ":" + cue.at }));
+      var g = cue.gain == null ? 1 : cue.gain;
+      for (var i = 0; i < arr.length; i++) arr[i] *= g;
+      return { id: cue.id || (cue.kind + "@" + cue.at), at: cue.at, L: arr, R: arr };
+    }).filter(Boolean);
+    return Promise.resolve(out);
+  }
+
+  // ======================================================================
+  // 3D world — replace this. A tiny proof scene: one lit object, fog, a
+  // moving camera. Everything below is a pure function of t: the camera
+  // follows a time-keyed spline through fixed keyframes (never a live
+  // clock or carried velocity), and the only randomness (star positions)
+  // is drawn once at build time from Reel.rng, a keyed deterministic RNG
+  // — never a per-frame random call (references/pipeline.md "Page contract").
+  // ======================================================================
+
+  var glCanvas = document.createElement("canvas"); // detached — the page
+  // markup declares only the "stage" canvas tag (verify.mjs's static scan
+  // requires exactly one); this one is created in script and never
+  // appended to the DOM.
+  glCanvas.width = RW;
+  glCanvas.height = RH;
+
+  var renderer = null;
+  var scene = null;
+  var camera = null;
+  var glPixels = null;
+  var smallCanvas = null;
+  var smallCtx = null;
+  var smallImg = null;
+
+  var cameraTrack = null; // Reel.monotoneTrack, built once duration is known (buildWorld)
+  var worldBuilt = false;
+
+  // Where the 3D scene is on screen: null = every shot; otherwise
+  // [{start, end}] windows (e.g. from shots or tl.line) and seek(t) skips
+  // render3D + copyToStage outside them, drawing draw2D(t) instead. Each
+  // skipped frame saves a full SwiftShader render (references/3d.md "Speed").
+  var SCENE_WINDOWS = null;
+  function sceneOn(t) {
+    return SCENE_WINDOWS === null || Reel.inWindows(t, SCENE_WINDOWS);
+  }
+
+  // The picture for frames without the 3D scene — replace with the film's
+  // 2D shots.
+  function draw2D(t) {
+    ctx.fillStyle = "#05070f";
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+  }
+
+  // Makes the first seek draw exactly what any later seek draws. Call once
+  // after every object (and every GLB) is in the scene, before `ready`.
+  //  - three.js computes bounding spheres lazily on the first frame drawn:
+  //    a skinned mesh's from that frame's pose, an instanced mesh's from
+  //    that frame's instances. Draw order sorts by them, so compute them all
+  //    here, from the bind pose and the full instance set.
+  //  - A skinned mesh culled by bounds from one pose vanishes in another:
+  //    skinned meshes are never frustum-culled.
+  //  - Draw-order ties fall back to object ids, which follow async GLB load
+  //    order. The tiebreak here is each object's name path ("root/arm/hand"),
+  //    then traversal order, so it does not depend on which file loaded first.
+  //    Give loaded roots stable names.
+  function stabilizeScene() {
+    scene.updateMatrixWorld(true);
+    var entries = [];
+    var index = 0;
+    scene.traverse(function (o) {
+      if (o.isSkinnedMesh) {
+        o.frustumCulled = false;
+        o.skeleton.update();
+        o.computeBoundingSphere();
+      } else if (o.isInstancedMesh) {
+        o.computeBoundingSphere();
+      } else if (o.geometry && !o.geometry.boundingSphere) {
+        o.geometry.computeBoundingSphere();
+      }
+      entries.push({ o: o, path: namePath(o), i: index++ });
+    });
+    entries.sort(function (a, b) {
+      return a.path < b.path ? -1 : a.path > b.path ? 1 : a.i - b.i;
+    });
+    entries.forEach(function (e, rank) {
+      e.o.userData.sortKey = rank + 1;
+    });
+    function key(item) {
+      return item.object.userData.sortKey || 0;
+    }
+    renderer.setOpaqueSort(function (a, b) {
+      return a.groupOrder - b.groupOrder || a.renderOrder - b.renderOrder || a.z - b.z || key(a) - key(b);
+    });
+    renderer.setTransparentSort(function (a, b) {
+      return a.groupOrder - b.groupOrder || a.renderOrder - b.renderOrder || b.z - a.z || key(a) - key(b);
+    });
+  }
+
+  function namePath(o) {
+    var parts = [];
+    for (var p = o; p; p = p.parent) parts.unshift(p.name || p.type);
+    return parts.join("/");
+  }
+
+  function buildWorld() {
+    renderer = new THREE.WebGLRenderer({
+      canvas: glCanvas,
+      antialias: true,
+      alpha: false,
+      preserveDrawingBuffer: true,
+      powerPreference: "high-performance",
+    });
+    renderer.setPixelRatio(1);
+    renderer.setSize(RW, RH, false);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x05070f);
+    scene.fog = new THREE.Fog(0x05070f, 4, 16);
+
+    camera = new THREE.PerspectiveCamera(50, RW / RH, 0.1, 100);
+
+    var ambient = new THREE.AmbientLight(0x2a3550, 1.2);
+    scene.add(ambient);
+    var key = new THREE.DirectionalLight(0xfdba36, 2.2);
+    key.position.set(3, 4, 2);
+    scene.add(key);
+    var rim = new THREE.PointLight(0x3ac0ed, 6, 12);
+    rim.position.set(-3, 1, -2);
+    scene.add(rim);
+
+    var geo = new THREE.IcosahedronGeometry(1.2, 1);
+    var mat = new THREE.MeshStandardMaterial({ color: 0xe0563e, metalness: 0.35, roughness: 0.4 });
+    var mesh = new THREE.Mesh(geo, mat);
+    mesh.name = "hero";
+    scene.add(mesh);
+
+    // Starfield: positions fixed once from a keyed RNG (build time), not
+    // regenerated per seek — the field itself never changes, only the
+    // camera moves through it.
+    var starCount = 400;
+    var starGeo = new THREE.BufferGeometry();
+    var starPos = new Float32Array(starCount * 3);
+    var rng = Reel.rng("stars");
+    for (var i = 0; i < starCount; i++) {
+      starPos[i * 3] = (rng() - 0.5) * 40;
+      starPos[i * 3 + 1] = (rng() - 0.5) * 40;
+      starPos[i * 3 + 2] = (rng() - 0.5) * 40;
+    }
+    starGeo.setAttribute("position", new THREE.BufferAttribute(starPos, 3));
+    var starMat = new THREE.PointsMaterial({ color: 0xf4f7fb, size: 0.04, sizeAttenuation: true });
+    var stars = new THREE.Points(starGeo, starMat);
+    stars.name = "stars";
+    scene.add(stars);
+
+    // Monotone cubic through the keys: never past a key between keys, so a
+    // camera that dips to a low key does not go under the ground.
+    var duration = timings ? timings.duration : 10;
+    cameraTrack = Reel.monotoneTrack([
+      { t: 0, v: [0, 0.5, 6] },
+      { t: duration * 0.5, v: [4, 1.2, 4] },
+      { t: duration, v: [0, 0.5, 6] },
+    ]);
+
+    stabilizeScene();
+    worldBuilt = true;
+  }
+
+  function render3D(t) {
+    var pos = cameraTrack(t);
+    camera.position.set(pos[0], pos[1], pos[2]);
+    camera.lookAt(0, 0, 0);
+    var mesh = scene.children.find(function (o) { return o.isMesh; });
+    if (mesh) mesh.rotation.y = t * 0.35; // pure function of t, no carried velocity
+
+    renderer.setRenderTarget(null);
+    renderer.render(scene, camera);
+  }
+
+  // Copies the WebGL framebuffer to the 2D stage byte-for-byte. Never
+  // ctx.drawImage(glCanvas) — copying a live WebGL canvas that way varies
+  // by up to one colour level between draws of the identical frame and
+  // fails verify.mjs's determinism probe (references/3d.md, the day01-3d
+  // build notes). gl.readPixels + putImageData into a plain 2D canvas is
+  // exact; scaling that 2D canvas up with drawImage is then safe, because
+  // the source is a deterministic software (ImageData-backed) canvas, not
+  // a WebGL one.
+  function copyToStage() {
+    var gl = renderer.getContext();
+    if (!glPixels) {
+      glPixels = new Uint8Array(RW * RH * 4);
+      smallCanvas = document.createElement("canvas");
+      smallCanvas.width = RW;
+      smallCanvas.height = RH;
+      smallCtx = smallCanvas.getContext("2d");
+      smallImg = smallCtx.createImageData(RW, RH);
+    }
+    gl.readPixels(0, 0, RW, RH, gl.RGBA, gl.UNSIGNED_BYTE, glPixels);
+    var row = RW * 4;
+    for (var y = 0; y < RH; y++) {
+      smallImg.data.set(glPixels.subarray((RH - 1 - y) * row, (RH - y) * row), y * row);
+    }
+    smallCtx.putImageData(smallImg, 0, 0);
+    ctx.drawImage(smallCanvas, 0, 0, RW, RH, 0, 0, WIDTH, HEIGHT);
+  }
+
+  // ---- 2D overlay: captions and any text always draw here, at full
+  // resolution, on top of the upscaled 3D picture (references/3d.md
+  // "text always in the 2D overlay").
+  function currentLineIndex(t) {
+    if (!timings) return -1;
+    for (var i = 0; i < timings.lines.length; i++) {
+      var l = timings.lines[i];
+      if (t >= l.start && t < l.end) return i;
+    }
+    if (timings.lines.length && t >= timings.lines[timings.lines.length - 1].end) {
+      return timings.lines.length - 1;
+    }
+    return -1;
+  }
+
+  // drawCaptions(t) — this film's own caption look for the picture-first +
+  // dub path (references/pipeline.md "Picture first"); replace
+  // Reel.caption() with custom draw code the same way the 2D scaffold
+  // documents. dubPlan carries that language's own per-line fields.
+  function drawCaptions(t) {
+    var idx = currentLineIndex(t);
+    var line = idx >= 0 ? timings.lines[idx] : null;
+    var meta = (dubPlan && dubPlan.meta) || (basePlan && basePlan.meta) || {};
+    var lang = line && line.lang || meta.lang;
+    Reel.caption(ctx, line, t, { width: WIDTH, height: HEIGHT, lang: lang, captionFonts: CAPTION_FONTS });
+    // Corner notes belong to a language: never in a picture-first render (?captions=0).
+    if (Reel.captionsOn()) {
+      Reel.drawCornerNotes(ctx, cornerNoteList, t, { width: WIDTH, height: HEIGHT, lang: lang, captionFonts: CAPTION_FONTS });
+    }
+  }
+
+  function seek(t) {
+    if (isCaptionLayer) {
+      ctx.clearRect(0, 0, WIDTH, HEIGHT);
+      drawCaptions(t);
+      return;
+    }
+    if (!worldBuilt) return;
+    if (sceneOn(t)) {
+      render3D(t);
+      copyToStage();
+    } else {
+      draw2D(t);
+    }
+    drawLibCues(t);
+    drawCaptions(t);
+  }
+
+  var ready = vendorError
+    ? Promise.reject(new Error(vendorError))
+    : Promise.all([
+        loadDeclaredFonts(),
+        loadBasePlan().then(function () {
+          return isCaptionLayer ? Promise.all([loadTimings(), loadDubPlan()]) : loadTimings().then(loadAssetLibrary);
+        }),
+      ]).then(function () {
+        buildNotes();
+        if (!isCaptionLayer) buildWorld();
+      });
+
+  window.__reel = {
+    get width() { return WIDTH; },
+    get height() { return HEIGHT; },
+    get fps() { return FPS; },
+    get duration() { return timings ? timings.duration : 0; },
+    ready: ready,
+    seek: seek,
+    get shots() { return shots; },
+    get layers() { return ["captions"]; },
+    get regions() { return Reel.checkRegions(REGIONS); },
+    get holds() { return Reel.checkHolds(HOLDS); },
+    get captionFonts() { return CAPTION_FONTS; },
+    get langSpans() { return Reel.checkLangSpans(LANG_SPANS); },
+    sceneOn: sceneOn,
+    issues: function () { return Reel.issues(); },
+    audio: { narration: "voice/narration.wav", renderSfx: renderSfx },
+    sfxStems: sfxStems,
+    soundCues: soundCues,
+    get marks() {
+      return SFX_CUES.map(function (c) {
+        return { at: c.at, kind: c.kind, sync: !!c.sync };
+      });
+    },
+  };
+})();
+/* SCENE:END */
+</script>
+</body>
+</html>

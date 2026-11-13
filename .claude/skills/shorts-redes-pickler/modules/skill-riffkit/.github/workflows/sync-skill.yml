@@ -1,0 +1,63 @@
+name: sync-skill
+
+# Keep SKILL.md in this repo mirrored to the live, canonical
+# https://riffkit.ai/SKILL.md (the single source of truth, served from the
+# Riffkit app). Runs daily + on-demand. The agent always reads the live URL,
+# so this mirror is for human browsing / GitHub discovery and never blocks use.
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # daily ~06:00 UTC
+  workflow_dispatch: {} # manual "Run workflow" button (e.g. right after a deploy)
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pull live skill files
+        run: |
+          curl -fsSL https://riffkit.ai/SKILL.md     -o SKILL.md
+          curl -fsSL https://riffkit.ai/HEARTBEAT.md -o HEARTBEAT.md
+          curl -fsSL https://riffkit.ai/SKILL.json   -o SKILL.json
+          # Second copy under riffkit/ so the REPO ITSELF is a valid skill root.
+          # dsh (and every other harness reading ~/.agents/skills) discovers
+          # `<name>/SKILL.md` and takes the skill's name from that directory — it
+          # does no nested discovery. With SKILL.md only at the repo root, cloning
+          # or copying this repo into a skill root yields `skill/SKILL.md`, i.e. a
+          # skill called "skill". The root copy stays (raw-URL installs and the
+          # README point at it); this adds the layout that `git clone` + copy needs.
+          mkdir -p riffkit
+          cp SKILL.md riffkit/SKILL.md
+          cp HEARTBEAT.md riffkit/HEARTBEAT.md
+          # The core SKILL.md links its reference files as references/<name>.md;
+          # SKILL.json lists them. Pull each one next to every copy of SKILL.md.
+          rm -rf references && mkdir -p references
+          python3 -c 'import json; [print(k, v) for k, v in json.load(open("SKILL.json")).get("references", {}).items()]' |
+            while read -r name path; do
+              curl -fsSL "https://riffkit.ai${path}" -o "references/${name}.md"
+            done
+          rm -rf riffkit/references && cp -R references riffkit/references
+          # The Claude Code plugin (.claude-plugin/marketplace.json lists it):
+          # the same skill under plugins/riffkit/skills/riffkit/.
+          P=plugins/riffkit/skills/riffkit
+          rm -rf "$P" && mkdir -p "$P"
+          cp SKILL.md HEARTBEAT.md "$P"/
+          cp -R references "$P"/references
+      - name: Commit if changed
+        run: |
+          git config user.name "riffkit-bot"
+          git config user.email "bot@riffkit.ai"
+          # -A so files that are new rather than modified register too; the
+          # staged diff is what decides whether there's anything to push
+          # (plain `git diff` is blind to untracked files).
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: sync SKILL.md / HEARTBEAT.md / SKILL.json and references from riffkit.ai (+ riffkit/ and plugin copies)"
+            git push
+          else
+            echo "Already up to date."
+          fi
