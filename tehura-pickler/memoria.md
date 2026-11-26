@@ -479,6 +479,10 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
   desbotado. O `fotos.py` converte tudo para sRGB.
 - **Pasta "apto_PUB":** o RAR tinha 3 fotos que vieram vazias, mas eram cópias de fotos que estavam
   inteiras no outro pacote. Nada se perdeu.
+- **Site de teste tinha saído do ar:** em 10/11/2026, numa sessão sobre o site da Marina, a pasta
+  `tehura-pickler/` foi tirada do branch `gh-pages`, para o endereço mostrar só a Marina. Em
+  26/11/2026 a pasta foi publicada de novo, e o escritório confirmou que o site de teste da Tehura
+  fica no ar. Antes de publicar, confira o estado do `gh-pages`: outras sessões também mexem nele.
 
 **21/10/2026**
 
