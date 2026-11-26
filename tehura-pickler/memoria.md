@@ -230,6 +230,26 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
 - **Nos outros casos** continua indo para o topo do início: veio de outra página interna, abriu
   numa aba nova ou está sem JavaScript.
 
+**26/11/2026, fotos dos projetos**
+
+- **Recebidas** por link do Google Drive (zip de 6,6 GB com pacotes do WeTransfer e um RAR): 208
+  fotos diferentes, separadas em 4 projetos. Os nomes das pastas são provisórios até o escritório
+  mandar os nomes reais.
+  - **Projeto 1, apartamento:** 47 fotos (Canon EOS R5, 19/09/2022). A pasta "apto_PUB" tinha 28
+    fotos, todas cópias de fotos deste projeto, e foi descartada.
+  - **Projeto 2, casa com tijolinho e piscina:** 45 fotos (Canon EOS R5, 19 e 20/09/2022). A Tehura
+    fez a casa inteira, então ficam a fachada e as piscinas.
+  - **Projeto 3, sala de estar e espaço gourmet com teto de vidro:** 11 fotos (Canon EOS R5,
+    20/09/2022). O escritório confirmou que é um projeto só.
+  - **Projeto 4, interiores de uma casa:** 65 fotos (Nikon Z 8 e drone, 28 e 29/01/2026).
+- **Projeto 4 só com interiores:** a Tehura fez só o interior. Saíram 40 fotos (fachada, drone,
+  piscina, jardim, varandas, estrutura e as fotos com pessoas), para o site não dar a entender que
+  ela fez a casa inteira.
+- **Fotos com pessoas** nos projetos 1 e 2 (uma mulher na cozinha e uma na escada) ficam, por decisão
+  do escritório.
+- **Fotógrafos:** os arquivos do projeto 4 trazem "FAVARO JR" como autor nos dados da foto. Os dos
+  projetos 1 a 3 não trazem nome.
+
 ## Decisões rejeitadas
 
 **15/10/2026**
@@ -457,8 +477,9 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
   - história, ano de fundação e proposta de valor;
   - formação, biografia e retrato em cor da Tehura;
   - nomes e cargos da equipe;
-  - de 6 a 10 projetos, num zip com uma pasta por projeto (nome, categoria, cidade, ano, área,
-    texto, fotos e fotógrafo);
+  - **projetos:** as fotos de 4 projetos chegaram em 26/11/2026. Faltam, de cada um, nome,
+    categoria, cidade, ano, área, situação, texto e fotógrafo, além da confirmação de que os
+    fotógrafos autorizam o uso. O site prevê de 6 a 10 projetos, então podem vir mais;
   - lista de prêmios e mostras.
 - **Biografia:** formação, início da carreira, marcos e prêmios, visão sobre arquitetura, marcos da
   linha do tempo e retrato.
@@ -466,7 +487,10 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
 - **Aprovação de texto:** o inglês das páginas (menus e rótulos), traduzido pelo Claude, aguardando
   revisão do escritório.
 - **Foto da página Contato:** a definir.
-- **Projetos de exemplo:** os 4 do site de teste serão trocados pelos reais quando o zip chegar.
+- **Projetos de exemplo:** os 4 do site de teste serão trocados pelos reais quando chegarem os
+  nomes e as fichas.
+- **Link do Drive com as fotos:** manter ativo até as fotos estarem no site. As pastas organizadas
+  ficam só no espaço temporário da sessão.
 - **Antes do lançamento:**
   - mudar `SITE['teste']` para `False`;
   - remover os projetos de exemplo e completar todos os `[PREENCHER]`.
@@ -478,7 +502,7 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
 ## Próximos passos
 
 1. O escritório revisa o site de teste e aprova o inglês.
-2. Receber o zip dos projetos e as informações que faltam e substituir os `[PREENCHER]` em
-   `_ferramentas/conteudo.py`.
+2. Receber os nomes e as fichas dos 4 projetos (e de outros, se houver) e as informações que faltam,
+   e substituir os `[PREENCHER]` em `_ferramentas/conteudo.py`.
 3. Otimizar as fotos reais (AVIF, WebP e JPEG em vários tamanhos) quando chegarem.
 4. Lançamento: `SITE['teste'] = False`, nova rodada de testes e publicação.
