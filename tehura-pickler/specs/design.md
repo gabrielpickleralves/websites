@@ -308,7 +308,7 @@ análise, seção 3).
 
 ## 10. Fotografias de arquitetura
 
-A confirmar quando as fotos chegarem.
+As fotos dos primeiros 4 projetos chegaram em 26/11/2026 (ver `memoria.md`).
 
 - Fotos profissionais com luz natural, cores fiéis e sem filtros.
 - Linhas verticais retas (perspectiva corrigida, como é padrão em fotografia de arquitetura).
@@ -317,6 +317,14 @@ A confirmar quando as fotos chegarem.
 - Texto sobre foto só na abertura da página inicial, nas faixas de projeto e na abertura de cada
   projeto.
 - Crédito do fotógrafo em todas as páginas de projeto.
+- **Fotos em tela cheia no celular** (26/11/2026): a abertura da página inicial, as faixas e a
+  abertura de cada projeto usam uma foto vertical do mesmo projeto em telas em pé, porque o recorte
+  de uma foto horizontal numa tela de celular perderia quase tudo. Em telas deitadas, a foto
+  horizontal.
+- **Projetos só de interiores:** entram só fotos dos interiores. Fachada, vista aérea, piscina e
+  jardim ficam de fora, para não parecer que o escritório fez a arquitetura.
+- **No site:** AVIF e WebP em duas larguras e um JPEG de reserva, com as cores em sRGB e sem os dados
+  da câmera. O `_ferramentas/fotos.py` gera tudo a partir das originais.
 
 ## 11. Tratamento dos projetos
 
@@ -339,6 +347,12 @@ A confirmar quando as fotos chegarem.
        intercaladas com pares de fotos 4:5 lado a lado.
        - Sequência (20/10/2026): 3:2, par 4:5, 3:2, par 4:5…
        - Nunca sobra uma 4:5 sozinha, e a galeria nunca termina com duas 3:2 seguidas.
+       - **Com as fotos reais** (26/11/2026): as horizontais ficam em 3:2 e as verticais em 4:5, na
+         ordem definida em `conteudo.py`. O gerador para se uma vertical ficar sem par.
+       - **Quando faltam horizontais**, as verticais podem vir em pares seguidos. Isso vale para o
+         espaço da mostra Artefato, que só tem uma foto horizontal (aprovado pelo escritório).
+       - **Tamanho:** uma seleção de cerca de 15 fotos por projeto, sem fotos repetidas. As outras
+         ficam guardadas.
        - Sem fotos, mostra 6 marcadores.
   3. **"Outros projetos":** dois cards.
   4. **Chamada final:** só a frase, sem botão.
@@ -441,6 +455,11 @@ A ordem foi escolhida pelo escritório.
 
 1. **Abertura:** foto de projeto em tela cheia, com o logo completo em branco embaixo à esquerda,
    na linha de alinhamento.
+   - **Foto** (26/11/2026, pedido do escritório: "uma foto vertical marcante"): a sala da casa
+     (interiores) com luminárias de fibra natural entre plantas pendentes, em vertical no celular. No
+     computador, a foto horizontal do mesmo ambiente.
+   - **Véu no alto:** um degradê escuro mais forte no topo mantém o menu branco legível sobre
+     fotos claras.
    - **Indicador de rolar** (20/10/2026): seta fina branca embaixo à direita, alinhada à coluna.
      - É um link para as faixas de projetos, com área de toque de 44 × 72 px e o rótulo "Rolar até
        os projetos".

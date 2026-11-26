@@ -214,6 +214,7 @@ main:focus { outline: none; }
 /* ------------------------------------------------------------------ fotos e marcadores de foto */
 
 .foto { position: relative; overflow: hidden; background: #8F887C; }
+.foto picture { display: block; width: 100%; height: 100%; }
 .foto img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s ease; }
 .foto--3x2 { aspect-ratio: 3 / 2; }
 .foto--4x5 { aspect-ratio: 4 / 5; }
@@ -237,8 +238,8 @@ main:focus { outline: none; }
 .abertura { position: relative; height: 100vh; height: 100svh; min-height: 520px; overflow: hidden; color: var(--branco); }
 .abertura > .foto { position: absolute; inset: 0; }
 .pagina-inicio .abertura::before {           /* véu no alto, para o cabeçalho branco ficar legível sobre qualquer foto */
-  content: ""; position: absolute; inset: 0 0 auto; height: 200px; z-index: 2; pointer-events: none;
-  background: linear-gradient(rgba(30, 29, 25, .4), rgba(30, 29, 25, 0));
+  content: ""; position: absolute; inset: 0 0 auto; height: 240px; z-index: 2; pointer-events: none;
+  background: linear-gradient(rgba(30, 29, 25, .6), rgba(30, 29, 25, .25) 55%, rgba(30, 29, 25, 0));
 }
 .abertura__texto {
   position: relative; z-index: 3; height: 100%;

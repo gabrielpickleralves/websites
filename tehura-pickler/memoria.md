@@ -250,6 +250,27 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
 - **Fotógrafos:** os arquivos do projeto 4 trazem "FAVARO JR" como autor nos dados da foto. Os dos
   projetos 1 a 3 não trazem nome.
 
+**26/11/2026, projetos reais no site**
+
+- **O que o escritório contou:**
+  - apartamento: só interiores, porque fica num prédio;
+  - casa com tijolinho e piscina: arquitetura e interiores;
+  - espaço da mostra Artefato: interiores;
+  - a outra casa: só interiores.
+- **Textos:** o Claude escreveu um texto de dois parágrafos para cada projeto, a partir das fotos e
+  do que o escritório contou, revisou e publicou no site de teste com autorização do escritório. O
+  inglês foi traduzido pelo Claude. Nome, cidade, ano, área, situação e fotógrafo seguem como
+  `[PREENCHER]` até as fichas chegarem.
+- **Categorias:** a casa com arquitetura em Residencial; os outros três em Interiores.
+- **Fotos:** uma seleção de cerca de 15 por projeto (9 na mostra Artefato), escolhida pelo Claude,
+  sem fotos repetidas. As outras continuam guardadas.
+- **Mostra Artefato:** só uma foto horizontal, então a galeria mostra pares de verticais seguidos
+  (aprovado pelo escritório).
+- **Abertura da página inicial:** o escritório pediu "uma foto vertical marcante e bem bonita". Ficou
+  a sala da casa (interiores) com luminárias de fibra natural entre plantas pendentes, em vertical no
+  celular e em horizontal, do mesmo ambiente, no computador.
+- **Projetos de exemplo** saíram do site.
+
 ## Decisões rejeitadas
 
 **15/10/2026**
@@ -393,6 +414,26 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
     não se deforma e tem a altura do TP; na página inicial ele só aparece depois de rolar; nenhum
     erro no console nem violação no axe-core.
 
+- **26/11/2026, projetos reais no site:**
+  - entraram 4 projetos, cada um com página em português e em inglês: `projetos/casa.html`,
+    `casa-interiores.html`, `apartamento.html` e `mostra-artefato.html`. Os 4 projetos de exemplo
+    saíram;
+  - `_ferramentas/fotos.py` gera as versões das fotos em `imagens/projetos/<projeto>/`: 60 fotos,
+    310 arquivos, 48 MB. AVIF e WebP em duas larguras, um JPEG de reserva e 2560 px nas capas
+    horizontais. Os tamanhos ficam em `_ferramentas/fotos-geradas.json`;
+  - `gerar.py` monta cada foto em `<picture>`. Nas fotos de tela cheia, as telas em pé recebem a capa
+    vertical do projeto;
+  - a galeria segue a orientação de cada foto, e o gerador para se uma vertical ficar sem par;
+  - a página Contato voltou a ter um marcador `[PREENCHER: foto da página Contato]`, já que a foto
+    ainda não foi escolhida;
+  - o véu escuro no alto da abertura ficou mais forte, para o menu branco continuar legível sobre a
+    foto clara;
+  - **Conferências:**
+    - 20 páginas de 360 a 1920 px: nenhuma rolagem lateral, foto quebrada ou erro no console;
+    - axe-core sem violações em 390 e 1440 px;
+    - a galeria ampliada abre e avança, carregando a versão grande da foto;
+    - celular com a foto vertical e computador com a horizontal.
+
 ## Problemas encontrados
 
 **15/10/2026**
@@ -431,6 +472,13 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
   Os quatro foram corrigidos.
 - **Logo do rodapé:** carrega só quando a pessoa rola até ele (`loading="lazy"`). Em capturas de
   página inteira ele pode não aparecer, mas não é defeito.
+
+**26/11/2026**
+
+- **Cores das fotos do projeto 4:** as originais estão em Adobe RGB, que os navegadores mostram
+  desbotado. O `fotos.py` converte tudo para sRGB.
+- **Pasta "apto_PUB":** o RAR tinha 3 fotos que vieram vazias, mas eram cópias de fotos que estavam
+  inteiras no outro pacote. Nada se perdeu.
 
 **21/10/2026**
 
@@ -487,13 +535,14 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
 - **Aprovação de texto:** o inglês das páginas (menus e rótulos), traduzido pelo Claude, aguardando
   revisão do escritório.
 - **Foto da página Contato:** a definir.
-- **Projetos de exemplo:** os 4 do site de teste serão trocados pelos reais quando chegarem os
-  nomes e as fichas.
-- **Link do Drive com as fotos:** manter ativo até as fotos estarem no site. As pastas organizadas
-  ficam só no espaço temporário da sessão.
+- **Textos dos projetos:** o escritório pode pedir ajustes. O inglês aguarda revisão, como o resto do
+  site.
+- **Fotos originais:** ficam no link do Google Drive do escritório (zip "fotos projetos site tehura
+  pickler"). Para gerar de novo as versões do site, baixe, separe por projeto e rode
+  `python3 _ferramentas/fotos.py <pasta>`.
 - **Antes do lançamento:**
   - mudar `SITE['teste']` para `False`;
-  - remover os projetos de exemplo e completar todos os `[PREENCHER]`.
+  - completar todos os `[PREENCHER]`.
 - **Domínio:** quando ele for registrado, decidir entre um repositório próprio e outra hospedagem.
 - **Antes da primeira publicação:** impedir que `CLAUDE.md`, `specs/`, `memoria.md`,
   `referencias/`, `esbocos/` e os originais de `identidade/` sejam publicados. Só os arquivos otimizados (SVG e
@@ -504,5 +553,5 @@ Elas substituíram decisões aprovadas, com confirmação do escritório antes d
 1. O escritório revisa o site de teste e aprova o inglês.
 2. Receber os nomes e as fichas dos 4 projetos (e de outros, se houver) e as informações que faltam,
    e substituir os `[PREENCHER]` em `_ferramentas/conteudo.py`.
-3. Otimizar as fotos reais (AVIF, WebP e JPEG em vários tamanhos) quando chegarem.
+3. Escolher a foto da página Contato.
 4. Lançamento: `SITE['teste'] = False`, nova rodada de testes e publicação.

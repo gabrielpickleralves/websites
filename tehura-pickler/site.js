@@ -104,6 +104,8 @@
       var copia = itens[atual].querySelector('.foto').cloneNode(true);
       var img = copia.querySelector('img');
       if (img) img.removeAttribute('loading');
+      // na tela cheia, o navegador escolhe o arquivo pela largura da tela, não pela da miniatura
+      copia.querySelectorAll('img, source').forEach(function (el) { el.setAttribute('sizes', '100vw'); });
       figura.replaceChildren(copia);
       contador.textContent = modelo.replace('{n}', atual + 1).replace('{total}', itens.length);
     };

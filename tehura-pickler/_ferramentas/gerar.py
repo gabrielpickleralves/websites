@@ -28,6 +28,16 @@ HTML_LANG = {'pt': 'pt-BR', 'en': 'en'}
 OG_LOCALE = {'pt': 'pt_BR', 'en': 'en_US'}
 CATEGORIA = {k: v for k, v in C.CATEGORIAS}
 LOGO_W, LOGO_H = 1902, 919
+# tamanhos das fotos de projeto, anotados pelo _ferramentas/fotos.py
+_MANIFESTO = os.path.join(RAIZ, '_ferramentas', 'fotos-geradas.json')
+FOTOS = json.load(open(_MANIFESTO, encoding='utf-8')) if os.path.exists(_MANIFESTO) else {}
+# largura que cada foto ocupa na tela, para o navegador escolher o arquivo certo
+TAMANHOS = {
+    'cheia': '100vw',
+    'card': '(min-width: 1440px) 624px, (min-width: 768px) 50vw, 100vw',
+    '3x2': '(min-width: 1440px) 912px, (min-width: 1024px) 70vw, 100vw',
+    '4x5': '(min-width: 1440px) 444px, (min-width: 1024px) 35vw, 50vw',
+}
 
 pendencias = {'preencher': set(), 'rascunho': set()}
 
@@ -298,19 +308,65 @@ def pagina(chave, lg, titulo, descricao, corpo, secao=None, sobre_foto=False, ex
 # ------------------------------------------------------------------ fotos
 
 
-def foto(p, indice, proporcao, lg, aqui, classe='', lazy=True):
-    """foto de um projeto; enquanto não houver fotos, um marcador neutro"""
-    fotos = p.get('fotos') or []
-    if indice < len(fotos):
-        arq = f'imagens/projetos/{p["slug"]}/{fotos[indice]["arquivo"]}'
-        alt = html.escape(tr(fotos[indice].get('alt', ''), lg), quote=True)
-        carga = ' loading="lazy"' if lazy else ' fetchpriority="high"'
-        return (f'<div class="foto foto--{proporcao} {classe}"><img src="{rel(aqui, arq)}" alt="{alt}"'
-                f'{carga} decoding="async"></div>')
+def info_foto(slug, f):
+    chave = f'{slug}/{f["arquivo"]}'
+    if chave not in FOTOS:
+        sys.exit(f'Falta gerar a foto {chave}: rode python3 _ferramentas/fotos.py <pasta das originais>.')
+    return FOTOS[chave]
+
+
+def picture(slug, f, tamanhos, lg, aqui, lazy=True, vertical=None):
+    """<picture> com AVIF e WebP em várias larguras e um JPEG de reserva. Com `vertical`, telas em pé
+    (celular) recebem essa outra foto: as fotos de tela cheia horizontais perderiam muito no recorte."""
+    pasta = f'imagens/projetos/{slug}/'
+
+    def fontes(foto, media=''):
+        info = info_foto(slug, foto)
+        m = f' media="{media}"' if media else ''
+        linhas = [f'<source{m} type="image/{ext}" srcset="'
+                  + ', '.join(f'{rel(aqui, pasta + info["base"])}-{w}.{ext} {w}w' for w in info['larguras'])
+                  + f'" sizes="{tamanhos}">' for ext in ('avif', 'webp')]
+        return linhas, info
+
+    linhas = []
+    if vertical:
+        v, info_v = fontes(vertical, '(orientation: portrait)')
+        linhas += v + [f'<source media="(orientation: portrait)" srcset="{rel(aqui, pasta + info_v["base"])}-{info_v["jpeg"]}.jpg">']
+    h, info = fontes(f)
+    linhas += h
+    alt = html.escape(tr(f['alt'], lg), quote=True)
+    carga = ' loading="lazy"' if lazy else ' fetchpriority="high"'
+    altura = round(info['altura'] * info['jpeg'] / info['largura'])
+    linhas.append(f'<img src="{rel(aqui, pasta + info["base"])}-{info["jpeg"]}.jpg" width="{info["jpeg"]}" '
+                  f'height="{altura}" alt="{alt}"{carga} decoding="async">')
+    return '<picture>' + ''.join(linhas) + '</picture>'
+
+
+def marcador_neutro(p, indice, proporcao, lg, classe=''):
+    """lugar de uma foto de projeto que ainda não chegou"""
     rotulo = simples(UI['foto_marcador'], lg)
     tom = (sum(map(ord, p['slug'])) + indice) % 4 + 1
     return (f'<div class="foto foto--{proporcao} foto--marcador foto--tom{tom} {classe}" role="img" '
             f'aria-label="{rotulo}"><span class="foto__rotulo" aria-hidden="true">{rotulo}</span></div>')
+
+
+def foto(p, indice, proporcao, lg, aqui, classe='', lazy=True):
+    """foto da galeria de um projeto"""
+    fotos = p.get('fotos') or []
+    if indice >= len(fotos):
+        return marcador_neutro(p, indice, proporcao, lg, classe)
+    return (f'<div class="foto foto--{proporcao} {classe}">'
+            f'{picture(p["slug"], fotos[indice], TAMANHOS[proporcao], lg, aqui, lazy)}</div>')
+
+
+def foto_capa(p, proporcao, lg, aqui, classe='', lazy=True):
+    """capa do projeto: nos cards (3x2) e em tela cheia, com a capa vertical nas telas em pé"""
+    if not p.get('capa'):
+        return marcador_neutro(p, 0, proporcao, lg, classe)
+    cheia = proporcao == 'cheia'
+    imagem = picture(p['slug'], p['capa'], TAMANHOS['cheia' if cheia else 'card'], lg, aqui, lazy,
+                     vertical=p.get('capa_vertical') if cheia else None)
+    return f'<div class="foto foto--{proporcao} {classe}">{imagem}</div>'
 
 
 def marcador(chave, lg, classe=''):
@@ -319,20 +375,31 @@ def marcador(chave, lg, classe=''):
             f'<span class="foto__rotulo" aria-hidden="true">{x(UI[chave], lg)}</span></div>')
 
 
-def ritmo_galeria(n):
-    """proporção de cada foto da galeria: 3x2 na largura da coluna e pares 4x5 lado a lado, alternados
-    (3x2, 4x5+4x5, 3x2, 4x5+4x5...). Nunca sobra um 4x5 sozinho, que deixaria meia linha vazia, e a
-    galeria nunca termina com dois 3x2 seguidos."""
-    ritmo = [('3x2', '4x5', '4x5')[i % 3] for i in range(n)]
-    if n % 3 == 2:                       # terminaria em 3x2 + um 4x5 sozinho: vira um par de 4x5
-        ritmo[-2:] = ['4x5', '4x5']
+def ritmo_galeria(p):
+    """proporção de cada foto da galeria: as horizontais (3x2) ocupam a largura da coluna e as verticais
+    (4x5) vêm em pares, lado a lado. A ordem das fotos em conteudo.py define a alternância (3x2, par 4x5,
+    3x2...); uma vertical sem par deixaria meia linha vazia, então o gerador para e avisa.
+    Sem fotos ainda: 6 marcadores, alternando 3x2 e par de 4x5."""
+    fotos = p.get('fotos') or []
+    if not fotos:
+        return [('3x2', '4x5', '4x5')[i % 3] for i in range(6)]
+    ritmo = ['3x2' if info_foto(p['slug'], f)['orientacao'] == 'horizontal' else '4x5' for f in fotos]
+    i = 0
+    while i < len(ritmo):
+        if ritmo[i] == '4x5':
+            if i + 1 >= len(ritmo) or ritmo[i + 1] != '4x5':
+                sys.exit(f'Projeto {p["slug"]}: a foto vertical {fotos[i]["arquivo"]} ficou sem par. '
+                         'Reordene as fotos em conteudo.py.')
+            i += 2
+        else:
+            i += 1
     return ritmo
 
 
 def card(p, lg, aqui, nivel=2):
     return f'''<li class="card" data-categoria="{p["categoria"]}">
 <a class="card__link" href="{rel(aqui, arquivo(f"projetos/{p['slug']}.html", lg))}">
-{foto(p, 0, "3x2", lg, aqui)}
+{foto_capa(p, "3x2", lg, aqui)}
 <div class="card__legenda"><h{nivel} class="card__nome">{x(p["nome"], lg)}</h{nivel}><p class="card__local">{local(p, lg)}</p></div>
 </a>
 </li>'''
@@ -345,11 +412,11 @@ def inicio(lg):
     aqui = arquivo('index.html', lg)
     destaques = [p for p in C.PROJETOS if p['destaque']][:4]
     faixas = '\n'.join(f'''<a class="faixa" href="{rel(aqui, arquivo(f"projetos/{p['slug']}.html", lg))}">
-{foto(p, 0, "cheia", lg, aqui, "veu")}
+{foto_capa(p, "cheia", lg, aqui, "veu")}
 <div class="coluna faixa__texto"><h3 class="nome-sobre-foto">{x(p["nome"], lg)}</h3><p class="rotulo">{local(p, lg)}</p></div>
 </a>''' for p in destaques)
     corpo = f'''<section class="abertura">
-{foto(destaques[0], 0, "cheia", lg, aqui, "veu", lazy=False)}
+<div class="foto foto--cheia veu">{picture(C.ABERTURA["projeto"], C.ABERTURA["horizontal"], TAMANHOS["cheia"], lg, aqui, lazy=False, vertical=C.ABERTURA["vertical"])}</div>
 <div class="coluna abertura__texto">
 <h1 class="abertura__logo"><img src="{rel(aqui, logo_completo(lg, "-branco"))}" width="{LOGO_W}" height="{LOGO_H}" alt="{tr(S["nome_logo"], lg)}"></h1>
 <a class="rolar" href="#destaques" aria-label="{simples(UI["rolar"], lg)}"><svg class="rolar__seta" viewBox="0 0 12 48" aria-hidden="true" focusable="false"><path d="M6 0v47M.5 41.5 6 47l5.5-5.5" fill="none" stroke="currentColor" stroke-width="1"/></svg></a>
@@ -509,9 +576,8 @@ def projeto(p, lg):
             valor_html = x(valor, lg)
         ficha.append(f'<div><dt>{x(rotulo, lg)}</dt><dd>{valor_html}</dd></div>')
     # galeria: fotos 3:2 na largura da coluna intercaladas com pares 4:5 (design.md, seção 11)
-    n_fotos = len(p.get('fotos') or []) or 6               # sem fotos ainda: 6 marcadores
     itens = []
-    for i, prop in enumerate(ritmo_galeria(n_fotos)):
+    for i, prop in enumerate(ritmo_galeria(p)):
         itens.append(f'''<li class="galeria__item galeria__item--{prop}">
 <button type="button" class="galeria__botao" data-galeria-indice="{i}" aria-label="{simples(UI["ampliar"], lg)} {i + 1}">
 {foto(p, i, prop, lg, aqui)}
@@ -521,7 +587,7 @@ def projeto(p, lg):
     outros_html = '\n'.join(card(o, lg, aqui, nivel=3) for o in outros)
     rotulos_galeria = json.dumps({'de': tr(UI['foto_de'], lg)}, ensure_ascii=False)
     corpo = f'''<section class="abertura abertura--projeto" aria-labelledby="t-projeto">
-{foto(p, 0, "cheia", lg, aqui, "veu", lazy=False)}
+{foto_capa(p, "cheia", lg, aqui, "veu", lazy=False)}
 <div class="coluna abertura__texto">
 <h1 class="nome-sobre-foto" id="t-projeto">{x(p["nome"], lg)}</h1>
 <p class="rotulo">{local(p, lg)}</p>
@@ -583,7 +649,7 @@ def contato(lg):
 <div><dt>{x(UI["cau"], lg)}</dt><dd>{x(S["cau"], lg)}</dd></div>
 </dl>
 </div>
-{foto(C.PROJETOS[0], 1, "cheia", lg, aqui, "dividida__foto")}
+{marcador("foto_contato_marcador", lg, "dividida__foto")}
 </section>'''
     return pagina('contato.html', lg, tr(UI['contato'], lg), None, corpo, classe='pagina-interna')
 

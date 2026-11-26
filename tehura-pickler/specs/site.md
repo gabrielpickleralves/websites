@@ -87,8 +87,14 @@ Fonte de verdade sobre o que será construído.
 ## 6. Projetos exibidos
 
 - **Quantidade no lançamento:** de 6 a 10 projetos.
-- **Lista de projetos:** [A DEFINIR] Chega por zip na conversa, com uma pasta por projeto (fotos e
-  um arquivo de texto com a ficha técnica).
+- **Lista de projetos:** as fotos dos 4 primeiros chegaram em 26/11/2026. Nomes e fichas: [A DEFINIR].
+  - **Casa (arquitetura e interiores):** Residencial.
+  - **Casa (só interiores):** Interiores.
+  - **Apartamento (interiores):** Interiores.
+  - **Espaço da mostra Artefato (interiores):** Interiores.
+
+  Os textos de cada projeto foram escritos pelo Claude a partir das fotos e do que o escritório
+  contou.
 - **Organização:** filtro por área, com as categorias:
   - Residencial;
   - Interiores;
@@ -258,6 +264,9 @@ Menu: Escritório, Biografia, Projetos, Contato.
 - **Links:** todos os links internos relativos, para o site funcionar tanto no endereço
   do GitHub quanto no domínio próprio.
 - **Imagens:** AVIF e WebP, com JPEG de reserva, em vários tamanhos (`srcset`).
+  - Geradas pelo `_ferramentas/fotos.py` a partir das fotos originais, que ficam fora do
+    repositório.
+  - AVIF e WebP saem em duas larguras, e o JPEG de reserva em uma.
 - **Fonte:** só a Tehura, a fonte própria do escritório, com publicação autorizada. Os arquivos TTF
   de `identidade/fonte/` são convertidos para WOFF2 e servidos pelo próprio site.
 - **Logo:** os SVG de `identidade/svg/`, feitos a partir dos PNG 4K de `identidade/logo/` e
